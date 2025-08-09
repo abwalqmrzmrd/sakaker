@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ابوالقمرزمرد</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    direction: rtl;
+}
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+.question-box {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+}
+.btn {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #28a745;
+    color: white;
+    font-size: 1em;
+}
+.footer {
+    margin-top: 90px;
+    font-size: 0.9em;
+    color: #ddd;
+}
+.mute-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+</style>
+</head>
+<body><h1 style="text-align:center; font-family: 'Amiri', serif; color: white; font-size: 2.2em; margin-top: 30px;">
+  📝 أبو القمر زمرد
+</h1>
+<div style="text-align:center; margin-top:15px;">
+  
+</div>
+<div style="max-width: 800px; margin: 30px auto; background: rgba(0, 100, 0, 0.4); padding: 20px; border-radius: 50%; box-shadow: 0 0 15px rgba(0,0,0,0.3); color: white; font-size: 1.1em; line-height: 1.8;">
+<h2 style="text-align:center; color:pink;">مرحبا بكم .........وطابت اوقاتكم</h2>
+</div>
+<div id="quiz-announcement" style="text-align: center; margin: 30px auto;">
+<div style="text-align: center; margin: 30px auto;">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/n7eQejkXbnM" style="border-radius: 10px;" title="YouTube video player" width="90%">
+</iframe>
+</div></div>
+<script>
+function checkAnswer(button, isCorrect) {
+  const result = document.getElementById("quiz-result");
+  if (isCorrect) {
+    result.innerHTML = "✅ إجابة صحيحة!";
+    result.style.color = "lightgreen";
+  } else {
+    result.innerHTML = "❌ خطأ، حاول مرة أخرى.";
+    result.style.color = "red";
+  }
+}
+</script>
+<div style="text-align: center; margin-top: 90px;">
+
+
+
+</div>
+
+
+
+<!-- BEGIN: New Icons Row (v2) -->
+<style>
+.icon-card {
+  width: 140px;
+  cursor: pointer;
+  text-align: center;
+  padding: 12px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  color: #fff;
+  font-weight: 600;
+  user-select: none;
+}
+.icon-card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
+.icon-svg { width: 64px; height: 64px; display:block; margin: 0 auto 8px; }
+.icon-label { font-size: 0.98em; line-height: 1.2; }
+@media (max-width:600px){ .icon-card{ width: 120px; padding:10px } }
+</style>
+
+
+
+<div id="icons-row" style="display:flex; flex-direction:column; align-items:center; gap:30px; margin-top:40px; flex-wrap:wrap;">
+
+  <!-- الصف الأول -->
+  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+    <!-- Icon A: خواطر -->
+    <div class="icon-card" onclick="openFolder(1)" role="button" aria-label="خواطر">
+      <svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 7C3 5.89543 3.89543 5 5 5H9L11 7H19C20.1046 7 21 7.89543 21 9V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V7Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div class="icon-label">خواطر</div>
+    </div>
+
+    <!-- Icon B: منوعات -->
+    <div class="icon-card" onclick="openFolder(2)" role="button" aria-label="منوعات أفلام أغاني موسيقى">
+      <svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 7H21V17H3V7Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M8 12L11 14.5V9.5L8 12Z" fill="white" opacity="0.9"></path>
+      </svg>
+      <div class="icon-label">منوعات<br/>(أفلام • أغاني • موسيقى)</div>
+    </div>
+  </div>
+
+  <!-- الصف الثاني -->
+  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+    <!-- Icon C: معلومات عامة، قصص، أشعار -->
+    <div class="icon-card" onclick="openFolder(3)" role="button" aria-label="معلومات عامة قصص أشعار">
+      <svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"></circle>
+        <path d="M12 8H12.01" stroke="white" stroke-width="1.6" stroke-linecap="round"></path>
+        <path d="M11.25 11H12.75C13.4404 11 14 11.5596 14 12.25V16" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div class="icon-label">معلومات • قصص • أشعار</div>
+    </div>
+
+    <!-- Icon D: اختبر معلوماتك -->
+    <div class="icon-card" onclick="startQuiz()" role="button" aria-label="اختبر معلوماتك">
+      <svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.3"></circle>
+        <path d="M8 15h8M8 11h5" stroke="white" stroke-width="1.3" stroke-linecap="round"></path>
+      </svg>
+      <div class="icon-label">اختبر معلوماتك</div>
+    </div>
+  </div>
+
+</div>
+
+
+    <!-- Icon B: منوعات -->
+    
+    </div>
+  </div>
+
+  <!-- الصف الثاني -->
+  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+    <!-- Icon C: معلومات عامة، قصص، أشعار -->
+    
+    </div>
+
+    <!-- Icon D: اختبر معلوماتك -->
+    
+    </div>
+  </div>
+
+</div>
+
+
+  <!-- Icon B: منوعات (أفلام، أغاني، موسيقى) -->
+  
+  </div>
+
+  <!-- Icon C: معلومات عامة، قصص، أشعار -->
+  
+  
+  <!-- Icon D: اختبر معلوماتك -->
+  
+  </div>
+
+</div>
+
+</div>
+
+<div style="text-align: center; margin-top: 20px;"><a href="https://www.facebook.com/AbwAlqmrZmrd" target="_blank" style="text-decoration:none; margin:5px;"><img alt="أبو القمر زمرد" src="https://img.icons8.com/emoji/48/star-emoji.png" title="أبو القمر زمرد" width="40"/></a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
+<img src="https://img.icons8.com/color/48/000000/facebook-new.png" title="فيسبوك" width="32"/>
+</a>
+<a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
+<img src="https://img.icons8.com/color/48/000000/twitter--v1.png" title="X" width="32"/>
+</a>
+<a href="https://api.whatsapp.com/send?text=https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
+<img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" title="واتساب" width="32"/>
+</a>
+</div>
+
+<!-- END: New Icons Row (v2) -->
+<div class="footer" style="text-align:center; font-size:0.85em; color:#000; margin-top:20px; font-weight: bold;"><p>📧 للتواصل: <span style="color:#000;">sakakera@gmail.com</span></p><p>💰 دعم عبر PayPal: <span style="color:#000;"><a href="https://www.paypal.com/paypalme/abwalqmrzmrd" target="_blank">@abwalqmrzmrd</a></span></p><p style="color:#000; font-weight:bold;">💳 حساب بنكي: SA6030004896711928126581</p><p>🔒 جميع الحقوق محفوظة / All rights reserved © صفحة <span style="color:#000;">أبو القمر زمرد</span></p></div>
+
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8);
+}
+.modal-content {
+  background-color: #222;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  color: white;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+
+
+
+
+<!-- BEGIN: Unified Folder Modal -->
+<style>
+/* modal styles */
+.folder-modal { display:none; position:fixed; z-index:1200; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.7); }
+.folder-panel { background:#0f1720; margin:6% auto; padding:18px; width:92%; max-width:720px; border-radius:12px; color:#fff; box-shadow:0 20px 60px rgba(0,0,0,0.6); }
+.folder-header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.folder-title { font-size:1.25em; font-weight:700; }
+.folder-close { cursor:pointer; font-size:1.6em; color:#bbb; background:transparent; border:none; }
+.folder-body { margin-top:14px; line-height:1.7; font-size:1.02em; }
+.folder-list { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.folder-item { background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); padding:12px; border-radius:10px; cursor:pointer; }
+.folder-item:hover { transform:translateX(6px); transition:transform .15s ease; }
+.small-note { font-size:0.92em; color:#d1d5db; margin-top:8px; }
+.audio-embed { margin-top:10px; width:100%; }
+@media (max-width:480px){ .folder-panel{ margin:10% auto; padding:12px } .folder-title{ font-size:1.05em} }
+</style>
+
+<div id="folderModal" class="folder-modal" onclick="if(event.target.id==='folderModal') closeFolder()">
+  <div class="folder-panel" role="dialog" aria-modal="true" aria-labelledby="folderTitle">
+    <div class="folder-header">
+      <div id="folderTitle" class="folder-title">مجلد</div>
+      <button class="folder-close" onclick="closeFolder()" aria-label="إغلاق">&times;</button>
+    </div>
+    <div id="folderBody" class="folder-body">
+      <!-- dynamic content injected here -->
+    </div>
+  </div>
+</div>
+
+<script>
+function openFolder(n){
+  document.getElementById('folderModal').style.display = 'block';
+  const body = document.getElementById('folderBody');
+  if(n===1) return showKhwater(body);
+  if(n===2) return showMonowaat(body);
+  if(n===3) return showInfo(body);
+  body.innerHTML = '<p>مجلد فارغ</p>';
+}
+function closeFolder(){
+  document.getElementById('folderModal').style.display = 'none';
+  document.getElementById('folderBody').innerHTML = '';
+}
+
+/* Folder 1: خواطر - list of stories */
+
+function showKhwater(el){
+  document.getElementById('folderTitle').innerText = 'خواطر أبو القمر زمرد';
+  el.innerHTML = `
+<h3>قصة التنين الفضي</h3>
+<p>بينما كان أبو القمر زمرد يجلس على صخرة تطل على البحر في ليلة هادئة، لاحظ ضوءًا غريبًا يلمع وسط الضباب. اقترب أكثر، فإذا به يكتشف كائنًا أسطوريًا ذو حراشف لامعة كالفضة، إنه التنين الفضي.</p>
+<p>اقترب التنين ببطء وصوته العميق يروي حكايات عن الجبال البعيدة والبحار المجهولة. دعاه لرحلة بين الغيوم، حيث حلقا فوق الغابات والأنهار، وشاهدا معًا روائع لم ترها عين بشر من قبل.</p>
+<p>عاد أبو القمر زمرد من تلك المغامرة وهو يدرك أن المغامرة الحقيقية ليست فقط في استكشاف الأماكن، بل في الجرأة على خوض المجهول بقلب مفتوح.</p>
+
+<hr>
+
+<h3>القمر والزمرد 🌙💎</h3>
+<p>قصَّ أبو القمر حكاية يوم استطاع أن يمزج أنوار القمر بأحجار الزمرد الكريمة التي حصل عليها من شعب المرجان. كان ينظر إلى بريق الزمرد في أعماق البحر، حتى سطع نور القمر وانعكس على تلك الأحجار الساحرة.</p>
+<p>ومشى أبو القمر فوق الطريق المضيء، حيث اختلط شعاع القمر بلون الزمرد الأخضر، حتى وصل إلى سطح القمر نفسه. هناك، وضع الأحجار بعناية، فصار للقمر طريق خاص يلمع بضوء القمر وإشعاع الزمرد معًا.</p>
+<p>ومنذ ذلك الحين، صار هذا الطريق بوابة لتحقيق الأحلام وتحويلها إلى حقيقة بإذن الله.</p>
+
+<hr>
+
+<h3>تكملة قصة التنين الفضي</h3>
+<p>بعد عودته من الرحلة، كان التنين الفضي يزور أبو القمر زمرد بين الحين والآخر، يحمل له أخبار السماء وعجائب النجوم. ذات مرة، جلب له حجرًا صغيرًا مشعًّا من أعماق الفضاء، وقال له إنه هدية تذكّره دومًا بشجاعته.</p>
+<p>احتفظ أبو القمر بالحجر في صندوق خشبي صغير، وكان كلما نظر إليه، شعر بدفء تلك الليالي بين الغيوم، وذكرى الصداقة التي جمعت بينه وبين التنين الفضي.</p>
+`;
+}
+
+
+/* Folder 2: منوعات */
+
+function showMonowaat(el){
+  document.getElementById('folderTitle').innerText = 'منوعات';
+  el.innerHTML = `
+    <h3>قائمة تشغيل منوعات</h3>
+    <div class="folder-list">
+      <div class="folder-item" onclick="openMedia('فيروز - يا دارة دوري فينا (تركي)', 'media/fairuz_turkish.m4a')">
+        🎵 فيروز - يا دارة دوري فينا (تركي)
+      </div>
+      <div class="folder-item" onclick="openMedia('نهج البردة', 'media/nahj_al_burda.m4r')">
+        🎵 نهج البردة
+      </div>
+      <div class="folder-item" onclick="openVideo('فيديو 1', 'media/video1.mp4')">
+        🎬 فيديو 1
+      </div>
+    </div>
+  `;
+}
+
+
+/* Folder 3: معلومات عامة، قصص، أشعار */
+function showInfo(el){
+  document.getElementById('folderTitle').innerText = 'معلومات عامة';
+  el.innerHTML = `
+<h3>الفصول الأربعة</h3>
+<p>تنقسم السنة إلى أربعة فصول رئيسية، لكل فصل ملامحه الخاصة وظروفه المناخية التي تؤثر على الطبيعة والحياة.</p>
+<ul>
+  <li><strong>الربيع:</strong> يتميز بعودة الدفء بعد الشتاء، وتزهر الأزهار وتنمو النباتات، ويزداد نشاط الحيوانات.</li>
+  <li><strong>الصيف:</strong> أكثر الفصول حرارة، تزداد فيه ساعات النهار ويكثر فيه النشاط الخارجي والرحلات.</li>
+  <li><strong>الخريف:</strong> يبدأ فيه الطقس بالاعتدال والانخفاض التدريجي في الحرارة، وتتساقط أوراق الأشجار استعدادًا للشتاء.</li>
+  <li><strong>الشتاء:</strong> أبرد الفصول، تقل فيه ساعات النهار وقد يتساقط الثلج في بعض المناطق.</li>
+</ul>
+<p>كل فصل له جماله الخاص ويؤثر على حياتنا بطرق مختلفة، من أنشطتنا اليومية إلى ملابسنا وحتى نوع الطعام الذي نتناوله.</p>
+<hr>
+<h3>رحلة في قلب الطبيعة</h3>
+<p>في صباح يوم ربيعي هادئ، خرجت من بيتي وأنا أحمل في قلبي شغف الاكتشاف وفي يدي دفتر صغير لتدوين الملاحظات. كانت الشمس قد بدأت ترسل أشعتها الذهبية على الحقول، والندى يلمع على أوراق العشب كأنها حبات زمرد متناثرة على بساط أخضر لا ينتهي.</p>
+<p>كل خطوة كنت أخطوها كانت تكشف لي لوحة جديدة؛ زهرة بنفسجية هنا، وأخرى صفراء هناك، وأسراب الطيور تغني ألحانها في سيمفونية طبيعية لا يكتبها ملحن ولا تقيدها نوتة موسيقية.</p>
+<p>مررت تحت شجرة بلوط عظيمة، يقال إنها كانت هنا منذ أكثر من مئة عام. كانت جذوعها تحمل آثار الزمن، لكن أوراقها الندية تروي حكاية تجدد لا ينتهي. جلست تحت ظلها، وأغمضت عينيّ لأستمع فقط… إلى همس الرياح وهي تتسلل بين الأغصان، وإلى خرير الماء في جدول قريب، وإلى دقات قلبي التي بدأت تتناغم مع نبض الأرض.</p>
+
+<p>فتحت عينيّ لأرى جدول الماء، كان ينساب بخفة كأنّه يعرف طريقه منذ الأزل، حاملاً في داخله قصص المطر والثلوج التي ذابت في أعالي الجبال. اقتربت منه، ووضعت يدي في مياهه الباردة، شعرت وكأنني ألامس قلب الأرض نفسه. كانت هناك أسماك صغيرة تسبح بمرح، لا تخاف ولا تفرّ، وكأنها اعتادت على الزائرين الهادئين الذين يأتون ليشربوا من صفائها.</p>
+<p>واصلت السير حتى وصلت إلى بستان قديم، أشجاره المثمرة ممتدة على مدّ البصر. رائحة البرتقال والليمون كانت تعبق في الجو، تختلط بعطر الأزهار البرية التي تنمو بلا ترتيب، وكأنها تقول إن الجمال أحيانًا يولد من الفوضى. أخذت نفسًا عميقًا، وامتلأت رئتاي بكل هذا المزيج العطري الذي لا يمكن لأي مصنع أن يقلده.</p>
+<p>وبينما أنا أتنقل بين الأشجار، لاحظت كيف أن كل فصل من فصول السنة يترك بصمته الخاصة هنا؛ فهذه الشجرة التي تتزين اليوم بزهورها البيضاء ستتحول في الصيف إلى مظلة خضراء وارفة، وفي الخريف ستتساقط أوراقها كرسائل حب صفراء، حتى يأتي الشتاء فيعانقها الصقيع وتدخل في سباتها العميق.</p>
+
+<p>جلست على صخرة قرب حافة البستان، وأخرجت دفتري لأدوّن ملاحظاتي. كتبت عن تنوع الألوان الذي تخلقه الطبيعة، عن دورة الحياة التي تتكرر بلا ملل، عن الطيور المهاجرة التي تعرف طريقها دون بوصلة، وعن الحشرات التي تؤدي دورها في توازن هذا العالم الصغير.</p>
+<p>ثم تذكرت كيف أن هذه المناظر ليست مجرد مشاهد جميلة للعين، بل هي منظومة دقيقة تحافظ على حياة الكوكب. كل ورقة شجر، وكل حبة تراب، وكل قطرة ماء لها دور في هذه المعزوفة الكبرى. ولو اختفى جزء واحد من هذه المنظومة، لاختل اللحن كله.</p>
+
+<p>مع غروب الشمس، بدأت السماء تتحول إلى لوحة ألوان دافئة؛ الأحمر يذوب في البرتقالي، والبرتقالي يحتضن الأصفر، حتى يطل الليل بثوبه الأزرق الداكن ويغطي كل شيء. عندها، شعرت بامتنان عميق لأنني كنت جزءًا من هذا اليوم، ولأن الطبيعة سمحت لي أن أكون شاهدًا على أسرارها التي لا تنتهي.</p>
+<p>قفلت دفتري وعدت أدراجي، لكن قلبي ظل هناك، بين الأشجار والأنهار، بين العشب والزهور، بين الفصول التي تتعاقب وتعيد كتابة القصة ذاتها منذ بداية الخلق… قصة الحياة.</p>
+
+<hr>
+<h3>حوار مع الطبيعة</h3>
+<p>في اليوم التالي، لم أستطع مقاومة الرغبة في العودة. حملت حقيبتي الصغيرة، ووضعت فيها بعض الخبز والماء، وانطلقت نحو الغابة التي كانت تناديني بصوت خفي. الجو كان مختلفًا؛ نسيم الصباح يرافقه ضباب خفيف يلف المكان وكأنه وشاح من حرير، يخبئ وراءه أسرارًا تنتظر من يكتشفها.</p>
+<p>وأنا أخطو بين الأشجار، لاحظت أن لكل شجرة شخصية مختلفة. هناك شجرة صنوبر شامخة ترفع أغصانها إلى السماء وكأنها تصلي، وأخرى منحنية قليلًا كأنها تحكي قصصًا للأطفال المتجمعين تحت ظلها. حتى أصوات الطيور كانت وكأنها تتحدث معي، فأقف أحيانًا لأردّ عليها بكلمات همس، رغم أنني أعلم أنها لا تفهم لغتي… أو ربما تفهم بطريقتها.</p>
+<p>في منتصف الطريق، وصلت إلى بركة ماء صغيرة، تعكس السماء كمرآة صافية. جلست على ضفتها، وأخذت أرمي الحصى في الماء، أراقب الدوائر التي تتسع شيئًا فشيئًا حتى تختفي، وأفكر في تشابهها مع حياتنا، كيف تبدأ فكرة صغيرة ثم تتسع لتؤثر في أشياء كثيرة من حولنا.</p>
+
+<p>كنت أكتب وأرسم في دفتري، حتى سمعت حفيف أوراق خلفي. التفتُّ فرأيت غزالًا يقف غير بعيد، يحدّق بي بفضول. لم أتحرك، حتى لا أقطع تلك اللحظة النادرة. كان الغزال رمزًا لكل ما هو نقي وبريء في هذا العالم. وبعد لحظات، اختفى بين الأشجار، تاركًا في قلبي شعورًا بالسلام العميق.</p>
+<p>واصلت رحلتي حتى وجدت نفسي عند قمة صغيرة تطل على الوادي. من هناك، رأيت المشهد كله: الغابة تمتد بلا نهاية، النهر يلمع مثل شريط فضي، والجبال تلوح في الأفق كحراس قدامى. كان المنظر مهيبًا لدرجة أنني شعرت بضآلة كل همومي أمام هذا الجمال.</p>
+<p>وأدركت حينها أن الطبيعة ليست مجرد مكان نزوره، بل هي كتاب مفتوح، نقرأ فيه عن أنفسنا بقدر ما نقرأ عنها. كل شجرة، كل نسمة، كل قطرة ماء… هي درس، إن كنا مستعدين للإصغاء.</p>
+
+`;
+}
+
+/* Open story content (replaces folder body) */
+function openStory(title){
+  const el = document.getElementById('folderBody');
+  let content = '';
+  if(title==='قصة التنين الفضي'){
+    content = `
+      <h3>قصة التنين الفضي</h3>
+      <p>في إحدى الليالي المضيئة، التقى البحار بتنين فضي... (مقتطف قصير)</p>
+      <p class="small-note">يمكنك الاستماع إلى مقطع موسيقي قصير أثناء القراءة.</p>
+      <audio class="audio-embed" controls>
+        <source src="fairuz_audio.m4a" type="audio/mpeg">
+        المتصفح لا يدعم تشغيل الصوت.
+      </audio>
+      <div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(1)">العودة للمجلد</button></div>
+    `;
+  } else {
+    content = `
+      <h3>وننا تربينا سوا</h3>
+      <p>حكاية تربّي وشجاعة بين صديقين... (مقتطف قصير)</p>
+      <audio class="audio-embed" controls>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        المتصفح لا يدعم تشغيل الصوت.
+      </audio>
+      <div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(1)">العودة للمجلد</button></div>
+    `;
+  }
+  el.innerHTML = content;
+}
+
+/* Open media item */
+function openMedia(title, src){
+  const el = document.getElementById('folderBody');
+  el.innerHTML = `
+    <h3>${title}</h3>
+    <p class="small-note">اضغط لتشغيل المقطع أدناه.</p>
+    <audio class="audio-embed" controls autoplay>
+      <source src="${src}" type="audio/mpeg">
+      المتصفح لا يدعم تشغيل الصوت.
+    </audio>
+    <div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(2)">العودة للمجلد</button></div>
+  `;
+  document.getElementById('folderTitle').innerText = title;
+}
+
+function openVideo(title, src){
+  const el = document.getElementById('folderBody');
+  el.innerHTML = `
+    <h3>${title}</h3>
+    <p class="small-note">اضغط لتشغيل الفيديو أدناه.</p>
+    <video class="audio-embed" controls autoplay style="max-width:100%; border-radius:8px;">
+      <source src="${src}" type="video/mp4">
+      المتصفح لا يدعم تشغيل الفيديو.
+    </video>
+    <div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(2)">العودة للمجلد</button></div>
+  `;
+  document.getElementById('folderTitle').innerText = title;
+}
+
+
+/* Open an article (for MDJ) */
+function openArticle(title, htmlContent){
+  const el = document.getElementById('folderBody');
+  document.getElementById('folderTitle').innerText = title;
+  el.innerHTML = htmlContent + `<div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(3)">العودة للمجلد</button></div>`;
+}
+
+/* Article content function for tides */
+function mdjArticle(){
+  return `
+    <h3>أسباب المد والجزر</h3>
+    <p>المدّ والجزر ناتجان عن قوى الجذب بين الأرض والقمر (وبدرجة أقل الشمس). يجذب جسم القمر مياه المحيط نحو مكانه، فيحدث ارتفاع ماء يسمى "مد". في الجهة المقابلة، يظهر أيضاً مد ثانٍ بسبب القوة الطاردة المركزية للنظام الأرض-قمر. عندما يتعامد القمر والشمس أو يكونان في خط واحد مع الأرض تتغير شدة المد والجزر.</p>
+    <ul>
+      <li>الجاذبية القمرية: العامل الأساسي.</li>
+      <li>دوران الأرض حول محورها يؤدي إلى وجود مدّين يومياً تقريباً.</li>
+      <li>تأثير القمر والشمس معاً (الكسوف والامتداد) يؤدي إلى مدّات أعلى تُسمى "مدات الربيع".</li>
+    </ul>
+    <p class="small-note">هذه مقدمة مبسطة، إن رغبت أضيف صور أو خرائط أو أمثلة محلية.</p>
+  `;
+}
+
+/* Open a short poem */
+
+function openPoem(){
+  const el = document.getElementById('folderBody');
+  document.getElementById('folderTitle').innerText = 'قصيدة أحمد شوقي';
+  el.innerHTML = `
+<h3>قصيدة أحمد شوقي - سلو كؤوس الطلا</h3>
+<p>
+سَلوا كُؤوسَ الطِلا عَنّا وَعَن حالِنا<br>
+هَل ذاقَ بَعدَكُمُ سُكرى كَأَسَ هَنا<br>
+وَهَل لَقيتُم عَلى الأَبوابِ يا قَمَري<br>
+مِثلَ العَذابِ الَّذي لاقَيتُهُ زَمَنا
+</p>
+<p>
+هَل غِبتُمُ أَبَداً أَم عُدتُمُ لِيَلاً<br>
+فَإِنَّ صَبريَ لا يَقوى عَلى الوَطَنا<br>
+إِني تَذَكَّرتُكُم في مَهبِ رِياحِكُمُ<br>
+فَطارَ مِن كَبِدي المَكلومِ ما سَكنا
+</p>
+
+    <div style="margin-top:12px;"><button class="folder-item" onclick="openFolder(3)">العودة للمجلد</button></div>`;
+}
+
+
+/* Quiz Script */
+const quizQuestions = [
+  { q: "ما هي عاصمة فرنسا؟", options: ["لندن", "باريس", "روما"], answer: 1 },
+  { q: "كم عدد الكواكب في المجموعة الشمسية؟", options: ["7", "8", "9"], answer: 1 },
+  { q: "من هو مخترع المصباح الكهربائي؟", options: ["أديسون", "نيوتن", "أينشتاين"], answer: 0 },
+  { q: "أطول نهر في العالم هو:", options: ["النيل", "الأمازون", "اليانغتسي"], answer: 0 }
+];
+
+let quizIndex = 0;
+let quizScore = 0;
+
+function startQuiz(){
+  quizIndex = 0;
+  quizScore = 0;
+  document.getElementById('quizModal').style.display = 'block';
+  showQuizQuestion();
+}
+
+function showQuizQuestion(){
+  const q = quizQuestions[quizIndex];
+  const quizBody = document.getElementById('quizBody');
+  quizBody.innerHTML = `
+    <h3>سؤال ${quizIndex+1} من ${quizQuestions.length}</h3>
+    <p>${q.q}</p>
+    ${q.options.map((opt, i) => `
+      <button class="folder-item" onclick="checkQuizAnswer(${i})">${opt}</button>
+    `).join('')}
+  `;
+}
+
+function checkQuizAnswer(selected){
+  if(selected === quizQuestions[quizIndex].answer) quizScore++;
+  quizIndex++;
+  if(quizIndex < quizQuestions.length){
+    showQuizQuestion();
+  } else {
+    showQuizResult();
+  }
+}
+
+function showQuizResult(){
+  const quizBody = document.getElementById('quizBody');
+  quizBody.innerHTML = `
+    <h3>انتهى الاختبار</h3>
+    <p>نتيجتك: ${quizScore} من ${quizQuestions.length}</p>
+    <button class="folder-item" onclick="startQuiz()">إعادة المحاولة</button>
+  `;
+}
+
+function closeQuiz(){
+  document.getElementById('quizModal').style.display = 'none';
+}
+
+</script>
+<!-- END: Unified Folder Modal -->
+
+
+<!-- Quiz Modal -->
+<div id="quizModal" class="folder-modal" onclick="if(event.target.id==='quizModal') closeQuiz()">
+  <div class="folder-panel">
+    <div class="folder-header">
+      <div id="quizTitle" class="folder-title">اختبر معلوماتك</div>
+      <button class="folder-close" onclick="closeQuiz()" aria-label="إغلاق">&times;</button>
+    </div>
+    <div id="quizBody" class="folder-body"></div>
+  </div>
+</div>
+
+</body>
+</html>
