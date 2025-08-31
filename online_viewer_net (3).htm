@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أبو القمر زمرد</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* الفيديو يغطي كامل الصفحة */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* المحتوى فوق الفيديو */
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .content h1 {
+      font-size: 3em;
+      margin: 0.2em 0;
+    }
+
+    .content p {
+      font-size: 1.5em;
+      margin: 0.2em 0;
+    }
+
+    /* باب تفضل */
+    .door-button {
+      width: 120px;
+      height: 180px;
+      background-color: gold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: silver;
+      font-weight: bold;
+      font-size: 1.2em;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    /* أيقونة صوت الطيور */
+    #bird-sound-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      width: 50px;
+      height: 50px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    #bird-sound-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* iframe للملف القديم */
+    #old-page-frame {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: none; /* مخفي مبدئيًا */
+    }
+
+    /* متجاوب */
+    @media (max-width: 768px) {
+      .content h1 { font-size: 2em; }
+      .content p { font-size: 1.2em; }
+      .door-button { width: 80px; height: 120px; font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- خلفية الفيديو -->
+<video id="bg-video" autoplay muted loop>
+  <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+</video>
+
+<!-- المحتوى -->
+<div class="content" id="main-content">
+  <h1>أبو القمر زمرد</h1>
+  <p>استمتع بمشاهدة الفيديو واستكشف المحتوى المميز.</p>
+  <div class="door-button" id="door-button">تفضل</div>
+</div>
+
+<!-- iframe لملفك القديم -->
+<iframe id="old-page-frame" src=""></iframe>
+
+<!-- أيقونة صوت الطيور -->
+<div id="bird-sound-btn">🐦</div>
+
+<!-- صوت الطيور وخرير الماء -->
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  // تشغيل/إيقاف صوت الطيور
+  const birdBtn = document.getElementById('bird-sound-btn');
+  const birdAudio = document.getElementById('bird-sound');
+  let isPlaying = false;
+
+  birdBtn.addEventListener('click', () => {
+    if (!isPlaying) {
+      birdAudio.play();
+      isPlaying = true;
+      birdBtn.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+    } else {
+      birdAudio.pause();
+      isPlaying = false;
+      birdBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+    }
+  });
+
+  // فتح ملفك القديم في iframe عند الضغط على الباب
+  const doorButton = document.getElementById('door-button');
+  const mainContent = document.getElementById('main-content');
+  const oldPageFrame = document.getElementById('old-page-frame');
+
+  doorButton.addEventListener('click', () => {
+    mainContent.style.display = 'none'; // إخفاء المحتوى الأصلي
+    oldPageFrame.src = 'مسار_ملفك_القديم.html'; // ضع هنا مسار ملفك القديم
+    oldPageFrame.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
