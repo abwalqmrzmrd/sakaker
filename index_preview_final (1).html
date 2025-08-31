@@ -1,139 +1,46 @@
-
 <!DOCTYPE html>
-
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sakaker Game</title>
-<style>
-    body<video id="bg-video" autoplay muted loop playsinline preload="auto">
-  <source src="WhatsApp%20Video%202025-08-30%20at%209.57.24%20PM.mp4" type="video/mp4">
-</video>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>معاينة خلفية الفيديو (محلي)</title>
+  <style>
+    html,body {
+      margin:0; padding:0; height:100%;
+      background:#000; /* احتياط */
+    }
+    /* الفيديو كخلفية يغطي الصفحة */
     #bg-video {
       position: fixed;
-      top: 0; left: 0;
+      inset: 0;               /* top:0; right:0; bottom:0; left:0; */
       width: 100vw;
       height: 100vh;
       object-fit: cover;
       z-index: -1;
+      pointer-events: none;   /* لا يمنع النقر على العناصر فوقه */
     }
+    /* محتوى الصفحة فوق الفيديو */
     .content {
       position: relative;
       z-index: 1;
       color: white;
       text-align: center;
-      padding-top: 40vh;
-      font-size: 2rem;
       font-family: Arial, sans-serif;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+      padding-top: 40vh;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
   </style>
 </head>
 <body>
-  <!-- خلفية فيديو الأمواج -->
+  <!-- غيّر اسم الملف هنا إذا لم تسمّه bg.mp4 -->
   <video id="bg-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://cdn.pixabay.com/video/2020/04/13/35725-406452379_large.mp4" type="video/mp4">
+    <source src="bg.mp4" type="video/mp4">
+    متصفحك لا يدعم عرض الفيديو.
   </video>
 
   <div class="content">
-    ✅ هذه نسخة HTML بخلفية فيديو أمواج
+    ✅ إذا رأيت هذا النص والفيديو يتحرّك بالخلفية، فالمهم تمام.
+    <p style="font-size:0.9rem; opacity:0.9; margin-top:12px;">إذا لم يظهر الفيديو: تأكد أن ملف <strong>bg.mp4</strong> موجود بجانب هذا الملف.</p>
   </div>
-</body>
-</html>
- {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      direction: rtl;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    .question-box {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      padding: 20px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 500px;
-    }
-    .btn {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #28a745;
-      color: white;
-      font-size: 1em;
-    }
-    .footer {
-      margin-top: 90px;
-      font-size: 0.9em;
-      color: #ddd;
-    }
-    .mute-btn {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #333;
-      color: white;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-    }
-  </style>
-</head>
-<body>
-<h1 style="text-align:center; font-family: 'Amiri', serif; color: white; font-size: 2.2em; margin-top: 30px;">
-    📝 مدونة أبو القمر زمرد
-  </h1>
-<div style="text-align:center; margin: 30px 0;">
-<audio autoplay="" controls="" loop="" style="width: 80%;">
-<source src="مين اللي قال.mp3" type="audio/mpeg"/>
-      متصفحك لا يدعم تشغيل الصوت.
-    </audio>
-</div>
-<div style="max-width: 800px; margin: 30px auto; background: rgba(0, 100, 0, 0.4); padding: 20px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.3); color: white; font-size: 1.1em; line-height: 1.8;">
-<p>مرحبًا بك في مدونة أبو القمر زمرد<br/>
-    هنا تجد القصص، الموسيقى، والمغامرات الفكرية...<br/>
-    خُذ وقتك، واكتشف ما يُعجبك.<br/><br/>
-    ✨ إلى لقاء قريب</p>
-</div>
-<div style="text-align: center; margin: 30px auto;">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" height="315" src="https://www.youtube.com/embed/n7eQejkXbnM" style="border-radius: 10px;" title="YouTube video player" width="90%">
-</iframe>
-<div style="max-width: 800px; margin: 20px auto; background: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 12px; color: white; font-size: 1.1em; line-height: 1.8;">
-<h2 style="text-align:center; color: #ffeb3b;">📢 تحديث</h2><p style="text-align:center;">سوف نوافيكم قريبًا إن شاء الله</p></div>
-</div>
-<div style="text-align: center; margin-top: 90px;">
-<a href="https://api.whatsapp.com/send?text=Sakaker%20Game%20https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
-<img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" title="واتساب" width="32"/>
-</a>
-<a href="https://twitter.com/intent/tweet?text=Sakaker%20Game&amp;url=https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
-<img src="https://img.icons8.com/color/48/000000/twitter--v1.png" title="تويتر" width="32"/>
-</a>
-<a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" style="margin: 5px;" target="_blank">
-<img src="https://img.icons8.com/color/48/000000/facebook-new.png" title="فيسبوك" width="32"/>
-</a>
-</div>
-<div style="text-align: center; margin-top: 20px;">
-<a href="https://www.facebook.com/AbwAlqmrZmrd" style="text-decoration: none;" target="_blank">
-<img alt="أبو القمر زمرد" src="https://img.icons8.com/emoji/48/star-emoji.png" title="أبو القمر زمرد" width="40"/>
-</a>
-</div>
-<div class="footer" style="text-align:center; font-size:0.85em; color:#000; margin-top:20px; font-weight: bold;">
-<p>📧 للتواصل: <span style="color:#000;">sakakera@gmail.com</span></p>
-<p>💰 دعم عبر PayPal: <span style="color:#000;">@abwalqmrzmrd</span></p>
-<p style="color:#000; font-weight:bold;">💳 حساب بنكي: SA6030004896711928126581</p>
-<p>🔒 جميع الحقوق محفوظة / All rights reserved © صفحة <span style="color:#000;">أبو القمر زمرد</span></p>
-</div>
 </body>
 </html>
