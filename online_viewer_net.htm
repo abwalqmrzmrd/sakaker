@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discovery Page</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    /* طبقة البداية بالفيديو الفضائي */
+    #startup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #startup-overlay video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    #startup-overlay .startup-button {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    /* أيقونات المشاركة */
+    .share-icons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .share-icons .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.15);
+      transition: 0.3s;
+    }
+
+    .share-icons .icon img {
+      width: 22px;
+      height: 22px;
+      filter: invert(1);
+    }
+
+    .icon.whatsapp { background: #25D366; }
+    .icon.twitter { background: #000000; } /* شعار X */
+    .icon.facebook { background: #1877F2; }
+    .icon.google { background: #DB4437; }
+
+    .share-icons .icon:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* الموقع الأصلي (مخفي بالبداية) */
+    #site-content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة البداية -->
+  <div id="startup-overlay">
+    <video autoplay muted loop playsinline>
+      <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+    </video>
+    <div class="startup-button" id="startup-button">Discovery</div>
+
+    <!-- روابط المشاركة -->
+    <div class="share-icons">
+      <a href="https://wa.me/?text=Check%20this%20site" target="_blank" class="icon whatsapp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+      </a>
+      <a href="https://twitter.com/intent/tweet?text=Check%20this%20site" target="_blank" class="icon twitter">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="X">
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" class="icon facebook">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
+      </a>
+      <a href="https://www.google.com/" target="_blank" class="icon google">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/google.svg" alt="Google">
+      </a>
+    </div>
+  </div>
+
+  <!-- هنا محتوى موقعك الأصلي (خلفية البحر + أيقونات كرتون ورياضة الخ..) -->
+  <div id="site-content">
+    <!-- ✨ انسخ كل محتوى ملفك الأصلي هنا كما هو ✨ -->
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var btn = document.getElementById('startup-button');
+      var overlay = document.getElementById('startup-overlay');
+      var site = document.getElementById('site-content');
+      if(btn && overlay && site){
+        btn.addEventListener('click', function(){
+          overlay.style.display = 'none';
+          site.style.display = 'block';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
