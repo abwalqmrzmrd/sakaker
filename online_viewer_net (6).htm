@@ -1,0 +1,499 @@
+<!DOCTYPE html> 
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discovery Page</title>
+  <style>
+  
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    /* شاشة البداية */
+    #startup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+     
+    }
+    #startup-overlay video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    #startup-overlay .startup-button {
+      width: 140px;
+      height: 140px;
+      border-radius: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+   
+   
+   
+   
+  
+    }
+    /* محتوى الموقع */
+    #site-content {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center/cover;
+      padding-bottom: 50px;
+    }
+    /* القائمة */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      
+    }
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .navbar a:hover { text-decoration: underline; }
+    /* الفيديو */
+    .video-section {
+      text-align: center;
+      margin: 20px;
+    }
+    .video-section iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 315px;
+      border-radius: 12px;
+    }
+    /* الأيقونات */
+    .icons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+    .icons-container .icon-box {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      text-align: center;
+      cursor: pointer;
+    }
+    /* الفوتر */
+    footer {
+      text-align: center;
+      color: #fff;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #0ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- شاشة البداية -->
+  <div id="startup-overlay">
+    <video autoplay muted loop playsinline>
+      <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+    </video>
+    <div class="startup-button" id="startup-button">Discovery</div>
+  
+  <!-- روابط المشاركة -->
+  <div class="share-icons">
+    <a href="https://wa.me/?text=Check%20this%20site" target="_blank" class="icon whatsapp">W</a>
+    
+    <a href="https://twitter.com/intent/tweet?text=Check%20this%20site" target="_blank" class="icon twitter">T</a>
+    
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" class="icon facebook">F</a>
+    <a href="https://www.google.com/" target="_blank" class="icon google">G</a>
+  </div>
+</div>
+    </div>
+  </div>
+
+  <!-- محتوى الموقع -->
+  <div id="site-content">
+    <!-- القائمة -->
+   <div style="text-align:center; margin:20px 0;">
+  <iframe width="300" height="170"
+    src="https://www.youtube.com/embed/n7eQejkXbnM?si=H7Jf4Ggrpu8X9N3k"
+    title="YouTube video player" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+  </iframe>
+</div>
+
+    <!-- الفيديو -->
+  <style>
+  /* أيقونات ذهبية */
+  .gold-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin: 30px 0;
+  }
+  .gold-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #d4af37, #b8860b);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .gold-icon:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  }
+  .gold-icon img {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 8px;
+    filter: brightness(0) invert(1);
+  }
+
+  /* نافذة منبثقة */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    overflow: auto;
+  }
+  .modal-content {
+    background: #222;
+    margin: 6% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    color: white;
+    line-height: 1.7;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  }
+  .modal h3 { color: #ffd700; text-align: center; }
+  .close {
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+  }
+  .close:hover { color: white; }
+</style>
+
+<!-- أيقونات -->
+<div class="gold-icons">
+  <div class="gold-icon" onclick="openModal('khwater')">
+    <img src="https://img.icons8.com/ios-filled/50/book.png" alt="خواطر"/>
+    خواطر
+  </div>
+ 
+  </div>
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أبو القمر زمرد</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    background: black;
+  }
+
+  /* الفيديو الخلفي */
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  /* الشاشة الأولى (الباب) */
+  .content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .content h1 { font-size: 3em; margin: 0.2em 0; }
+  .content p { font-size: 1.5em; margin: 0.2em 0; }
+
+  .door-button {
+    width: 120px;
+    height: 180px;
+    background-color: gold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: silver;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  .door-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to bottom, gold, darkgoldenrod);
+  }
+
+  /* أيقونة صوت الطيور */
+  #bird-sound-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+  }
+  #bird-sound-btn:hover { background-color: rgba(255,255,255,0.9); }
+
+  /* المحتوى الجديد */
+  #new-content {
+    display: none;
+    position: relative;
+    z-index: 1;
+    background: url('https://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-6.jpg') center/cover no-repeat fixed;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    color: white;
+  }
+
+  /* الفوتر */
+  footer {
+    margin-top: 100px;
+    text-align: center;
+    color: white;
+    font-size: 1.1em;
+    line-height: 2em;
+  }
+
+  footer a {
+    color: gold;
+    text-decoration: none;
+  }
+
+  @media (max-width:768px){
+    .content h1 { font-size: 2em; }
+    .content p { font-size: 1.2em; }
+    .door-button { width: 80px; height: 120px; font-size: 1em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- خلفية الفيديو -->
+<video id="bg-video" autoplay muted loop>
+  <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+</video>
+
+<!-- أيقونة صوت الطيور -->
+<div id="bird-sound-btn">🐦</div>
+
+<!-- صوت الطيور -->
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  // التحكم بصوت الطيور
+  const birdBtn = document.getElementById('bird-sound-btn');
+  const birdAudio = document.getElementById('bird-sound');
+  let isPlaying = false;
+
+  birdBtn.addEventListener('click', () => {
+    if(!isPlaying){
+      birdAudio.play();
+      isPlaying = true;
+      birdBtn.style.backgroundColor='rgba(255,255,255,1)';
+    } else {
+      birdAudio.pause();
+      isPlaying = false;
+      birdBtn.style.backgroundColor='rgba(255,255,255,0.7)';
+    }
+  });
+
+  // إظهار المحتوى الجديد
+  const doorBtn = document.getElementById('door-button');
+  const mainContent = document.getElementById('main-content');
+  const newContent = document.getElementById('new-content');
+  const bgVideo = document.getElementById('bg-video');
+
+  doorBtn.addEventListener('click', () => {
+    mainContent.style.display = 'none';
+    bgVideo.style.display = 'none';
+    newContent.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
+
+
+<!-- النوافذ -->
+<div id="modal-khwater" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('khwater')">&times;</span>
+    <h3>قصتي مع التيتنك</h3>
+    <p>في صباح هادئ، شددت أشرعتي متجهًا نحو المجهول، عازمًا على استكشاف أسرار البحار التي لا يعرفها أحد. كانت الأمواج تعانق قاربي، والريح تدفعني نحو مغامرة لا تنسى.</p>
+    <p>بعد أيام من الإبحار والغوص بين الشعاب المرجانية، قادتني التيارات إلى مشهد أسطوري… هناك، في عمقٍ سحيق، ظهرت أمامي سفينة التايتنك، شامخة رغم جراح الزمن، صامتة وكأنها تحكي قصتها الحزينة. اقتربت منها، ولم أقاوم رغبتي في ترك أثر، فكتبت اسمي على إحدى بقاياها المعدنية المكسوة بالصدأ والمرجان.</p>
+    <p>وبينما أستكشف المكان، لمح بصري ظلاً ضخماً… كان حوتًا عظيمًا غارقًا في سبات عميق بجوار السفينة، وكأنهما رفيقا عزلة. خطرت لي فكرة مجنونة، فاتخذت الحوت فندقًا عائمًا لمدة يومين؛ أستريح فوق ظهره، أراقب النجوم ليلًا، وأتجول بين بقايا السفينة نهارًا.</p>
+    <p>وحين حان وقت الرحيل، ألقيت نظرة أخيرة على المشهد المهيب، مودعًا التايتنك والحوت، وحاملًا معي ذكرى مغامرة لن يمحوها الزمن.</p>
+  </div>
+</div>
+
+<div id="modal-islamic" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('islamic')">&times;</span>
+    <h3>ثقافة إسلامية</h3>
+    <p>📖 معلومات وحقائق من الثقافة الإسلامية.</p>
+  </div>
+</div>
+
+<div id="modal-general" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('general')">&times;</span>
+    <h3>ثقافة عامة</h3>
+    <p>🌍 مقالات وحقائق متنوعة من حول العالم.</p>
+  </div>
+</div>
+
+<div id="modal-puzzle" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('puzzle')">&times;</span>
+    <h3>ألغاز</h3>
+    <p>🧩 جرب حل الألغاز الممتعة والمسلية.</p>
+  </div>
+</div>
+
+<div id="modal-quiz" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('quiz')">&times;</span>
+    <h3>اختبر معلوماتك</h3>
+    <p>❓ أسئلة متنوعة لقياس معلوماتك العامة.</p>
+  </div>
+</div>
+
+<script>
+  function openModal(name){
+    document.getElementById("modal-"+name).style.display = "block";
+  }
+  function closeModal(name){
+    document.getElementById("modal-"+name).style.display = "none";
+  }
+  window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(m=>{
+      if (event.target == m) m.style.display = "none";
+    });
+  }
+</script>
+
+    <!-- الأيقونات -->
+    
+    <div class="icons-container">
+     
+    <!-- الدعم -->
+    <footer>
+      <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+      <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+      <p>© جميع الحقوق محفوووظة لصفحة أبو القمر زمرد</p>
+      <p>⭐تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var btn = document.getElementById('startup-button');
+      var overlay = document.getElementById('startup-overlay');
+      var site = document.getElementById('site-content');
+      if(btn && overlay && site){
+        btn.addEventListener('click', function(){
+          overlay.style.opacity = 1;
+          var fadeOut = setInterval(function(){
+            if(overlay.style.opacity > 0){
+              overlay.style.opacity -= 0.05;
+            } else {
+              clearInterval(fadeOut);
+              overlay.style.display = 'none';
+              site.style.display = 'block';
+            }
+          }, 30);
+        });
+      }
+    });
+  </script>
+  
+</body>
+</html>
+
