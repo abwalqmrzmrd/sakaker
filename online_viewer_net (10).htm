@@ -1,0 +1,409 @@
+<!DOCTYPE html> 
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discovery Page</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    /* شاشة البداية */
+    #startup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+     
+    }
+    #startup-overlay video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    #startup-overlay .startup-button {
+      width: 140px;
+      height: 140px;
+      border-radius: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+   
+   
+   
+   
+  
+    }
+    /* محتوى الموقع */
+    #site-content {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center/cover;
+      padding-bottom: 50px;
+    }
+    /* القائمة */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      
+    }
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .navbar a:hover { text-decoration: underline; }
+    /* الفيديو */
+    .video-section {
+      text-align: center;
+      margin: 20px;
+    }
+    .video-section iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 315px;
+      border-radius: 12px;
+    }
+    /* الأيقونات */
+    .icons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px;
+    }
+    .icons-container .icon-box {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      text-align: center;
+      cursor: pointer;
+    }
+    /* الفوتر */
+    footer {
+      text-align: center;
+      color: #fff;
+      margin-top: 40px;
+    }
+    footer a {
+      color: #0ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- شاشة البداية -->
+  <div id="startup-overlay">
+    <video autoplay muted loop playsinline>
+      <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+    </video>
+    <div class="startup-button" id="startup-button">Discovery</div>
+    <div class="share-icons">
+      <a href="#" target="_blank" class="icon whatsapp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
+    
+    </div>
+  </div>
+
+  <!-- محتوى الموقع -->
+  <div id="site-content">
+    <!-- القائمة -->
+   <div style="text-align:center; margin:20px 0;">
+  <iframe width="300" height="170"
+    src="https://www.youtube.com/embed/n7eQejkXbnM?si=H7Jf4Ggrpu8X9N3k"
+    title="YouTube video player" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
+  </iframe>
+</div>
+
+  <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الأيقونات مع الأقسام</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .icon-card {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid white;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    .icon-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .icon-label {
+      font-size: 0.9em;
+    }
+    /* نافذة القسم */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .modal-content {
+      background: rgba(20,20,20,0.95);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 90%;
+      text-align: right;
+      line-height: 1.8;
+    }
+    .modal-close {
+      float: left;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شبكة الأيقونات -->
+  <div class="icons-grid">
+    <div class="icon-card" onclick="openModal('culture')"><div class="icon-label">ثقافة عامة</div></div>
+    <div class="icon-card" onclick="openModal('history')"><div class="icon-label">التاريخ الإسلامي</div></div>
+    <div class="icon-card" onclick="openModal('thoughts')"><div class="icon-label">خواطر</div></div>
+    <div class="icon-card" onclick="openModal('music')"><div class="icon-label">موسيقى</div></div>
+    <div class="icon-card" onclick="openModal('film')"><div class="icon-label">فلم</div></div>
+    <div class="icon-card" onclick="openModal('puzzle')"><div class="icon-label">ألغاز</div></div>
+    <div class="icon-card" onclick="openModal('kitchen')"><div class="icon-label">المطبخ</div></div>
+    <div class="icon-card" onclick="openModal('about')"><div class="icon-label">تعريف بالموقع</div></div>
+  </div>
+
+  <!-- ثقافة عامة -->
+  <div id="culture" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('culture')">×</span>
+      <h3>📚 ثقافة عامة</h3>
+      <p>الصراع بين الخير والشر موضوع متجدد منذ بدء الخليقة، فلكل زمان معاركه بين القيم النبيلة والأهواء، ويبقى الإنسان في امتحان بين طريق الحق والباطل.</p>
+    </div>
+  </div>
+
+  <!-- التاريخ الإسلامي -->
+  <div id="history" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('history')">×</span>
+      <h3>📜 التاريخ الإسلامي</h3>
+      <h4>النبي محمد ﷺ</h4>
+      <p>محمد بن عبد الله، خاتم الأنبياء والمرسلين، ولد في مكة عام 571م (عام الفيل). نزل عليه الوحي وهو في سن الأربعين، فدعا إلى عبادة الله وحده. عانى وأصحابه من الاضطهاد حتى هاجر إلى المدينة، حيث أسس أول دولة إسلامية. توفي ﷺ سنة 632م.</p>
+      <h4>الخلفاء الراشدون</h4>
+      <p><strong>أبو بكر الصديق</strong> (632–634م): أول الخلفاء، أقرب الصحابة للنبي ﷺ، جمع القرآن في مصحف واحد.</p>
+      <p><strong>عمر بن الخطاب</strong> (634–644م): عُرف بالعدل، ووسع الدولة الإسلامية لتشمل فارس والشام ومصر.</p>
+      <p><strong>عثمان بن عفان</strong> (644–656م): جمع الناس على مصحف واحد، وفتح أرمينية وخراسان.</p>
+      <p><strong>علي بن أبي طالب</strong> (656–661م): ابن عم النبي ﷺ، عُرف بالشجاعة والعلم، وواجه الفتن الكبرى.</p>
+      <h4>الدولة الأموية</h4>
+      <p><strong>معاوية بن أبي سفيان</strong>: أسس الدولة الأموية سنة 661م، وجعل دمشق عاصمتها.</p>
+      <p><strong>عمر بن عبدالعزيز</strong>: الخليفة الأموي الثامن، لُقب بخامس الخلفاء الراشدين لزهده وعدله (717–720م).</p>
+    </div>
+  </div>
+
+  <!-- خواطر -->
+  <div id="thoughts" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('thoughts')">×</span>
+      <h3>✍️ خواطر</h3>
+      <h4>التنين الفضي</h4>
+      <p>
+        بعد رحلة طويلة بين النجوم، عاد أبو القمر زمرد إلى الأرض،  
+        فوجد التنين الفضي بانتظاره. قال له التنين:  
+        "لم يتغير شيء على كوكب الأرض، بدل العمل القروي افتتحت محلات،  
+        وبدل الإبحار ظهرت أسواق، لكن يبقى الإنسان كما هو".  
+      </p>
+      <p style="color:gold;">فالإساءة لا تدوم، أما عمل الخير فهو الذي يضيء القلوب ويستمر أثره مع الزمن.</p>
+    </div>
+  </div>
+
+  <!-- موسيقى -->
+  <div id="music" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('music')">×</span>
+      <h3>🎵 موسيقى</h3>
+      <audio controls autoplay>
+        <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+        متصفحك لا يدعم تشغيل الصوت.
+      </audio>
+      <p>موسيقى هادئة وأصوات طبيعية تساعد على الاسترخاء.</p>
+    </div>
+  </div>
+
+  <!-- فلم -->
+  <div id="film" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('film')">×</span>
+      <h3>🎬 فلم</h3>
+      <video controls style="width:100%;border-radius:10px;">
+        <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4">
+        متصفحك لا يدعم عرض الفيديو.
+      </video>
+      <p>لقطات من الفضاء والخيال العلمي.</p>
+    </div>
+  </div>
+
+  <!-- ألغاز -->
+  <div id="puzzle" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('puzzle')">×</span>
+      <h3>🧩 ألغاز</h3>
+      <p>لغز: شيء يكتب ولا يقرأ، ما هو؟ ✍️</p>
+      <p style="color:gold;">الإجابة: القلم.</p>
+    </div>
+  </div>
+
+  <!-- المطبخ -->
+  <div id="kitchen" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('kitchen')">×</span>
+      <h3>🍴 المطبخ</h3>
+      <p>وصفة سريعة: شوربة العدس</p>
+      <ul>
+        <li>كوب عدس أصفر</li>
+        <li>بصلة مفرومة</li>
+        <li>جزرة مقطعة</li>
+        <li>ملح وكمون</li>
+      </ul>
+      <p>يُسلق العدس مع الخضار ويُخلط حتى يصبح ناعماً.</p>
+    </div>
+  </div>
+
+  <!-- تعريف بالموقع -->
+  <div id="about" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('about')">×</span>
+      <h3>ℹ️ تعريف بالموقع</h3>
+      <p>موقع <strong>أبو القمر زمرد</strong> يجمع بين الثقافة العامة، التاريخ الإسلامي، الخواطر، الموسيقى، والفنون. هدفه تقديم محتوى ممتع ومفيد للزوار.</p>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
+
+
+</body>
+</html>
+
+<script>
+  function openModal(name){
+    document.getElementById("modal-"+name).style.display = "block";
+  }
+  function closeModal(name){
+    document.getElementById("modal-"+name).style.display = "none";
+  }
+  window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(m=>{
+      if (event.target == m) m.style.display = "none";
+    });
+  }
+</script>
+
+    <!-- الأيقونات -->
+    
+    <div class="icons-container">
+     
+    <!-- الدعم -->
+    <footer>
+      <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+      <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+      <p>© جميع الحقوق محفوووظة لصفحة أبو القمر زمرد</p>
+      <p>⭐تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var btn = document.getElementById('startup-button');
+      var overlay = document.getElementById('startup-overlay');
+      var site = document.getElementById('site-content');
+      if(btn && overlay && site){
+        btn.addEventListener('click', function(){
+          overlay.style.opacity = 1;
+          var fadeOut = setInterval(function(){
+            if(overlay.style.opacity > 0){
+              overlay.style.opacity -= 0.05;
+            } else {
+              clearInterval(fadeOut);
+              overlay.style.display = 'none';
+              site.style.display = 'block';
+            }
+          }, 30);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
