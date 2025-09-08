@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Discovery Page</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+
+        /* شاشة البداية */
+        #startup-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+
+        #startup-overlay video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: -1;
+        }
+
+        #startup-overlay .startup-button {
+          width: 140px;
+          height: 140px;
+          border-radius: 30%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 1.2em;
+          color: #fff;
+          background: rgba(0, 0, 0, 0.5);
+          border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* محتوى الموقع */
+        #site-content {
+          display: none;
+          width: 100%;
+          min-height: 100vh;
+          background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center/cover;
+          padding-bottom: 50px;
+        }
+
+        /* القائمة */
+        .navbar {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          background: rgba(0, 0, 0, 0.5);
+          padding: 10px;
+        }
+
+        .navbar a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .navbar a:hover {
+          text-decoration: underline;
+        }
+
+        /* الفيديو */
+        .video-section {
+          text-align: center;
+          margin: 20px;
+        }
+
+        .video-section iframe {
+          width: 100%;
+          max-width: 600px;
+          height: 315px;
+          border-radius: 12px;
+        }
+
+        /* الأيقونات */
+        .icons-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          margin: 20px;
+        }
+
+        .icons-container .icon-box {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.6);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        /* الفوتر */
+        footer {
+          text-align: center;
+          color: #fff;
+          margin-top: 40px;
+        }
+
+        footer a {
+          color: #0ff;
+          text-decoration: none;
+        }
+    </style>
+  </head>
+  <body style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;margin:0;padding:0">
+    <!-- شاشة البداية -->
+    <div id="startup-overlay" style="text-align:center;">
+      <video autoplay="" loop="" muted="" playsinline="">
+        <source src="https://static.vecteezy.com/system/resources/previews/003/284/564/original/space-travel-universe-to-andromeda-free-video.mp4" type="video/mp4" />
+      </video>
+      <div class="startup-button" id="startup-button" style="text-align:center;">Discovery</div>
+      <div class="share-icons" style="text-align:center;">
+        <a class="icon whatsapp" href="#" target="_blank">
+          <img alt="WhatsApp" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" />
+        </a>
+      </div>
+      <audio id="bird-sound" loop="">
+        <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3" />
+      </audio>
+      <div id="new-content" style="text-align:center;">
+        <!DOCTYPE html>
+        <html dir="rtl" lang="ar">
+          <head>
+            <meta charset="utf-8" />
+            <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+          </head>
+        </html>
+      </div>
+    </div>
+    <!-- محتوى الموقع -->
+    <div id="site-content" style="text-align:center;">
+      <!-- القائمة -->
+      <div style="text-align:center; margin:20px 0;"></div>
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+        <head>
+          <meta charset="utf-8" />
+          <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+          <title>مكتبة أبوالقمر زمرد</title>
+          <style>
+            body {
+              background: black;
+              color: white;
+              font-family: Arial, sans-serif;
+              text-align: right;
+              margin: 0;
+              padding: 20px;
+              scroll-behavior: smooth;
+              /* تحريك سلس */
+            }
+
+            /* أيقونة المكتبة */
+            #libraryIcon {
+              width: 100px;
+              height: 100px;
+              border-radius: 30px;
+              background: rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: 18px;
+              color: white;
+              cursor: pointer;
+              margin: 20px auto;
+              border: 2px solid white;
+              transition: 0.3s;
+            }
+
+            #libraryIcon:hover {
+              background: rgba(255, 255, 255, 0.2);
+            }
+
+            /* أقسام المكتبة */
+            .section-btn {
+              display: block;
+              margin: 15px 0;
+              cursor: pointer;
+              color: white;
+              font-size: 20px;
+              border-left: 4px solid #fff;
+              padding: 8px 12px;
+              transition: 0.3s;
+            }
+
+            .section-btn:hover {
+              color: #ffd700;
+              border-left-color: #ffd700;
+            }
+
+            /* محتوى القسم */
+            .section-content {
+              display: none;
+              margin-top: 15px;
+              line-height: 1.8;
+              opacity: 0;
+              transform: translateY(20px);
+              transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+
+            .section-content.active {
+              display: block;
+              opacity: 1;
+              transform: translateY(0);
+            }
+
+            .section-content p {
+              margin: 12px 0;
+              color: white;
+            }
+
+            .person-name {
+              font-weight: bold;
+              font-size: 18px;
+              margin-top: 10px;
+            }
+
+            .person-details {
+              font-size: 16px;
+              margin-left: 15px;
+            }
+          </style>
+        </head>
+        <body>
+          <!-- أيقونة المكتبة -->
+          <!-- محتوى المكتبة -->
+          <div style="display:flex;flex-direction:row;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin:20px 0;width:100%;">
+            <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="150" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/n7eQejkXbnM?si=H7Jf4Ggrpu8X9N3k" style="width:150px;height:150px;max-width:150px;max-height:150px" title="YouTube video player" width="150"></iframe>
+            <div id="libraryIcon" style="text-align:center;">مكتبة أبوالقمر زمرد</div>
+          </div>
+          <div id="libraryContent" style="display:none; margin-top:20px;;text-align:center;">
+            <!-- أقسام -->
+            <div class="section-btn" data-section="islamicHistory" style="text-align:center;">التاريخ الإسلامي</div>
+            <div class="section-btn" data-section="islamicCulture" style="text-align:center;">الثقافة الإسلامية</div>
+            <div class="section-btn" data-section="influentialPeople" style="text-align:center;">أسماء أثروا على الحياة</div>
+            <!-- محتوى كل قسم -->
+            <div class="section-content" id="islamicHistory" style="text-align:center;">
+              <div class="person" style="text-align:center;">
+                <p class="person-name">النبي محمد ﷺ</p>
+                <p class="person-details">تاريخ الميلاد: 571م | الفترة: مكة والمدينة | الإنجازات: نشر الإسلام، وضع أسس الحضارة الإسلامية، تعليم القيم الإنسانية والعدل والتسامح.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">أبو بكر الصديق</p>
+                <p class="person-details">تاريخ الميلاد: 573م | الفترة: الخلافة 632-634م | الإنجازات: أول الخلفاء الراشدين، قيادة الأمة الإسلامية بحكمة، محاربة الفتن، دعم الدعوة الإسلامية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">عمر بن الخطاب</p>
+                <p class="person-details">تاريخ الميلاد: 584م | الفترة: الخلافة 634-644م | الإنجازات: وضع نظام القضاء والإدارة، توسيع الدولة الإسلامية، إصلاحات اجتماعية وإدارية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">عثمان بن عفان</p>
+                <p class="person-details">تاريخ الميلاد: 576م | الفترة: الخلافة 644-656م | الإنجازات: جمع القرآن في مصحف واحد، السخاء والخير، إدارة الدولة بحكمة.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">علي ابن ابي طالب رضي الله عنه</p>
+                <p class="person-details">تاريخ الميلاد: (13 من رجب 23 ق هـ / 17 مارس 599 م - 21 من شهر رمضان 40 هـ / 27 يناير 661 م) ابْنُ عم الرسول محمد وصهرُه، من آل بيته، أحد أصحابه، رابع الخلفاء الراشدين ..</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">معاوية بن أبي سفيان</p>
+                <p class="person-details">تاريخ الميلاد: 602م | الفترة: الخلافة الأموية 661-680م | الإنجازات: الحفاظ على وحدة الدولة، التنظيم السياسي، تأسيس الدولة الأموية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">عمر بن عبدالعزيز</p>
+                <p class="person-details">تاريخ الميلاد: 682م | الفترة: الخلافة الأموية 717-720م | الإنجازات: إصلاحات إدارية وعدلية، تطبيق الشريعة بالعدل والمساواة، تعزيز العدالة الاجتماعية.</p>
+              </div>
+            </div>
+            <div class="section-content" id="islamicCulture" style="text-align:center;">
+              <div class="person" style="text-align:center;">
+                <p class="person-name">هابيل وقابيل</p>
+                <p class="person-details">الأبناء: آدم وحواء | الأحداث: الصراع بين الخير والشر، دروس عن الطاعة والعواقب، أثر على القيم الأخلاقية البشرية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">ابن سينا</p>
+                <p class="person-details">تاريخ الميلاد: 980م | الفترة: 980-1037م | الإنجازات: عالم وطبيب وفيلسوف، كتب موسوعات طبية وفلسفية، أثر على الطب والفلسفة العالمية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">الرازي</p>
+                <p class="person-details">تاريخ الميلاد: 854م | الفترة: 854-925م | الإنجازات: طبيب وفيلسوف، كتب الحاوي، تطوير طرق العلاج، مؤلف موسوعي في الطب والكيمياء.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">ابن بطوطة</p>
+                <p class="person-details">تاريخ الميلاد: 1304م | الفترة: 1304-1369م | الإنجازات: رحالة ومكتشف، كتب رحلاته عن البلدان والشعوب، أثر في المعرفة الجغرافية.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">عباس بن فرناس</p>
+                <p class="person-details">تاريخ الميلاد: 810م | الفترة: 810-887م | الإنجازات: مخترع ومبتكر للطيران، وضع أسس فهم الطيران والميكانيكا.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">الجاحظ</p>
+                <p class="person-details">تاريخ الميلاد: 776م | الفترة: 776-868م | الإنجازات: كاتب وفيلسوف، ألف البيان والتبيين، كتب عن الأدب والعلم والسياسة.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">مؤلف كليلة ودمنة</p>
+                <p class="person-details">الفترة: الهند القديمة | الإنجازات: جمع الحكايات والحكم، تأثير عالمي على الأدب الأخلاقي.</p>
+              </div>
+            </div>
+            <div class="section-content" id="influentialPeople" style="text-align:center;">
+              <div class="person" style="text-align:center;">
+                <p class="person-name">أفلاطون</p>
+                <p class="person-details">تاريخ الميلاد: 427 ق.م | الفترة: 427-347ق.م | الإنجازات: فيلسوف يوناني، أسس الأكاديمية، كتب عن العدالة والسياسة والمجتمع المثالي.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">سقراط</p>
+                <p class="person-details">تاريخ الميلاد: 470 ق.م | الفترة: 470-399ق.م | الإنجازات: فيلسوف يوناني، أسس أسلوب التساؤل النقدي والبحث عن الحقيقة والمعرفة.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">آينشتاين</p>
+                <p class="person-details">تاريخ الميلاد: 1879م | الفترة: 1879-1955م | الإنجازات: عالم فيزياء، مؤسس النظرية النسبية، أحدث ثورة في فهم الكون.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">تسلا</p>
+                <p class="person-details">تاريخ الميلاد: 1856م | الفترة: 1856-1943م | الإنجازات: مخترع ومهندس كهربائي، أنظمة التيار المتردد، أسهم في الكهرباء والطاقة الحديثة.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">بيتهوفن</p>
+                <p class="person-details">تاريخ الميلاد: 1770م | الفترة: 1770-1827م | الإنجازات: موسيقي ألماني عبقري، ترك إرثًا موسيقيًا عالميًا مؤثرًا.</p>
+              </div>
+              <div class="person" style="text-align:center;">
+                <p class="person-name">شكسبير</p>
+                <p class="person-details">تاريخ الميلاد: 1564م | الفترة: 1564-1616م | الإنجازات: كاتب وشاعر إنجليزي، ألف المسرحيات والقصائد التي ما زالت تُدرس وتُعرض عالميًا.</p>
+              </div>
+            </div>
+          </div>
+          <script>
+            const libraryIcon = document.getElementById('libraryIcon');
+            const libraryContent = document.getElementById('libraryContent');
+            const sectionButtons = document.querySelectorAll('.section-btn');
+            const sections = document.querySelectorAll('.section-content');
+            // فتح المكتبة عند الضغط على الأيقونة
+            libraryIcon.addEventListener('click', () => {
+              libraryContent.style.display = libraryContent.style.display === 'none' ? 'block' : 'none';
+              sections.forEach(sec => sec.classList.remove('active'));
+            });
+            // عرض القسم عند الضغط عليه مع تحريك الصفحة
+            sectionButtons.forEach(btn => {
+              btn.addEventListener('click', () => {
+                const sectionId = btn.getAttribute('data-section');
+                sections.forEach(sec => {
+                  if (sec.id === sectionId) {
+                    sec.classList.add('active');
+                    sec.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start"
+                    });
+                  } else {
+                    sec.classList.remove('active');
+                  }
+                });
+              });
+            });
+          </script>
+        </body>
+      </html>
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+        <head>
+          <meta charset="utf-8" />
+          <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+          <title>الأيقونات مع الأقسام</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              background: black;
+              color: white;
+              font-family: Arial, sans-serif;
+              text-align: center;
+            }
+
+            .icons-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+              gap: 20px;
+              max-width: 300px;
+              margin: 40px auto;
+              padding: 20px;
+            }
+
+            .icon-card {
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              background: rgba(255, 255, 255, 0.05);
+              border: 2px solid white;
+              color: white;
+              font-weight: 600;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              transition: transform 0.2s ease, box-shadow 0.2s ease;
+              cursor: pointer;
+            }
+
+            .icon-card:hover {
+              transform: translateY(-6px);
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            }
+
+            .icon-label {
+              font-size: 0.9em;
+            }
+
+            /* نافذة القسم */
+            .modal {
+              display: none;
+              position: fixed;
+              z-index: 999;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0.8);
+              justify-content: center;
+              align-items: center;
+              overflow-y: auto;
+              padding: 20px;
+            }
+
+            .modal-content {
+              background: rgba(20, 20, 20, 0.95);
+              color: white;
+              padding: 20px;
+              border-radius: 12px;
+              max-width: 800px;
+              width: 90%;
+              text-align: right;
+              line-height: 1.8;
+            }
+
+            .modal-close {
+              float: left;
+              cursor: pointer;
+              font-size: 20px;
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+          </style>
+        </head>
+        <body>
+          <!DOCTYPE html>
+          <html lang="ar">
+            <head>
+              <meta charset="utf-8" />
+              <title>أيقونة سندباد</title>
+              <style>
+                /* تصميم الأيقونة الدائرية */
+                #myIconContainer {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  margin: 20px auto;
+                  cursor: pointer;
+                }
+
+                #myIcon {
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50%;
+                  background-color: rgba(255, 255, 255, 0.2);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 30px;
+                  color: white;
+                  border: 2px solid white;
+                  transition: 0.3s;
+                }
+
+                #myIcon:hover {
+                  background-color: rgba(255, 255, 255, 0.4);
+                }
+
+                /* اسم الأيقونة */
+                #iconLabel {
+                  margin-top: 8px;
+                  font-size: 16px;
+                  color: white;
+                }
+
+                /* مكان عرض الفيديو */
+                #contentArea {
+                  margin-top: 20px;
+                  text-align: center;
+                }
+              </style>
+            </head>
+            <body style="background-color: #333; color: white; text-align:center;">
+              <!-- أيقونة سندباد -->
+              <div id="myIconContainer" style="text-align:center;">
+                <div id="myIcon" style="text-align:center;">▶</div>
+                <div id="iconLabel" style="text-align:center;">سندباد</div>
+              </div>
+              <!-- المكان الذي سيظهر فيه الفيديو -->
+              <div id="contentArea" style="text-align:center;"></div>
+              <script>
+                document.getElementById("myIconContainer").addEventListener("click", function() {
+                  document.getElementById("contentArea").innerHTML = `
+        
+								
+								<iframe width="70" height="70" 
+                src="https://www.youtube.com/embed/pfA8mx0nQVw?si=mqwCWJQgRgu-VG_G" 
+                title="سندباد حلقات مجمعة الجزء الثاني" 
+                frameborder="0" allowfullscreen></iframe>
+    `;
+                });
+              </script>
+            </body>
+          </html>
+          <!DOCTYPE html>
+          <html lang="ar">
+            <head>
+              <meta charset="utf-8" />
+              <title>رياضة</title>
+              <style>
+                body {
+                  background-color: #333;
+                  color: white;
+                  text-align: center;
+                  font-family: Arial, sans-serif;
+                }
+
+                /* تصميم الأيقونة الدائرية */
+                #sportsIcon {
+                  width: 80px;
+                  height: 80px;
+                  border-radius: 50%;
+                  background-color: white;
+                  color: black;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  font-size: 16px;
+                  font-weight: bold;
+                  margin: 40px auto;
+                  transition: 0.3s;
+                  border: 2px solid #ccc;
+                }
+
+                #sportsIcon:hover {
+                  background-color: #f0f0f0;
+                }
+
+                /* مكان عرض الفيديو */
+                #videoContainer {
+                  margin-top: 20px;
+                }
+              </style>
+            </head>
+            <body>
+              <!-- الأيقونة الدائرية -->
+              <div id="sportsIcon" style="text-align:center;">رياضة</div>
+              <!-- مكان عرض الفيديو -->
+              <div id="videoContainer" style="text-align:center;"></div>
+              <!DOCTYPE html>
+              <html dir="rtl" lang="ar">
+                <head>
+                  <meta charset="utf-8" />
+                  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+                  <title>أيقونة فيديو دائرية</title>
+                  <style>
+                    .video-circle {
+                      width: 150px;
+                      /* حجم الأيقونة */
+                      height: 150px;
+                      border-radius: 50%;
+                      overflow: hidden;
+                      cursor: pointer;
+                      display: inline-block;
+                      border: 3px solid #fff;
+                      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                      position: relative;
+                      background-color: #000;
+                      background-size: cover;
+                      background-position: center;
+                    }
+
+                    .play-button {
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      width: 50px;
+                      height: 50px;
+                      background: rgba(255, 255, 255, 0.8);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 24px;
+                      color: #000;
+                    }
+
+                    iframe {
+                      width: 300px;
+                      height: 150px;
+                      border: none;
+                      display: block;
+                      margin-top: 15px;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <!-- أيقونة الفيديو -->
+                  <div class="video-circle" id="videoThumb" style="background-image: url('https://img.youtube.com/vi/tFdlhlmQ-ek/hqdefault.jpg');;text-align:center;">
+                    <div class="play-button" style="text-align:center;">▶</div>
+                  </div>
+                  <!-- مكان عرض الفيديو بعد الضغط -->
+                  <div id="videoContainer" style="text-align:center;"></div>
+                  <script>
+                    const thumb = document.getElementById('videoThumb');
+                    const container = document.getElementById('videoContainer');
+                    thumb.addEventListener('click', function() {
+                      container.innerHTML = `
+										
+										<iframe src="https://www.youtube.com/embed/tFdlhlmQ-ek?autoplay=1" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen></iframe>`;
+                      thumb.style.display = 'none'; // إخفاء الأيقونة بعد التشغيل
+                    });
+                  </script>
+                </body>
+              </html>
+              <script>
+                document.getElementById("sportsIcon").addEventListener("click", function() {
+                  document.getElementById("videoContainer").innerHTML = `
+        
+								
+								<iframe width="150" height="150"
+                src="https://www.youtube.com/embed/94yWnhgq3kM?si=8OL4pXPgQvwMUiAl"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+    `;
+                });
+              </script>
+            </body>
+          </html>
+          <!-- ثقافة عامة -->
+          <!DOCTYPE html>
+          <html lang="ar">
+            <head>
+              <meta charset="utf-8" />
+              <title>آسيا فلم</title>
+              <style>
+                body {
+                  background-color: #333;
+                  color: white;
+                  text-align: center;
+                  font-family: Arial, sans-serif;
+                }
+
+                /* تصميم الأيقونة الدائرية */
+                #asiaFilmIcon {
+                  width: 80px;
+                  height: 80px;
+                  border-radius: 50%;
+                  background-color: white;
+                  color: black;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  font-size: 16px;
+                  font-weight: bold;
+                  margin: 40px auto;
+                  transition: 0.3s;
+                  border: 2px solid #ccc;
+                }
+
+                #asiaFilmIcon:hover {
+                  background-color: #f0f0f0;
+                }
+
+                /* مكان عرض الفيديو */
+                #videoContainer {
+                  margin-top: 20px;
+                }
+              </style>
+            </head>
+            <body>
+              <!-- الأيقونة الدائرية -->
+              <div id="asiaFilmIcon" style="text-align:center;">آسيا فلم</div>
+              <style>
+                .video-circle {
+                  width: 200px;
+                  /* حجم صغير */
+                  height: 200px;
+                  border-radius: 50%;
+                  /* دائري */
+                  overflow: hidden;
+                  margin: 20px auto;
+                  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+                  /* حواف مضيئة */
+                  cursor: pointer;
+                  /* مؤشر عند المرور */
+                }
+
+                .video-circle iframe {
+                  width: 100%;
+                  height: 100%;
+                  border: none;
+                  object-fit: cover;
+                }
+              </style>
+              <!-- دائرة الفيديو -->
+              <div class="video-circle" id="videoCircle" style="text-align:center;">
+                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" id="myVideo" src="https://www.youtube.com/embed/KKGQrOL6e7Y" title="YouTube video player"></iframe>
+              </div>
+              <script>
+                const videoCircle = document.getElementById("videoCircle");
+                const myVideo = document.getElementById("myVideo");
+                videoCircle.addEventListener("click", function() {
+                  // إضافة autoplay بعد الضغط
+                  myVideo.src = "https://www.youtube.com/embed/KKGQrOL6e7Y?autoplay=1";
+                });
+              </script>
+              <!-- مكان عرض الفيديو -->
+              <div id="videoContainer" style="text-align:center;"></div>
+              <!-- زر صوت الطيور -->
+              <div id="bird-sound-btn" style="position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000;;text-align:center;"> 🐦 </div>
+              <!-- ملف الصوت -->
+              <audio id="bird-sound" loop="">
+                <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3" />
+              </audio>
+              <script>
+                const birdBtn = document.getElementById('bird-sound-btn');
+                const birdAudio = document.getElementById('bird-sound');
+                // تشغيل وإيقاف الصوت عند الضغط على الزر
+                birdBtn.addEventListener('click', () => {
+                  if (birdAudio.paused) {
+                    birdAudio.play();
+                    birdBtn.textContent = '🔊'; // يمكن تغيير رمز الزر عند التشغيل
+                  } else {
+                    birdAudio.pause();
+                    birdBtn.textContent = '🐦'; // إعادة الرمز عند الإيقاف
+                  }
+                });
+              </script>
+              <script>
+                document.getElementById("asiaFilmIcon").addEventListener("click", function() {
+                  document.getElementById("videoContainer").innerHTML = `
+        
+								
+								<iframe width="300" height="150"
+                src="https://www.youtube.com/embed/rucTB1sdjew?si=jMl_UfR4Z34LFb4g"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+    `;
+                });
+              </script>
+            </body>
+          </html>
+        </body>
+      </html>
+      <style>
+        .share-buttons {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          margin: 20px 0;
+        }
+
+        .share-btn {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 28px;
+          color: white;
+          text-decoration: none;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          transition: 0.3s;
+        }
+
+        .share-btn:hover {
+          transform: scale(1.1);
+          filter: brightness(85%);
+        }
+      </style>
+      <div class="share-buttons" style="text-align:center;">
+        <!-- فيسبوك -->
+        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" style="background:#3b5998;" target="_blank" title="شارك على فيسبوك">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <!-- واتساب -->
+        <a class="share-btn" href="https://wa.me/?text=شاهد هذا الموقع: https://sakakera-a11y.github.io/sakaker/" style="background:#25d366;" target="_blank" title="شارك على واتساب">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <!-- تويتر -->
+        <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد هذا الموقع" style="background:#1da1f2;" target="_blank" title="شارك على تويتر">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <!-- جوجل نيوز -->
+        <a class="share-btn" href="https://news.google.com/publications/CAAqBwgKMKjv3Aswrrr6Aw" style="background:#db4437;" target="_blank" title="شارك على جوجل نيوز">
+          <i class="fab fa-google"></i>
+        </a>
+      </div>
+      <!-- استدعاء أيقونات Font Awesome -->
+      <script crossorigin="anonymous" src="https://kit.fontawesome.com/a076d05399.js"></script>
+    </div>
+  </body>
+</html>
+<script>
+  function openModal(name) {
+    document.getElementById("modal-" + name).style.display = "block";
+  }
+
+  function closeModal(name) {
+    document.getElementById("modal-" + name).style.display = "none";
+  }
+  window.onclick = function(event) {
+    document.querySelectorAll('.modal').forEach(m => {
+      if (event.target == m) m.style.display = "none";
+    });
+  }
+</script><!-- الأيقونات -->
+<footer style="text-align:center; position:relative; bottom:0; width:100%; margin-top:40px; color:#fff; 
+background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80');
+background-size: cover;
+background-position: center;
+padding: 20px 0;">
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>⭐تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+</footer>
+
+</div>
+
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>أبوالقمر زمرد - السيرة الذاتية</title>
+    <style>
+      /* ===== إعدادات أساسية ===== */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Tahoma", sans-serif;
+      <div class="icon-container" style="text-align:center;">
+  
+</div>
+
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+      }
+
+      /* ===== صف الأيقونة ===== */
+      .icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* ===== أيقونة دائرية شفافة باللون الأبيض ===== */
+      .icon-circle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.05);
+        /* شفافة جداً */
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        line-height: 1.4;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px;
+      }
+
+      .icon-circle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+      }
+
+      /* ===== نافذة منبثقة ===== */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 70%;
+        overflow-y: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* خلفية سوداء شفافة */
+        padding: 20px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal.show {
+        display: block;
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: rgba(0, 0, 0, 0.95);
+        /* خلفية سوداء شبه شفافة للنافذة */
+        max-width: 900px;
+        margin: 5% auto;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        max-height: 90vh;
+        overflow-y: auto;
+        color: #fff;
+        /* نص أبيض */
+      }
+
+      /* زر الإغلاق */
+      .close {
+        float: left;
+        font-size: 28px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+      }
+
+      .close:hover {
+        color: #fff;
+      }
+
+      /* ===== تنسيق السيرة الذاتية ===== */
+      h1 {
+        text-align: center;
+        color: #1E90FF;
+        /* أزرق للعناوين */
+        margin-bottom: 25px;
+      }
+
+      .section {
+        margin-bottom: 25px;
+      }
+
+      .section h2 {
+        color: #1E90FF;
+        /* أزرق */
+        font-size: 20px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #555;
+        padding-bottom: 6px;
+      }
+
+      .section p {
+        margin: 8px 0;
+        font-size: 16px;
+        line-height: 1.6;
+        text-align: justify;
+        color: #fff;
+        /* نص أبيض */
+      }
+
+      .english-name {
+        text-align: center;
+        margin-top: 25px;
+        font-style: italic;
+        color: #fff;
+      }
+
+      /* ===== استجابة الأجهزة الصغيرة ===== */
+      @media (max-width: 600px) {
+        .icon-circle {
+          width: 100px;
+          height: 100px;
+          font-size: 12px;
+        }
+
+        .modal-content {
+          padding: 20px;
+          margin: 10% auto;
+        }
+
+        .section h2 {
+          font-size: 18px;
+        }
+
+        .section p {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- أيقونة السيرة الذاتية -->
+   <div class="icon-container" style="text-align:center;">
+  <div class="icon-circle" onclick="openModal()" 
+       style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=150&q=80'); 
+              background-size: cover; 
+              background-position: center;
+              color: #fff;
+              width: 150px;
+              height: 150px;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              cursor: pointer;">
+    السيرة <br />الذاتية <br />لأبوالقمر زمرد
+  </div>
+</div>
+
+    <!-- النافذة المنبثقة -->
+    <div class="modal" id="cvModal" style="text-align:center;">
+      <div class="modal-content" style="text-align:center;">
+        <span class="close" onclick="closeModal()">×</span>
+        <h1>السيرة الذاتية</h1>
+        <div class="section" style="text-align:center;">
+          <h2>البيانات الشخصية</h2>
+          <p>
+            <strong>الاسم:</strong> سكاكر بن صالح حمد محمد السكاكر
+          </p>
+          <p>
+            <strong>المولد: <strong> 1 1974</strong>
+            </strong>
+          </p>
+          <p>
+            <strong>مكان الميلاد:</strong> المملكة العربية السعودية – منطقة القصيم – مدينة بريدة – حي السادة
+          </p>
+        </div>
+        <div class="section" style="text-align:center;">
+          <h2>التعليم</h2>
+          <p> بعد إنهاء المرحلة الابتدائية، التحق بالقسم المتوسط الديني المعروف بالمعهد العلمي. ثم ترك القسم الديني واتجه إلى القسم التجاري بالمرحلة الثانوية (دبلوم ثانوي تجاري)، وتخرج عام 1996م عام 1997 انضممت الى ال. </p>
+          <p> لاحقًا، التحق بجامعة الإمام محمد بن سعود الإسلامية – كلية العلوم العربية والاجتماعية تخصص جغرافيا، والتي تضم ثمانية مستويات دراسية. اجتاز خمسة مستويات وبدأ في المستوى السادس، إلا أنه ترك الدراسة بسبب تجاوز عدد الفصول المسموح بها وفق أنظمة الجامعة عام 2003(من عام 1999 الى 2003 التحقت بعمل في بعض الشركات على الشهاده الثانويه بعد طي القيد لتعدي سنوات الداراسه كطالب منتظم بالجامعه استكملت العمل بالقطاع الخاص حتى 2009 ثم التحقت بالعمل الحكومي تابع للخدمه المدنيه بوزاره الصحه حتى عام 2025 من شهر ثلاثه يوم تقريبا عشرين). </p>
+        </div>
+        <div class="section" style="text-align:center;">
+          <h2>الإنجازات</h2>
+          <p> له مشاركات في عدة مجالات بشكل استطلاعي ومعرفي، شملت الطب، الرياضة، الحياة الاجتماعية، الفلسفة، علم النفس، والاقتصاد. ورغم أنها ليست مشاركات أساسية أو رسمية، إلا أنها أثرت في معارفه وتجربته الشخصية. </p>
+        </div>
+        <div class="section" style="text-align:center;">
+          <h2>الأعمال</h2>
+          <p> له مشاركات عشوائية على منصات التواصل الاجتماعي مثل فيسبوك وتويتر. على الصعيد الشخصي، كتب بعض القصائد ولحن بعض المعزوفات الموسيقية بشكل غير احترافي، لكنه يطمح مستقبلًا إلى إعادة صياغة هذه الأعمال وتقديمها كموسوعة خاصة بشكل احترافي. </p>
+        </div>
+        <div class="english-name" style="text-align:center;">
+          <strong>English Name:</strong> Mr. Sakaker Saleh Hamad M. Alsakaker
+        </div>
+      </div>
+    </div>
+    <script>
+      function openModal() {
+        document.getElementById("cvModal").classList.add("show");
+      }
+
+      function closeModal() {
+        document.getElementById("cvModal").classList.remove("show");
+      } // إغلاق النافذة عند الضغط على ESC window.addEventListener('keydown', function(e) { if(e.key === "Escape") closeModal(); }); 
+    </script>
+  </body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('startup-button');
+    var overlay = document.getElementById('startup-overlay');
+    var site = document.getElementById('site-content');
+    if (btn && overlay && site) {
+      btn.addEventListener('click', function() {
+        overlay.style.opacity = 1;
+        var fadeOut = setInterval(function() {
+          if (overlay.style.opacity > 0) {
+            overlay.style.opacity -= 0.05;
+          } else {
+            clearInterval(fadeOut);
+            overlay.style.display = 'none';
+            site.style.display = 'block';
+          }
+        }, 30);
+      });
+    }
+  });
+</script>
