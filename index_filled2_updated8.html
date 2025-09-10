@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحة البحر - أبوالقمر زمرد</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+/* فيديو دائري */
+.video-icon {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid #fff;
+    margin: 20px auto 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.video-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+    pointer-events: none;
+}
+
+/* مودال الفيديو */
+.modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999;}
+.modal-content { width:90%; max-width:700px; }
+.modal-content iframe { width:100%; height:400px; border:none; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+
+/* عشر أيقونات */
+.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
+.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.3s; }
+.icon-circle:hover { background: rgba(255,255,255,0.4); }
+
+/* مكتبة */
+#library { text-align:center; margin:20px auto; }
+#libraryIcon { margin-bottom:10px; cursor:pointer; font-weight:bold; }
+#libraryContent { display:none; margin-top:10px; text-align:center; }
+.section-btn { margin:5px 0; cursor:pointer; color:#00ffff; }
+.section-content { display:none; margin-top:10px; text-align:right; }
+
+/* رويات */
+#stories { text-align:center; margin:20px auto; }
+#storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); color:#fff; overflow:auto; z-index:1000; }
+#storyModal .content { margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; position:relative; }
+.story-title { cursor:pointer; margin:10px 0; color:#00ffff; font-weight:bold; }
+.story { display:none; margin-top:10px; line-height:1.8; }
+.close-btn { position:absolute; top:10px; right:10px; background:#ff3333; color:#fff; font-weight:bold; padding:5px 10px; border:none; border-radius:5px; cursor:pointer; }
+
+/* السيرة الذاتية */
+#cvIcon { text-align:center; margin:20px auto; width: 250px; height:120px; background: rgba(255,255,255,0.05); border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
+#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+#cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
+#cvPage .cv-content { max-width:900px; margin:40px auto; }
+#cvPage h1,h2{ color:#1E90FF; }
+#cvPage p{ font-size:16px; line-height:1.6; text-align:justify; color:#fff; }
+.closeCV{ background:#ff3333; color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin-bottom:20px; }
+
+/* زر صوت الطيور */
+#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
+
+/* قائمة الدعم */
+.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; }
+.footer-menu p { margin:5px 0; }
+
+@media(max-width:600px){ .icon-circle{width:80px;height:80px;font-size:10px;} .video-icon{width:120px;height:120px;} .modal-content iframe{height:250px;} }
+
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  .video-icon { width: 120px; height: 120px; }
+  .icon-circle { width: 70px; height: 70px; font-size: 10px; }
+  .modal-content iframe { height: 220px; }
+  #library { width: 90%; right: 5%; top: 120px; }
+  #stories, #cvIcon, .footer-menu { width: 90%; left: 5%; }
+}
+
+
+#cvPage {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.95);
+  color:#fff;
+  overflow:auto;
+  padding:20px;
+  z-index:1000;
+}
+#cvPage .cv-content {
+  max-width:800px;
+  margin:50px auto;
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  line-height:1.8;
+}
+.closeCV {
+  background:#ff3333;
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:5px;
+  cursor:pointer;
+  margin-bottom:20px;
+  font-size:16px;
+}
+
+
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  .video-icon { width: 120px; height: 120px; }
+  .icon-circle { width: 70px; height: 70px; font-size: 10px; }
+  .modal-content iframe { height: 220px; }
+  #library { width: 90%; right: 5%; top: 120px; }
+  #stories, #cvIcon, .footer-menu { width: 90%; left: 5%; }
+  #cvPage .cv-content { width:95%; margin:20px auto; padding:15px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- صوت الطيور -->
+<div id="bird-sound-btn">🐦</div>
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<!-- فيديو دائري -->
+<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+  <img src="https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg" alt="Thumbnail">
+  <div class="play-button">▶</div>
+</div>
+<div class="modal" id="videoModal">
+  <span class="close" onclick="closeModal()">×</span>
+  <div class="modal-content">
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- عشر أيقونات -->
+<div class="icons-row">
+  <div class="icon-circle" onclick="openVideoModal('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+  <div class="icon-circle" onclick="openModal('p6X4LJVie9w')">فلم اجنبي</div>
+  <div class="icon-circle" onclick="openModal('WOb1ozkHrBE')">فلم عربي</div>
+  <div class="icon-circle" onclick="openQuiz()">اختبر معلوماتك</div>
+  <div class="icon-circle" onclick="openRiddles()">الغاز</div>
+  <div class="icon-circle" onclick="openVideoModal('https://www.youtube.com/embed/bW_nnH2EAMM')">الطبخ</div>
+  <div class="icon-circle" onclick="openModal('KKGQrOL6e7Y')">موسيقى عربي</div>
+  <div class="icon-circle" onclick="openModal('vPg67r76hAA')">موسيقى اجنبي</div>
+  <div class="icon-circle" onclick="openVideoModal('https://www.youtube.com/embed/nXGULqEPB0I')">افلام كرتون</div>
+</div>
+
+<!-- مكتبة -->
+<div id="library">
+  <div id="libraryIcon" class="icon-circle">مكتبة أبوالقمر زمرد</div>
+  <div id="libraryContent">
+<div class="section-btn" style="font-weight:bold;color:black;font-size:20px;">التاريخ الإسلامي</div>
+    
+    <div class="section-btn" style="font-weight:bold;color:black;" data-section="companions">الصحابة</div>
+    
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">أبوبكر الصديق</p>
+    <p class="person-details" style="color:red;" style="color:green;">أول الخلفاء الراشدين وصاحب النبي، تميز بالإيمان والتضحية.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عمر بن الخطاب</p>
+    <p class="person-details" style="color:red;" style="color:green;">قائد عادل ومصلح، أسهم في بناء الدولة الإسلامية وتنظيم شؤونها.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عثمان بن عفان</p>
+    <p class="person-details" style="color:red;" style="color:green;">ثالث الخلفاء، جمع المصحف وأشرف على نشره بلفظ موحد.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">علي بن أبي طالب</p>
+    <p class="person-details" style="color:red;" style="color:green;">ابن عم الرسول، خليفة وفقيه، اشتهر بالشجاعة والعلم.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">معاوية بن أبي سفيان</p>
+    <p class="person-details" style="color:red;" style="color:green;">قائد وسياسي بارز، أسس الدولة الأموية وساهم في الاستقرار السياسي.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عمر بن عبدالعزيز</p>
+    <p class="person-details" style="color:red;" style="color:green;">خليفة أموي عُرف بالإصلاح والعدل ومحاولة استرجاع مبادئ الحكم النزيه.</p>
+  </div>
+</div>
+    
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">أبوبكر الصديق</p>
+    <p class="person-details" style="color:red;" style="color:green;">أول الخلفاء الراشدين وصاحب النبي، تميز بالإيمان والتضحية.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عمر بن الخطاب</p>
+    <p class="person-details" style="color:red;" style="color:green;">قائد عادل ومصلح، أسهم في بناء الدولة الإسلامية وتنظيم شؤونها.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عثمان بن عفان</p>
+    <p class="person-details" style="color:red;" style="color:green;">ثالث الخلفاء، جمع المصحف وأشرف على نشره بلفظ موحد.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">علي بن أبي طالب</p>
+    <p class="person-details" style="color:red;" style="color:green;">ابن عم الرسول، خليفة وفقيه، اشتهر بالشجاعة والعلم.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">معاوية بن أبي سفيان</p>
+    <p class="person-details" style="color:red;" style="color:green;">قائد وسياسي بارز، أسس الدولة الأموية وساهم في الاستقرار السياسي.</p>
+  </div>
+  <div class="person" style="text-align:center;">
+    <p class="person-name" style="color:yellow;font-weight:bold;" style="color:red; font-weight:bold;">عمر بن عبدالعزيز</p>
+    <p class="person-details" style="color:red;" style="color:green;">خليفة أموي عُرف بالإصلاح والعدل ومحاولة استرجاع مبادئ الحكم النزيه.</p>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- رويات -->
+<div id="stories">
+  <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">رويات أبوالقمر زمرد</div>
+</div>
+<div id="storyModal">
+  <div class="content">
+    <button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+    <h2>رويات أبوالقمر زمرد</h2>
+    <div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+    <div id="s1" class="story">التنين الفضي يحكي عن عودة النور للأرض وكيف تغيرت الحياة...</div>
+    <div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+    <div id="s2" class="story">
+      <p>قصت ابوالقمر عندما استطاع مزج انوار القمر بأحجار الزمرد الكريمة من شعب المرجان...</p>
+      <p><strong>English:</strong> The Moon and the Emerald...</p>
+      <p><strong>Français:</strong> La Lune et l’Émeraude...</p>
+      <p><strong>中文:</strong> 月亮与祖母绿...</p>
+    </div>
+  </div>
+</div>
+
+<!-- CV -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+  <div class="cv-content">
+<h1>السيرة الذاتية</h1>
+<p><strong>الاسم:</strong> سكاكر صالح حمد السكاكر<br>
+<strong>English Name:</strong> Sakaker Saleh Hamamd Alsakaker</p>
+<p><strong>الجنسية:</strong> سعودي</p>
+<p><strong>مكان الميلاد:</strong> المملكة العربية السعودية – القصيم – بريدة</p>
+<p><strong>المؤهل:</strong> حاصل على المتوسطة الدينية (المعهد العلمي) – دبلوم ثانوي تجاري</p>
+<p><strong>التعليم الجامعي:</strong> التحاق بجامعة الإمام محمد بن سعود الإسلامية – تخصص جغرافيا (مدة الدراسة 8 أترام ما يعادل 4 سنوات)</p>
+<p><strong>تفاصيل:</strong> اجتزت خمسة مستويات من أصل ثمانية. في المستوى السادس، وبنهاية الترم لم يتم قبولي كطالب منتظم بالجامعة لتعدي سنوات الدراسة حسب أنظمة الجامعة.</p>
+
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" 
+style="background:#ff3333; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-top:20px;">
+خروج
+</button>
+
+</div>
+</div>
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+  </p>
+  <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+</div>
+
+<script>
+function openModal(videoId){
+  document.getElementById('videoModal').style.display='flex';
+  document.getElementById('videoFrame').src='https://www.youtube.com/embed/'+videoId+'?autoplay=1';
+}
+function closeModal(){
+  document.getElementById('videoModal').style.display='none';
+  document.getElementById('videoFrame').src='';
+}
+
+// مكتبة
+const libraryIcon=document.getElementById('libraryIcon');
+const libraryContent=document.getElementById('libraryContent');
+libraryIcon.addEventListener('click',()=>{
+  libraryContent.style.display = libraryContent.style.display==='none'?'block':'none';
+});
+
+// اقسام المكتبة
+const sectionBtns=document.querySelectorAll('.section-btn');
+sectionBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=document.getElementById(btn.dataset.section);
+    target.style.display = target.style.display==='none'?'block':'none';
+  });
+});
+
+// صوت الطيور
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{
+  if(birdAudio.paused){ birdAudio.play(); } else { birdAudio.pause(); }
+});
+
+// قصص
+function toggleStory(id){
+  const story=document.getElementById(id);
+  story.style.display = story.style.display==='block'?'none':'block';
+}
+</script>
+
+
+<!-- اختبار المعلومات مودال -->
+<div class="modal" id="quizModal" style="display:none;">
+  <div class="content" style="margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; color:#fff;">
+    <button class="close-btn" onclick="closeQuiz()" style="position:absolute; top:10px; right:10px; background:#ff3333; color:#fff;">إغلاق</button>
+    <h2 style="text-align:center;color:#ffd700;">اختبر معلوماتك</h2>
+    <div class="quiz-topic" id="quizTopics">
+      <div class="topic" onclick="showQuizTopic('medicine')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الطب</div>
+      <div class="topic" onclick="showQuizTopic('engineering')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الهندسة</div>
+      <div class="topic" onclick="showQuizTopic('nature')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الطبيعة</div>
+      <div class="topic" onclick="showQuizTopic('psychology')" style="cursor:pointer; color:#00ffff; margin:8px 0;">علم النفس</div>
+      <div class="topic" onclick="showQuizTopic('sociology')" style="cursor:pointer; color:#00ffff; margin:8px 0;">علم الاجتماع</div>
+      <div class="topic" onclick="showQuizTopic('inventions')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الاختراعات</div>
+    </div>
+    <div id="quizContent" style="margin-top:15px;"></div>
+  </div>
+</div>
+
+<!-- الغاز مودال -->
+<div class="modal" id="riddleModal" style="display:none;">
+  <div class="content" style="margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; color:#fff;">
+    <button class="close-btn" onclick="closeRiddles()" style="position:absolute; top:10px; right:10px; background:#ff3333; color:#fff;">إغلاق</button>
+    <h2 style="text-align:center;color:#ffd700;">ألغاز وأحاجي</h2>
+    <div id="riddlesList">
+      <div class="riddle" style="margin:10px 0;">
+        <p><strong>اللغز 1:</strong> ما الشيء الذي كلما أخذت منه كبر؟</p>
+        <p><button onclick="showRiddleAnswer(1)" style="padding:6px 10px;">إظهار الحل</button></p>
+        <p id="riddleAnswer1" style="display:none;color:#ffcc00;">الحل: الحفرة.</p>
+      </div>
+      <div class="riddle" style="margin:10px 0;">
+        <p><strong>اللغز 2:</strong> ما هو الشيء الذي يتكلم جميع لغات العالم؟</p>
+        <p><button onclick="showRiddleAnswer(2)" style="padding:6px 10px;">إظهار الحل</button></p>
+        <p id="riddleAnswer2" style="display:none;color:#ffcc00;">الحل: الصدى.</p>
+      </div>
+      <div class="riddle" style="margin:10px 0;">
+        <p><strong>اللغز 3:</strong> يوجد منزل له أربعة جوانب، كل جانب يطل إلى الجنوب. ما هو هذا المنزل؟</p>
+        <p><button onclick="showRiddleAnswer(3)" style="padding:6px 10px;">إظهار الحل</button></p>
+        <p id="riddleAnswer3" style="display:none;color:#ffcc00;">الحل: يقع في القطب الشمالي (منطقه القطب).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openQuiz() {
+  var m = document.getElementById('quizModal');
+  if(m) m.style.display='block';
+}
+function closeQuiz() {
+  var m = document.getElementById('quizModal');
+  if(m) m.style.display='none';
+  document.getElementById('quizContent').innerHTML = '';
+}
+function showQuizTopic(topic) {
+  var el = document.getElementById('quizContent');
+  var html = '';
+  if(topic === 'medicine') {
+    html = '<h3 style=\"color:#00f;\">الطب</h3><p style=\"color:#fff;\">الطب علم يهتم بصحة الإنسان، ويتضمن تخصصات مثل الجراحة والباطنة وطب الأطفال وعلوم التشخيص. الأطباء يعتمدون على البحث، التشخيص، والعلاج لتحسين صحة المرضى.</p>';
+  } else if(topic === 'engineering') {
+    html = '<h3 style=\"color:#00f;\">الهندسة</h3><p style=\"color:#fff;\">الهندسة تطبيق العلم والرياضيات لتصميم وبناء حلول عملية: المباني، الجسور، الأنظمة الإلكترونية، والبرمجيات. تشمل تخصصات مثل الهندسة المدنية والكهربائية والميكانيكية.</p>';
+  } else if(topic === 'nature') {
+    html = '<h3 style=\"color:#00f;\">الطبيعة</h3><p style=\"color:#fff;\">الطبيعة تشمل الأنظمة الحية وغير الحية: الغابات، المحيطات، الكائنات الحية، والدورات البيئية. دراسة الطبيعة تساعد في حماية البيئة وفهم توازن الكوكب.</p>';
+  } else if(topic === 'psychology') {
+    html = '<h3 style=\"color:#00f;\">علم النفس</h3><p style=\"color:#fff;\">علم النفس يدرس العقل والسلوك البشري، ويشمل النواحي المعرفية والعاطفية والاجتماعية. يستخدم في العلاج، البحث، وتطوير رفاهية الإنسان.</p>';
+  } else if(topic === 'sociology') {
+    html = '<h3 style=\"color:#00f;\">علم الاجتماع</h3><p style=\"color:#fff;\">علم الاجتماع يدرس المجتمعات، التكوين الاجتماعي، والثقافات. يساعد على فهم كيف تتشكل القيم والسلوكيات عبر الزمن.</p>';
+  } else if(topic === 'inventions') {
+    html = '<h3 style=\"color:#00f;\">الاختراعات</h3><p style=\"color:#fff;\">الاختراعات غيرت حياة البشر: الكتاب، الكهرباء، المحرك البخاري، الهاتف، والإنترنت. كل اختراع جاء ليحل مشكلة ويطور معيشة الإنسان.</p>';
+  }
+  el.innerHTML = html;
+}
+
+function openRiddles() {
+  var m = document.getElementById('riddleModal');
+  if(m) m.style.display='block';
+}
+function closeRiddles() {
+  var m = document.getElementById('riddleModal');
+  if(m) m.style.display='none';
+}
+function showRiddleAnswer(n) {
+  var el = document.getElementById('riddleAnswer'+n);
+  if(el) el.style.display = (el.style.display==='none' || el.style.display==='') ? 'block' : 'none';
+}
+
+// CV open/close helper (safe)
+function openCV() {
+  var cv = document.getElementById('cvModal');
+  if(cv) cv.style.display = 'flex';
+}
+function closeCV() {
+  var cv = document.getElementById('cvModal');
+  if(cv) cv.style.display = 'none';
+}
+</script>
+
+<script>
+function openVideoModal(videoUrl) {
+  var modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+  modal.style.display = 'flex';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'center';
+  modal.style.zIndex = '10000';
+  
+  var iframe = document.createElement('iframe');
+  iframe.src = videoUrl + '?autoplay=1';
+  iframe.width = '80%';
+  iframe.height = '80%';
+  iframe.style.border = 'none';
+  iframe.allow = 'autoplay; encrypted-media';
+  iframe.allowFullscreen = true;
+  
+  var closeBtn = document.createElement('span');
+  closeBtn.innerHTML = '&times;';
+  closeBtn.style.position = 'absolute';
+  closeBtn.style.top = '20px';
+  closeBtn.style.right = '30px';
+  closeBtn.style.color = '#fff';
+  closeBtn.style.fontSize = '40px';
+  closeBtn.style.cursor = 'pointer';
+  closeBtn.onclick = function() { document.body.removeChild(modal); };
+  
+  modal.appendChild(iframe);
+  modal.appendChild(closeBtn);
+  document.body.appendChild(modal);
+}
+</script>
+
+
+<!-- نافذة المكتبة -->
+<div id="libraryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); color:#fff; overflow:auto; z-index:1000; padding:20px;">
+  <div style="max-width:800px; margin:40px auto; background:#111; padding:20px; border-radius:10px;">
+    <button onclick="document.getElementById('libraryModal').style.display='none'" 
+            style="background:#ff3333; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-bottom:20px;">
+      إغلاق
+    </button>
+    <h2 style="color:black; background:#fff; padding:10px; border-radius:5px; text-align:center;">التاريخ الإسلامي</h2>
+    <div style="margin-top:15px;">
+      <p><span style="color:yellow; font-weight:bold;">النبي محمد ﷺ</span><br><span style="color:red;">رسول الله وخاتم الأنبياء.</span></p>
+      
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("libraryIcon").onclick = function() {
+    document.getElementById("libraryModal").style.display = "block";
+  };
+</script>
+
+</body>
+</html>
