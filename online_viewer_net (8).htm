@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحة البحر - أبوالقمر زمرد</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+/* فيديو دائري */
+.video-icon {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid #fff;
+    margin: 20px auto 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.video-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+    pointer-events: none;
+}
+
+/* مودال الفيديو */
+.modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999;}
+.modal-content { width:90%; max-width:700px; }
+.modal-content iframe { width:100%; height:400px; border:none; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+
+/* عشر أيقونات */
+.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
+.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.3s; }
+.icon-circle:hover { background: rgba(255,255,255,0.4); }
+
+/* مكتبة */
+#library { text-align:center; margin:20px auto; }
+#libraryIcon { margin-bottom:10px; cursor:pointer; font-weight:bold; }
+#libraryContent { display:none; margin-top:10px; text-align:center; }
+.section-btn { margin:5px 0; cursor:pointer; color:#00ffff; }
+.section-content { display:none; margin-top:10px; text-align:right; }
+
+/* رويات */
+#stories { text-align:center; margin:20px auto; }
+#storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); color:#fff; overflow:auto; z-index:1000; }
+#storyModal .content { margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; position:relative; }
+.story-title { cursor:pointer; margin:10px 0; color:#00ffff; font-weight:bold; }
+.story { display:none; margin-top:10px; line-height:1.8; }
+.close-btn { position:absolute; top:10px; right:10px; background:#ff3333; color:#fff; font-weight:bold; padding:5px 10px; border:none; border-radius:5px; cursor:pointer; }
+
+/* السيرة الذاتية */
+#cvIcon { text-align:center; margin:20px auto; width: 250px; height:120px; background: rgba(255,255,255,0.05); border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
+#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+#cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
+#cvPage .cv-content { max-width:900px; margin:40px auto; }
+#cvPage h1,h2{ color:#1E90FF; }
+#cvPage p{ font-size:16px; line-height:1.6; text-align:justify; color:#fff; }
+.closeCV{ background:#ff3333; color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin-bottom:20px; }
+
+/* زر صوت الطيور */
+#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
+
+/* قائمة الدعم */
+.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; }
+.footer-menu p { margin:5px 0; }
+
+@media(max-width:600px){ .icon-circle{width:80px;height:80px;font-size:10px;} .video-icon{width:120px;height:120px;} .modal-content iframe{height:250px;} }
+</style>
+</head>
+<body>
+
+<!-- صوت الطيور -->
+<div id="bird-sound-btn">🐦</div>
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<!-- فيديو دائري -->
+<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+  <img src="https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg" alt="Thumbnail">
+  <div class="play-button">▶</div>
+</div>
+<div class="modal" id="videoModal">
+  <span class="close" onclick="closeModal()">×</span>
+  <div class="modal-content">
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- عشر أيقونات -->
+<div class="icons-row">
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">رياضة</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">فلم اجنبي</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">فلم عربي</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">اختبر معلوماتك</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">الغاز</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">الطبخ</div>
+  <div class="icon-circle" onclick="openModal('KKGQrOL6e7Y')">موسيقى عربي</div>
+  <div class="icon-circle" onclick="openModal('vPg67r76hAA')">موسيقى اجنبي</div>
+  <div class="icon-circle" onclick="alert('سوف يتوفر الرابط قريبا')">افلام كرتون</div>
+</div>
+
+<!-- مكتبة -->
+<div id="library">
+  <div id="libraryIcon" class="icon-circle">مكتبة أبوالقمر زمرد</div>
+  <div id="libraryContent">
+    <div class="section-btn" data-section="prophets">الأنبياء</div>
+    <div class="section-btn" data-section="companions">الصحابة</div>
+    <div class="section-content" id="prophets">
+      <p>النبي محمد صلى الله عليه وسلم</p>
+    </div>
+    <div class="section-content" id="companions">
+      <p>أبو بكر الصديق رضي الله عنه</p>
+      <p>عمر بن الخطاب رضي الله عنه</p>
+      <p>عثمان بن عفان رضي الله عنه</p>
+      <p>علي بن أبي طالب رضي الله عنه</p>
+      <p>معاوية بن أبي سفيان رضي الله عنه</p>
+      <p>عمر بن عبد العزيز رضي الله عنه</p>
+    </div>
+  </div>
+</div>
+
+<!-- رويات -->
+<div id="stories">
+  <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">رويات أبوالقمر زمرد</div>
+</div>
+<div id="storyModal">
+  <div class="content">
+    <button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+    <h2>رويات أبوالقمر زمرد</h2>
+    <div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+    <div id="s1" class="story">التنين الفضي يحكي عن عودة النور للأرض وكيف تغيرت الحياة...</div>
+    <div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+    <div id="s2" class="story">
+      <p>قصت ابوالقمر عندما استطاع مزج انوار القمر بأحجار الزمرد الكريمة من شعب المرجان...</p>
+      <p><strong>English:</strong> The Moon and the Emerald...</p>
+      <p><strong>Français:</strong> La Lune et l’Émeraude...</p>
+      <p><strong>中文:</strong> 月亮与祖母绿...</p>
+    </div>
+  </div>
+</div>
+
+<!-- CV -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+  <div class="cv-content">
+    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">إغلاق</button>
+    <h1>السيرة الذاتية</h1>
+    <h2>البيانات الشخصية</h2>
+    <p><strong>الاسم:</strong> سكاكر بن صالح حمد محمد السكاكر</p>
+    <p><strong>المولد:</strong> 1 يوليو 1974</p>
+    <p><strong>مكان الميلاد:</strong> المملكة العربية السعودية – منطقة القصيم – مدينة بريدة – حي السادة</p>
+  </div>
+</div>
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+  </p>
+  <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+</div>
+
+<script>
+function openModal(videoId){
+  document.getElementById('videoModal').style.display='flex';
+  document.getElementById('videoFrame').src='https://www.youtube.com/embed/'+videoId+'?autoplay=1';
+}
+function closeModal(){
+  document.getElementById('videoModal').style.display='none';
+  document.getElementById('videoFrame').src='';
+}
+
+// مكتبة
+const libraryIcon=document.getElementById('libraryIcon');
+const libraryContent=document.getElementById('libraryContent');
+libraryIcon.addEventListener('click',()=>{
+  libraryContent.style.display = libraryContent.style.display==='none'?'block':'none';
+});
+
+// اقسام المكتبة
+const sectionBtns=document.querySelectorAll('.section-btn');
+sectionBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=document.getElementById(btn.dataset.section);
+    target.style.display = target.style.display==='none'?'block':'none';
+  });
+});
+
+// صوت الطيور
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{
+  if(birdAudio.paused){ birdAudio.play(); } else { birdAudio.pause(); }
+});
+
+// قصص
+function toggleStory(id){
+  const story=document.getElementById(id);
+  story.style.display = story.style.display==='block'?'none':'block';
+}
+</script>
+
+</body>
+</html>
