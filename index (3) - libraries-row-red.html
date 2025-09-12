@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحة البحر - أبوالقمر زمرد</title>
+<style>
+/* --- أسلوب الصفحة (مأخوذ من ملفك الأصلي) --- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+/* فيديو دائري */
+.video-icon {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid #fff;
+    margin: 20px auto 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.video-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    color: white;
+    text-shadow: 1px 1px 3px #000;
+    pointer-events: none;
+}
+
+/* مودال الفيديو */
+.modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 999;}
+.modal-content { width:90%; max-width:900px; }
+.modal-content iframe { width:100%; height:80vh; border:none; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+
+/* عشر أيقونات */
+.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
+.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.12); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.2s; padding:8px; box-sizing:border-box; color: red; }
+.icon-circle:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+
+/* مكتبة */
+#library { text-align:center; margin:20px auto; }
+#libraryIcon { margin-bottom:10px; cursor:pointer; font-weight:bold; }
+#libraryContent { display:none; margin-top:10px; text-align:center; }
+
+/* قصص / خواطر */
+#stories { text-align:center; margin:20px auto; }
+#storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); color:#fff; overflow:auto; z-index:1000; }
+#storyModal .content { margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; position:relative; }
+.story-title { cursor:pointer; margin:10px 0; color:#00ffff; font-weight:bold; }
+.story { display:none; margin-top:10px; line-height:1.8; }
+.close-btn { position:absolute; top:10px; right:10px; background:#ff3333; color:#fff; font-weight:bold; padding:5px 10px; border:none; border-radius:5px; cursor:pointer; }
+
+/* السيرة الذاتية */
+#cvIcon { text-align:center; margin:20px auto; width: 250px; height:120px; background: rgba(255,255,255,0.05); border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
+#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
+#cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
+#cvPage .cv-content { max-width:900px; margin:40px auto; background:#111; padding:20px; border-radius:10px; }
+
+/* زر صوت الطيور */
+#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
+
+/* قائمة الدعم */
+.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
+.footer-menu a { color:#ffd700; text-decoration:none; }
+
+/* responsive tweaks */
+@media(max-width:600px){ .icon-circle{width:80px;height:80px;font-size:10px;} .video-icon{width:120px;height:120px;} .modal-content iframe{height:60vh;} }
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  .video-icon { width: 120px; height: 120px; }
+  .icon-circle { width: 70px; height: 70px; font-size: 10px; }
+  .modal-content iframe { height: 55vh; }
+  #library { width: 90%; right: 5%; top: 120px; }
+  #stories, #cvIcon, .footer-menu { width: 90%; left: 5%; }
+}
+</style>
+</head>
+<body>
+
+<!-- صوت الطيور -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<!-- فيديو دائري (الثالث في الأصل) -->
+<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+  <img src="https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg" alt="Thumbnail">
+  <div class="play-button">▶</div>
+</div>
+
+<!-- مودال الفيديو عام (موحد لكل الأيقونات) -->
+<div class="modal" id="videoModal" aria-hidden="true">
+  <span class="close" onclick="closeVideo()" title="إغلاق">×</span>
+  <div class="modal-content">
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</div>
+
+<!-- مكتبات موحدة تحت الفيديو -->
+<div class="icons-row" style="margin-top:20px; text-align:center; justify-content:center;">
+  <div class="icon-circle" onclick="toggleLibrary('libraryReligion')">📚 المكتبة الدينية</div>
+  <div class="icon-circle" onclick="toggleLibrary('libraryMovies')">🎬 مكتبة الأفلام</div>
+  <div class="icon-circle" onclick="toggleLibrary('librarySports')">⚽ المكتبة الرياضية</div>
+  <div class="icon-circle" onclick="toggleLibrary('libraryCooking')">🍳 مكتبة المطبخ</div>
+  <div class="icon-circle" onclick="toggleLibrary('libraryMusic')">🎵 مكتبة الأغاني</div>
+  <div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmr')">📝 مكتبة أبوالقمر زمرد</div>
+</div>
+
+<!-- محتويات المكتبات -->
+<div id="libraryReligion" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+</div>
+
+<div id="libraryMovies" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">فلم أجنبي</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">فلم عربي</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/nXGULqEPB0I')">أفلام كرتون</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/oJevGeD-zsg')">كوميديا</div>
+</div>
+
+<div id="librarySports" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/7Hu9tuxbaS4')">كرة القدم</div>
+</div>
+
+<div id="libraryCooking" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')">الطبخ</div>
+</div>
+
+<div id="libraryMusic" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">موسيقى عربي</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')">موسيقى أجنبي</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
+  <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
+</div>
+
+<div id="libraryAbwalqmr" style="display:none; text-align:center; margin:10px;">
+  <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
+</div>
+
+
+<!-- مكتبة --<!-- أيقونة ناشونال جيوغرافيك (دائري) -->
+<div class="video-icon music-circle" onclick="toggleMute('natgeoMusic')" title="تشغيل/إيقاف ناشونال جيوغرافيك">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DnLTWjRV0UE?si=fl0wjXMBzRWIO-WL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<!-- رويات -->
+<div id="stories">
+  <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر أبوالقمر زمرد</div>
+</div>
+
+<!-- مودال خواطر -->
+<div id="storyModal">
+  <div class="content">
+    <button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+    <h2>خواطر أبوالقمر زمرد</h2>
+
+    <div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+    <div id="s1" class="story">
+      <p>التنين الفضي يحكي عن عودة النور للأرض بعد غياب طويل....</p>
+    </div>
+
+    <div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+    <div id="s2" class="story">
+      <p>قصت أبوالقمر حين استطاع أن يمزج أنوار القمر بأحجار الزمرد....</p>
+    </div>
+
+    <div class="story-title" onclick="toggleStory('s3')">قصة البحر الأزرق</div>
+    <div id="s3" class="story">
+      <p>جلس أبوالقمر على شاطئ البحر الأزرق يتأمل أمواجه الهادئة....</p>
+    </div>
+
+    <div class="story-title" onclick="toggleStory('s4')">قصة زهرة الليل</div>
+    <div id="s4" class="story">
+      <p>في ليلة صافية ظهرت زهرة غامضة في حديقة أبوالقمر....</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- سيرة ذاتية -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+  <div class="cv-content">
+    <h1>التعريف بالموقع</h1>
+  
+    <p>الاسم الذ اخترته لكتاباتي واشعاري ومشاركاتي وخاصه في صفحه فيس بوك وهو ( ابوالقمر زمرد ) وهومتواجد معي منذ خمس وعشرين عام والان اكمل بعض اعمالي بتصميم الموقع هذا مع مساعده الذكاء الاصطناعي وجعلته فقط يكون هادف وبناء بعيد عن الطرح المعتاد ويكون فيه فوائد ومتعه وتسليه مختاره من الطروحات المحمله على النت او من اضافتي والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء
+ 11/9/2025 ابوالقمرزمرد)</p>
+
+    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+  </div>
+</div>
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+  </p>
+  <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+</div>
+
+<!-- مودال اختبار ومودال الغاز (مقتبس من ملفك الأصلي) -->
+<div class="modal" id="quizModal" style="display:none;">
+  <div class="content" style="margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; color:#fff;">
+    <button class="close-btn" onclick="closeQuiz()" style="position:absolute; top:10px; right:10px; background:#ff3333; color:#fff;">إغلاق</button>
+    <h2 style="text-align:center;color:#ffd700;">اختبر معلوماتك</h2>
+    <div class="quiz-topic" id="quizTopics">
+      <div class="topic" onclick="showQuizTopic('medicine')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الطب</div>
+      <div class="topic" onclick="showQuizTopic('engineering')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الهندسة</div>
+      <div class="topic" onclick="showQuizTopic('nature')" style="cursor:pointer; color:#00ffff; margin:8px 0;">الطبيعة</div>
+    </div>
+    <div id="quizContent" style="margin-top:15px;"></div>
+  </div>
+</div>
+
+<div class="modal" id="riddleModal" style="display:none;">
+  <div class="content" style="margin:50px auto; padding:20px; background:#222; border-radius:10px; width:85%; max-width:900px; text-align:right; line-height:1.6; color:#fff;">
+    <button class="close-btn" onclick="closeRiddles()" style="position:absolute; top:10px; right:10px; background:#ff3333; color:#fff;">إغلاق</button>
+    <h2 style="text-align:center;color:#ffd700;">ألغاز وأحاجي</h2>
+    <div id="riddlesList">
+      <div class="riddle" style="margin:10px 0;">
+        <p><strong>اللغز 1:</strong> ما الشيء الذي كلما أخذت منه كبر؟</p>
+        <p><button onclick="showRiddleAnswer(1)" style="padding:6px 10px;">إظهار الحل</button></p>
+        <p id="riddleAnswer1" style="display:none;color:#ffcc00;">الحل: الحفرة.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --- توحيد دوال فتح الفيديو (كل الأيقونات تستخدم هذه الدوال) --- */
+function openVideo(url){
+  // url يجب أن يكون رابط embed كامل أو يبدأ بـ https://
+  var modal = document.getElementById('videoModal');
+  var frame = document.getElementById('videoFrame');
+  modal.style.display = 'flex';
+  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
+  modal.setAttribute('aria-hidden','false');
+}
+function openModal(videoId){
+  openVideo('https://www.youtube.com/embed/' + videoId);
+}
+function openVideoModal(videoUrl){
+  openVideo(videoUrl);
+}
+function closeVideo(){
+  var modal = document.getElementById('videoModal');
+  var frame = document.getElementById('videoFrame');
+  modal.style.display = 'none';
+  frame.src = '';
+  modal.setAttribute('aria-hidden','true');
+}
+
+/* مكتبة */
+const libraryIcon = document.getElementById('libraryIcon');
+const libraryContent = document.getElementById('libraryContent');
+if(libraryIcon && libraryContent){
+  libraryIcon.addEventListener('click', ()=>{
+    libraryContent.style.display = (libraryContent.style.display==='none' || libraryContent.style.display==='') ? 'block' : 'none';
+  });
+}
+
+/* صوت الطيور */
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+if(birdBtn && birdAudio){
+  birdBtn.addEventListener('click',()=>{
+    if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1; }
+  });
+}
+
+/* اختبارات، الغاز، خواطر */
+function openQuiz() { var m = document.getElementById('quizModal'); if(m) m.style.display='block'; }
+function closeQuiz(){ var m = document.getElementById('quizModal'); if(m) m.style.display='none'; document.getElementById('quizContent').innerHTML=''; }
+function showQuizTopic(topic){ var el=document.getElementById('quizContent'); if(!el) return; var html=''; if(topic==='medicine'){ html='<h3 style=\"color:#00f;\">الطب</h3><p style=\"color:#fff;\">الطب علم يهتم بصحة الإنسان...</p>'; } else if(topic==='engineering'){ html='<h3 style=\"color:#00f;\">الهندسة</h3><p style=\"color:#fff;\">الهندسة تطبيق العلم والرياضيات...</p>'; } else { html='<h3 style=\"color:#00f;\">الموضوع</h3><p style=\"color:#fff;\">محتوى تجريبي.</p>'; } el.innerHTML=html; }
+
+function openRiddles(){ var m=document.getElementById('riddleModal'); if(m) m.style.display='block'; }
+function closeRiddles(){ var m=document.getElementById('riddleModal'); if(m) m.style.display='none'; }
+function showRiddleAnswer(n){ var el=document.getElementById('riddleAnswer'+n); if(el) el.style.display = (el.style.display==='none' || el.style.display==='') ? 'block' : 'none'; }
+
+function toggleStory(id){ var s=document.getElementById(id); if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block'; }
+
+/* كتم/تشغيل iframe موسيقى */
+function toggleMute(id){
+  var iframe = document.getElementById(id);
+  if(!iframe) return;
+  var src = iframe.src;
+  if(src.includes("mute=1")) iframe.src = src.replace("mute=1","mute=0");
+  else if(src.includes("mute=0")) iframe.src = src.replace("mute=0","mute=1");
+  else iframe.src = src + (src.includes('?') ? '&mute=0' : '?mute=0');
+}
+
+function toggleLibrary(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.style.display = (el.style.display==='block') ? 'none' : 'block';
+}
+
+</script>
+
+</body>
+</html>
