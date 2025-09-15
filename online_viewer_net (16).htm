@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    text-align:center;
+}
+
+/* فيديو دائري */
+.video-icon {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid #fff;
+    margin: 20px auto 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.video-icon img { width:100%; height:100%; object-fit:cover; }
+.play-button { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:36px; color:white; text-shadow:1px 1px 3px #000; pointer-events:none; }
+
+/* مودال الفيديو */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:999;}
+.modal-content { width:90%; max-width:900px; }
+.modal-content iframe { width:100%; height:80vh; border:none; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+
+/* أيقونات المكتبات */
+.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
+.library-col { display:flex; flex-direction:column; align-items:center; }
+.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.12); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.2s; padding:8px; box-sizing:border-box; color: green; }
+.icon-circle:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+
+/* أيقونات مكتبة فرعية */
+.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
+
+/* سيرة ذاتية */
+#cvIcon { text-align:center; margin:20px auto; width:150px; height:120px; background: rgba(255,255,255,0.05); border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
+#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
+#cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
+#cvPage .cv-content { max-width:900px; margin:40px auto; background:#111; padding:20px; border-radius:10px; }
+
+/* زر صوت الطيور */
+#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
+
+/* قائمة الدعم */
+.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
+.footer-menu a { color:#ffd700; text-decoration:none; }
+
+/* خواطر - تنسيقات جديدة */
+#storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); overflow:auto; z-index:1500; padding:30px 10px; }
+#storyModal .content { max-width:900px; margin:20px auto; text-align:right; color:#fff; }
+
+.story-title {
+  cursor: pointer;
+  font-weight: bold;
+  margin: 12px 0 8px 0;
+  color: #fff;
+  background: rgba(0,0,0,0.45);
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: 0.25s;
+  text-align:right;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.story-title:hover { background: rgba(76,175,80,0.18); transform: translateY(-2px); }
+
+.story {
+  display: none;
+  margin: 10px auto 20px auto;
+  padding: 18px;
+  border: 2px solid rgba(76,175,80,0.95);   /* برواز أخضر */
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.3));
+  max-width: 820px;
+  text-align: right;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+.story p {
+  color: #c8f7d1;   /* نص أخضر فاتح مناسب على الخلفية */
+  line-height: 1.9;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+/* responsive */
+@media(max-width:600px){
+    .icon-circle{width:80px;height:80px;font-size:10px;} 
+    .video-icon{width:120px;height:120px;} 
+    .modal-content iframe{height:60vh;} 
+    #cvIcon { width:90%; }
+    .footer-menu { width:90%; margin:10px auto; }
+    #storyModal { padding:12px 6px; }
+    .story { padding:12px; }
+}
+</style>
+
+<!-- بداية تعديلات الاستجابة الأفقية للموبايل -->
+<style>
+/* Force horizontal scrollable icons on small screens and centered wrap on larger */
+.icons-row{
+  display:flex;
+  gap:12px;
+  justify-content:flex-start;
+  align-items:center;
+  margin:12px;
+  padding:8px 6px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.icons-row::-webkit-scrollbar { display: none; }
+
+.icon-circle{ flex: 0 0 auto; }
+
+/* Make sure library-content subicons appear below when opened and are touch-friendly */
+.library-content{ display:none; gap:10px; margin-top:10px; }
+
+/* Larger screens: center and allow wrap */
+@media(min-width:601px){
+  .icons-row{ justify-content:center; flex-wrap:wrap; overflow:visible; }
+  .icon-circle{ width:100px; height:100px; }
+}
+
+/* Mobile screens: keep icons horizontal, slightly smaller and easier to tap */
+@media(max-width:600px){
+  .icon-circle{ width:80px; height:80px; font-size:11px; padding:6px; }
+  .video-icon{ width:220px; height:180px; }
+  .modal-content iframe{ height:60vh; }
+  #cvIcon{ width:90%; }
+  .footer-menu{ width:90%; margin:10px auto; }
+  /* When sub-library opens, show as a horizontal row under the icons area */
+  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; background: rgba(0,0,0,0.18); border-radius:10px; margin-top:8px; }
+  .library-content .icon-circle{ width:68px; height:68px; font-size:10px; }
+}
+</style>
+<!-- نهاية التعديلات -->
+</head>
+<body>
+
+<!-- صوت الطيور -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+</audio>
+
+<!-- الفيديو الرئيسي + الفيديو الجديد بجانبه -->
+<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:20px;">
+  <!-- الفيديو الرئيسي -->
+  <div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+    <img src="https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg" alt="Thumbnail">
+    <div class="play-button">▶</div>
+  </div>
+
+  <!-- الفيديو الجديد (دائري مع تشغيل تلقائي) -->
+  <div class="video-icon event-thumb" 
+       data-video-url="https://www.youtube.com/embed/zq6ohxTDNZY?si=4q3OBxZhoSuOlpMT" 
+       data-event-title="🎉 حدث خاص"
+       onclick="openEventModalFromEl(this)">
+    <iframe class="thumb-frame" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="event-label">🎉 حدث خاص</div>
+  </div>
+</div>
+
+<!-- باقي محتوى الصفحة (الأيقونات، المكتبات... الخ) يبقى كما هو -->
+
+<!-- مودال الحدث -->
+<div id="eventModal" aria-hidden="true">
+  <div class="close-event" onclick="closeEventModal()"></div>
+  <div class="modal-inner">
+    <div class="player-wrap">
+     
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* فتح الفيديو (القديم) */
+function openVideo(url){
+  var modal = document.getElementById('videoModal');
+  var frame = document.getElementById('videoFrame');
+  modal.style.display = 'flex';
+  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
+}
+function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
+function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
+
+/* تشغيل الفيديو المصغّر التلقائي */
+document.querySelectorAll('.event-thumb').forEach(el=>{
+  let url = el.dataset.videoUrl;
+  let iframe = el.querySelector('.thumb-frame');
+  iframe.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&mute=1&controls=0&rel=0';
+});
+
+/* فتح المودال مع عنوان الحدث */
+function openEventModalFromEl(el){
+  let url = el.dataset.videoUrl;
+  let title = el.dataset.eventTitle;
+  document.getElementById('eventFrame').src = url + '&autoplay=1';
+  document.getElementById('eventTitle').textContent = title;
+  document.getElementById('eventModal').style.display = 'flex';
+}
+function closeEventModal(){
+  document.getElementById('eventModal').style.display='none';
+  document.getElementById('eventFrame').src='';
+}
+</script>
+
+</body>
+</html>
+
+
+<!-- أيقونات المكتبات أفقي تحت الفيديو -->
+<div class="icons-row">
+  <!-- مكتبات كما في الأصل -->
+  
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')">🎬 أفلام</div>
+    <div id="libraryMoviesContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA?si=D0qKCMTzMzH_Qwll')">كرتون</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/oJevGeD-zsg')">كوميديا</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')">🎨 كرتون</div>
+    <div id="libraryCartoonContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA?si=D0qKCMTzMzH_Qwll')">كرتون</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/-ARXuGQsLHk?si=4KN11h9pjCbSEaEz')">سندباد</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/PuRyWK_c5IQ?si=gJpLPVDf31g_xFg')">مغامرات الفضاء</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vxjjPSS4dzY?si=g8CyER6aIfJ2djSs')">عدنان ولينا</div>
+    </div>
+  </div>
+
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')">⚽ رياضة</div>
+    <div id="librarySportsContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ?si=bsy0dIU7zo3k_o7L')">كرة القدم النسائية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')">كرة القدم رجال</div>
+   <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')">نادي تشلسي الإنجليزي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')">التعاون5 الرائد1</div>
+>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')">🍳 مطبخ</div>
+    <div id="libraryCookingContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')">الطبخ</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')">🎵 موسيقى</div>
+    <div id="libraryMusicContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')">📝 أبوالقمر زمرد</div>
+    <div id="libraryAbwalqmrContent" class="library-content">
+      <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
+    </div>
+  </div>
+</div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
+    <div id="libraryReligionContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
+    </div>
+  </div>
+
+<!-- مكتبة جولة معرفية كاملة -->
+<div class="library-col library-knowledge">
+  <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
+  <div id="libraryKnowledgeContent" class="library-content">
+    <div class="icon-circle" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
+    <div class="icon-circle" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
+    <div class="icon-circle" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
+    <div class="icon-circle" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
+    <div class="icon-circle" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
+  </div>
+</div>
+  <!-- الأيقونة الجديدة المكتبة التعليمية -->
+  <div class="library-col library-education">
+    <div class="icon-circle" onclick="toggleLibrary('libraryEducationContent')" style="background:rgba(0,0,255,0.25);color:#fff;">📘 المكتبة التعليمية</div>
+    <div id="libraryEducationContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8?si=_1GOIEn2z7NMDSrF')">إبراهيم الفقي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8?si=E4CnzKAZFu7MpVuF')">مصطفى محمود</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw?si=u8f0uTO8kKwJpVrN')">سقراط</div>
+    </div>
+  </div>
+
+
+<!-- مودالات المكتبة -->
+<div id="quizModal" class="modal">
+  <span class="close" onclick="document.getElementById('quizModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🧩 ألغاز</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">1. ما الشيء الذي يمشي بلا رجلين ولا يدخل إلا بالأذنين؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الصوت</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">2. ما هو الشيء الذي كلما أخذت منه يكبر؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الحفرة</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">3. ما هو الشيء الذي له أسنان ولا يعض؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: المشط</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">4. ما هو الشيء الذي يكتب ولا يقرأ؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: القلم</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">5. ما هو الشيء الذي يكسو الناس ولا يلبس؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الجلد</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">6. ما هو الشيء الذي كلما زاد نقص؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: العمر</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">7. ما هو الشيء الذي تراه ولا تستطيع لمسه؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الظل</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">8. ما هو الشيء الذي يطير بلا جناح؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الوقت</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">9. ما هو الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الهاتف</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">10. ما هو الشيء الذي يوجد في كل بيت؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الهواء</p>
+  </div>
+</div>
+
+<div id="testModal" class="modal">
+  <span class="close" onclick="document.getElementById('testModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>❓ اختبر معلوماتك</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هي عاصمة اليابان؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: طوكيو</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أكبر قارة في العالم؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: آسيا</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أول رئيس للولايات المتحدة؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: جورج واشنطن</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أطول نهر في العالم؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: النيل</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هو الكوكب الأحمر؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: المريخ</p>
+  </div>
+</div>
+
+<div id="generalModal" class="modal">
+  <span class="close" onclick="document.getElementById('generalModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🌍 معلومات عامة</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">هل تعلم أن قلب الحوت الأزرق أكبر قلب في الكائنات الحية؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: يزن حوالي 180 كيلوغرامًا.</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم يستغرق الضوء للوصول من الشمس إلى الأرض؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: 8 دقائق</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم عدد الخلايا العصبية في الدماغ البشري؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: حوالي 86 مليار خلية عصبية.</p>
+  </div>
+</div>
+
+<div id="historyModal" class="modal">
+  <span class="close" onclick="document.getElementById('historyModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🏛️ أسماء وضعت للتاريخ</h2>
+    <p>فلاسفة: سقراط، أفلاطون، أرسطو، ديكارت، سبينوزا، هيغل</p>
+    <p>مخترعون: توماس إديسون، نيكولا تسلا، غاليليو غاليلي، ليوناردو دافنشي، ألكسندر جراهام بيل، ماركوني</p>
+  </div>
+</div>
+
+<div id="humanModal" class="modal">
+  <span class="close" onclick="document.getElementById('humanModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>👤 الإنسان من المولد حتى الموت</h2>
+    <p>مرحلة الجنين: من التزاوج حتى الولادة.</p>
+    <p>الطفولة المبكرة: من الولادة حتى 6 سنوات.</p>
+    <p>الطفولة المتوسطة: 6-12 سنة.</p>
+    <p>المراهقة: 12-18 سنة.</p>
+    <p>الشباب: 18-30 سنة.</p>
+    <p>مرحلة البلوغ: 30-50 سنة.</p>
+    <p>الشيخوخة: 50-70 سنة.</p>
+    <p>المرحلة الأخيرة: 70 سنة وما فوق حتى الوفاة.</p>
+  </div>
+</div>
+
+<style>
+.library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
+.library-knowledge .icon-circle:hover { background: rgba(255,0,0,0.35); }
+.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999; overflow:auto;}
+.modal-content { width:90%; max-width:300px; background: rgba(0,0,0,0.85); padding:20px; border-radius:10px; color:#fff; position:relative; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+</style>
+
+<script>
+function toggleLibrary(id){
+  const content = document.getElementById(id);
+  content.style.display = (content.style.display==='flex')?'none':'flex';
+  content.style.flexWrap='wrap';
+}
+</script>
+
+<!-- فيديو الحيوانات -->
+<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+  <img src="https://img.youtube.com/vi/DnLTWjRV0UE/hqdefault.jpg" alt="Animals Video">
+  <div class="play-button">▶</div>
+</div>
+
+<!-- سيرة ذاتية -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+  <div class="cv-content">
+    <h1>التعريف بالموقع</h1>
+    <p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+  </div>
+</div>
+
+<!-- خواطر (s5 أول قصة) -->
+<div id="storyModal">
+  <div class="content">
+    <button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+    <h2 style="margin-top:6px; color:#fff;">خواطر أبوالقمر زمرد</h2>
+
+    <!-- قصتي مع الزمن (أولاً) -->
+    <div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
+    <div id="s5" class="story">
+      <p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
+    لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
+    ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
+    ولكن كان كل منا يحمل جعبة من الماضي والحاضر والمستقبل مع محيطنا كما هو سائد بين معلم ومتعلم ومقرب ومنبوذ وبين صديق وعدو.</p>
+
+      <p>حينها رأيت أني قد افتقدت جميع محاور الحياة، ليس لأني فقدت الأمل ولكن جميع السبل قد سلكتها. خاصة وإني تعلمت الدين بالمتوسط كتخصص ديني معرفي، 
+    ثم لم أرَ طريقًا في تكملة مراحل علوم الدين. فاتجهت إلى التجارة وحين ذاك تخرجت أحمل شهادة تسمى <strong>دبلوم ثانوي تجاري</strong>. 
+    ثم التحقت بالجامعة وأشار كثير أن أكمل نفس المسار كما هو معتاد، لكني رفضت بدون مناقشة. 
+    لأني حينها كان سبق لي أن غيرت الدراسة من تخصص إلى تخصص، فاتجهت للجامعة بتخصص الجغرافيا وهو علم يهتم بالكرة الأرضية وما حولها. 
+    لكن بعد الانتظام لم يحالفني الحظ باستكمال الدراسة وبدأت النهاية بالجامعة في عام 2001. 
+    فبعد مرور ست سنوات بعضها متقطع لنزول المعدل الأكاديمي تم طي قيدي لتعدي سنوات الدراسة حسب أنظمة الجامعة، وكنت في السنة الثالثة الفصل الدراسي الثاني.</p>
+
+      <p>وحين تم طي قيدي بدأت أنمي مهاراتي كما تكلمت عنه سابقًا وهو في عام 2000 حيث بدأت بأخذ فكرة عن العوالم مثل الرسم. 
+    وتذكرت أن أول قصيدة لي كانت وأنا بسن 13 وكانت مرثية لأخوين لي توفوا إثر حريق وكانت أعمارهم لا تتجاوز السبع سنوات. 
+    ولا أتذكرها، ولكن بعد سنين علمت أن والدي كان مفتخر ومعجب بها. 
+    فقمت بعام 2000 أو بعده بقليل من السنوات بمراسلة الجريدة، وكانت أيام لم يكن فيها مثل الآن التواصل الإلكتروني. 
+    وطلبت من محرر الجريدة إرسال رأيه عن هل عندي فعلًا قريحة الشعر أم أنها مجرد تجربة. 
+    وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
+    فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: 
+    <strong>اثنان لا يشبعان: طالب علم وطالب مال</strong>.</p>
+
+      <p><em>خاتمة مقترحة لإكمال السرد:</em></p>
+
+      <p>مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
+    بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
+    لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.</p>
+
+      <p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
+    وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
+
+      
+    </div>
+
+    <!-- بقية القصص (كما كانت) -->
+    <div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+    <div id="s1" class="story"><p>التنين الفضي يحكي عن عودة النور للأرض بعد غياب طويل....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+    <div id="s2" class="story"><p>قصت أبوالقمر حين استطاع أن يمزج أنوار القمر بأحجار الزمرد....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s3')">قصة البحر الأزرق</div>
+    <div id="s3" class="story"><p>جلس أبوالقمر على شاطئ البحر الأزرق يتأمل أمواجَه الهادئة....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s4')">قصة زهرة الليل</div>
+    <div id="s4" class="story"><p>في ليلة صافية ظهرت زهرة غامضة في حديقة أبوالقمر....</p></div>
+
+  </div>
+</div>
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+  </p>
+  <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+</div>
+
+<!-- مودال فيديو عام -->
+<div class="modal" id="videoModal" aria-hidden="true">
+  <span class="close" onclick="closeVideo()" title="إغلاق">×</span>
+  <div class="modal-content">
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</div>
+
+<script>
+/* فتح الفيديو */
+function openVideo(url){
+  var modal = document.getElementById('videoModal');
+  var frame = document.getElementById('videoFrame');
+  modal.style.display = 'flex';
+  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
+}
+function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
+function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
+
+/* صوت الطيور */
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{ if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1; } });
+
+/* مكتبات */
+function toggleLibrary(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.style.display = (el.style.display==='flex') ? 'none' : 'flex';
+}
+
+/* خواطر */
+function toggleStory(id){
+  var s=document.getElementById(id);
+  if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
+}
+</script>
+
+</body>
+</html>
