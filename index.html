@@ -221,6 +221,58 @@ function closeEventModal(){
   document.getElementById('eventFrame').src='';
 }
 </script>
+<!-- مودال قصصي من الواقع -->
+<div class="modal" id="storyRealityModal">
+<span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
+<div class="content">
+<h2>📖 قصصي من الواقع</h2>
+<!-- القصة الأولى -->
+<div class="story-title" onclick="togglePersonalStory('ps1')">قصتي بمراحل العمل</div>
+<div class="story" id="ps1">
+<h3>قصتي بمراحل العمل</h3>
+<p>بدأت حياتي العملية بخطوات مترددة بين الدراسة والتجارة، أبحث عن الطريق الذي يثبت قدمي. 
+      في بداياتي لم تكن الفرص كثيرة، لكني تعلمت أن العمل يحتاج صبرًا ومثابرة. 
+      عملت في مجالات مختلفة، بعضها كان مجرد تجربة، وبعضها الآخر شكل أساسًا لبناء خبرتي.</p>
+<p>عندما كنت في السنة الثالثة بالجامعة الفصل الأول، وفي عام 1999 تحديدًا، 
+      أوقفت الجامعة المكافأة المالية التي كانت تبلغ 850 ريالًا بسبب نزول معدلي الأكاديمي. 
+      عندها شعرت بضرورة أن أجد مصدر دخل يعينني على المصاريف. 
+      فبدأت أبحث عن عمل، وكان ذلك التحول أول خطوة فعلية لي في ميدان الحياة العملية.</p>
+<p>استمر عملي منذاك الوقت حتى عام 2009 في مستشفى السعودي الألماني، 
+      حيث تعلمت الكثير من الانضباط وأهمية تحمل المسؤولية. 
+      وبعدها قُبلت للعمل في القطاع الحكومي بإمارة منطقة القصيم، 
+      لكن وبسبب ظروف وزارة الصحة ومشورة بعض المعارف وتأييد والدي، 
+      قدّمت اعتذاري لمقام الإمارة وتنازلت عن الوظيفة هناك، 
+      واخترت الاستمرار مع وزارة الصحة في نفس المنطقة.</p>
+<p>استمررت في عملي حتى شهر رمضان عام 1446هـ، 
+      حيث انسحبت من العمل رسميًا، 
+      ثم قدمت لاحقًا طلب الاستقالة أو الاستغناء عن عملي بتاريخ 20/10/1446هـ 
+      لأواكب حياتي الشخصية وأفتح لنفسي طريقًا جديدًا.</p>
+<p>مع مرور السنوات تنقلت بين عدة مراحل، أواجه التحديات وأتعلم من الأخطاء. 
+      اكتشفت أن كل مرحلة من مراحل العمل ليست مجرد مصدر رزق، بل درس في الحياة. 
+      علّمتني التجارب أن النجاح لا يأتي دفعة واحدة، وإنما هو تراكم محاولات صغيرة تصنع إنجازًا كبيرًا.</p>
+<p>تعلمت أن زملاء العمل قد يكونون عائلة ثانية، 
+      وأن المدير الناصح قد يفتح لك بابًا تتذكره طوال حياتك. 
+      كما أدركت أن التحديات المالية والضغوط اليومية تصنع فينا صلابة لا تهتز بسهولة.</p>
+<p>اليوم أنظر إلى رحلتي في مراحل العمل كخريطة مليئة بالعقبات والفرص. 
+      لم يكن الطريق مستقيمًا، لكني فخور بأنني مشيت فيه خطوة بخطوة، 
+      ورغم الصعاب، كانت كل مرحلة سببًا في أن أكون أكثر صلابة وإصرارًا على الاستمرار. 
+      وما زلت أؤمن أن رحلة العمل لم تنتهِ بعد، فكل يوم يحمل تجربة جديدة تستحق أن تُروى.</p>
+</div>
+<!-- القصة الثانية -->
+<div class="story-title" onclick="togglePersonalStory('ps2')">بعض من تجاربي</div>
+<div class="story" id="ps2">
+<h3>بعض من تجاربي</h3>
+<p>من أجمل ما أحتفظ به في ذاكرتي هو تنوع التجارب التي مررت بها في حياتي.  
+      ففي <strong>الرياضة</strong> مارست كرة القدم والجري كهواية جعلتني أكثر نشاطًا وانضباطًا.  
+      أما <strong>الرحلات والسفر</strong> فقد أخذتني إلى أماكن جديدة، تعلمت منها عادات الشعوب 
+      ورأيت جمال الطبيعة من زوايا مختلفة.  
+      وكانت <strong>المقابلات الشخصية</strong>، سواءً في العمل أو الحياة، محطات مهمة زادت من خبرتي 
+      في التعامل مع الناس وفهم شخصياتهم.  
+      هذه التجارب شكلت جزءًا من مساري، وأدركت معها أن الحياة ليست فقط دراسة أو عمل، 
+      بل أيضًا اكتشاف وتجديد.</p>
+</div>
+</div>
+</div>
 </body>
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
@@ -245,9 +297,9 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-</div>
-</div>
 
+</div></div></div>
+</div>
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')">⚽ رياضة</div>
 <div class="library-content" id="librarySportsContent">
@@ -255,7 +307,7 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ?si=bsy0dIU7zo3k_o7L')">كرة القدم النسائية</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')">كرة القدم رجال</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')">نادي تشلسي الإنجليزي</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')">التعاون5 الرائد1</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')">التعاون5 الرائد1</div
 &gt;
     </div>
 </div>
@@ -278,12 +330,10 @@ function closeEventModal(){
 <div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')" style="background:rgba(192,192,192,0.85);color:#000;">
   📝 أبوالقمر زمرد
 </div>
-
 <div class="library-content" id="libraryAbwalqmrContent">
 <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
+<div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
 </div>
-</div>
-
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
 <div class="library-content" id="libraryReligionContent">
@@ -473,15 +523,13 @@ function toggleLibrary(id){
 
 </p></div>
 </div>
-</div
-<!-- مودال فيديو عام -->
+</div>
 <div aria-hidden="true" class="modal" id="videoModal">
 <span class="close" onclick="closeVideo()" title="إغلاق">×</span>
 <div class="modal-content">
 <iframe allow="autoplay; encrypted-media" allowfullscreen="" id="videoFrame" referrerpolicy="strict-origin-when-cross-origin" src=""></iframe>
 </div>
 </div>
-
 <script>
 /* فتح الفيديو */
 function openVideo(url){
@@ -510,12 +558,17 @@ function toggleStory(id){
   var s=document.getElementById(id);
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
+
+function togglePersonalStory(id){
+  var s=document.getElementById(id);
+  if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
+}
 </script>
- -->
+ --&gt;
 <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/DnLTWjRV0UE?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DnLTWjRV0UE&amp;controls=0"></iframe>
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
 </div>
->
+&gt;
 <!-- قائمة الدعم -->
 <div class="footer-menu">
 <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
@@ -525,7 +578,7 @@ function toggleStory(id){
     <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
 </p>
-<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p
 </div>
 <!-- سيرة ذاتية -->
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
@@ -534,5 +587,6 @@ function toggleStory(id){
 <h1>التعريف بالموقع</h1>
 <p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
 <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
 </div>
 </div>
