@@ -1,4 +1,96 @@
 <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحة البداية</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+    
+  /* شاشة البداية بخلفية نجوم */
+  #startScreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+  }
+
+  /* رسم النجوم */
+  .stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("https://www.script-tutorials.com/demos/360/images/stars.png") repeat;
+    animation: moveStars 100s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes moveStars {
+    from {background-position: 0 0;}
+    to {background-position: -10000px 5000px;}
+  }
+
+  .start-btn {
+    position: relative;
+    z-index: 2; /* فوق النجوم */
+    padding: 20px 40px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+  }
+  .start-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+ {
+      padding: 20px 40px;
+      font-size: 26px;
+      font-weight: bold;
+      color: #fff;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #fff;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .start-btn:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+    /* محتوى الموقع */
+    #mainContent {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- شاشة البداية -->
+  <div id="startScreen">
+    <div class="stars"></div>
+    <div class="start-btn" onclick="enterSite()">🚀 تجول هنا</div>
+  </div>
+
+  <!-- محتوى الموقع الأصلي -->
+  <div id="mainContent">
+<!DOCTYPE html>
 
 <html dir="rtl" lang="ar">
 <head>
@@ -591,3 +683,14 @@ function togglePersonalStory(id){
 </div>
 </div>
 </div>
+
+  </div>
+
+  <script>
+    function enterSite(){
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
+    }
+  </script>
+</body>
+</html>
