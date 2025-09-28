@@ -46,7 +46,70 @@
 
     /* المحتوى بعد الدخول */
     #mainContent{display:none;padding:30px;text-align:center}
-  </style>
+  
+/* أيقونات داخل المكتبات */
+.library-content {
+  display: none;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 8px;
+}
+
+/* الكمبيوتر: شبكة */
+@media(min-width:601px){
+  .library-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .library-content .icon-circle {
+    width: 100px; height: 100px;
+    font-size: 12px;
+  }
+}
+
+/* الموبايل: صف أفقي قابل للسحب */
+@media(max-width:600px){
+  .library-content {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .library-content::-webkit-scrollbar { display: none; }
+  .library-content .icon-circle {
+    flex: 0 0 auto;
+    width: 80px; height: 80px;
+    font-size: 11px;
+  }
+}
+
+</style>
+
+<style>
+/* تحسينات الاستجابة العامة */
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+.icons-row {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 12px;
+  padding: 8px 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.icons-row::-webkit-scrollbar { display: none; }
+@media(min-width:601px){
+  .icons-row { justify-content:center; flex-wrap:wrap; overflow:visible; }
+}
+</style>
+
 </head>
 <body>
 
@@ -54,7 +117,7 @@
   <div id="startScreen">
     <div class="sun"></div>
     <div class="road"></div>
-    <button class="start-btn" onclick="enterSite()"> ابدأ الرحلة</button>
+    <button class="start-btn" onclick="enterSite()"> انطلق</button>
   </div>
 
   <!-- محتوى الموقع الأصلي -->
@@ -222,6 +285,30 @@ body {
 }
 </style>
 <!-- نهاية التعديلات -->
+
+<style>
+/* تحسينات الاستجابة العامة */
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+.icons-row {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 12px;
+  padding: 8px 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.icons-row::-webkit-scrollbar { display: none; }
+@media(min-width:601px){
+  .icons-row { justify-content:center; flex-wrap:wrap; overflow:visible; }
+}
+</style>
+
 </head>
 <body>
 <!-- صوت الطيور -->
@@ -343,6 +430,8 @@ function closeEventModal(){
         <div class="library-content" id="libraryFunnyContent">
           <div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
           <div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
+          <div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
+
         </div>
       </div>
 
@@ -738,6 +827,38 @@ function togglePersonalStory(id){
 
     <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br>- البقال: لا والله عندي ضغط!</p>
     <p style="display:none;color:#ffeb3b;">😂</p>
+  </div>
+</div>
+<!-- مودال حكايات الأغبياء -->
+<div class="modal" id="stupidModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
+    <h2>🙃 حكايات الأغبياء</h2>
+
+    <h3>الحكاية الأولى</h3>
+    <p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br>
+    قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
+
+    <hr>
+
+    <h3>الحكاية الثانية</h3>
+    <p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br>
+    فسأله الدكتور: "منذ متى؟"<br>
+    رد الغبي: "منذ متى إيش؟"</p>
+
+    <hr>
+
+    <h3>الحكاية الثالثة</h3>
+    <p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br>
+    سألوه: "ليش غمضت عيونك؟"<br>
+    قال: "ما أبغى أشوف الحوادث!"</p>
+
+    <hr>
+
+    <h3>الحكاية الرابعة</h3>
+    <p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br>
+    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br>
+    فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
   </div>
 </div>
 
