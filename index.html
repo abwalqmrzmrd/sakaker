@@ -7,6 +7,11 @@
   <style>
     body,html{margin:0;padding:0;height:100%;font-family:Tahoma,Arial,sans-serif}
 
+/* صوت الطيور */
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{ if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1; } });
+
     /* شاشة البداية الصحراوية */
     #startScreen {
       position: fixed; inset:0;
@@ -438,6 +443,8 @@ function closeEventModal(){
 <!-- مكتبات كما في الأصل -->
 <div class="library-col"><div class="icon-circle" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 المكتبة الوثائقية</div><div class="library-content" id="libraryDocContent"><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R62QVvz1Aso?si=fBpxO3bP0lgywZ0o')" style="background:rgba(255,215,0,0.4);color:#000;">نيرون صبيا (رومان)</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/23jGQdwSRJs?si=wVO22IfAImGPMP01')" style="background:rgba(255,215,0,0.4);color:#000;">الحرب العالمية الثانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/DNE6YbGO6-M?si=wJ0MYQGkT_4LU_xH')" style="background:rgba(255,215,0,0.4);color:#000;">زواج كاترين دي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/zh2HwG8fYFo?si=TadrwzFeaJvCAum9')" style="background:rgba(255,215,0,0.4);color:#000;">الحضارات الإنسانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hvJSvGslOl8?si=dHs5b1t3BS3gDPm9')" style="background:rgba(255,215,0,0.4);color:#000;">صدام حسين</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/RO0xx5oeTA8?si=p4UOx0rHS6xXwrQG')" style="background:rgba(255,215,0,0.4);color:#000;">كوريا الشمالية</div></div></div><div class="library-col">
 </div>
+
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.85);color:#fff;">🎨 كرتون</div>
 <div class="library-content" id="libraryCartoonContent">
@@ -447,6 +454,8 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vxjjPSS4dzY?si=g8CyER6aIfJ2djSs')" style="background:rgba(0,0,0,0.4);color:#fff;">عدنان ولينا</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/rgja-WejbcM?si=gO4iQmrZijj2vPVG')" style="background:rgba(0,0,0,0.4);color:#fff;">انمي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/IPM-KnxvKyQ?si=kXF3RGb9cMoZraHf')" style="background:rgba(0,0,0,0.4);color:#fff;">هايدي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/SZuOFoeH0KI?si=RhBwXKq_5igXU8EO')" style="background:rgba(0,0,0,0.4);color:#fff;">جرند ديزر</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/gCPqB02fxns?si=2ThhuLyVrab-q5V6')" style="background:rgba(0,0,0,0.4);color:#fff;">جزيرة الكنز</div></div>
 </div>
+
+
 <div class="library-col">
   <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
   <div class="library-content" id="libraryMoviesContent">
@@ -461,6 +470,21 @@ function closeEventModal(){
   </div>
 </div>
 </div></div>
+
+
+
+<div class="library-col">
+<div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
+<div class="library-content" id="libraryReligionContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
+</div>
+</div>
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
 <div class="library-content" id="librarySportsContent">
@@ -471,11 +495,13 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/T1REYeRJgMU?si=fpmhmbbgPCX0YKWb')" style="background:rgba(165,42,42,0.4);color:#fff;">مصارعة</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bGm1S2yQAxg?si=JThCE7eXXYefnoUB')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة الطائرة</div></div>
 <div class="library-col">
+    
 <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
 <div class="library-content" id="libraryCookingContent">
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')" style="background:rgba(199,21,133,0.4);color:#fff;">الطبخ</div>
 </div>
 </div>
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
 <div class="library-content" id="libraryMusicContent">
@@ -493,17 +519,7 @@ function closeEventModal(){
 <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
 <div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
 </div>
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
-<div class="library-content" id="libraryReligionContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
-</div>
-</div>
+
 <!-- مكتبة جولة معرفية كاملة -->
 <div class="library-col library-knowledge">
 <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
@@ -737,6 +753,7 @@ function togglePersonalStory(id){
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
 </p>
 <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+
 <!-- سيرة ذاتية -->
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
 <div id="cvPage">
