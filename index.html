@@ -3,95 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صفحة البداية</title>
+  <title>موقعك — طريق صحراوي</title>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: Arial, sans-serif;
-    }
-    
-  /* شاشة البداية بخلفية نجوم */
-  #startScreen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: black;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-  }
+    body,html{margin:0;padding:0;height:100%;font-family:Tahoma,Arial,sans-serif}
 
-  /* رسم النجوم */
-  .stars {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: <source src="https://cdn.videvo.net/videvo_files/video/free/2014-07/large_watermarked/HD1080P_031_Videvo_preview.mp4" type="video/mp4">
-    animation: moveStars 100s linear infinite;
-    z-index: 1;
-  }
+    /* شاشة البداية الصحراوية */
+    #startScreen {
+      position: fixed; inset:0;
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      z-index:9999; overflow:hidden;
+      background:linear-gradient(to bottom,#ffd38a 0%,#ffb347 50%,#f6d7a4 100%);
+    }
+    .sun{
+      position:absolute; top:8%; left:50%; transform:translateX(-50%);
+      width:160px;height:160px;border-radius:50%;
+      background: radial-gradient(circle at 35% 30%, #fff7c2 0%, #ffe07a 25%, #ffb347 60%, rgba(255,180,71,0.8) 100%);
+      filter:blur(6px);
+      box-shadow:0 0 80px rgba(255,170,60,0.6);
+      z-index:2;
+    }
+    .road{
+      position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:70%; height:60vh; background: linear-gradient(#272727 0%, #1e1e1e 100%);
+      clip-path: polygon(45% 0, 55% 0, 95% 100%, 5% 100%);
+      overflow:hidden; z-index:3;
+    }
+    .road::before{
+      content:""; position:absolute; left:50%; top:-200%; transform:translateX(-50%);
+      width:4px; height:400%; background-image: repeating-linear-gradient(to bottom,#fff 0 18px, transparent 18px 36px);
+      animation: stripesMove 1.2s linear infinite;
+    }
+    @keyframes stripesMove{
+      from{ transform:translateX(-50%) translateY(0);}
+      to{ transform:translateX(-50%) translateY(36px);}
+    }
+    .start-btn{
+      margin-top:220px; padding:16px 34px; font-size:22px;
+      border-radius:12px; border:2px solid rgba(0,0,0,0.1);
+      background: linear-gradient(180deg, rgba(255,230,160,0.98), rgba(255,200,110,0.95));
+      cursor:pointer; z-index:4;
+    }
 
-  @keyframes moveStars {
-    from {background-position: 0 0;}
-    to {background-position: -10000px 5000px;}
-  }
-
-  .start-btn {
-    position: relative;
-    z-index: 2; /* فوق النجوم */
-    padding: 20px 40px;
-    font-size: 26px;
-    font-weight: bold;
-    color: #fff;
-    background: rgba(0,0,0,0.6);
-    border: 2px solid #fff;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    text-decoration: none;
-  }
-  .start-btn:hover {
-    background: rgba(255,255,255,0.2);
-    transform: scale(1.05);
-  }
- {
-      padding: 20px 40px;
-      font-size: 26px;
-      font-weight: bold;
-      color: #fff;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #fff;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-    }
-    .start-btn:hover {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.05);
-    }
-    /* محتوى الموقع */
-    #mainContent {
-      display: none;
-    }
+    /* المحتوى بعد الدخول */
+    #mainContent{display:none;padding:30px;text-align:center}
   </style>
 </head>
 <body>
+
   <!-- شاشة البداية -->
   <div id="startScreen">
-    <div class="stars"></div>
-    <div class="start-btn" onclick="enterSite()"><img src="https://pic.sopili.net/pub/emoji/twitter/2/72x72/1f988.png" width=20 height=20> تجول هنا</div>
+    <div class="sun"></div>
+    <div class="road"></div>
+    <button class="start-btn" onclick="enterSite()">🚗 ابدأ الرحلة</button>
   </div>
 
   <!-- محتوى الموقع الأصلي -->
   <div id="mainContent">
-<!DOCTYPE html>
-
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8"/>
@@ -657,7 +624,6 @@ function togglePersonalStory(id){
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
 </script>
-
 <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
 </div>
@@ -683,13 +649,13 @@ function togglePersonalStory(id){
 </div>
 </div>
 </div>
-
+.</p>
   </div>
 
   <script>
     function enterSite(){
-      document.getElementById("startScreen").style.display = "none";
-      document.getElementById("mainContent").style.display = "block";
+      document.getElementById("startScreen").style.display="none";
+      document.getElementById("mainContent").style.display="block";
     }
   </script>
 </body>
