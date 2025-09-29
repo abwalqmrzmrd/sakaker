@@ -20,6 +20,9 @@
     text-shadow: 2px 2px 8px black;
   }
 </style>
+</head>
+<body>
+  <h1>أهلاً بك في موقعي</h1>
 
 <script>
   // مجموعة خلفيات
@@ -66,7 +69,9 @@ img, iframe, video {
 </style>
 
 </head>
-<body
+<body>
+
+ 
   <!-- محتوى الموقع الأصلي -->
   <div id="mainContent">
 <html dir="rtl" lang="ar">
@@ -423,4 +428,409 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنها
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
+</div>
+</div>
+
+<div class="library-col">
+<div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
+<div class="library-content" id="librarySportsContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')" style="background:rgba(165,42,42,0.4);color:#fff;">رياضة</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ?si=bsy0dIU7zo3k_o7L')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة القدم النسائية</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة القدم رجال</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')" style="background:rgba(165,42,42,0.4);color:#fff;">نادي تشلسي الإنجليزي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/T1REYeRJgMU?si=fpmhmbbgPCX0YKWb')" style="background:rgba(165,42,42,0.4);color:#fff;">مصارعة</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bGm1S2yQAxg?si=JThCE7eXXYefnoUB')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة الطائرة</div></div>
+<div class="library-col">
+    
+<div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
+<div class="library-content" id="libraryCookingContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')" style="background:rgba(199,21,133,0.4);color:#fff;">الطبخ</div>
+</div>
+</div>
+
+<div class="library-col">
+<div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
+<div class="library-content" id="libraryMusicContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')" style="background:rgba(255,105,180,0.4);color:#000;">عربي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')" style="background:rgba(255,105,180,0.4);color:#000;">أجنبي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')" style="background:rgba(255,105,180,0.4);color:#000;">شرقية</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')" style="background:rgba(255,105,180,0.4);color:#000;">غربية</div>
+</div>
+</div>
+<div class="library-col">
+<div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')" style="background:rgba(192,192,192,0.85);color:#000;">
+  📝 أبوالقمر زمرد
+</div>
+<div class="library-content" id="libraryAbwalqmrContent">
+<div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
+<div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
+</div>
+
+<!-- مكتبة جولة معرفية كاملة -->
+<div class="library-col library-knowledge">
+<div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
+<div class="library-content" id="libraryKnowledgeContent">
+<div class="icon-circle" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
+<div class="icon-circle" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
+<div class="icon-circle" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
+<div class="icon-circle" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
+<div class="icon-circle" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
+</div>
+</div>
+<!-- الأيقونة الجديدة المكتبة التعليمية -->
+<div class="library-col library-education">
+<div class="icon-circle" onclick="toggleLibrary('libraryEducationContent')" style="background:rgba(0,0,255,0.25);color:#fff;">📘 المكتبة التعليمية</div>
+<div class="library-content" id="libraryEducationContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8?si=_1GOIEn2z7NMDSrF')">إبراهيم الفقي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8?si=E4CnzKAZFu7MpVuF')">مصطفى محمود</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw?si=u8f0uTO8kKwJpVrN')">سقراط</div>
+</div>
+</div>
+<!-- مودالات المكتبة -->
+<div class="modal" id="quizModal">
+<span class="close" onclick="document.getElementById('quizModal').style.display='none'">×</span>
+<div class="modal-content">
+<h2>🧩 ألغاز</h2>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">1. ما الشيء الذي يمشي بلا رجلين ولا يدخل إلا بالأذنين؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الصوت</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">2. ما هو الشيء الذي كلما أخذت منه يكبر؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الحفرة</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">3. ما هو الشيء الذي له أسنان ولا يعض؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: المشط</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">4. ما هو الشيء الذي يكتب ولا يقرأ؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: القلم</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">5. ما هو الشيء الذي يكسو الناس ولا يلبس؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الجلد</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">6. ما هو الشيء الذي كلما زاد نقص؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: العمر</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">7. ما هو الشيء الذي تراه ولا تستطيع لمسه؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الظل</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">8. ما هو الشيء الذي يطير بلا جناح؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الوقت</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">9. ما هو الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الهاتف</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">10. ما هو الشيء الذي يوجد في كل بيت؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: الهواء</p>
+</div>
+</div>
+<div class="modal" id="testModal">
+<span class="close" onclick="document.getElementById('testModal').style.display='none'">×</span>
+<div class="modal-content">
+<h2>❓ اختبر معلوماتك</h2>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هي عاصمة اليابان؟</p>
+<p style="display:none; color:#ffeb3b;">الإجابة: طوكيو</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أكبر قارة في العالم؟</p>
+<p style="display:none; color:#ffeb3b;">الإجابة: آسيا</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أول رئيس للولايات المتحدة؟</p>
+<p style="display:none; color:#ffeb3b;">الإجابة: جورج واشنطن</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أطول نهر في العالم؟</p>
+<p style="display:none; color:#ffeb3b;">الإجابة: النيل</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هو الكوكب الأحمر؟</p>
+<p style="display:none; color:#ffeb3b;">الإجابة: المريخ</p>
+</div>
+</div>
+<div class="modal" id="generalModal">
+<span class="close" onclick="document.getElementById('generalModal').style.display='none'">×</span>
+<div class="modal-content">
+<h2>🌍 معلومات عامة</h2>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">هل تعلم أن قلب الحوت الأزرق أكبر قلب في الكائنات الحية؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: يزن حوالي 180 كيلوغرامًا.</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم يستغرق الضوء للوصول من الشمس إلى الأرض؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: 8 دقائق</p>
+<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم عدد الخلايا العصبية في الدماغ البشري؟</p>
+<p style="display:none; color:#ffeb3b;">الجواب: حوالي 86 مليار خلية عصبية.</p>
+</div>
+</div>
+<div class="modal" id="historyModal">
+<span class="close" onclick="document.getElementById('historyModal').style.display='none'">×</span>
+<div class="modal-content">
+<h2>🏛️ أسماء وضعت للتاريخ</h2>
+<p>فلاسفة: سقراط، أفلاطون، أرسطو، ديكارت، سبينوزا، هيغل</p>
+<p>مخترعون: توماس إديسون، نيكولا تسلا، غاليليو غاليلي، ليوناردو دافنشي، ألكسندر جراهام بيل، ماركوني</p>
+</div>
+</div>
+<div class="modal" id="humanModal">
+<span class="close" onclick="document.getElementById('humanModal').style.display='none'">×</span>
+<div class="modal-content">
+<h2>👤 الإنسان من المولد حتى الموت</h2>
+<p>مرحلة الجنين: من التزاوج حتى الولادة.</p>
+<p>الطفولة المبكرة: من الولادة حتى 6 سنوات.</p>
+<p>الطفولة المتوسطة: 6-12 سنة.</p>
+<p>المراهقة: 12-18 سنة.</p>
+<p>الشباب: 18-30 سنة.</p>
+<p>مرحلة البلوغ: 30-50 سنة.</p>
+<p>الشيخوخة: 50-70 سنة.</p>
+<p>المرحلة الأخيرة: 70 سنة وما فوق حتى الوفاة.</p>
+</div>
+</div>
+<style>
+.library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
+.library-knowledge .icon-circle:hover { background: rgba(255,0,0,0.35); }
+.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999; overflow:auto;}
+.modal-content { width:90%; max-width:300px; background: rgba(0,0,0,0.85); padding:20px; border-radius:10px; color:#fff; position:relative; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+</style>
+<script>
+function toggleLibrary(id){
+  const content = document.getElementById(id);
+  content.style.display = (content.style.display==='flex')?'none':'flex';
+  content.style.flexWrap='wrap';
+}
+</script>
+<!-- الفيديو أسفل الصفحة
+
+<!-- خواطر (s5 أول قصة) -->
+<div id="storyModal">
+<div class="content">
+<button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+<h2 style="margin-top:6px; color:#fff;">خواطر أبوالقمر زمرد</h2>
+<!-- قصتي مع الزمن (أولاً) -->
+<div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
+<div class="story" id="s5">
+<p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
+    لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
+    ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
+    ولكن كان كل منا يحمل جعبة من الماضي والحاضر والمستقبل مع محيطنا كما هو سائد بين معلم ومتعلم ومقرب ومنبوذ وبين صديق وعدو.</p>
+<p>حينها رأيت أني قد افتقدت جميع محاور الحياة، ليس لأني فقدت الأمل ولكن جميع السبل قد سلكتها. خاصة وإني تعلمت الدين بالمتوسط كتخصص ديني معرفي، 
+    ثم لم أرَ طريقًا في تكملة مراحل علوم الدين. فاتجهت إلى التجارة وحين ذاك تخرجت أحمل شهادة تسمى <strong>دبلوم ثانوي تجاري</strong>. 
+    ثم التحقت بالجامعة وأشار كثير أن أكمل نفس المسار كما هو معتاد، لكني رفضت بدون مناقشة. 
+    لأني حينها كان سبق لي أن غيرت الدراسة من تخصص إلى تخصص، فاتجهت للجامعة بتخصص الجغرافيا وهو علم يهتم بالكرة الأرضية وما حولها. 
+    لكن بعد الانتظام لم يحالفني الحظ باستكمال الدراسة وبدأت النهاية بالجامعة في عام 2001. 
+    فبعد مرور ست سنوات بعضها متقطع لنزول المعدل الأكاديمي تم طي قيدي لتعدي سنوات الدراسة حسب أنظمة الجامعة، وكنت في السنة الثالثة الفصل الدراسي الثاني.</p>
+<p>وحين تم طي قيدي بدأت أنمي مهاراتي كما تكلمت عنه سابقًا وهو في عام 2000 حيث بدأت بأخذ فكرة عن العوالم مثل الرسم. 
+    وتذكرت أن أول قصيدة لي كانت وأنا بسن 13 وكانت مرثية لأخوين لي توفوا إثر حريق وكانت أعمارهم لا تتجاوز السبع سنوات. 
+    ولا أتذكرها، ولكن بعد سنين علمت أن والدي كان مفتخر ومعجب بها. 
+    فقمت بعام 2000 أو بعده بقليل من السنوات بمراسلة الجريدة، وكانت أيام لم يكن فيها مثل الآن التواصل الإلكتروني. 
+    وطلبت من محرر الجريدة إرسال رأيه عن هل عندي فعلًا قريحة الشعر أم أنها مجرد تجربة. 
+    وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
+    فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: 
+    <strong>اثنان لا يشبعان: طالب علم وطالب مال</strong>.</p>
+<p><em>خاتمة مقترحة لإكمال السرد:</em></p>
+<p>مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
+    بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
+    لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.</p>
+<p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
+    وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
+</div>
+<!-- بقية القصص (كما كانت) -->
+<div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+<div class="story" id="s1"><p>.كان في قديم الزمان تنينٌ عظيم يملأ السماء بظلاله، لكنه لم يكن نارياً كما اعتاد الناس، بل كان تنيناً من الفضة، تتلألأ قشوره تحت ضوء القمر.
+اختبأ بين الجبال بعد أن عمّت الأرض فوضى، حتى جاء اليوم الذي خفت فيه النور وانطفأت قلوب البشر بالخوف.
+عندها نهض التنين الفضي من سباته، يزأر لا ليُرعب، بل ليبعث الأمل من جديد.
+طار فوق القرى والأنهار، ونفث من صدره دخاناً مضيئاً كالنجوم، حتى عاد النور للأرض.
+ومنذ ذلك الحين، قيل: كلما غاب الأمل، سيعود التنين الفضي ليذكّرنا أن الظلام لا يدوم أبداً.
+</p></div>
+<div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+<div class="story" id="s2"><p>.جلس أبوالقمر على صخرة تطل على البحر، بيده أحجار زمردٍ نادرة حصل عليها من شعب المرجان.
+رفعها نحو القمر، فإذا بالأشعة الفضية تنعكس عليها وتكوّن جسراً من نور يمتد فوق الأمواج.
+سار فوقه بخطواتٍ مترددة، حتى وصل سطح القمر، فوضع الزمرد في قلبه.
+ومنذ تلك الليلة أصبح للقمر إشعاع خاص، يمزج بين نوره الأبيض وصفاء الزمرد الأخضر، يُضيء دروب الحالمين ويحقق لهم أمنياتهم.
+وهكذا صارت حكاية "القمر والزمرد" رمزاً لكل من يجرؤ على أن يحلم رغم المستحيل.
+.</p></div>
+<div class="story-title" onclick="toggleStory('s3')">قصة البحر الأزرق</div>
+<div class="story" id="s3"><p>.في مساءٍ هادئ، جلس أبوالقمر عند البحر الأزرق، يسمع أنين الموج وكأنه حوارٌ خفي بين الماء والسماء.
+اقتربت منه موجة عالية، ثم انسحبت تاركةً صدفة صغيرة عند قدميه.
+فتحها فوجد بداخلها نجمة بحر تلمع بضياء غريب.
+أحسّ أن البحر يحدثه قائلاً: أنا البحر الذي يخزن أسرار العابرين، فاحمل هذه الهدية تذكرةً بأن كل سرّ يوماً ما سيُكشف بنور الحقيقة.
+فابتسم أبوالقمر، وعاد إلى بيته والنجمة في يده، وكلما نظر إليها تذكر أن البحر صديق لمن يصغي بصدق.
+</p></div>
+<div class="story-title" onclick="toggleStory('s4')">قصة زهرة الليل</div>
+<div class="story" id="s4"><p>..في حديقة مظلمة، وبين أشجار صامتة، ظهرت زهرة لم يرها أحد من قبل.
+كانت تتفتح فقط عند منتصف الليل، وتنشر عبيراً يملأ المكان بالسكينة.
+اقترب أبوالقمر منها، فوضع يده عليها فسمع همساً: أنا زهرة الليل، خُلقتُ لأضيء القلوب لا العيون، فلا تبحث عني في النهار.
+ومنذ تلك الليلة صار يزور الحديقة كل مساء، يكتب أشعاره بجوارها ويترك أحزانه بين أوراقها.
+وهكذا أصبحت زهرة الليل رمزاً لكل ما لا يُرى في وضح النهار، لكنه يضيء القلوب في عتمة الحياة.
+
+</p></div>
+</div>
+</div>
+<div aria-hidden="true" class="modal" id="videoModal">
+<span class="close" onclick="closeVideo()" title="إغلاق">×</span>
+<div class="modal-content">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" id="videoFrame" referrerpolicy="strict-origin-when-cross-origin" src=""></iframe>
+</div>
+</div>
+<script>
+/* فتح الفيديو */
+function openVideo(url){
+  var modal = document.getElementById('videoModal');
+  var frame = document.getElementById('videoFrame');
+  modal.style.display = 'flex';
+  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
+}
+function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
+function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
+
+/* صوت الطيور */
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{ if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1; } });
+
+/* مكتبات */
+function toggleLibrary(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.style.display = (el.style.display==='flex') ? 'none' : 'flex';
+}
+
+/* خواطر */
+function toggleStory(id){
+  var s=document.getElementById(id);
+  if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
+}
+
+function togglePersonalStory(id){
+  var s=document.getElementById(id);
+  if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
+}
+</script>
+<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
+</div>
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+<p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+</p>
+<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+
+<!-- سيرة ذاتية -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
+.</p>
+  </div>
+
+  <script>
+    function enterSite(){
+      document.getElementById("startScreen").style.display="none";
+      document.getElementById("mainContent").style.display="block";
+    }
+  </script>
+
+
+<!-- مودال قصة فكاهية -->
+<div class="modal" id="funnyStoryModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
+    <h2>😂 قصة فكاهية</h2>
+    <p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br>
+    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br>
+    قال البخيل: "نعم، أكلت طعامًا عند جاري!قيل إن أشعب خال الأصمعي.
+
+عن سالم أنه قال لأشعب: إني أرى الشيطان ليتمثل على صورتك، وكان رآه بكرة، وأطعمه هريسة، ثم بعد ساعتين رآه مصفرا عاصبًا رأسه، بيده قصبة، قد تحامل إلى دار عبد الله بن عمرو بن عثمان.
+
+قال الزبير: قيل لأشعب: نزوّجك؟ قال ابغوني امرأة أتجشأ في وجهها تشبع، وتأكل فخذ جرادة تنتخم.
+
+قيل: أسلمته أمه عند بزاز، ثم قالت له: ما تعلمت؟ قال نصف الشغل، تعلمت النشر، وبقي الطي.
+
+قيل: شوى رجل دجاجة، ثم ردها فسخنت، ثم ردها، فقال أشعب: هذه من آل فرعون «النار يعرضون عليها غدوا وعشيا».
+
+قيل: لقي دينارًا فاشترى به قطيفة، ثم نادى: يا من ضاع منه قطيفة.
+
+يقال: دعاه رجل، فقال: أنا خبير بكثرة جموعك، قال: لا أدعو أحدًا، فجاء، إذ طلع صبي، فقال أشعب: أين الشرط؟ قال: يا أبا العلاء! هو ابني، وفيه عشر خصال، أحدها: أنه لم يأكل مع ضيف، قال: كفى التسع لك، أدخله.
+
+وعنه قال: أتتني جاريتي بدينار، فجعلته تحت المصلى، ثم جاءت بعد أيام تطلبه، فقلت: خذي ما ولد، فوجدت معه درهمًا فأخذت الولد، ثم عادت بعد جمعة وقد أخذته، فبكت، فقلت: مات النوبة في النفاس، فولولت، فقلت: صدقت بالولادة ولا تصدقين بالموت.
+
+قال أبو عاصم: أوقفني ابن جريج على أشعب، فقال: ما بلغ من طمعك، قال: ما زفت امرأة إلا كنست بيتي رجاء أن تهدى إلي.
+
+عن أبي عاصم: أن اشعب مرّ بمن يعمل طبقا، فقال: وسعه لعلهم يهدون لنا فيه، ومررت يومًا، فإذا هو ورائي، قلت: ما بك، قال: رأيت قلنسوتك مائلة، فقلت: لعلها تقع، فأخذها، قال: فأعطيته إياها.
+
+قال أبو عبد الرحمن المقرئ: قال أشعب: ما خرجت في جنازة، فرأيت اثنين يتساران، إلا ظننت أن الميت أوصى لي بشيء.
+
+قيل إنه كان يجيد الغناء. وقيل أنه مات سنة أربع وخمسين ومائة.
+
+قال الشافعي : عبث الولدان يوما بأشعب فقال لهم : إن ههنا أناسا يفرقون الجوز - لطردهم عنه - فتسارع الصبيان إلى ذلك، فلما رآهم مسرعين قال : لعله حق فتبعهم.
+
+قال له رجل : ما بلغ من طمعك ؟، فقال : ما زفات عروس بالمدينة إلا رجوت أن تزف إلي فأمسح داري وأنظف بابي واكنس بيتي.
+
+اجتاز يوما برجل يصنع طبقا من قش فقال له : زد فيه طورا أو طورين لعله أن يهدى يوما لنا فيه هدية.
+
+روى ابن عساكر أن أشعب غنى يوما لسالم بن عبد الله بن عمر قول بعض الشعراء:
+
+مـضين بها والبدر يشبه وجههـا
+مطهرة الأثواب والدين وافـر
+لها حـسب زاكٍ وعــرض مهــذب
+وعن كل مكروه من الأمر زاجر
+من الخفرات البيض لم تلق ريبة
+ولم يستملها عن تقى الله شاعر
+فقال له سالم : أحسنت فزدنا، فغناه:
+
+ألمت بنا والليل داج كـأنه
+جناح غراب عنه قد نفض القطـرا
+فقلت أعطار ثوى في رحالنا
+وما علمت ليلى سوى ريحها عطرا
+فقال له: أحسنت ولولا أن يتحدث الناس لأجزلت لك الجائزة، وإنك من الأمر لبمكان.الطبيب: "واضح، لأن معدتك لم تتعود على الأكل المجاني!"</p>
+  </div>
+</div>
+
+<!-- مودال نكت -->
+<div class="modal" id="jokesModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
+    <h2>🤣 نكت</h2>
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br>- الطالب: كتبوا عنه في التاريخ!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br>- البقال: لا والله عندي ضغط!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+  </div>
+</div>
+<!-- مودال حكايات الأغبياء -->
+<div class="modal" id="stupidModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
+    <h2>🙃 حكايات الأغبياء</h2>
+
+    <h3>الحكاية الأولى</h3>
+    <p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br>
+    قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
+
+    <hr>
+
+    <h3>الحكاية الثانية</h3>
+    <p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br>
+    فسأله الدكتور: "منذ متى؟"<br>
+    رد الغبي: "منذ متى إيش؟"</p>
+
+    <hr>
+
+    <h3>الحكاية الثالثة</h3>
+    <p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br>
+    سألوه: "ليش غمضت عيونك؟"<br>
+    قال: "ما أبغى أشوف الحوادث!"</p>
+
+    <hr>
+
+    <h3>الحكاية الرابعة</h3>
+    <p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br>
+    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br>
+    فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
+  </div>
+</div>
+
+<script>
+  // إغلاق المودال عند الضغط خارج المحتوى
+  document.querySelectorAll('.modal').forEach(m => {
+    m.addEventListener('click', function() {
+      this.style.display='none';
+    });
+  });
+</script>
