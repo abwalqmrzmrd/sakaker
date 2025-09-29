@@ -4,116 +4,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خلفيات متغيرة</title>
+<title>خلفية البحر مع صور متغيرة</title>
 <style>
-  body, html {
+  html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     overflow: hidden;
-    font-family: Arial, sans-serif;
+    position: relative;
   }
-  .bg {
-    position: fixed;
+
+  /* الخلفية الأساسية - البحر */
+  body {
+    background-image: url('https://cdn.pixabay.com/photo/2015/03/26/09/41/sea-690034_1280.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* طبقة الصور المتغيرة فوق البحر */
+  #overlay {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: opacity 5s ease-in-out; /* مدة التبديل 5 ثواني */
-    z-index: -1;
+    background-repeat: no-repeat;
+    z-index: 1;
   }
-  #bg1 { opacity: 1; }
-  #bg2 { opacity: 0; }
+
+  /* محتوى الصفحة فوق كل شيء */
+  .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    font-size: 2em;
+    padding-top: 50px;
+    text-shadow: 2px 2px 5px black;
+  }
 </style>
 </head>
 <body>
-
-<div id="bg1" class="bg"></div>
-<div id="bg2" class="bg"></div>
+<div id="overlay"></div>
+<div class="content">
+  مرحبًا بك في موقعي
+</div>
 
 <script>
-  const backgrounds = [
-    "https://cdn.pixabay.com/photo/2017/01/20/00/30/milky-way-1995055_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/05/08/architecture-1868667_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/08/30/01/05/beach-2695682_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/03/27/22/16/aurora-1281722_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/03/26/09/39/mountains-690293_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/03/53/forest-1869263_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/09/18/20/17/sunset-942308_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/01/20/00/30/sea-1993701_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/03/26/09/42/sea-690293_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/09/32/sea-1867271_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/01/20/28/forest-1072821_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/02/19/11/19/aurora-1208643_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/06/19/21/24/sunset-815270_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/06/20/19/22/river-2425890_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/10/09/19/55/fog-1724157_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/03/27/21/56/waterfall-1281382_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/02/23/13/05/lake-2097213_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/09/09/19/38/mountains-1658504_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/02/01/17/26/road-3121081_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/09/25/13/12/mountain-2783304_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/12/12/22/12/nature-3010193_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/01/15/07/51/aurora-3084372_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/06/04/08/51/forest-3453283_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/03/30/16/17/lake-3275444_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/03/21/00/53/sky-2164041_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/06/06/07/52/nature-1436767_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/01/19/17/57/aurora-1148980_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/04/19/08/33/flower-729512_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/04/05/01/03/forest-2204307_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/11/23/16/20/beach-2970196_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/08/00/28/river-1082020_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/07/24/12/05/road-2531249_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/19/17/49/mountains-1836100_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/06/24/10/47/mountain-1470048_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/12/17/05/29/sunset-1918395_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/06/16/11/40/forest-2415168_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/04/10/19/24/waterfall-3313033_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072820_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/02/28/winter-1867291_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/19/22/00/waterfall-1838894_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/05/11/21/37/water-2305195_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/02/04/21/05/road-3132688_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/01/17/15/07/mountains-1982394_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/01/20/28/forest-1072822_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/21/17/31/forest-1846254_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/19/12/52/forest-1839338_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/09/18/18/27/river-944218_1280.jpg",
-    "https://cdn.pixabay.com/photo/2017/01/20/00/30/night-1993710_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/10/19/18/17/sunset-1756275_1280.jpg",
-    "https://cdn.pixabay.com/photo/2015/11/07/11/16/trees-1031504_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/09/32/forest-1867295_1280.jpg",
-    "https://cdn.pixabay.com/photo/2018/01/22/21/38/mountains-3093404_1280.jpg"
-  ];
+const overlays = [
+  // مجموعة كبيرة من الصور المجانية من Pixabay وUnsplash
+  'https://cdn.pixabay.com/photo/2017/01/20/00/30/space-1990467_1280.jpg',
+  'https://cdn.pixabay.com/photo/2016/11/29/09/08/forest-1867274_1280.jpg',
+  'https://cdn.pixabay.com/photo/2016/11/29/09/32/mountain-1867325_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/41/river-690062_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/40/sky-690017_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/39/lake-689997_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/38/field-689980_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/37/trees-689967_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/36/bridge-689946_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/35/city-689933_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/34/beach-689920_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/33/forest-689902_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/32/mountain-689890_1280.jpg',
+  'https://cdn.pixabay.com/photo/2015/03/26/09/31/sunset-689879_1280.jpg',
+  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1501785888041-af3ef285b470?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1521295121783-8a321d551ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1531177070290-70f1044b5a69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1518837695005-2083093ee35b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1517817748490-2c15f2a15447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1500534314209-a25db133db2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1493244040629-496f6d136cc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1482192505345-5655af888cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1465146633016-4e0a12f8d2f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1482192505345-5655af888cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1493244040629-496f6d136cc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1500534314209-a25db133db2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1518837695005-2083093ee35b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
+  'https://images.unsplash.com/photo-1517817748490-2c15f2a15447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80'
+];
 
-  let index = 0;
-  let bg1 = document.getElementById('bg1');
-  let bg2 = document.getElementById('bg2');
-  let showingBg1 = true;
+let index = 0;
 
-  bg1.style.backgroundImage = `url('${backgrounds[0]}')`;
-  if(backgrounds.length > 1) bg2.style.backgroundImage = `url('${backgrounds[1]}')`;
+function changeOverlay() {
+  document.getElementById('overlay').style.backgroundImage = `url('${overlays[index]}')`;
+  index = (index + 1) % overlays.length;
+}
 
-  setInterval(() => {
-    index = (index + 1) % backgrounds.length;
-    if (showingBg1) {
-      bg2.style.backgroundImage = `url('${backgrounds[index]}')`;
-      bg2.style.opacity = 1;
-      bg1.style.opacity = 0;
-    } else {
-      bg1.style.backgroundImage = `url('${backgrounds[index]}')`;
-      bg1.style.opacity = 1;
-      bg2.style.opacity = 0;
-    }
-    showingBg1 = !showingBg1;
-  }, 15000); // كل 15 ثانية
+// بدء التغيير كل 15 ثانية
+changeOverlay();
+setInterval(changeOverlay, 15000);
 </script>
-
 </body>
 </html>
 
