@@ -4,112 +4,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خلفية البحر مع صور متغيرة</title>
+<title>موقعي مع خلفية فيديو</title>
 <style>
   html, body {
-    margin: 0;
-    padding: 0;
     height: 100%;
     width: 100%;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
-    position: relative;
+    font-family: Arial, sans-serif;
   }
 
-  /* الخلفية الأساسية - البحر */
-  body {
-    background-image: url('https://cdn.pixabay.com/photo/2015/03/26/09/41/sea-690034_1280.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  /* طبقة الصور المتغيرة فوق البحر */
-  #overlay {
-    position: absolute;
+  /* فيديو الخلفية يغطي كامل الصفحة */
+  .bg-video {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: 1;
+    overflow: hidden;
+    z-index: -1;
   }
 
-  /* محتوى الصفحة فوق كل شيء */
+  .bg-video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 177.77%; /* 16:9 نسبة العرض للارتفاع */
+    height: 100%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* محتوى الموقع فوق الخلفية */
   .content {
     position: relative;
-    z-index: 2;
-    text-align: center;
-    color: white;
-    font-size: 2em;
-    padding-top: 50px;
-    text-shadow: 2px 2px 5px black;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
   }
 </style>
 </head>
 <body>
-<div id="overlay"></div>
-<div class="content">
-  مرحبًا بك في موقعي
+
+<!-- خلفية الفيديو صامت يغطي الصفحة -->
+<div class="bg-video">
+  <iframe src="https://www.youtube.com/embed/gNgfPk_v0zQ?autoplay=1&mute=1&loop=1&playlist=gNgfPk_v0zQ" 
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+  </iframe>
 </div>
 
-<script>
-const overlays = [
-  // مجموعة كبيرة من الصور المجانية من Pixabay وUnsplash
-  'https://cdn.pixabay.com/photo/2017/01/20/00/30/space-1990467_1280.jpg',
-  'https://cdn.pixabay.com/photo/2016/11/29/09/08/forest-1867274_1280.jpg',
-  'https://cdn.pixabay.com/photo/2016/11/29/09/32/mountain-1867325_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/41/river-690062_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/40/sky-690017_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/39/lake-689997_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/38/field-689980_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/37/trees-689967_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/36/bridge-689946_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/35/city-689933_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/34/beach-689920_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/33/forest-689902_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/32/mountain-689890_1280.jpg',
-  'https://cdn.pixabay.com/photo/2015/03/26/09/31/sunset-689879_1280.jpg',
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1501785888041-af3ef285b470?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1521295121783-8a321d551ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1531177070290-70f1044b5a69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1518837695005-2083093ee35b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1517817748490-2c15f2a15447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1500534314209-a25db133db2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1522199755839-a2bacb67c546?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1493244040629-496f6d136cc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1482192505345-5655af888cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1465146633016-4e0a12f8d2f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1482192505345-5655af888cc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1493244040629-496f6d136cc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1500534314209-a25db133db2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1518837695005-2083093ee35b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80',
-  'https://images.unsplash.com/photo-1517817748490-2c15f2a15447?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1280&q=80'
-];
+<!-- محتوى الموقع -->
+<div class="content">
+  <!-- ضع هنا باقي محتوى موقعك (الأيقونات، النصوص، المكتبات…) -->
+</div>
 
-let index = 0;
-
-function changeOverlay() {
-  document.getElementById('overlay').style.backgroundImage = `url('${overlays[index]}')`;
-  index = (index + 1) % overlays.length;
-}
-
-// بدء التغيير كل 15 ثانية
-changeOverlay();
-setInterval(changeOverlay, 15000);
-</script>
 </body>
 </html>
 
