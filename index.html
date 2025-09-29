@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>موقعي مع خلفيات متغيرة</title>
+<title>خلفيات متغيرة</title>
 <style>
   body, html {
     margin: 0;
@@ -21,7 +21,7 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 5s ease-in-out; /* مدة التبديل 5 ثواني */
     z-index: -1;
   }
   #bg1 { opacity: 1; }
@@ -54,7 +54,41 @@
     "https://cdn.pixabay.com/photo/2016/10/09/19/55/fog-1724157_1280.jpg",
     "https://cdn.pixabay.com/photo/2016/03/27/21/56/waterfall-1281382_1280.jpg",
     "https://cdn.pixabay.com/photo/2017/02/23/13/05/lake-2097213_1280.jpg",
-    "https://cdn.pixabay.com/photo/2016/09/09/19/38/mountains-1658504_1280.jpg"
+    "https://cdn.pixabay.com/photo/2016/09/09/19/38/mountains-1658504_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/02/01/17/26/road-3121081_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/09/25/13/12/mountain-2783304_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/12/22/12/nature-3010193_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/01/15/07/51/aurora-3084372_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/06/04/08/51/forest-3453283_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/03/30/16/17/lake-3275444_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/03/21/00/53/sky-2164041_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/06/06/07/52/nature-1436767_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/01/19/17/57/aurora-1148980_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/04/19/08/33/flower-729512_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/04/05/01/03/forest-2204307_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/11/23/16/20/beach-2970196_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/12/08/00/28/river-1082020_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/07/24/12/05/road-2531249_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/19/17/49/mountains-1836100_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/06/24/10/47/mountain-1470048_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/12/17/05/29/sunset-1918395_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/06/16/11/40/forest-2415168_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/04/10/19/24/waterfall-3313033_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072820_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/29/02/28/winter-1867291_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/19/22/00/waterfall-1838894_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/05/11/21/37/water-2305195_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/02/04/21/05/road-3132688_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/01/17/15/07/mountains-1982394_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/12/01/20/28/forest-1072822_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/21/17/31/forest-1846254_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/19/12/52/forest-1839338_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/09/18/18/27/river-944218_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/01/20/00/30/night-1993710_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/10/19/18/17/sunset-1756275_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/11/07/11/16/trees-1031504_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/29/09/32/forest-1867295_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/01/22/21/38/mountains-3093404_1280.jpg"
   ];
 
   let index = 0;
@@ -77,7 +111,7 @@
       bg2.style.opacity = 0;
     }
     showingBg1 = !showingBg1;
-  }, 5000); // كل 5 ثواني
+  }, 15000); // كل 15 ثانية
 </script>
 
 </body>
