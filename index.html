@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو</title>
+  <title>خلفية فيديو ممتدة</title>
   <style>
     body, html {
       margin: 0;
@@ -12,57 +12,85 @@
       height: 100%;
       overflow: hidden;
     }
-    #player {
+
+    #player-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
+      overflow: hidden;
+    }
+
+    #player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
       pointer-events: none;
     }
+
     .controls {
       position: fixed;
-      bottom: 20px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
       z-index: 999;
     }
+
     button {
-      padding: 10px 15px;
+      padding: 6px 10px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       background: rgba(0,0,0,0.6);
       color: white;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
     }
+
     button:hover {
       background: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      .controls {
+        gap: 4px;
+        bottom: 8px;
+      }
     }
   </style>
 </head>
 <body>
 
-<div id="player"></div>
+<div id="player-container">
+  <div id="player"></div>
+</div>
 
 <div class="controls">
-  <button onclick="playPause()">⏯ تشغيل/إيقاف</button>
-  <button onclick="muteUnmute()">🔊 كتم/تشغيل</button>
-  <button onclick="volumeUp()">🔼 رفع الصوت</button>
-  <button onclick="volumeDown()">🔽 خفض الصوت</button>
+  <button onclick="playPause()">⏯</button>
+  <button onclick="muteUnmute()">🔊</button>
+  <button onclick="volumeUp()">🔼</button>
+  <button onclick="volumeDown()">🔽</button>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
-  let currentVolume = 50; // مستوى الصوت الافتراضي 50%
+  let currentVolume = 50;
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      videoId: 'eQxBZY3JcOc',
+      videoId: 'eQxBZY3JcOc', // الفيديو المطلوب
       playerVars: {
         autoplay: 1,
         mute: 1,
