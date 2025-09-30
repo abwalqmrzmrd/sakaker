@@ -2,63 +2,92 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>موقعي مع خلفية فيديو</title>
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-  }
-
-  /* حاوية الفيديو تغطي كامل الشاشة */
-  #bg-iframe {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
-  }
-
-  #bg-iframe iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 177.77vh; /* 100vh * 16/9 لتغطية الشاشة بالكامل */
-    height: 100vh;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    pointer-events: none; /* لمنع التفاعل مع الفيديو */
-  }
-
-  /* محتوى الصفحة فوق الفيديو */
-  .content {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-    padding-top: 50px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلفية فيديو</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .video-background iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 999;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+  </style>
 </head>
 <body>
 
-<!-- خلفية الفيديو -->
-<div id="bg-iframe">
-  <iframe 
-    src="https://www.youtube.com/embed/0cMLOSH1KU8?autoplay=1&mute=1&loop=1&playlist=0cMLOSH1KU8" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
+<div class="video-background">
+  <iframe id="bgVideo" 
+    src="https://www.youtube.com/embed/eQxBZY3JcOc?autoplay=1&mute=1&loop=1&playlist=eQxBZY3JcOc&controls=0&showinfo=0&modestbranding=1" 
+    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
   </iframe>
 </div>
 
+<div class="controls">
+  <button onclick="playPause()">⏯ تشغيل/إيقاف</button>
+  <button onclick="muteUnmute()">🔊 كتم/تشغيل</button>
+</div>
+
+<script>
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('bgVideo');
+  }
+
+  function playPause() {
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
+
+  function muteUnmute() {
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      player.mute();
+    }
+  }
+</script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
@@ -707,7 +736,7 @@ function togglePersonalStory(id){
 </div>
 </div>
 </div>
-</p>
+.</p>
   </div>
 
   <script>
