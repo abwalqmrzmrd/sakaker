@@ -12,20 +12,14 @@
       height: 100%;
       overflow: hidden;
     }
-    .video-background {
+    #player {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
       z-index: -1;
-      overflow: hidden;
-    }
-    .video-background iframe {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      pointer-events: none;
     }
     .controls {
       position: fixed;
@@ -37,7 +31,7 @@
       z-index: 999;
     }
     button {
-      padding: 10px 20px;
+      padding: 10px 15px;
       border: none;
       border-radius: 8px;
       background: rgba(0,0,0,0.6);
@@ -46,28 +40,45 @@
       font-size: 16px;
     }
     button:hover {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.3);
     }
   </style>
 </head>
 <body>
 
-<div class="video-background">
-  <iframe id="bgVideo" 
-    src="https://www.youtube.com/embed/eQxBZY3JcOc?autoplay=1&mute=1&loop=1&playlist=eQxBZY3JcOc&controls=0&showinfo=0&modestbranding=1" 
-    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-  </iframe>
-</div>
+<div id="player"></div>
 
 <div class="controls">
   <button onclick="playPause()">⏯ تشغيل/إيقاف</button>
   <button onclick="muteUnmute()">🔊 كتم/تشغيل</button>
+  <button onclick="volumeUp()">🔼 رفع الصوت</button>
+  <button onclick="volumeDown()">🔽 خفض الصوت</button>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
+  let currentVolume = 50; // مستوى الصوت الافتراضي 50%
+
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player('bgVideo');
+    player = new YT.Player('player', {
+      videoId: 'eQxBZY3JcOc',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: 'eQxBZY3JcOc',
+        controls: 0,
+        showinfo: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: (event) => {
+          player.setVolume(currentVolume);
+          event.target.playVideo();
+        }
+      }
+    });
   }
 
   function playPause() {
@@ -85,9 +96,21 @@
       player.mute();
     }
   }
-</script>
 
-<script src="https://www.youtube.com/iframe_api"></script>
+  function volumeUp() {
+    if (currentVolume < 100) {
+      currentVolume += 10;
+      player.setVolume(currentVolume);
+    }
+  }
+
+  function volumeDown() {
+    if (currentVolume > 0) {
+      currentVolume -= 10;
+      player.setVolume(currentVolume);
+    }
+  }
+</script>
 
 </body>
 </html>
