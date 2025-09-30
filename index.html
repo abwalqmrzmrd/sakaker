@@ -338,82 +338,6 @@ img, iframe, video {
 
 </head>
 <body>
- <style>
-.icon-circle {
-  position: absolute;
-  transition: transform 4s ease-in-out, rotate 4s ease-in-out;
-  cursor: pointer;
-  z-index: 10;
-}
-.sub-icons {
-  display: none; /* مخفية في البداية */
-  position: absolute;
-  white-space: nowrap;
-  z-index: 20;
-}
-.sub-icons .sub-icon {
-  display: inline-block;
-  margin: 0 5px;
-  cursor: pointer;
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const icons = document.querySelectorAll('.icon-circle');
-  let floatInterval;
-
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function floatIcons() {
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
-
-    icons.forEach(icon => {
-      if(!icon.classList.contains('active')) { // الأيقونات النشطة لا تتحرك
-        const x = random(0, containerWidth - icon.offsetWidth);
-        const y = random(0, containerHeight - icon.offsetHeight);
-        const rotation = random(-15, 15);
-        const scale = random(0.9, 1.1);
-
-        icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
-      }
-    });
-  }
-
-  function startFloating() {
-    floatIcons();
-    floatInterval = setInterval(floatIcons, 3000);
-  }
-
-  startFloating();
-
-  icons.forEach(icon => {
-    icon.addEventListener('click', () => {
-      // إيقاف حركة هذه المكتبة فقط
-      icons.forEach(i => i.classList.remove('active'));
-      icon.classList.add('active');
-
-      // إزالة أي عرض سابق للأيقونات الفرعية
-      document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
-
-      // عرض الأيقونات الفرعية تحت المكتبة
-      let subIcons = icon.querySelector('.sub-icons');
-      if(subIcons) {
-        subIcons.style.display = 'block';
-        const rect = icon.getBoundingClientRect();
-        subIcons.style.top = rect.bottom + 'px';
-        subIcons.style.left = rect.left + 'px';
-      }
-    });
-  });
-
-  window.addEventListener('resize', floatIcons);
-});
-</script>
-   
 <!-- صوت الطيور -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
 <audio id="bird-sound" loop="">
@@ -984,4 +908,59 @@ function togglePersonalStory(id){
       this.style.display='none';
     });
   });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const icons = document.querySelectorAll('.icon-circle');
+  let floatInterval;
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function floatIcons() {
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+
+    icons.forEach(icon => {
+      if(!icon.classList.contains('active')) { 
+        const x = random(0, containerWidth - icon.offsetWidth);
+        const y = random(0, containerHeight - icon.offsetHeight);
+        const rotation = random(-15, 15);
+        const scale = random(0.9, 1.1);
+
+        icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+      }
+    });
+  }
+
+  // بدء الحركة
+  floatIcons();
+  floatInterval = setInterval(floatIcons, 3000);
+
+  icons.forEach(icon => {
+    icon.addEventListener('click', () => {
+      // إيقاف حركة جميع الأيقونات عند الضغط على أي واحدة
+      clearInterval(floatInterval);
+
+      // تحديد الأيقونة المضغوطة كـ active
+      icons.forEach(i => i.classList.remove('active'));
+      icon.classList.add('active');
+
+      // إخفاء أي مكتبات فرعية مفتوحة مسبقًا
+      document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+
+      // عرض الأيقونات الفرعية لهذه الأيقونة
+      let subIcons = icon.querySelector('.sub-icons');
+      if(subIcons) {
+        subIcons.style.display = 'block';
+        const rect = icon.getBoundingClientRect();
+        subIcons.style.top = rect.bottom + 'px';
+        subIcons.style.left = rect.left + 'px';
+      }
+    });
+  });
+
+  window.addEventListener('resize', floatIcons);
+});
 </script>
