@@ -90,12 +90,12 @@
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      videoId: 'eQxBZY3JcOc', // الفيديو المطلوب
+      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
       playerVars: {
         autoplay: 1,
         mute: 1,
         loop: 1,
-        playlist: 'eQxBZY3JcOc',
+        playlist: 'YFmV_MRSD7M',
         controls: 0,
         showinfo: 0,
         modestbranding: 1
@@ -151,6 +151,32 @@
   <div id="mainContent">
 <html dir="rtl" lang="ar">
 <head>
+    <style>
+  .library .icon {
+    width: 90px;              /* تكبير الأيقونة */
+    height: 90px;
+    margin: 10px;
+    border-radius: 12px;      
+    background: rgba(255,255,255,0.2); /* خلفية أوضح */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.6); /* ظل أقوى */
+    border: 2px solid rgba(255,255,255,0.5); /* حدود بيضاء ناعمة */
+  }
+
+  .library .icon img {
+    max-width: 65%;
+    max-height: 65%;
+  }
+
+  .library .icon:hover {
+    transform: scale(1.15);      
+    background: rgba(255,255,255,0.3);
+  }
+</style>
+
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
