@@ -900,67 +900,89 @@ function togglePersonalStory(id){
     فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
   </div>
 </div>
-
 <script>
-  // إغلاق المودال عند الضغط خارج المحتوى
-  document.querySelectorAll('.modal').forEach(m => {
-    m.addEventListener('click', function() {
-      this.style.display='none';
-    });
+// إغلاق المودال فقط عند الضغط خارج المحتوى
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
   });
-</script>
-<script>
+});
+
 document.addEventListener("DOMContentLoaded", function() {
   const icons = document.querySelectorAll('.icon-circle');
-  let floatInterval;
+
+  // اجعل كل أيقونة مطلقة الموقع بحيث تتحرك بحرية
+  icons.forEach(icon => {
+    icon.style.position = "absolute";
+  });
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
   }
 
   function floatIcons() {
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
+    const containerWidth = document.documentElement.scrollWidth;   // العرض الكامل للصفحة
+    const containerHeight = document.documentElement.scrollHeight; // الارتفاع الكامل للصفحة
 
     icons.forEach(icon => {
-      if(!icon.classList.contains('active')) { 
+      if (!icon.classList.contains('active')) {
         const x = random(0, containerWidth - icon.offsetWidth);
         const y = random(0, containerHeight - icon.offsetHeight);
         const rotation = random(-15, 15);
         const scale = random(0.9, 1.1);
 
-        icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(${scale})`;
+        // نحرك بالأبعاد المطلقة top/left
+        icon.style.top = y + "px";
+        icon.style.left = x + "px";
+        icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
       }
     });
   }
 
-  // بدء الحركة
+  // بدء الحركة المستمرة
   floatIcons();
-  floatInterval = setInterval(floatIcons, 3000);
+  setInterval(floatIcons, 3000);
 
   icons.forEach(icon => {
-    icon.addEventListener('click', () => {
-      // إيقاف حركة جميع الأيقونات عند الضغط على أي واحدة
-      clearInterval(floatInterval);
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation(); // منع تفعيل حدث document
 
-      // تحديد الأيقونة المضغوطة كـ active
+      // تحديد الأيقونة المضغوطة
       icons.forEach(i => i.classList.remove('active'));
       icon.classList.add('active');
 
-      // إخفاء أي مكتبات فرعية مفتوحة مسبقًا
+      // إخفاء أي مكتبات فرعية مفتوحة
       document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
 
       // عرض الأيقونات الفرعية لهذه الأيقونة
       let subIcons = icon.querySelector('.sub-icons');
-      if(subIcons) {
+      if (subIcons) {
         subIcons.style.display = 'block';
         const rect = icon.getBoundingClientRect();
+
+        // ضمان تموضعها بشكل صحيح
+        subIcons.style.position = 'fixed';
         subIcons.style.top = rect.bottom + 'px';
         subIcons.style.left = rect.left + 'px';
       }
     });
   });
 
+  // عند الضغط خارج أيقونة -> إخفاء الفرعية فقط (الحركة تستمر)
+  document.addEventListener('click', () => {
+    icons.forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+  });
+
   window.addEventListener('resize', floatIcons);
 });
 </script>
+
+<style>
+/* حركة سلسة عند الانتقال */
+.icon-circle {
+  transition: all 2s ease-in-out;
+}
+</style>
