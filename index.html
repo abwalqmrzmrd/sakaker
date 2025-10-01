@@ -428,7 +428,6 @@ img, iframe, video {
 <iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
 </div>
 </div>
-
 <!-- باقي محتوى الصفحة (الأيقونات، المكتبات... الخ) يبقى كما هو -->
 <!-- مودال الحدث -->
 <div aria-hidden="true" id="eventModal">
@@ -821,36 +820,185 @@ function togglePersonalStory(id){
   var s=document.getElementById(id);
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
-</script>
-
-<!-- أيقونة الشطرنج -->
-<div aria-label="شطرنج" class="icon-card" onclick="openChess()" role="button">
-  <svg class="icon-svg" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 20h12v2H6zM8 8h8l-1 4h2l1 6H6l1-6h2zM10 2h4v4h-4z" stroke="white" stroke-width="1.3"/>
-  </svg>
-  <div class="icon-label">شطرنج</div>
+</script><!-- أيقونة اللعبة -->
+<div class="icon-game" 
+     style="display:inline-flex;cursor:pointer;width:60px;height:60px;border-radius:50%;background:transparent;color:#fff;font-weight:bold;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;margin:5px;text-align:center;"
+     title="بينج بونج"
+     onclick="openGame()">
+  بينج بونج
 </div>
 
-<!-- مودال الشطرنج -->
-<div class="folder-modal" id="chessModal" onclick="if(event.target.id==='chessModal') closeChess()">
-  <div class="folder-panel" style="max-width:1000px; height:90vh;">
-    <div class="folder-header">
-      <div class="folder-title">لعبة الشطرنج</div>
-      <button aria-label="إغلاق" class="folder-close" onclick="closeChess()">×</button>
+<!-- نافذة اللعبة -->
+<div id="pongModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:9999;">
+  <div style="position:relative;width:90%;max-width:550px;background:#071426;border-radius:12px;padding:12px;box-shadow:0 0 20px rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;">
+    <span style="position:absolute;top:8px;right:12px;color:#fff;font-size:24px;cursor:pointer;" onclick="closeGame()">&times;</span>
+    <h2 style="color:#dfefff;text-align:center;margin:10px 0;">لعبة بينغ بونغ</h2>
+    <div style="text-align:center;color:#fff;font-size:14px;margin-bottom:6px;">
+      النقاط: <span id="scoreDisplay">0</span> | الحياة: <span id="livesDisplay">3</span> | المستوى: <span id="levelDisplay">1</span> | القوى: <span id="powerDisplay">0</span>
     </div>
-    <div class="folder-body" style="text-align:center;">
-      <iframe src="https://www.chess.com/" width="100%" height="600" style="border:0; border-radius:8px;"></iframe>
+    <canvas id="pongCanvas" width="480" height="320" style="display:block;margin:0 auto;background:#000;border-radius:6px;"></canvas>
+    <div style="text-align:center;margin-top:8px;">
+      <button onclick="pauseGame()" style="padding:6px 12px;margin-right:6px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إيقاف مؤقت</button>
+      <button onclick="resetGame()" style="padding:6px 12px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إعادة تشغيل</button>
     </div>
   </div>
 </div>
 
 <script>
-function openChess(){
-  document.getElementById('chessModal').style.display = 'block';
+// فتح وإغلاق اللعبة
+function openGame() { document.getElementById('pongModal').style.display = 'flex'; }
+function closeGame() { document.getElementById('pongModal').style.display = 'none'; }
+
+// إعدادات اللعبة
+const canvas = document.getElementById("pongCanvas");
+const ctx = canvas.getContext("2d");
+const W = canvas.width, H = canvas.height;
+
+let paddle = {w:100,h:12,x:(W-100)/2,speed:8};
+let ball = {r:10,x:W/2,y:H/2,vx:4,vy:-4,color:"#00ff00"};
+let score = 0, lives = 3, level = 1, combo = 0, powers = 0;
+let paused = false;
+let activePower = null;
+let powerTimer = 0;
+
+const scoreDisplay = document.getElementById('scoreDisplay');
+const livesDisplay = document.getElementById('livesDisplay');
+const levelDisplay = document.getElementById('levelDisplay');
+const powerDisplay = document.getElementById('powerDisplay');
+
+let rightPressed = false, leftPressed = false;
+
+// تحكم لوحة المفاتيح
+document.addEventListener("keydown", e=>{
+  if(e.key=="ArrowRight") rightPressed=true;
+  if(e.key=="ArrowLeft") leftPressed=true;
+  if(e.key==" ") paused=!paused;
+});
+document.addEventListener("keyup", e=>{
+  if(e.key=="ArrowRight") rightPressed=false;
+  if(e.key=="ArrowLeft") leftPressed=false;
+});
+
+// دعم اللمس
+canvas.addEventListener('touchmove', e=>{
+  e.preventDefault();
+  const t = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  paddle.x = t.clientX - rect.left - paddle.w/2;
+  paddle.x = Math.max(0, Math.min(W-paddle.w, paddle.x));
+}, {passive:false});
+
+// دوال اللعبة
+function drawBall(){ 
+  ctx.beginPath(); 
+  ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); 
+  ctx.fillStyle=ball.color; 
+  ctx.shadowColor=ball.color; 
+  ctx.shadowBlur=8; 
+  ctx.fill(); 
+  ctx.closePath(); 
 }
-function closeChess(){
-  document.getElementById('chessModal').style.display = 'none';
+function drawPaddle(){ 
+  ctx.beginPath(); 
+  ctx.rect(paddle.x,H-paddle.h,paddle.w,paddle.h); 
+  ctx.fillStyle="#0095DD"; 
+  if(activePower==="expand") ctx.fillStyle="#FFD700"; // لون مضرب عند التوسيع
+  ctx.shadowColor=ctx.fillStyle; 
+  ctx.shadowBlur=4; 
+  ctx.fill(); 
+  ctx.closePath(); 
 }
+function drawHUD(){ 
+  scoreDisplay.textContent=score; 
+  livesDisplay.textContent=lives; 
+  levelDisplay.textContent=level; 
+  powerDisplay.textContent=powers; 
+}
+
+function resetBall(){ 
+  ball.x=W/2; ball.y=H/2; ball.vx=4*(Math.random()>0.5?1:-1); ball.vy=-4; ball.color="#00ff00"; 
+  combo=0; activePower=null; powerTimer=0;
+}
+
+function resetGame(){ 
+  score=0; lives=3; level=1; paddle.w=100; powers=0; 
+  resetBall(); paused=false; 
+}
+
+function pauseGame(){ paused=!paused; }
+
+// قوى خاصة عشوائية
+function spawnPower(){
+  if(Math.random()<0.02 && !activePower){ 
+    const types=["expand","slow","double"]; 
+    activePower=types[Math.floor(Math.random()*types.length)]; 
+    powerTimer=500; 
+    powers++; 
+  }
+}
+
+function updatePower(){
+  if(activePower){
+    powerTimer--;
+    if(powerTimer<=0){ activePower=null; paddle.w=100; }
+    if(activePower==="expand") paddle.w=150;
+    if(activePower==="slow") { ball.vx*=0.99; ball.vy*=0.99; }
+    // double ball يمكن إضافتها مستقبلياً
+  }
+}
+
+// حركة المضرب
+function movePaddle() {
+    if(rightPressed) paddle.x += paddle.speed;
+    if(leftPressed) paddle.x -= paddle.speed;
+    if(paddle.x < 0) paddle.x = 0;
+    if(paddle.x + paddle.w > W) paddle.x = W - paddle.w;
+}
+
+// تحديث اللعبة
+function update(){
+  if(paused) return;
+
+  spawnPower();
+  updatePower();
+
+  ball.x += ball.vx; ball.y += ball.vy;
+
+  // الجدران الجانبية
+  if(ball.x - ball.r <0){ ball.x=ball.r; ball.vx*=-1; }
+  if(ball.x+ball.r>W){ ball.x=W-ball.r; ball.vx*=-1; }
+
+  // الجدار العلوي
+  if(ball.y - ball.r <0){ ball.y=ball.r; ball.vy*=-1; score++; combo++; 
+    if(combo%5==0){ level++; ball.vx*=1.05; ball.vy*=1.05; } 
+  }
+
+  // تصادم مع المضرب
+  if(ball.y + ball.r >= H-paddle.h && ball.x >= paddle.x && ball.x <= paddle.x+paddle.w){
+    const hitPos = (ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
+    const speed = Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+    const angle = hitPos * Math.PI/3;
+    ball.vx = speed*Math.sin(angle); ball.vy = -Math.abs(speed*Math.cos(angle));
+    combo++;
+    if(combo%10==0 && paddle.w<150) paddle.w+=10;
+  }
+
+  // الكرة أسفل الشاشة
+  if(ball.y - ball.r > H){ lives--; if(lives<=0){ alert('انتهت اللعبة! النقاط: '+score); resetGame(); } else resetBall(); }
+
+  movePaddle(); // <-- هنا حركة المضرب
+  drawHUD();
+}
+
+// الرسم
+function draw(){ 
+  ctx.clearRect(0,0,W,H); 
+  drawBall(); drawPaddle(); 
+}
+
+// حلقة اللعبة
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
 </script>
 
 <!-- قائمة الدعم -->
@@ -974,31 +1122,18 @@ function closeChess(){
     فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
 </div>
 </div>
-<script>
-// إغلاق المودال فقط عند الضغط خارج المحتوى
-document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-    }
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function() {
+<script>document.addEventListener("DOMContentLoaded", function() {
   const icons = document.querySelectorAll('.icon-circle');
 
-  // اجعل كل أيقونة مطلقة الموقع بحيث تتحرك بحرية
-  icons.forEach(icon => {
-    icon.style.position = "absolute";
-  });
+  icons.forEach(icon => icon.style.position = "absolute");
 
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
+  function random(min, max) { return Math.random() * (max - min) + min; }
+
+  let floatInterval;
 
   function floatIcons() {
-    const containerWidth = document.documentElement.scrollWidth;   // العرض الكامل للصفحة
-    const containerHeight = document.documentElement.scrollHeight; // الارتفاع الكامل للصفحة
+    const containerWidth = document.documentElement.scrollWidth;
+    const containerHeight = document.documentElement.scrollHeight;
 
     icons.forEach(icon => {
       if (!icon.classList.contains('active')) {
@@ -1007,7 +1142,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const rotation = random(-15, 15);
         const scale = random(0.9, 1.1);
 
-        // نحرك بالأبعاد المطلقة top/left
         icon.style.top = y + "px";
         icon.style.left = x + "px";
         icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
@@ -1017,11 +1151,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // بدء الحركة المستمرة
   floatIcons();
-  setInterval(floatIcons, 3000);
+  floatInterval = setInterval(floatIcons, 3000);
 
   icons.forEach(icon => {
     icon.addEventListener('click', (e) => {
-      e.stopPropagation(); // منع تفعيل حدث document
+      e.stopPropagation();
+
+      // إيقاف حركة الأيقونات مؤقتًا
+      clearInterval(floatInterval);
 
       // تحديد الأيقونة المضغوطة
       icons.forEach(i => i.classList.remove('active'));
@@ -1035,8 +1172,6 @@ document.addEventListener("DOMContentLoaded", function() {
       if (subIcons) {
         subIcons.style.display = 'block';
         const rect = icon.getBoundingClientRect();
-
-        // ضمان تموضعها بشكل صحيح
         subIcons.style.position = 'fixed';
         subIcons.style.top = rect.bottom + 'px';
         subIcons.style.left = rect.left + 'px';
@@ -1044,19 +1179,22 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // عند الضغط خارج أيقونة -> إخفاء الفرعية فقط (الحركة تستمر)
+  // عند الضغط خارج أيقونة -> إخفاء الفرعية وإعادة تشغيل الحركة
   document.addEventListener('click', () => {
     icons.forEach(i => i.classList.remove('active'));
     document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+
+    // إعادة تشغيل الحركة
+    clearInterval(floatInterval);
+    floatInterval = setInterval(floatIcons, 3000);
   });
 
   window.addEventListener('resize', floatIcons);
 });
 </script>
+
 <style>
-/* حركة سلسة عند الانتقال */
 .icon-circle {
   transition: all 2s ease-in-out;
 }
 </style>
-</body>
