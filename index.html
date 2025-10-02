@@ -141,9 +141,11 @@
 </script>
 
 </body>
+
 </html>
 
 </head>
+
 <body>
 
  
@@ -1045,21 +1047,15 @@ function togglePersonalStory(id){
   </div>
 </div>
 <script>
-// إغلاق المودال فقط عند الضغط خارج المحتوى
-document.querySelectorAll('.modal').forEach(m => {
-  m.addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-    }
-  });
-});
 
 document.addEventListener("DOMContentLoaded", function() {
   const icons = document.querySelectorAll('.icon-circle');
+  let stopMovement = false; // حالة توقف الحركة
 
   // اجعل كل أيقونة مطلقة الموقع بحيث تتحرك بحرية
   icons.forEach(icon => {
     icon.style.position = "absolute";
+    icon.style.zIndex = 1; // أيقونات أساسية تحت الأيقونات الفرعية
   });
 
   function random(min, max) {
@@ -1067,22 +1063,23 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function floatIcons() {
-    const containerWidth = document.documentElement.scrollWidth;   // العرض الكامل للصفحة
-    const containerHeight = document.documentElement.scrollHeight; // الارتفاع الكامل للصفحة
+    if (!stopMovement) { // الحركة فقط إذا لم تتوقف
+      const containerWidth = document.documentElement.scrollWidth;
+      const containerHeight = document.documentElement.scrollHeight;
 
-    icons.forEach(icon => {
-      if (!icon.classList.contains('active')) {
-        const x = random(0, containerWidth - icon.offsetWidth);
-        const y = random(0, containerHeight - icon.offsetHeight);
-        const rotation = random(-15, 15);
-        const scale = random(0.9, 1.1);
+      icons.forEach(icon => {
+        if (!icon.classList.contains('active')) {
+          const x = random(0, containerWidth - icon.offsetWidth);
+          const y = random(0, containerHeight - icon.offsetHeight);
+          const rotation = random(-15, 15);
+          const scale = random(0.9, 1.1);
 
-        // نحرك بالأبعاد المطلقة top/left
-        icon.style.top = y + "px";
-        icon.style.left = x + "px";
-        icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-      }
-    });
+          icon.style.top = y + "px";
+          icon.style.left = x + "px";
+          icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+        }
+      });
+    }
   }
 
   // بدء الحركة المستمرة
@@ -1093,31 +1090,37 @@ document.addEventListener("DOMContentLoaded", function() {
     icon.addEventListener('click', (e) => {
       e.stopPropagation(); // منع تفعيل حدث document
 
+      // توقف الحركة عند فتح الأيقونة
+      stopMovement = true;
+
       // تحديد الأيقونة المضغوطة
       icons.forEach(i => i.classList.remove('active'));
       icon.classList.add('active');
 
       // إخفاء أي مكتبات فرعية مفتوحة
-      document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+      document.querySelectorAll('.sub-icons').forEach(sub => {
+        sub.style.display = 'none';
+        sub.style.zIndex = 1; // إعادة ترتيب z-index للأيقونات الفرعية المخفية
+      });
 
       // عرض الأيقونات الفرعية لهذه الأيقونة
       let subIcons = icon.querySelector('.sub-icons');
       if (subIcons) {
         subIcons.style.display = 'block';
         const rect = icon.getBoundingClientRect();
-
-        // ضمان تموضعها بشكل صحيح
         subIcons.style.position = 'fixed';
         subIcons.style.top = rect.bottom + 'px';
         subIcons.style.left = rect.left + 'px';
+        subIcons.style.zIndex = 9999; // تظل فوق كل الأيقونات الأخرى
       }
     });
   });
 
-  // عند الضغط خارج أيقونة -> إخفاء الفرعية فقط (الحركة تستمر)
+  // عند الضغط خارج أيقونة -> إخفاء الفرعية واستئناف الحركة
   document.addEventListener('click', () => {
     icons.forEach(i => i.classList.remove('active'));
     document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+    stopMovement = false; // إعادة الحركة
   });
 
   window.addEventListener('resize', floatIcons);
@@ -1125,8 +1128,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <style>
-/* حركة سلسة عند الانتقال */
 .icon-circle {
   transition: all 2s ease-in-out;
+}
+.sub-icons {
+  transition: all 0.5s ease-in-out;
 }
 </style>
