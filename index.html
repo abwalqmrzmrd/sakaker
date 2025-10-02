@@ -68,47 +68,21 @@
         bottom: 8px;
       }
     }
-
-/* سيرة ذاتية */
-#cvIcon { text-align:center; margin:20px auto; width:150px; height:120px; background: rgba(255,255,255,0.05); border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
-#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
-#cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
-#cvPage .cv-content { max-width:900px; margin:40px auto; background:#111; padding:20px; border-radius:10px; }
-
-/* زر صوت الطيور */
-#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
-
-/* قائمة الدعم */
-.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
-.footer-menu a { color:#ffd700; text-decoration:none; }
-
-
-/* ألوان المكتبات */
-.icon-movies { background: rgba(30,144,255,0.85); border:2px solid rgba(30,144,255,0.9); }
-.icon-movies-sub { background: rgba(30,144,255,0.6); border:2px solid rgba(30,144,255,0.7); }
-
-.icon-sports { background: rgba(0,200,83,0.85); border:2px solid rgba(0,200,83,0.9); }
-.icon-sports-sub { background: rgba(0,200,83,0.6); border:2px solid rgba(0,200,83,0.7); }
-
-.icon-support { background: rgba(255,215,0,0.85); border:2px solid rgba(255,215,0,0.9); color:#000; }
-.icon-support-sub { background: rgba(255,215,0,0.6); border:2px solid rgba(255,215,0,0.7); color:#000; }
-
-.icon-contact { background: rgba(65,105,225,0.85); border:2px solid rgba(65,105,225,0.9); }
-.icon-contact-sub { background: rgba(65,105,225,0.6); border:2px solid rgba(65,105,225,0.7); }
-
-.icon-cv { background: rgba(128,0,128,0.85); border:2px solid rgba(128,0,128,0.9); }
-.icon-cv-sub { background: rgba(128,0,128,0.6); border:2px solid rgba(128,0,128,0.7); }
-</style>
+  </style>
+</head>
 <body>
+
 <div id="player-container">
-<div id="player"></div>
+  <div id="player"></div>
 </div>
+
 <div class="controls">
-<button onclick="playPause()">⏯</button>
-<button onclick="muteUnmute()">🔊</button>
-<button onclick="volumeUp()">🔼</button>
-<button onclick="volumeDown()">🔽</button>
+  <button onclick="playPause()">⏯</button>
+  <button onclick="muteUnmute()">🔊</button>
+  <button onclick="volumeUp()">🔼</button>
+  <button onclick="volumeDown()">🔽</button>
 </div>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
@@ -165,44 +139,19 @@
     }
   }
 </script>
-<!-- أيقونات -->
-<div class="icons-row">
-<!-- مثال مكتبة -->
-<div class="icon-circle" onclick="toggleLibrary('libraryMovies')">🎬 أفلام</div>
-<!-- أيقونة الفيديو (مكان الفيديو العام) -->
-<div class="video-icon" onclick="openModal('tFdlhlmQ-ek')">
-<iframe src="https://www.youtube.com/embed/tFdlhlmQ-ek?autoplay=0&amp;mute=1&amp;controls=0"></iframe>
-</div>
-<!-- مكتبة أخرى -->
-<div class="icon-circle" onclick="toggleLibrary('librarySports')">⚽ رياضة</div>
-</div>
-<!-- مودال الفيديو -->
-<div class="modal" id="videoModal">
-<span class="close" onclick="closeVideo()">×</span>
-<div class="modal-content">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" id="videoFrame"></iframe>
-</div>
-</div>
-<script>
-function openModal(videoId){
-  document.getElementById('videoModal').style.display='flex';
-  document.getElementById('videoFrame').src="https://www.youtube.com/embed/"+videoId+"?autoplay=1";
-}
-function closeVideo(){
-  document.getElementById('videoModal').style.display='none';
-  document.getElementById('videoFrame').src="";
-}
-function toggleLibrary(id){
-  alert("فتح مكتبة: "+id); // للتجربة
-}
-</script>
+
 </body>
+</html>
+
+</head>
 <body>
-<!-- محتوى الموقع الأصلي -->
-<div id="mainContent">
+
+ 
+  <!-- محتوى الموقع الأصلي -->
+  <div id="mainContent">
 <html dir="rtl" lang="ar">
 <head>
-<style>
+    <style>
   .library .icon {
     width: 90px;              /* تكبير الأيقونة */
     height: 90px;
@@ -227,6 +176,7 @@ function toggleLibrary(id){
     background: rgba(255,255,255,0.3);
   }
 </style>
+
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
@@ -388,6 +338,7 @@ body {
 }
 </style>
 <!-- نهاية التعديلات -->
+
 <style>
 /* تحسينات الاستجابة العامة */
 img, iframe, video {
@@ -410,6 +361,7 @@ img, iframe, video {
   .icons-row { justify-content:center; flex-wrap:wrap; overflow:visible; }
 }
 </style>
+
 </head>
 <body>
 <!-- صوت الطيور -->
@@ -417,17 +369,7 @@ img, iframe, video {
 <audio id="bird-sound" loop="">
 <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3"/>
 </audio>
-<!-- الفيديوهات أعلى الصفحة -->
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:20px;">
-<!-- الفيديو الأول -->
-<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n7eQejkXbnM&amp;controls=0"></iframe>
-</div>
-<!-- الفيديو الثاني -->
-<div class="video-icon" onclick="openModal('zq6ohxTDNZY')">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
-</div>
-</div>
+<!-- ال
 <!-- باقي محتوى الصفحة (الأيقونات، المكتبات... الخ) يبقى كما هو -->
 <!-- مودال الحدث -->
 <div aria-hidden="true" id="eventModal">
@@ -524,18 +466,23 @@ function closeEventModal(){
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
 <div class="icons-row">
-<!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
-<div class="library-col library-funny">
-<div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
-<div class="library-content" id="libraryFunnyContent">
-<div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
-<div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
-<div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
-</div>
-</div>
+
+      <!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
+      <div class="library-col library-funny">
+        <div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
+        <div class="library-content" id="libraryFunnyContent">
+          <div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
+          <div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
+          <div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
+
+        </div>
+      </div>
+
 <!-- مكتبات كما في الأصل -->
 <div class="library-col"><div class="icon-circle" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 المكتبة الوثائقية</div><div class="library-content" id="libraryDocContent"><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R62QVvz1Aso?si=fBpxO3bP0lgywZ0o')" style="background:rgba(255,215,0,0.4);color:#000;">نيرون صبيا (رومان)</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/23jGQdwSRJs?si=wVO22IfAImGPMP01')" style="background:rgba(255,215,0,0.4);color:#000;">الحرب العالمية الثانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/DNE6YbGO6-M?si=wJ0MYQGkT_4LU_xH')" style="background:rgba(255,215,0,0.4);color:#000;">زواج كاترين دي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/zh2HwG8fYFo?si=TadrwzFeaJvCAum9')" style="background:rgba(255,215,0,0.4);color:#000;">الحضارات الإنسانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hvJSvGslOl8?si=dHs5b1t3BS3gDPm9')" style="background:rgba(255,215,0,0.4);color:#000;">صدام حسين</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/RO0xx5oeTA8?si=p4UOx0rHS6xXwrQG')" style="background:rgba(255,215,0,0.4);color:#000;">كوريا الشمالية</div></div></div><div class="library-col">
 </div>
+
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.85);color:#fff;">🎨 كرتون</div>
 <div class="library-content" id="libraryCartoonContent">
@@ -545,20 +492,25 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vxjjPSS4dzY?si=g8CyER6aIfJ2djSs')" style="background:rgba(0,0,0,0.4);color:#fff;">عدنان ولينا</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/rgja-WejbcM?si=gO4iQmrZijj2vPVG')" style="background:rgba(0,0,0,0.4);color:#fff;">انمي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/IPM-KnxvKyQ?si=kXF3RGb9cMoZraHf')" style="background:rgba(0,0,0,0.4);color:#fff;">هايدي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/SZuOFoeH0KI?si=RhBwXKq_5igXU8EO')" style="background:rgba(0,0,0,0.4);color:#fff;">جرند ديزر</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/gCPqB02fxns?si=2ThhuLyVrab-q5V6')" style="background:rgba(0,0,0,0.4);color:#fff;">جزيرة الكنز</div></div>
 </div>
+
+
 <div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
-<div class="library-content" id="libraryMoviesContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE?si=PpEENjfmij06kLDS')">Sisters with Secrets</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8?si=iRv4Ytz-Ypnu5MaW')">جاكي شان</div>
-</div>
+  <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
+  <div class="library-content" id="libraryMoviesContent">
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE?si=PpEENjfmij06kLDS')">Sisters with Secrets</div>
+    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8?si=iRv4Ytz-Ypnu5MaW')">جاكي شان</div>
+  </div>
 </div>
 </div></div>
+
+
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
 <div class="library-content" id="libraryReligionContent">
@@ -570,6 +522,7 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
 </div>
 </div>
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
 <div class="library-content" id="librarySportsContent">
@@ -580,11 +533,13 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/T1REYeRJgMU?si=fpmhmbbgPCX0YKWb')" style="background:rgba(165,42,42,0.4);color:#fff;">مصارعة</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bGm1S2yQAxg?si=JThCE7eXXYefnoUB')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة الطائرة</div></div>
 <div class="library-col">
+    
 <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
 <div class="library-content" id="libraryCookingContent">
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')" style="background:rgba(199,21,133,0.4);color:#fff;">الطبخ</div>
 </div>
 </div>
+
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
 <div class="library-content" id="libraryMusicContent">
@@ -602,6 +557,7 @@ function closeEventModal(){
 <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
 <div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
 </div>
+
 <!-- مكتبة جولة معرفية كاملة -->
 <div class="library-col library-knowledge">
 <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
@@ -820,186 +776,10 @@ function togglePersonalStory(id){
   var s=document.getElementById(id);
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
-</script><!-- أيقونة اللعبة -->
-<div class="icon-game" 
-     style="display:inline-flex;cursor:pointer;width:60px;height:60px;border-radius:50%;background:transparent;color:#fff;font-weight:bold;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;margin:5px;text-align:center;"
-     title="بينج بونج"
-     onclick="openGame()">
-  بينج بونج
-</div>
-
-<!-- نافذة اللعبة -->
-<div id="pongModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:9999;">
-  <div style="position:relative;width:90%;max-width:550px;background:#071426;border-radius:12px;padding:12px;box-shadow:0 0 20px rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;">
-    <span style="position:absolute;top:8px;right:12px;color:#fff;font-size:24px;cursor:pointer;" onclick="closeGame()">&times;</span>
-    <h2 style="color:#dfefff;text-align:center;margin:10px 0;">لعبة بينغ بونغ</h2>
-    <div style="text-align:center;color:#fff;font-size:14px;margin-bottom:6px;">
-      النقاط: <span id="scoreDisplay">0</span> | الحياة: <span id="livesDisplay">3</span> | المستوى: <span id="levelDisplay">1</span> | القوى: <span id="powerDisplay">0</span>
-    </div>
-    <canvas id="pongCanvas" width="480" height="320" style="display:block;margin:0 auto;background:#000;border-radius:6px;"></canvas>
-    <div style="text-align:center;margin-top:8px;">
-      <button onclick="pauseGame()" style="padding:6px 12px;margin-right:6px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إيقاف مؤقت</button>
-      <button onclick="resetGame()" style="padding:6px 12px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إعادة تشغيل</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// فتح وإغلاق اللعبة
-function openGame() { document.getElementById('pongModal').style.display = 'flex'; }
-function closeGame() { document.getElementById('pongModal').style.display = 'none'; }
-
-// إعدادات اللعبة
-const canvas = document.getElementById("pongCanvas");
-const ctx = canvas.getContext("2d");
-const W = canvas.width, H = canvas.height;
-
-let paddle = {w:100,h:12,x:(W-100)/2,speed:8};
-let ball = {r:10,x:W/2,y:H/2,vx:4,vy:-4,color:"#00ff00"};
-let score = 0, lives = 3, level = 1, combo = 0, powers = 0;
-let paused = false;
-let activePower = null;
-let powerTimer = 0;
-
-const scoreDisplay = document.getElementById('scoreDisplay');
-const livesDisplay = document.getElementById('livesDisplay');
-const levelDisplay = document.getElementById('levelDisplay');
-const powerDisplay = document.getElementById('powerDisplay');
-
-let rightPressed = false, leftPressed = false;
-
-// تحكم لوحة المفاتيح
-document.addEventListener("keydown", e=>{
-  if(e.key=="ArrowRight") rightPressed=true;
-  if(e.key=="ArrowLeft") leftPressed=true;
-  if(e.key==" ") paused=!paused;
-});
-document.addEventListener("keyup", e=>{
-  if(e.key=="ArrowRight") rightPressed=false;
-  if(e.key=="ArrowLeft") leftPressed=false;
-});
-
-// دعم اللمس
-canvas.addEventListener('touchmove', e=>{
-  e.preventDefault();
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  paddle.x = t.clientX - rect.left - paddle.w/2;
-  paddle.x = Math.max(0, Math.min(W-paddle.w, paddle.x));
-}, {passive:false});
-
-// دوال اللعبة
-function drawBall(){ 
-  ctx.beginPath(); 
-  ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); 
-  ctx.fillStyle=ball.color; 
-  ctx.shadowColor=ball.color; 
-  ctx.shadowBlur=8; 
-  ctx.fill(); 
-  ctx.closePath(); 
-}
-function drawPaddle(){ 
-  ctx.beginPath(); 
-  ctx.rect(paddle.x,H-paddle.h,paddle.w,paddle.h); 
-  ctx.fillStyle="#0095DD"; 
-  if(activePower==="expand") ctx.fillStyle="#FFD700"; // لون مضرب عند التوسيع
-  ctx.shadowColor=ctx.fillStyle; 
-  ctx.shadowBlur=4; 
-  ctx.fill(); 
-  ctx.closePath(); 
-}
-function drawHUD(){ 
-  scoreDisplay.textContent=score; 
-  livesDisplay.textContent=lives; 
-  levelDisplay.textContent=level; 
-  powerDisplay.textContent=powers; 
-}
-
-function resetBall(){ 
-  ball.x=W/2; ball.y=H/2; ball.vx=4*(Math.random()>0.5?1:-1); ball.vy=-4; ball.color="#00ff00"; 
-  combo=0; activePower=null; powerTimer=0;
-}
-
-function resetGame(){ 
-  score=0; lives=3; level=1; paddle.w=100; powers=0; 
-  resetBall(); paused=false; 
-}
-
-function pauseGame(){ paused=!paused; }
-
-// قوى خاصة عشوائية
-function spawnPower(){
-  if(Math.random()<0.02 && !activePower){ 
-    const types=["expand","slow","double"]; 
-    activePower=types[Math.floor(Math.random()*types.length)]; 
-    powerTimer=500; 
-    powers++; 
-  }
-}
-
-function updatePower(){
-  if(activePower){
-    powerTimer--;
-    if(powerTimer<=0){ activePower=null; paddle.w=100; }
-    if(activePower==="expand") paddle.w=150;
-    if(activePower==="slow") { ball.vx*=0.99; ball.vy*=0.99; }
-    // double ball يمكن إضافتها مستقبلياً
-  }
-}
-
-// حركة المضرب
-function movePaddle() {
-    if(rightPressed) paddle.x += paddle.speed;
-    if(leftPressed) paddle.x -= paddle.speed;
-    if(paddle.x < 0) paddle.x = 0;
-    if(paddle.x + paddle.w > W) paddle.x = W - paddle.w;
-}
-
-// تحديث اللعبة
-function update(){
-  if(paused) return;
-
-  spawnPower();
-  updatePower();
-
-  ball.x += ball.vx; ball.y += ball.vy;
-
-  // الجدران الجانبية
-  if(ball.x - ball.r <0){ ball.x=ball.r; ball.vx*=-1; }
-  if(ball.x+ball.r>W){ ball.x=W-ball.r; ball.vx*=-1; }
-
-  // الجدار العلوي
-  if(ball.y - ball.r <0){ ball.y=ball.r; ball.vy*=-1; score++; combo++; 
-    if(combo%5==0){ level++; ball.vx*=1.05; ball.vy*=1.05; } 
-  }
-
-  // تصادم مع المضرب
-  if(ball.y + ball.r >= H-paddle.h && ball.x >= paddle.x && ball.x <= paddle.x+paddle.w){
-    const hitPos = (ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
-    const speed = Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
-    const angle = hitPos * Math.PI/3;
-    ball.vx = speed*Math.sin(angle); ball.vy = -Math.abs(speed*Math.cos(angle));
-    combo++;
-    if(combo%10==0 && paddle.w<150) paddle.w+=10;
-  }
-
-  // الكرة أسفل الشاشة
-  if(ball.y - ball.r > H){ lives--; if(lives<=0){ alert('انتهت اللعبة! النقاط: '+score); resetGame(); } else resetBall(); }
-
-  movePaddle(); // <-- هنا حركة المضرب
-  drawHUD();
-}
-
-// الرسم
-function draw(){ 
-  ctx.clearRect(0,0,W,H); 
-  drawBall(); drawPaddle(); 
-}
-
-// حلقة اللعبة
-function loop(){ update(); draw(); requestAnimationFrame(loop); }
-loop();
 </script>
+<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
+</div>
 
 <!-- قائمة الدعم -->
 <div class="footer-menu">
@@ -1011,6 +791,7 @@ loop();
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
 </p>
 <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+
 <!-- سيرة ذاتية -->
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
 <div id="cvPage">
@@ -1022,21 +803,226 @@ loop();
 </div>
 </div>
 </div>
-.
+.</p>
+  </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أيقونة لعبة بولينج</title>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #111;
+  }
+  #icon {
+    width: 100px;
+    height: 100px;
+    background: orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+  }
+  #gameContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 1000;
+    background: #222;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  canvas {
+    display: block;
+    background: #333;
+    border-radius: 10px;
+  }
+  button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #ff5722;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<div id="icon">بولينج 🎳<br>إضغط للعب</div>
+
+<div id="gameContainer">
+  <canvas id="game" width="500" height="600"></canvas>
+  <div>
+    <button id="closeBtn">إغلاق</button>
+    <button id="resetBtn">إعادة اللعب</button>
+    <button id="levelBtn">المستوى التالي</button>
+  </div>
+  <div style="color:white; font-size:16px;">النقاط: <span id="scoreDisplay">0</span> | المستوى: <span id="levelDisplay">1</span></div>
+</div>
 
 <script>
+const icon = document.getElementById('icon');
+const gameContainer = document.getElementById('gameContainer');
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const closeBtn = document.getElementById('closeBtn');
+const resetBtn = document.getElementById('resetBtn');
+const levelBtn = document.getElementById('levelBtn');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const levelDisplay = document.getElementById('levelDisplay');
+
+let level = 1;
+let score = 0;
+let isRunning = false;
+let ball = { x: 250, y: 550, radius: 10, dx: 0, dy: -5 };
+let pins = [];
+
+function createPins() {
+  pins = [];
+  let rows = 3 + level; // زيادة عدد الصفوف كل مستوى
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col <= row; col++) {
+      pins.push({ x: 250 - row*15 + col*30, y: 50 + row*40, hit: false, effect: 0 });
+    }
+  }
+}
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+  ctx.fillStyle = 'red';
+  ctx.fill();
+  ctx.closePath();
+
+  pins.forEach(pin => {
+    if (!pin.hit) {
+      ctx.beginPath();
+      ctx.arc(pin.x, pin.y, 10, 0, Math.PI*2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.closePath();
+    } else if (pin.effect > 0) {
+      ctx.beginPath();
+      ctx.arc(pin.x, pin.y, 10, 0, Math.PI*2);
+      ctx.fillStyle = 'orange';
+      ctx.fill();
+      ctx.closePath();
+      pin.effect--;
+    }
+  });
+}
+
+function update() {
+  ball.y += ball.dy - level*0.5; // سرعة أعلى مع المستوى
+  ball.x += ball.dx;
+
+  pins.forEach(pin => {
+    if (!pin.hit) {
+      let dx = ball.x - pin.x;
+      let dy = ball.y - pin.y;
+      let distance = Math.sqrt(dx*dx + dy*dy);
+      if (distance < ball.radius + 10) {
+        pin.hit = true;
+        pin.effect = 10;
+        score++;
+        scoreDisplay.textContent = score;
+      }
+    }
+  });
+
+  if (ball.y < 0) {
+    ball.x = 250;
+    ball.y = 550;
+    ball.dx = 0;
+    ball.dy = -5;
+  }
+}
+
+function loop() {
+  if (isRunning) {
+    draw();
+    update();
+    requestAnimationFrame(loop);
+  }
+}
+
+icon.addEventListener('click', () => {
+  gameContainer.style.display = 'block';
+  if(!isRunning){
+    isRunning = true;
+    createPins();
+    loop();
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  let rect = canvas.getBoundingClientRect();
+  ball.x = e.clientX - rect.left;
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') ball.x -= 10;
+  if (e.key === 'ArrowRight') ball.x += 10;
+});
+
+closeBtn.addEventListener('click', () => {
+  gameContainer.style.display = 'none';
+  isRunning = false;
+});
+
+resetBtn.addEventListener('click', () => {
+  score = 0;
+  scoreDisplay.textContent = score;
+  ball.x = 250; ball.y = 550;
+  createPins();
+  if(!isRunning){ isRunning = true; loop(); }
+});
+
+levelBtn.addEventListener('click', () => {
+  level++;
+  levelDisplay.textContent = level;
+  ball.x = 250; ball.y = 550;
+  createPins();
+});
+</script>
+
+</body>
+</html>
+
+  <script>
     function enterSite(){
       document.getElementById("startScreen").style.display="none";
       document.getElementById("mainContent").style.display="block";
     }
   </script>
+
+
 <!-- مودال قصة فكاهية -->
 <div class="modal" id="funnyStoryModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
-<h2>😂 قصة فكاهية</h2>
-<p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br/>
-    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br/>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
+    <h2>😂 قصة فكاهية</h2>
+    <p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br>
+    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br>
     قال البخيل: "نعم، أكلت طعامًا عند جاري!قيل إن أشعب خال الأصمعي.
 
 عن سالم أنه قال لأشعب: إني أرى الشيطان ليتمثل على صورتك، وكان رآه بكرة، وأطعمه هريسة، ثم بعد ساعتين رآه مصفرا عاصبًا رأسه، بيده قصبة، قد تحامل إلى دار عبد الله بن عمرو بن عثمان.
@@ -1082,90 +1068,111 @@ loop();
 فقلت أعطار ثوى في رحالنا
 وما علمت ليلى سوى ريحها عطرا
 فقال له: أحسنت ولولا أن يتحدث الناس لأجزلت لك الجائزة، وإنك من الأمر لبمكان.الطبيب: "واضح، لأن معدتك لم تتعود على الأكل المجاني!"</p>
+  </div>
 </div>
-</div>
+
 <!-- مودال نكت -->
 <div class="modal" id="jokesModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
-<h2>🤣 نكت</h2>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br/>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br/>- الطالب: كتبوا عنه في التاريخ!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br/>- البقال: لا والله عندي ضغط!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-</div>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
+    <h2>🤣 نكت</h2>
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br>- الطالب: كتبوا عنه في التاريخ!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+
+    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br>- البقال: لا والله عندي ضغط!</p>
+    <p style="display:none;color:#ffeb3b;">😂</p>
+  </div>
 </div>
 <!-- مودال حكايات الأغبياء -->
 <div class="modal" id="stupidModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
-<h2>🙃 حكايات الأغبياء</h2>
-<h3>الحكاية الأولى</h3>
-<p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br/>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
+    <h2>🙃 حكايات الأغبياء</h2>
+
+    <h3>الحكاية الأولى</h3>
+    <p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br>
     قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
-<hr/>
-<h3>الحكاية الثانية</h3>
-<p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br/>
-    فسأله الدكتور: "منذ متى؟"<br/>
+
+    <hr>
+
+    <h3>الحكاية الثانية</h3>
+    <p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br>
+    فسأله الدكتور: "منذ متى؟"<br>
     رد الغبي: "منذ متى إيش؟"</p>
-<hr/>
-<h3>الحكاية الثالثة</h3>
-<p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br/>
-    سألوه: "ليش غمضت عيونك؟"<br/>
+
+    <hr>
+
+    <h3>الحكاية الثالثة</h3>
+    <p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br>
+    سألوه: "ليش غمضت عيونك؟"<br>
     قال: "ما أبغى أشوف الحوادث!"</p>
-<hr/>
-<h3>الحكاية الرابعة</h3>
-<p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br/>
-    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br/>
+
+    <hr>
+
+    <h3>الحكاية الرابعة</h3>
+    <p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br>
+    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br>
     فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
+  </div>
 </div>
-</div>
-<script>document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function() {
   const icons = document.querySelectorAll('.icon-circle');
+  let stopMovement = false; // حالة توقف الحركة
 
-  icons.forEach(icon => icon.style.position = "absolute");
+  // اجعل كل أيقونة مطلقة الموقع بحيث تتحرك بحرية
+  icons.forEach(icon => {
+    icon.style.position = "absolute";
+    icon.style.zIndex = 1; // أيقونات أساسية تحت الأيقونات الفرعية
+  });
 
-  function random(min, max) { return Math.random() * (max - min) + min; }
-
-  let floatInterval;
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
   function floatIcons() {
-    const containerWidth = document.documentElement.scrollWidth;
-    const containerHeight = document.documentElement.scrollHeight;
+    if (!stopMovement) { // الحركة فقط إذا لم تتوقف
+      const containerWidth = document.documentElement.scrollWidth;
+      const containerHeight = document.documentElement.scrollHeight;
 
-    icons.forEach(icon => {
-      if (!icon.classList.contains('active')) {
-        const x = random(0, containerWidth - icon.offsetWidth);
-        const y = random(0, containerHeight - icon.offsetHeight);
-        const rotation = random(-15, 15);
-        const scale = random(0.9, 1.1);
+      icons.forEach(icon => {
+        if (!icon.classList.contains('active')) {
+          const x = random(0, containerWidth - icon.offsetWidth);
+          const y = random(0, containerHeight - icon.offsetHeight);
+          const rotation = random(-15, 15);
+          const scale = random(0.9, 1.1);
 
-        icon.style.top = y + "px";
-        icon.style.left = x + "px";
-        icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-      }
-    });
+          icon.style.top = y + "px";
+          icon.style.left = x + "px";
+          icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+        }
+      });
+    }
   }
 
   // بدء الحركة المستمرة
   floatIcons();
-  floatInterval = setInterval(floatIcons, 3000);
+  setInterval(floatIcons, 3000);
 
   icons.forEach(icon => {
     icon.addEventListener('click', (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); // منع تفعيل حدث document
 
-      // إيقاف حركة الأيقونات مؤقتًا
-      clearInterval(floatInterval);
+      // توقف الحركة عند فتح الأيقونة
+      stopMovement = true;
 
       // تحديد الأيقونة المضغوطة
       icons.forEach(i => i.classList.remove('active'));
       icon.classList.add('active');
 
       // إخفاء أي مكتبات فرعية مفتوحة
-      document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
+      document.querySelectorAll('.sub-icons').forEach(sub => {
+        sub.style.display = 'none';
+        sub.style.zIndex = 1; // إعادة ترتيب z-index للأيقونات الفرعية المخفية
+      });
 
       // عرض الأيقونات الفرعية لهذه الأيقونة
       let subIcons = icon.querySelector('.sub-icons');
@@ -1175,18 +1182,16 @@ loop();
         subIcons.style.position = 'fixed';
         subIcons.style.top = rect.bottom + 'px';
         subIcons.style.left = rect.left + 'px';
+        subIcons.style.zIndex = 9999; // تظل فوق كل الأيقونات الأخرى
       }
     });
   });
 
-  // عند الضغط خارج أيقونة -> إخفاء الفرعية وإعادة تشغيل الحركة
+  // عند الضغط خارج أيقونة -> إخفاء الفرعية واستئناف الحركة
   document.addEventListener('click', () => {
     icons.forEach(i => i.classList.remove('active'));
     document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
-
-    // إعادة تشغيل الحركة
-    clearInterval(floatInterval);
-    floatInterval = setInterval(floatIcons, 3000);
+    stopMovement = false; // إعادة الحركة
   });
 
   window.addEventListener('resize', floatIcons);
@@ -1197,4 +1202,17 @@ loop();
 .icon-circle {
   transition: all 2s ease-in-out;
 }
-</style>
+.sub-icons {
+  transition: all 0.5s ease-in-out;
+}
+</style -->
+<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:20px;">
+<!-- الفيديو الأول -->
+<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n7eQejkXbnM&amp;controls=0"></iframe>
+</div>
+<!-- الفيديو الثاني -->
+<div class="video-icon" onclick="openModal('zq6ohxTDNZY')">
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
+</div>
+</div>
