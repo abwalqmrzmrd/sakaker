@@ -681,6 +681,124 @@ function toggleLibrary(id){
 }
 </script>
 <!-- الفيديو أسفل الصفحة
+<!-- أيقونة اللعبة -->
+<div class="icon-game" 
+     style="display:inline-flex;cursor:pointer;width:60px;height:60px;border-radius:50%;background:transparent;color:#fff;font-weight:bold;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;margin:5px;text-align:center;"
+     title="بينج بونج"
+     onclick="openGame()">
+  بينج بونج
+</div>
+
+<!-- نافذة اللعبة -->
+<div id="pongModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:9999;">
+  <div style="position:relative;width:90%;max-width:550px;background:#071426;border-radius:12px;padding:12px;box-shadow:0 0 20px rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;">
+    <span style="position:absolute;top:8px;right:12px;color:#fff;font-size:24px;cursor:pointer;" onclick="closeGame()">&times;</span>
+    <h2 style="color:#dfefff;text-align:center;margin:10px 0;">لعبة بينغ بونغ</h2>
+    <div style="text-align:center;color:#fff;font-size:14px;margin-bottom:6px;">
+      النقاط: <span id="scoreDisplay">0</span> | الحياة: <span id="livesDisplay">3</span> | المستوى: <span id="levelDisplay">1</span>
+    </div>
+    <canvas id="pongCanvas" width="480" height="320" style="display:block;margin:0 auto;background:#000;border-radius:6px;"></canvas>
+    <div style="text-align:center;margin-top:8px;">
+      <button onclick="pauseGame()" style="padding:6px 12px;margin-right:6px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إيقاف مؤقت</button>
+      <button onclick="resetGame()" style="padding:6px 12px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إعادة تشغيل</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// فتح وإغلاق اللعبة
+function openGame() { document.getElementById('pongModal').style.display = 'flex'; }
+function closeGame() { document.getElementById('pongModal').style.display = 'none'; }
+
+// إعدادات اللعبة
+const canvas = document.getElementById("pongCanvas");
+const ctx = canvas.getContext("2d");
+const W = canvas.width, H = canvas.height;
+
+let paddle = {w:100,h:12,x:(W-100)/2,speed:8};
+let ball = {r:10,x:W/2,y:H/2,vx:4,vy:-4};
+let score = 0, lives = 3, level = 1, combo = 0;
+let paused = false;
+
+const scoreDisplay = document.getElementById('scoreDisplay');
+const livesDisplay = document.getElementById('livesDisplay');
+const levelDisplay = document.getElementById('levelDisplay');
+
+let rightPressed = false, leftPressed = false;
+
+// تحكم لوحة المفاتيح
+document.addEventListener("keydown", e=>{
+  if(e.key=="ArrowRight") rightPressed=true;
+  if(e.key=="ArrowLeft") leftPressed=true;
+  if(e.key==" ") paused=!paused;
+});
+document.addEventListener("keyup", e=>{
+  if(e.key=="ArrowRight") rightPressed=false;
+  if(e.key=="ArrowLeft") leftPressed=false;
+});
+
+// دعم اللمس
+canvas.addEventListener('touchmove', e=>{
+  e.preventDefault();
+  const t = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  paddle.x = t.clientX - rect.left - paddle.w/2;
+  paddle.x = Math.max(0, Math.min(W-paddle.w, paddle.x));
+}, {passive:false});
+
+// رسم الكرة والمضرب
+function drawBall(){ ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fillStyle="#00ff00"; ctx.shadowColor="#0f0"; ctx.shadowBlur=8; ctx.fill(); ctx.closePath(); }
+function drawPaddle(){ ctx.beginPath(); ctx.rect(paddle.x,H-paddle.h,paddle.w,paddle.h); ctx.fillStyle="#0095DD"; ctx.shadowColor="#09f"; ctx.shadowBlur=4; ctx.fill(); ctx.closePath(); }
+function drawHUD(){ scoreDisplay.textContent=score; livesDisplay.textContent=lives; levelDisplay.textContent=level; }
+
+function resetBall(){ ball.x=W/2; ball.y=H/2; ball.vx=4*(Math.random()>0.5?1:-1); ball.vy=-4; combo=0; }
+
+function resetGame(){ score=0; lives=3; level=1; paddle.w=100; resetBall(); paused=false; }
+
+function pauseGame(){ paused=!paused; }
+
+// تحديث اللعبة
+function update(){
+  if(paused) return;
+
+  ball.x += ball.vx; ball.y += ball.vy;
+
+  // الجدران الجانبية
+  if(ball.x - ball.r <0){ ball.x=ball.r; ball.vx*=-1; }
+  if(ball.x+ball.r>W){ ball.x=W-ball.r; ball.vx*=-1; }
+
+  // الجدار العلوي
+  if(ball.y - ball.r <0){ ball.y=ball.r; ball.vy*=-1; score++; combo++; 
+    if(combo%5==0){ level++; ball.vx*=1.05; ball.vy*=1.05; } 
+  }
+
+  // تصادم مع المضرب
+  if(ball.y + ball.r >= H-paddle.h && ball.x >= paddle.x && ball.x <= paddle.x+paddle.w){
+    const hitPos = (ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
+    const speed = Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+    const angle = hitPos * Math.PI/3;
+    ball.vx = speed*Math.sin(angle); ball.vy = -Math.abs(speed*Math.cos(angle));
+    combo++;
+    if(combo%10==0 && paddle.w<150) paddle.w+=10;
+  }
+
+  // الكرة أسفل الشاشة
+  if(ball.y - ball.r > H){ lives--; if(lives<=0){ alert('انتهت اللعبة! النقاط: '+score); resetGame(); } else resetBall(); }
+
+  // حركة المضرب
+  if(rightPressed && paddle.x < W-paddle.w) paddle.x += paddle.speed;
+  if(leftPressed && paddle.x > 0) paddle.x -= paddle.speed;
+
+  drawHUD();
+}
+
+// الرسم
+function draw(){ ctx.clearRect(0,0,W,H); drawBall(); drawPaddle(); }
+
+// حلقة اللعبة
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
+</script>
 
 <!-- خواطر (s5 أول قصة) -->
 <div id="storyModal">
@@ -790,121 +908,6 @@ function togglePersonalStory(id){
 <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
 </div>
-<!-- أيقونة اللعبة -->
-<div class="icon-game" 
-     style="display:inline-flex;cursor:pointer;width:60px;height:60px;border-radius:50%;background:transparent;color:#fff;font-weight:bold;align-items:center;justify-content:center;font-size:14px;border:2px solid #fff;margin:5px;text-align:center;"
-     title="بينج بونج"
-     onclick="openGame()">
-  بينج بونج لعيه
-</div>
-
-<!-- نافذة اللعبة المخفية -->
-<div id="pongModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;z-index:9999;">
-  <div style="position:relative;width:90%;max-width:550px;background:#071426;border-radius:12px;padding:12px;box-shadow:0 0 20px rgba(0,0,0,0.5);">
-    <span style="position:absolute;top:8px;right:12px;color:#fff;font-size:24px;cursor:pointer;" onclick="closeGame()">&times;</span>
-    <h2 style="color:#dfefff;text-align:center;margin:10px 0;">لعبة بينغ بونغ</h2>
-    <div style="text-align:center;color:#fff;font-size:14px;margin-bottom:6px;">
-      النقاط: <span id="scoreDisplay">0</span> | الحياة: <span id="livesDisplay">3</span> | المستوى: <span id="levelDisplay">1</span>
-    </div>
-    <canvas id="pongCanvas" width="480" height="320" style="display:block;margin:0 auto;background:#000;border-radius:6px;"></canvas>
-    <div style="text-align:center;margin-top:8px;">
-      <button onclick="pauseGame()" style="padding:6px 12px;margin-right:6px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إيقاف مؤقت</button>
-      <button onclick="resetGame()" style="padding:6px 12px;border:none;border-radius:6px;background:#fff;color:#000;cursor:pointer;">إعادة تشغيل</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// فتح وإغلاق اللعبة
-function openGame() { document.getElementById('pongModal').style.display = 'flex'; }
-function closeGame() { document.getElementById('pongModal').style.display = 'none'; }
-
-// كود اللعبة
-const canvas = document.getElementById("pongCanvas");
-const ctx = canvas.getContext("2d");
-let W = canvas.width, H = canvas.height;
-
-let paddle = {w:100,h:12,x:(W-100)/2,speed:8};
-let ball = {r:10,x:W/2,y:H/2,vx:4,vy:-4};
-let score = 0, lives = 3, level = 1, combo = 0;
-let paused = false;
-
-const scoreDisplay = document.getElementById('scoreDisplay');
-const livesDisplay = document.getElementById('livesDisplay');
-const levelDisplay = document.getElementById('levelDisplay');
-
-let rightPressed = false, leftPressed = false;
-
-document.addEventListener("keydown", e=>{
-  if(e.key=="ArrowRight") rightPressed=true;
-  if(e.key=="ArrowLeft") leftPressed=true;
-  if(e.key==" ") paused=!paused;
-});
-document.addEventListener("keyup", e=>{
-  if(e.key=="ArrowRight") rightPressed=false;
-  if(e.key=="ArrowLeft") leftPressed=false;
-});
-
-// دعم اللمس
-canvas.addEventListener('touchmove', e=>{
-  e.preventDefault();
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  paddle.x = t.clientX - rect.left - paddle.w/2;
-  paddle.x = Math.max(0, Math.min(W-paddle.w, paddle.x));
-}, {passive:false});
-
-// دوال اللعبة
-function drawBall(){ ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fillStyle="#00ff00"; ctx.shadowColor="#0f0"; ctx.shadowBlur=8; ctx.fill(); ctx.closePath(); }
-function drawPaddle(){ ctx.beginPath(); ctx.rect(paddle.x,H-paddle.h,paddle.w,paddle.h); ctx.fillStyle="#0095DD"; ctx.shadowColor="#09f"; ctx.shadowBlur=4; ctx.fill(); ctx.closePath(); }
-function drawHUD(){ scoreDisplay.textContent=score; livesDisplay.textContent=lives; levelDisplay.textContent=level; }
-
-function resetBall(){ ball.x=W/2; ball.y=H/2; ball.vx=4*(Math.random()>0.5?1:-1); ball.vy=-4; combo=0; }
-
-function resetGame(){ score=0;lives=3;level=1; paddle.w=100; resetBall(); paused=false; }
-
-function pauseGame(){ paused=!paused; }
-
-function update(){
-  if(paused) return;
-
-  ball.x += ball.vx; ball.y += ball.vy;
-
-  // تصادم مع الجدران الجانبية
-  if(ball.x - ball.r <0 || ball.x+ball.r>W) ball.vx*=-1;
-  if(ball.y - ball.r <0){ ball.vy*=-1; score++; combo++; if(combo%5==0) level++; ball.vx*=1.02; ball.vy*=1.02; }
-
-  // تصادم مع المضرب
-  if(ball.y + ball.r >= H-paddle.h && ball.x >= paddle.x && ball.x <= paddle.x+paddle.w){
-    const hitPos = (ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
-    const speed = Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
-    const angle = hitPos * Math.PI/3;
-    ball.vx = speed*Math.sin(angle); ball.vy = -Math.abs(speed*Math.cos(angle));
-    ball.vx*=1.03; ball.vy*=1.03;
-    combo++;
-    if(combo%10==0 && paddle.w<150) paddle.w+=10; // توسيع المضرب كل 10 ضربات متتالية
-  }
-
-  // الكرة أسفل الشاشة
-  if(ball.y - ball.r > H){ lives--; if(lives<=0){ alert('انتهت اللعبة! النقاط: '+score); resetGame(); } else resetBall(); }
-
-  // حركة المضرب
-  if(rightPressed && paddle.x<paddle.w) paddle.x+=paddle.speed;
-  if(leftPressed && paddle.x>0) paddle.x-=paddle.speed;
-
-  drawHUD();
-}
-
-// الرسم
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  drawBall(); drawPaddle();
-}
-
-// حلقة اللعبة
-function loop(){ update(); draw(); requestAnimationFrame(loop); }
-loop();
-</script>
 
 <!-- قائمة الدعم -->
 <div class="footer-menu">
