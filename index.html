@@ -509,6 +509,257 @@ function closeEventModal(){
 </div>
 </div></div>
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ألعابي</title>
+<style>
+  body {
+    margin:0; padding:0;
+    background:#111;
+    font-family:Tahoma, sans-serif;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
+  .icon {
+    width:90px; height:90px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.2);
+    display:flex; justify-content:center; align-items:center;
+    margin:10px;
+    cursor:pointer;
+    flex-direction:column;
+    transition:0.3s;
+  }
+  .icon:hover { background:rgba(255,255,255,0.4); }
+  .container {
+    display:flex; flex-wrap:wrap; justify-content:center;
+  }
+  .modal {
+    display:none;
+    position:fixed; top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.85);
+    justify-content:center; align-items:center;
+    z-index:9999;
+  }
+  .modal-content {
+    position:relative;
+    width:90%; max-width:550px;
+    background:#071426;
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .close {
+    position:absolute; top:8px; right:12px;
+    color:#fff; font-size:24px; cursor:pointer;
+  }
+  button {
+    padding:6px 12px; border:none;
+    border-radius:6px; margin:4px;
+    background:#fff; color:#000; cursor:pointer;
+  }
+  #cardsArea {
+    display:flex; justify-content:center; align-items:center;
+    margin-top:10px; flex-wrap:wrap;
+  }
+  .card {
+    width:50px; height:70px;
+    border-radius:6px;
+    background:#fff;
+    color:#000;
+    display:flex; justify-content:center; align-items:center;
+    margin:4px; font-weight:bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="icon" onclick="openGames()">
+  🎮
+  <div>ألعابي</div>
+</div>
+
+<!-- مكتبة الألعاب -->
+<div id="gamesModal" class="modal">
+  <div class="modal-content" style="max-width:400px;">
+    <span class="close" onclick="closeGames()">&times;</span>
+    <h2 style="color:#fff;">اختر لعبتك</h2>
+    <div class="container">
+      <div class="icon" onclick="openPong()">
+        🏓
+        <div>بينغ بونغ</div>
+      </div>
+      <div class="icon" onclick="openCards()">
+        🃏
+        <div>لعبة ورق</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة لعبة بينغ بونغ -->
+<div id="pongModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeGame()">&times;</span>
+    <h2 style="color:#dfefff;">لعبة بينغ بونغ</h2>
+    <div style="text-align:center;color:#fff;font-size:14px;margin-bottom:6px;">
+      النقاط: <span id="scoreDisplay">0</span> | الحياة: <span id="livesDisplay">3</span> | المستوى: <span id="levelDisplay">1</span> | القوى: <span id="powerDisplay">0</span>
+    </div>
+    <canvas id="pongCanvas" width="480" height="320" style="display:block;margin:0 auto;background:#000;border-radius:6px;"></canvas>
+    <div style="text-align:center;margin-top:8px;">
+      <button onclick="pauseGame()">إيقاف مؤقت</button>
+      <button onclick="resetGame()">إعادة تشغيل</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة لعبة الورق -->
+<div id="cardsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCards()">&times;</span>
+    <h2 style="color:#fff;">لعبة ورق</h2>
+    <p style="color:#ccc;">اسحب ورقة لكل لاعب</p>
+    <div id="cardsArea"></div>
+    <div style="margin-top:10px;">
+      <button onclick="drawCards()">اسحب الأوراق</button>
+      <button onclick="resetCards()">إعادة اللعب</button>
+    </div>
+    <div style="color:#fff;margin-top:8px;" id="cardsResult"></div>
+  </div>
+</div>
+
+<script>
+// التحكم في النوافذ
+function openGames(){ document.getElementById("gamesModal").style.display="flex"; }
+function closeGames(){ document.getElementById("gamesModal").style.display="none"; }
+function openPong(){ document.getElementById("gamesModal").style.display="none"; document.getElementById("pongModal").style.display="flex"; }
+function closeGame(){ document.getElementById("pongModal").style.display="none"; }
+function openCards(){ document.getElementById("gamesModal").style.display="none"; document.getElementById("cardsModal").style.display="flex"; }
+function closeCards(){ document.getElementById("cardsModal").style.display="none"; }
+
+// ========== كود لعبة بينغ بونغ ==========
+const canvas = document.getElementById("pongCanvas");
+const ctx = canvas.getContext("2d");
+const W = canvas.width, H = canvas.height;
+
+let paddle = {w:100,h:12,x:(W-100)/2,speed:8};
+let ball = {r:10,x:W/2,y:H/2,vx:4,vy:-4,color:"#00ff00"};
+let score = 0, lives = 3, level = 1, combo = 0, powers = 0;
+let paused = false;
+let activePower = null, powerTimer = 0;
+
+const scoreDisplay = document.getElementById('scoreDisplay');
+const livesDisplay = document.getElementById('livesDisplay');
+const levelDisplay = document.getElementById('levelDisplay');
+const powerDisplay = document.getElementById('powerDisplay');
+
+let rightPressed = false, leftPressed = false;
+
+document.addEventListener("keydown", e=>{
+  if(e.key=="ArrowRight") rightPressed=true;
+  if(e.key=="ArrowLeft") leftPressed=true;
+  if(e.key==" ") paused=!paused;
+});
+document.addEventListener("keyup", e=>{
+  if(e.key=="ArrowRight") rightPressed=false;
+  if(e.key=="ArrowLeft") leftPressed=false;
+});
+
+canvas.addEventListener('touchmove', e=>{
+  e.preventDefault();
+  const t = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  paddle.x = t.clientX - rect.left - paddle.w/2;
+  paddle.x = Math.max(0, Math.min(W-paddle.w, paddle.x));
+}, {passive:false});
+
+function drawBall(){ ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fillStyle=ball.color; ctx.shadowColor=ball.color; ctx.shadowBlur=8; ctx.fill(); ctx.closePath(); }
+function drawPaddle(){ ctx.beginPath(); ctx.rect(paddle.x,H-paddle.h,paddle.w,paddle.h); ctx.fillStyle=(activePower==="expand")?"#FFD700":"#0095DD"; ctx.shadowColor=ctx.fillStyle; ctx.shadowBlur=4; ctx.fill(); ctx.closePath(); }
+function drawHUD(){ scoreDisplay.textContent=score; livesDisplay.textContent=lives; levelDisplay.textContent=level; powerDisplay.textContent=powers; }
+
+function resetBall(){ ball.x=W/2; ball.y=H/2; ball.vx=4*(Math.random()>0.5?1:-1); ball.vy=-4; ball.color="#00ff00"; combo=0; activePower=null; powerTimer=0; }
+function resetGame(){ score=0; lives=3; level=1; paddle.w=100; powers=0; resetBall(); paused=false; }
+function pauseGame(){ paused=!paused; }
+
+function spawnPower(){ if(Math.random()<0.02 && !activePower){ const types=["expand","slow","double"]; activePower=types[Math.floor(Math.random()*types.length)]; powerTimer=500; powers++; } }
+function updatePower(){ if(activePower){ powerTimer--; if(powerTimer<=0){ activePower=null; paddle.w=100; } if(activePower==="expand") paddle.w=150; if(activePower==="slow"){ ball.vx*=0.99; ball.vy*=0.99; } } }
+
+function movePaddle(){ if(rightPressed) paddle.x+=paddle.speed; if(leftPressed) paddle.x-=paddle.speed; paddle.x=Math.max(0,Math.min(W-paddle.w,paddle.x)); }
+
+function update(){
+  if(paused) return;
+  spawnPower(); updatePower();
+  ball.x+=ball.vx; ball.y+=ball.vy;
+  if(ball.x-ball.r<0){ ball.x=ball.r; ball.vx*=-1; }
+  if(ball.x+ball.r>W){ ball.x=W-ball.r; ball.vx*=-1; }
+  if(ball.y-ball.r<0){ ball.y=ball.r; ball.vy*=-1; score++; combo++; if(combo%5==0){ level++; ball.vx*=1.05; ball.vy*=1.05; } }
+  if(ball.y+ball.r>=H-paddle.h && ball.x>=paddle.x && ball.x<=paddle.x+paddle.w){
+    const hitPos=(ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
+    const speed=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+    const angle=hitPos*Math.PI/3;
+    ball.vx=speed*Math.sin(angle); ball.vy=-Math.abs(speed*Math.cos(angle));
+    combo++; if(combo%10==0 && paddle.w<150) paddle.w+=10;
+  }
+  if(ball.y-ball.r>H){ lives--; if(lives<=0){ alert('انتهت اللعبة! النقاط: '+score); resetGame(); } else resetBall(); }
+  movePaddle(); drawHUD();
+}
+function draw(){ ctx.clearRect(0,0,W,H); drawBall(); drawPaddle(); }
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
+
+// ========== كود لعبة الورق ==========
+let cardsDeck = [];
+let playerCards = [];
+let cpuCards = [];
+
+function resetCards(){
+  cardsDeck = [];
+  for(let i=1;i<=52;i++){ cardsDeck.push(i); }
+  playerCards=[]; cpuCards=[];
+  document.getElementById("cardsArea").innerHTML="";
+  document.getElementById("cardsResult").innerHTML="";
+}
+
+function drawCards(){
+  if(cardsDeck.length<2) { document.getElementById("cardsResult").innerText="انتهت الأوراق!"; return; }
+  playerCards=[]; cpuCards=[];
+  for(let i=0;i<2;i++){
+    let idx=Math.floor(Math.random()*cardsDeck.length);
+    playerCards.push(cardsDeck[idx]);
+    cardsDeck.splice(idx,1);
+    idx=Math.floor(Math.random()*cardsDeck.length);
+    cpuCards.push(cardsDeck[idx]);
+    cardsDeck.splice(idx,1);
+  }
+  displayCards();
+}
+
+function displayCards(){
+  const area = document.getElementById("cardsArea");
+  area.innerHTML="";
+  playerCards.forEach(c=>{ let div=document.createElement("div"); div.className="card"; div.innerText=c; area.appendChild(div); });
+  cpuCards.forEach(c=>{ let div=document.createElement("div"); div.className="card"; div.innerText=c; area.appendChild(div); });
+  let sumPlayer = playerCards.reduce((a,b)=>a+b,0);
+  let sumCPU = cpuCards.reduce((a,b)=>a+b,0);
+  let resultText = "مجموعك: "+sumPlayer+" | الكمبيوتر: "+sumCPU+" | ";
+  if(sumPlayer>sumCPU) resultText+="أنت الرابح!";
+  else if(sumPlayer<sumCPU) resultText+="الكمبيوتر الرابح!";
+  else resultText+="تعادل!";
+  document.getElementById("cardsResult").innerText=resultText;
+}
+
+resetCards();
+</script>
+</body>
+</html>
 
 
 <div class="library-col">
