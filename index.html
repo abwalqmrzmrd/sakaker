@@ -513,6 +513,7 @@ img, iframe, video {
 </style>
 </head>
 <body>
+    
 <!-- صوت الطيور -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
 <audio id="bird-sound" loop="">
@@ -792,6 +793,263 @@ function closeEventModal(){
 <p>المرحلة الأخيرة: 70 سنة وما فوق حتى الوفاة.</p>
 </div>
 </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أيقونة لعبة بولينج</title>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+  }
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+    background: orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    position: absolute;
+    transition: all 2s ease-in-out;
+    z-index: 1;
+  }
+  .sub-icons {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    transition: all 0.5s ease-in-out;
+  }
+  #gameContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 10000;
+    background: #222;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  canvas {
+    display: block;
+    background: #333;
+    border-radius: 10px;
+  }
+  button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #ff5722;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<div class="icon-circle" id="icon">بولينج 🎳<br>إضغط للعب</div>
+
+<div id="gameContainer">
+  <canvas id="game" width="500" height="600"></canvas>
+  <div>
+    <button id="closeBtn">إغلاق</button>
+    <button id="resetBtn">إعادة اللعب</button>
+    <button id="levelBtn">المستوى التالي</button>
+  </div>
+  <div style="color:white; font-size:16px;">النقاط: <span id="scoreDisplay">0</span> | المستوى: <span id="levelDisplay">1</span></div>
+</div>
+
+<script>
+const icons = document.querySelectorAll('.icon-circle');
+let stopMovement = false; // حالة توقف الحركة
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function floatIcons() {
+  if (!stopMovement) {
+    const containerWidth = document.documentElement.scrollWidth;
+    const containerHeight = document.documentElement.scrollHeight;
+    icons.forEach(icon => {
+      if (!icon.classList.contains('active')) {
+        const x = random(0, containerWidth - icon.offsetWidth);
+        const y = random(0, containerHeight - icon.offsetHeight);
+        const rotation = random(-15, 15);
+        const scale = random(0.9, 1.1);
+        icon.style.top = y + "px";
+        icon.style.left = x + "px";
+        icon.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+      }
+    });
+  }
+}
+floatIcons();
+setInterval(floatIcons, 3000);
+
+icons.forEach(icon => {
+  icon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    stopMovement = true;
+    icons.forEach(i => i.classList.remove('active'));
+    icon.classList.add('active');
+
+    // عرض اللعبة عند الضغط على أيقونة البولينج
+    if(icon.id === 'icon'){
+      document.getElementById('gameContainer').style.display = 'block';
+    }
+  });
+});
+
+// إغلاق المودال واستئناف الحركة
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('gameContainer').style.display = 'none';
+  stopMovement = false;
+});
+
+document.addEventListener('click', () => {
+  icons.forEach(i => i.classList.remove('active'));
+  stopMovement = false;
+});
+</script>
+
+<script>
+// ===== كود لعبة البولينج =====
+const icon = document.getElementById('icon');
+const gameContainer = document.getElementById('gameContainer');
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const closeBtn = document.getElementById('closeBtn');
+const resetBtn = document.getElementById('resetBtn');
+const levelBtn = document.getElementById('levelBtn');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const levelDisplay = document.getElementById('levelDisplay');
+
+let level = 1;
+let score = 0;
+let isRunning = false;
+let ball = { x: 250, y: 550, radius: 10, dx: 0, dy: -5 };
+let pins = [];
+
+function createPins() {
+  pins = [];
+  let rows = 3 + level;
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col <= row; col++) {
+      pins.push({ x: 250 - row*15 + col*30, y: 50 + row*40, hit: false, effect: 0 });
+    }
+  }
+}
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+  ctx.fillStyle = 'red';
+  ctx.fill();
+  ctx.closePath();
+
+  pins.forEach(pin => {
+    if (!pin.hit) {
+      ctx.beginPath();
+      ctx.arc(pin.x, pin.y, 10, 0, Math.PI*2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.closePath();
+    } else if (pin.effect > 0) {
+      ctx.beginPath();
+      ctx.arc(pin.x, pin.y, 10, 0, Math.PI*2);
+      ctx.fillStyle = 'orange';
+      ctx.fill();
+      ctx.closePath();
+      pin.effect--;
+    }
+  });
+}
+
+function update() {
+  ball.y += ball.dy - level*0.5;
+  ball.x += ball.dx;
+
+  pins.forEach(pin => {
+    if (!pin.hit) {
+      let dx = ball.x - pin.x;
+      let dy = ball.y - pin.y;
+      let distance = Math.sqrt(dx*dx + dy*dy);
+      if (distance < ball.radius + 10) {
+        pin.hit = true;
+        pin.effect = 10;
+        score++;
+        scoreDisplay.textContent = score;
+      }
+    }
+  });
+
+  if (ball.y < 0) {
+    ball.x = 250;
+    ball.y = 550;
+    ball.dx = 0;
+    ball.dy = -5;
+  }
+}
+
+function loop() {
+  if (isRunning) {
+    draw();
+    update();
+    requestAnimationFrame(loop);
+  }
+}
+
+icon.addEventListener('click', () => {
+  gameContainer.style.display = 'block';
+  if(!isRunning){
+    isRunning = true;
+    createPins();
+    loop();
+  }
+});
+
+canvas.addEventListener('mousemove', e => {
+  let rect = canvas.getBoundingClientRect();
+  ball.x = e.clientX - rect.left;
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') ball.x -= 10;
+  if (e.key === 'ArrowRight') ball.x += 10;
+});
+
+resetBtn.addEventListener('click', () => {
+  score = 0;
+  scoreDisplay.textContent = score;
+  ball.x = 250; ball.y = 550;
+  createPins();
+  if(!isRunning){ isRunning = true; loop(); }
+});
+
+levelBtn.addEventListener('click', () => {
+  level++;
+  levelDisplay.textContent = level;
+  ball.x = 250; ball.y = 550;
+  createPins();
+});
+</script>
+
+</body>
+</html>
+
 <style>
 .library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
 .library-knowledge .icon-circle:hover { background: rgba(255,0,0,0.35); }
@@ -1030,7 +1288,9 @@ function togglePersonalStory(id){
     فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
 </div>
 </div>
+
 <script>
+
 
 document.addEventListener("DOMContentLoaded", function() {
   const icons = document.querySelectorAll('.icon-circle');
