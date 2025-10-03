@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+
+<html dir="rtl" lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقعي</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>موقعي</title>
+<style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -76,42 +77,57 @@
     }
     #cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
     #cvPage .cv-content { max-width:900px; margin:40px auto; background:#111; padding:20px; border-radius:10px; }
-  </style>
+  
+/* تحسين استجابة لعبة بينج بونج */
+#pongCanvas {
+  width: 100%;
+  height: 400px; /* للحواسب */
+  display: block;
+  background: #000;
+}
+
+@media(max-width:600px){
+  #pongCanvas {
+    height: 220px; /* حجم أصغر للجوال */
+  }
+  #pongContainer {
+    max-width: 95%;
+  }
+}
+
+.hidden-icons {
+  display: none !important;
+}
+</style>
 </head>
 <body>
-
 <!-- الفيديوهات فوق اللعبة -->
 <div class="video-section">
-  <div class="video-icon">
-    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0" allowfullscreen></iframe>
-  </div>
-  <div class="video-icon">
-    <iframe src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&mute=1&loop=1&playlist=zq6ohxTDNZY&controls=0" allowfullscreen></iframe>
-  </div>
+<div class="video-icon">
+<iframe allowfullscreen="" src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n7eQejkXbnM&amp;controls=0"></iframe>
 </div>
-
-
+<div class="video-icon">
+<iframe allowfullscreen="" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
+</div>
+</div>
 <div style="text-align:center; margin:20px;">
-  <div onclick="document.getElementById('pongContainer').scrollIntoView({behavior:'smooth'});" 
-       style="width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.15);
+<div onclick="document.getElementById('pongContainer').scrollIntoView({behavior:'smooth'});" style="width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.15);
               display:flex; justify-content:center; align-items:center; cursor:pointer;
               border:2px solid #fff; margin:auto; font-weight:bold; color:#fff; font-size:14px;">
     🏓 بينج بونج
   </div>
 </div>
-
 <!-- اللعبة -->
 <div id="pongContainer">
-  <button id="startBtn">▶</button>
-  <div id="levelMsg"></div>
-  <div id="pongUi" style="display:none;">
-    <div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br><span id="levelLabel">المستوى: 1</span></div>
-    <button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
-    <button id="pongCloseBtn">إغلاق</button>
-  </div>
-  <canvas id="pongCanvas"></canvas>
+<button id="startBtn">▶</button>
+<div id="levelMsg"></div>
+<div id="pongUi" style="display:none;">
+<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
+<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
+<button id="pongCloseBtn">إغلاق</button>
 </div>
-
+<canvas id="pongCanvas"></canvas>
+</div>
 <!-- إدخال المحتوى الأصلي -->
 <div style="margin:20px; text-align:right;">
 <style>
@@ -185,20 +201,16 @@
       }
     }
   </style>
-</head>
 <body>
-
 <div id="player-container">
-  <div id="player"></div>
+<div id="player"></div>
 </div>
-
 <div class="controls">
-  <button onclick="playPause()">⏯</button>
-  <button onclick="muteUnmute()">🔊</button>
-  <button onclick="volumeUp()">🔼</button>
-  <button onclick="volumeDown()">🔽</button>
+<button onclick="playPause()">⏯</button>
+<button onclick="muteUnmute()">🔊</button>
+<button onclick="volumeUp()">🔼</button>
+<button onclick="volumeDown()">🔽</button>
 </div>
-
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
@@ -255,21 +267,36 @@
     }
   }
 </script>
-
 </body>
-
-</html>
-
-</head>
-
+</div>
+<script>
+// إخفاء الأيقونات عند فتح اللعبة
+document.addEventListener("DOMContentLoaded", function() {
+  var pongContainer = document.getElementById("pongContainer");
+  var closeBtn = document.getElementById("pongCloseBtn");
+  if (pongContainer) {
+    pongContainer.addEventListener("click", () => {
+      document.querySelectorAll(".icon-circle").forEach(icon => {
+        icon.classList.add("hidden-icons");
+      });
+    });
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      document.querySelectorAll(".icon-circle").forEach(icon => {
+        icon.classList.remove("hidden-icons");
+      });
+    });
+  }
+});
+</script>
+</body></html>
 <body>
-
- 
-  <!-- محتوى الموقع الأصلي -->
-  <div id="mainContent">
+<!-- محتوى الموقع الأصلي -->
+<div id="mainContent">
 <html dir="rtl" lang="ar">
 <head>
-    <style>
+<style>
   .library .icon {
     width: 90px;              /* تكبير الأيقونة */
     height: 90px;
@@ -294,7 +321,6 @@
     background: rgba(255,255,255,0.3);
   }
 </style>
-
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
@@ -456,7 +482,6 @@ body {
 }
 </style>
 <!-- نهاية التعديلات -->
-
 <style>
 /* تحسينات الاستجابة العامة */
 img, iframe, video {
@@ -479,7 +504,6 @@ img, iframe, video {
   .icons-row { justify-content:center; flex-wrap:wrap; overflow:visible; }
 }
 </style>
-
 </head>
 <body>
 <!-- صوت الطيور -->
@@ -580,31 +604,24 @@ function closeEventModal(){
 </div>
 </div>
 </div>
-<audio id="hitSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
-<audio id="scoreSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
-
-
+<audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+<audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
 </body>
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
 <div class="icons-row">
-
-      <!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
-      <div class="library-col library-funny">
-        <div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
-        <div class="library-content" id="libraryFunnyContent">
-          <div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
-          <div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
-          <div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
-
-        </div>
-      </div>
-
+<!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
+<div class="library-col library-funny">
+<div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
+<div class="library-content" id="libraryFunnyContent">
+<div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
+<div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
+<div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
+</div>
+</div>
 <!-- مكتبات كما في الأصل -->
 <div class="library-col"><div class="icon-circle" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 المكتبة الوثائقية</div><div class="library-content" id="libraryDocContent"><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R62QVvz1Aso?si=fBpxO3bP0lgywZ0o')" style="background:rgba(255,215,0,0.4);color:#000;">نيرون صبيا (رومان)</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/23jGQdwSRJs?si=wVO22IfAImGPMP01')" style="background:rgba(255,215,0,0.4);color:#000;">الحرب العالمية الثانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/DNE6YbGO6-M?si=wJ0MYQGkT_4LU_xH')" style="background:rgba(255,215,0,0.4);color:#000;">زواج كاترين دي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/zh2HwG8fYFo?si=TadrwzFeaJvCAum9')" style="background:rgba(255,215,0,0.4);color:#000;">الحضارات الإنسانية</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hvJSvGslOl8?si=dHs5b1t3BS3gDPm9')" style="background:rgba(255,215,0,0.4);color:#000;">صدام حسين</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/RO0xx5oeTA8?si=p4UOx0rHS6xXwrQG')" style="background:rgba(255,215,0,0.4);color:#000;">كوريا الشمالية</div></div></div><div class="library-col">
 </div>
-
-
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.85);color:#fff;">🎨 كرتون</div>
 <div class="library-content" id="libraryCartoonContent">
@@ -614,25 +631,20 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vxjjPSS4dzY?si=g8CyER6aIfJ2djSs')" style="background:rgba(0,0,0,0.4);color:#fff;">عدنان ولينا</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/rgja-WejbcM?si=gO4iQmrZijj2vPVG')" style="background:rgba(0,0,0,0.4);color:#fff;">انمي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/IPM-KnxvKyQ?si=kXF3RGb9cMoZraHf')" style="background:rgba(0,0,0,0.4);color:#fff;">هايدي</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/SZuOFoeH0KI?si=RhBwXKq_5igXU8EO')" style="background:rgba(0,0,0,0.4);color:#fff;">جرند ديزر</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/gCPqB02fxns?si=2ThhuLyVrab-q5V6')" style="background:rgba(0,0,0,0.4);color:#fff;">جزيرة الكنز</div></div>
 </div>
-
-
 <div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
-  <div class="library-content" id="libraryMoviesContent">
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE?si=PpEENjfmij06kLDS')">Sisters with Secrets</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8?si=iRv4Ytz-Ypnu5MaW')">جاكي شان</div>
-  </div>
+<div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
+<div class="library-content" id="libraryMoviesContent">
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE?si=PpEENjfmij06kLDS')">Sisters with Secrets</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8?si=iRv4Ytz-Ypnu5MaW')">جاكي شان</div>
+</div>
 </div>
 </div></div>
-
-
-
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
 <div class="library-content" id="libraryReligionContent">
@@ -644,7 +656,6 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
 </div>
 </div>
-
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
 <div class="library-content" id="librarySportsContent">
@@ -655,13 +666,11 @@ function closeEventModal(){
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/T1REYeRJgMU?si=fpmhmbbgPCX0YKWb')" style="background:rgba(165,42,42,0.4);color:#fff;">مصارعة</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bGm1S2yQAxg?si=JThCE7eXXYefnoUB')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة الطائرة</div></div>
 <div class="library-col">
-    
 <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
 <div class="library-content" id="libraryCookingContent">
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')" style="background:rgba(199,21,133,0.4);color:#fff;">الطبخ</div>
 </div>
 </div>
-
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
 <div class="library-content" id="libraryMusicContent">
@@ -679,7 +688,6 @@ function closeEventModal(){
 <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
 <div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
 </div>
-
 <!-- مكتبة جولة معرفية كاملة -->
 <div class="library-col library-knowledge">
 <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
@@ -792,7 +800,6 @@ function toggleLibrary(id){
   content.style.flexWrap='wrap';
 }
 </script>
-
 <!-- خواطر (s5 أول قصة) -->
 <div id="storyModal">
 <div class="content">
@@ -901,18 +908,16 @@ function togglePersonalStory(id){
 <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
 </div>
-
 <!-- قائمة الدعم -->
 <div class="footer-menu">
 <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
 <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
 <p>🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع" target="_blank">واتساب</a> | 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
     <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
 </p>
 <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
-
 <!-- سيرة ذاتية -->
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
 <div id="cvPage">
@@ -924,16 +929,15 @@ function togglePersonalStory(id){
 </div>
 </div>
 </div>
-.</p>
-  </div>
+.
 
 <!-- مودال قصة فكاهية -->
 <div class="modal" id="funnyStoryModal">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
-    <h2>😂 قصة فكاهية</h2>
-    <p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br>
-    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br>
+<div class="modal-content" onclick="event.stopPropagation()">
+<span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
+<h2>😂 قصة فكاهية</h2>
+<p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br/>
+    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br/>
     قال البخيل: "نعم، أكلت طعامًا عند جاري!قيل إن أشعب خال الأصمعي.
 
 عن سالم أنه قال لأشعب: إني أرى الشيطان ليتمثل على صورتك، وكان رآه بكرة، وأطعمه هريسة، ثم بعد ساعتين رآه مصفرا عاصبًا رأسه، بيده قصبة، قد تحامل إلى دار عبد الله بن عمرو بن عثمان.
@@ -979,55 +983,45 @@ function togglePersonalStory(id){
 فقلت أعطار ثوى في رحالنا
 وما علمت ليلى سوى ريحها عطرا
 فقال له: أحسنت ولولا أن يتحدث الناس لأجزلت لك الجائزة، وإنك من الأمر لبمكان.الطبيب: "واضح، لأن معدتك لم تتعود على الأكل المجاني!"</p>
-  </div>
 </div>
-
+</div>
 <!-- مودال نكت -->
 <div class="modal" id="jokesModal">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
-    <h2>🤣 نكت</h2>
-    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
-    <p style="display:none;color:#ffeb3b;">😂</p>
-
-    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br>- الطالب: كتبوا عنه في التاريخ!</p>
-    <p style="display:none;color:#ffeb3b;">😂</p>
-
-    <p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br>- البقال: لا والله عندي ضغط!</p>
-    <p style="display:none;color:#ffeb3b;">😂</p>
-  </div>
+<div class="modal-content" onclick="event.stopPropagation()">
+<span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
+<h2>🤣 نكت</h2>
+<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br/>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
+<p style="display:none;color:#ffeb3b;">😂</p>
+<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br/>- الطالب: كتبوا عنه في التاريخ!</p>
+<p style="display:none;color:#ffeb3b;">😂</p>
+<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br/>- البقال: لا والله عندي ضغط!</p>
+<p style="display:none;color:#ffeb3b;">😂</p>
+</div>
 </div>
 <!-- مودال حكايات الأغبياء -->
 <div class="modal" id="stupidModal">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
-    <h2>🙃 حكايات الأغبياء</h2>
-
-    <h3>الحكاية الأولى</h3>
-    <p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br>
+<div class="modal-content" onclick="event.stopPropagation()">
+<span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
+<h2>🙃 حكايات الأغبياء</h2>
+<h3>الحكاية الأولى</h3>
+<p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br/>
     قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
-
-    <hr>
-
-    <h3>الحكاية الثانية</h3>
-    <p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br>
-    فسأله الدكتور: "منذ متى؟"<br>
+<hr/>
+<h3>الحكاية الثانية</h3>
+<p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br/>
+    فسأله الدكتور: "منذ متى؟"<br/>
     رد الغبي: "منذ متى إيش؟"</p>
-
-    <hr>
-
-    <h3>الحكاية الثالثة</h3>
-    <p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br>
-    سألوه: "ليش غمضت عيونك؟"<br>
+<hr/>
+<h3>الحكاية الثالثة</h3>
+<p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br/>
+    سألوه: "ليش غمضت عيونك؟"<br/>
     قال: "ما أبغى أشوف الحوادث!"</p>
-
-    <hr>
-
-    <h3>الحكاية الرابعة</h3>
-    <p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br>
-    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br>
+<hr/>
+<h3>الحكاية الرابعة</h3>
+<p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br/>
+    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br/>
     فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
-  </div>
+</div>
 </div>
 <script>
 
@@ -1109,7 +1103,6 @@ document.addEventListener("DOMContentLoaded", function() {
   window.addEventListener('resize', floatIcons);
 });
 </script>
-
 <style>
 .icon-circle {
   transition: all 2s ease-in-out;
@@ -1118,9 +1111,6 @@ document.addEventListener("DOMContentLoaded", function() {
   transition: all 0.5s ease-in-out;
 }
 </style>
-
-</div>
-
 <script>
 (function(){
   const canvas = document.getElementById('pongCanvas');
@@ -1221,9 +1211,6 @@ function showLevelMessage(msg) {
   function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
 })();
 </script>
-
-<audio id="hitSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
-<audio id="scoreSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
-
+<audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+<audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
 </body>
-</html>
