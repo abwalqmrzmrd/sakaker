@@ -27,6 +27,16 @@
       border:2px solid #fff;
     }
     #pongContainer {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 40px auto;
+  border: 2px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+
       position: relative;
       width: 100%;
       max-width: 600px;
@@ -37,6 +47,11 @@
       background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     }
     #pongCanvas {
+  width: 100%;
+  height: 300px;
+  display: block;
+  background: #000;
+
       width: 100%;
       height: 400px;
       display: block;
@@ -75,13 +90,23 @@
   </div>
 </div>
 
+
+<div style="text-align:center; margin:20px;">
+  <div onclick="document.getElementById('pongContainer').scrollIntoView({behavior:'smooth'});" 
+       style="width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.15);
+              display:flex; justify-content:center; align-items:center; cursor:pointer;
+              border:2px solid #fff; margin:auto; font-weight:bold; color:#fff; font-size:14px;">
+    🏓 بينج بونج
+  </div>
+</div>
+
 <!-- اللعبة -->
 <div id="pongContainer">
   <button id="startBtn">▶</button>
   <div id="levelMsg"></div>
   <div id="pongUi" style="display:none;">
-    <div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span></div>
-    <button id="pongPauseBtn">إيقاف</button>
+    <div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br><span id="levelLabel">المستوى: 1</span></div>
+    <button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
     <button id="pongCloseBtn">إغلاق</button>
   </div>
   <canvas id="pongCanvas"></canvas>
@@ -555,6 +580,10 @@ function closeEventModal(){
 </div>
 </div>
 </div>
+<audio id="hitSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
+<audio id="scoreSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
+
+
 </body>
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
@@ -1096,6 +1125,32 @@ document.addEventListener("DOMContentLoaded", function() {
 (function(){
   const canvas = document.getElementById('pongCanvas');
   const ctx = canvas.getContext('2d');
+
+// نظام المستويات
+let level = 1;
+function updateLevel() {
+  const playerScore = parseInt(scoreP_el.textContent);
+  const aiScore = parseInt(scoreA_el.textContent);
+  const total = playerScore + aiScore;
+  let newLevel = Math.floor(total / 5) + 1;
+  if (newLevel !== level) {
+    level = newLevel;
+    document.getElementById('levelLabel').textContent = "المستوى: " + level;
+    showLevelMessage("🎯 مستوى جديد: " + level);
+  }
+}
+
+function showLevelMessage(msg) {
+  const levelMsg = document.getElementById('levelMsg');
+  levelMsg.textContent = msg;
+  levelMsg.style.display = 'block';
+  levelMsg.style.background = 'rgba(0,0,0,0.7)';
+  levelMsg.style.padding = '8px 12px';
+  levelMsg.style.margin = '10px auto';
+  levelMsg.style.borderRadius = '8px';
+  setTimeout(() => { levelMsg.style.display = 'none'; }, 2000);
+}
+
   const scoreP_el = document.getElementById('scoreP');
   const scoreA_el = document.getElementById('scoreA');
   const pauseBtn = document.getElementById('pongPauseBtn');
@@ -1166,6 +1221,9 @@ document.addEventListener("DOMContentLoaded", function() {
   function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
 })();
 </script>
+
+<audio id="hitSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
+<audio id="scoreSound" src="https://www.soundjay.com/button/sounds/button-10.mp3" preload="auto"></audio>
 
 </body>
 </html>
