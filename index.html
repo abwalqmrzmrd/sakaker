@@ -113,6 +113,158 @@
 
   </div>
 </div>
+<!-- اللعبة -->
+<div id="pongContainer">
+<button id="startBtn">▶</button>
+<div id="levelMsg"></div>
+<div id="pongUi" style="display:none;">
+<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
+<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
+<button id="pongCloseBtn">إغلاق</button>
+</div>
+<canvas id="pongCanvas"></canvas>
+</div>
+<!-- إدخال المحتوى الأصلي -->
+<div style="margin:20px; text-align:right;">
+<style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلفية فيديو ممتدة</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 999;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+     #pongCanvas {
+  background: transparent !important;
+}
+
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      .controls {
+        gap: 4px;
+        bottom: 8px;
+      }
+    }
+  </style>
+<body>
+<div id="player-container">
+<div id="player"></div>
+</div>
+<div class="controls">
+<button onclick="playPause()">⏯</button>
+<button onclick="muteUnmute()">🔊</button>
+<button onclick="volumeUp()">🔼</button>
+<button onclick="volumeDown()">🔽</button>
+</div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+  let currentVolume = 50;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: 'YFmV_MRSD7M',
+        controls: 0,
+        showinfo: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: (event) => {
+          player.setVolume(currentVolume);
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  function playPause() {
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
+
+  function muteUnmute() {
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      player.mute();
+    }
+  }
+
+  function volumeUp() {
+    if (currentVolume < 100) {
+      currentVolume += 10;
+      player.setVolume(currentVolume);
+    }
+  }
+
+  function volumeDown() {
+    if (currentVolume > 0) {
+      currentVolume -= 10;
+      player.setVolume(currentVolume);
+    }
+  }
 </script>
 </body>
 </div>
@@ -330,7 +482,6 @@ body {
   .footer-menu{ width:90%; margin:10px auto; }
   /* When sub-library opens, show as a horizontal row under the icons area */
   .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; !-- سيرة ذاتية -->
-  
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
 <div id="cvPage">
 <div class="cv-content">
@@ -1023,162 +1174,21 @@ function togglePersonalStory(id){
   var s=document.getElementById(id);
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
-
 </script>
-
-<!-- اللعبة -->
-<div id="pongContainer">
-<button id="startBtn">▶</button>
-<div id="levelMsg"></div>
-<div id="pongUi" style="display:none;">
-<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
-<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
-<button id="pongCloseBtn">إغلاق</button>
+<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
 </div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+<p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+</p>
+<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
 
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-<body>
-<div id="player-container">
-<div id="player"></div>
-</div>
-<div class="controls">
-<button onclick="playPause()">⏯</button>
-<button onclick="muteUnmute()">🔊</button>
-<button onclick="volumeUp()">🔼</button>
-<button onclick="volumeDown()">🔽</button>
-</div>
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  let player;
-  let currentVolume = 50;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: 'YFmV_MRSD7M',
-        controls: 0,
-        showinfo: 0,
-        modestbranding: 1
-      },
-      events: {
-        onReady: (event) => {
-          player.setVolume(currentVolume);
-          event.target.playVideo();
-        }
-      }
-    });
-  }
-
-  function playPause() {
-    if (player.getPlayerState() === 1) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  }
-
-  function muteUnmute() {
-    if (player.isMuted()) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
-  }
-
-  function volumeUp() {
-    if (currentVolume < 100) {
-      currentVolume += 10;
-      player.setVolume(currentVolume);
-    }
-  }
-
-  function volumeDown() {
-    if (currentVolume > 0) {
-      currentVolume -= 10;
-      player.setVolume(currentVolume);
-    }
-  }
-  
 
 
 <!-- مودال قصة فكاهية -->
@@ -1466,20 +1476,6 @@ function showLevelMessage(msg) {
 <audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
 <audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
 </body>
-
-<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
-</div>
-<!-- قائمة الدعم -->
-<div class="footer-menu">
-<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
-<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
-<p>🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
-</p>
-<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
 
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
 <div id="cvPage">
