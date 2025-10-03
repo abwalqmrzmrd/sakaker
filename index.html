@@ -398,8 +398,9 @@ body {
 #bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
 
 /* قائمة الدعم */
-.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
-.footer-menu a { color:#ffd700; text-decoration:none; }
+.#pongCanvas {
+  background: transparent !important;   /* شفاف */
+}
 
 /* خواطر - تنسيقات جديدة */
 #storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); overflow:auto; z-index:1500; padding:30px 10px; }
@@ -484,9 +485,17 @@ body {
   #cvIcon{ width:90%; }
   .footer-menu{ width:90%; margin:10px auto; }
   /* When sub-library opens, show as a horizontal row under the icons area */
-  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; background: rgba(0,0,0,0.18); border-radius:10px; margin-top:8px; }
-  .library-content .icon-circle{ width:68px; height:68px; font-size:10px; }
-}
+  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; !-- سيرة ذاتية -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
 </style>
 <!-- نهاية التعديلات -->
 <style>
@@ -1183,18 +1192,8 @@ function togglePersonalStory(id){
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
 </p>
 <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
-<!-- سيرة ذاتية -->
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
-<div id="cvPage">
-<div class="cv-content">
-<h1>التعريف بالموقع</h1>
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
-</div>
-</div>
-</div>
-</div>
-.
+
+
 
 <!-- مودال قصة فكاهية -->
 <div class="modal" id="funnyStoryModal">
@@ -1481,3 +1480,14 @@ function showLevelMessage(msg) {
 <audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
 <audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
 </body>
+
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
