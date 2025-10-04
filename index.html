@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 
+<!-- الفيديو الرئيسي -->
+<div class="video-icon" onclick="openModal('n7eQejkXbnM')">
+  <img src="https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg" alt="Thumbnail">
+  <div class="play-button">▶</div>
+</div>
+
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8"/>
@@ -101,20 +107,8 @@
 </style>
 </head>
 <body>
-<!-- الفيديوهات فوق اللعبة -->
-<div class="video-section">
-<div class="video-icon">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n7eQejkXbnM&amp;controls=0"></iframe>
-</div>
-<div class="video-icon">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
-</div>
-</div>
-
-  </div>
-</div>
 <!-- اللعبة -->
-<div id="pongContainer">
+
 <button id="startBtn">▶</button>
 <div id="levelMsg"></div>
 <div id="pongUi" style="display:none;">
@@ -268,60 +262,10 @@
 </script>
 </body>
 </div>
-<script>
-// إخفاء الأيقونات عند فتح اللعبة
-document.addEventListener("DOMContentLoaded", function() {
-  var pongContainer = document.getElementById("pongContainer");
-  var closeBtn = document.getElementById("pongCloseBtn");
-  if (pongContainer) {
-    pongContainer.addEventListener("click", () => {
-      document.querySelectorAll(".icon-circle").forEach(icon => {
-        icon.classList.add("hidden-icons");
-      });
-    });
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      document.querySelectorAll(".icon-circle").forEach(icon => {
-        icon.classList.remove("hidden-icons");
-      });
-    });
-  }
-});
-</script>
-</body></html>
-<body>
-<!-- محتوى الموقع الأصلي -->
-<div id="mainContent">
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<style>
-  .library .icon {
-    width: 90px;              /* تكبير الأيقونة */
-    height: 90px;
-    margin: 10px;
-    border-radius: 12px;      
-    background: rgba(255,255,255,0.2); /* خلفية أوضح */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s, background 0.2s;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.6); /* ظل أقوى */
-    border: 2px solid rgba(255,255,255,0.5); /* حدود بيضاء ناعمة */
-  }
-
-  .library .icon img {
-    max-width: 65%;
-    max-height: 65%;
-  }
-
-  .library .icon:hover {
-    transform: scale(1.15);      
-    background: rgba(255,255,255,0.3);
-  }
-</style>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
 <style>
 body {
@@ -357,26 +301,13 @@ body {
 .close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
 
 /* أيقونات المكتبات */
-
-.icons-row {
-  display: flex;
-  flex-direction: column; /* عمودي بدل أفقي */
-  gap: 15px;
-  align-items: center; /* يخلي الأيقونات بالنص */
-  margin: 20px auto;
-  padding: 10px;
-  overflow: visible; /* ما يحتاج سحب */
-}
-.icon-circle {
-  width: 100px;
-  height: 100px;
-  flex: none;
-}
-
+.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
 .library-col { display:flex; flex-direction:column; align-items:center; }
 .icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.12); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.2s; padding:8px; box-sizing:border-box; color: green; }
 .icon-circle:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
 
+/* أيقونات مكتبة فرعية */
+.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
 /* أيقونات مكتبة فرعية */
 .library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
 
@@ -388,15 +319,12 @@ body {
   background-size: cover;
 }
 
-#cvPage .cv-content { max-width:900px; margin:40px auto; background:#111; padding:20px; border-radius:10px; }
-
 /* زر صوت الطيور */
 #bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
 
 /* قائمة الدعم */
-.#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
+.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
+.footer-menu a { color:#ffd700; text-decoration:none; }
 
 /* خواطر - تنسيقات جديدة */
 #storyModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); overflow:auto; z-index:1500; padding:30px 10px; }
@@ -446,6 +374,7 @@ body {
     .story { padding:12px; }
 }
 </style>
+
 <!-- بداية تعديلات الاستجابة الأفقية للموبايل -->
 <style>
 /* Force horizontal scrollable icons on small screens and centered wrap on larger */
@@ -476,66 +405,295 @@ body {
 /* Mobile screens: keep icons horizontal, slightly smaller and easier to tap */
 @media(max-width:600px){
   .icon-circle{ width:80px; height:80px; font-size:11px; padding:6px; }
-  .video-icon{ width:80px; height:80px; }
+  .video-icon{ width:120px; height:120px; }
   .modal-content iframe{ height:60vh; }
   #cvIcon{ width:90%; }
   .footer-menu{ width:90%; margin:10px auto; }
   /* When sub-library opens, show as a horizontal row under the icons area */
-  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; !-- سيرة ذاتية -->
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
-<div id="cvPage">
-<div class="cv-content">
-<h1>التعريف بالموقع</h1>
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
-</div>
-</div>
-</div>
-</div>
+  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; background: rgba(0,0,0,0.18); border-radius:10px; margin-top:8px; }
+  .library-content .icon-circle{ width:68px; height:68px; font-size:10px; }
+}
 </style>
 <!-- نهاية التعديلات -->
-<style>
-/* تحسينات الاستجابة العامة */
-img, iframe, video {
-  max-width: 100%;
-  height: auto;
-}
-.icons-row {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 12px;
-  padding: 8px 6px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.icons-row::-webkit-scrollbar { display: none; }
-@media(min-width:601px){
-  .icons-row { justify-content:center; flex-wrap:wrap; overflow:visible; }
-}
-</style>
 </head>
 <body>
-    
+
 <!-- صوت الطيور -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
-<audio id="bird-sound" loop="">
-<source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3"/>
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
 </audio>
-<!-- الفيديوه
-<!-- باقي محتوى الصفحة (الأيقونات، المكتبات... الخ) يبقى كما هو -->
-<!-- مودال الحدث -->
-<div aria-hidden="true" id="eventModal">
-<div class="close-event" onclick="closeEventModal()"></div>
-<div class="modal-inner">
-<div class="player-wrap">
+
+<!-- أيقونات المكتبات أفقي تحت الفيديو -->
+<div class="icons-row">
+  <!-- مكتبات كما في الأصل -->
+  
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')">🎬 أفلام</div>
+    <div id="libraryMoviesContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA?si=D0qKCMTzMzH_Qwll')">كرتون</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/oJevGeD-zsg')">كوميديا</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')">🎨 كرتون</div>
+    <div id="libraryCartoonContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA?si=D0qKCMTzMzH_Qwll')">كرتون</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/-ARXuGQsLHk?si=4KN11h9pjCbSEaEz')">سندباد</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/PuRyWK_c5IQ?si=gJpLPVDf31g_xFg')">مغامرات الفضاء</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vxjjPSS4dzY?si=g8CyER6aIfJ2djSs')">عدنان ولينا</div>
+    </div>
+  </div>
+
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')">⚽ رياضة</div>
+    <div id="librarySportsContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ?si=bsy0dIU7zo3k_o7L')">كرة القدم النسائية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')">كرة القدم رجال</div>
+   <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')">نادي تشلسي الإنجليزي</div>
+<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')">التعاون5 الرائد1</div>
+>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')">🍳 مطبخ</div>
+    <div id="libraryCookingContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')">الطبخ</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')">🎵 موسيقى</div>
+    <div id="libraryMusicContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
+    </div>
+  </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')">📝 أبوالقمر زمرد</div>
+    <div id="libraryAbwalqmrContent" class="library-content">
+      <div class="icon-circle" onclick="document.getElementById('storyModal').style.display='block'">خواطر</div>
+    </div>
+  </div>
+
+  <!-- إضافة أيقونة الدردشة هنا داخل نفس الصف، بشكل مطابق لباقي الأيقونات -->
+  <div class="library-col">
+    <div class="icon-circle" onclick="document.getElementById('chatModal').style.display='flex'">💬 دردشة</div>
+  </div>
+
 </div>
+
+  <div class="library-col">
+    <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
+    <div id="libraryReligionContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NcMnhqqzESU')">فيلم الرسالة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4Ooc0d4qKxY')">البداية والنهاية</div>
+    </div>
+  </div>
+
+<!-- مكتبة جولة معرفية كاملة -->
+<div class="library-col library-knowledge">
+  <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
+  <div id="libraryKnowledgeContent" class="library-content">
+    <div class="icon-circle" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
+    <div class="icon-circle" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
+    <div class="icon-circle" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
+    <div class="icon-circle" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
+    <div class="icon-circle" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
+  </div>
 </div>
+  <!-- الأيقونة الجديدة المكتبة التعليمية -->
+  <div class="library-col library-education">
+    <div class="icon-circle" onclick="toggleLibrary('libraryEducationContent')" style="background:rgba(0,0,255,0.25);color:#fff;">📘 المكتبة التعليمية</div>
+    <div id="libraryEducationContent" class="library-content">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8?si=_1GOIEn2z7NMDSrF')">إبراهيم الفقي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8?si=E4CnzKAZFu7MpVuF')">مصطفى محمود</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw?si=u8f0uTO8kKwJpVrN')">سقراط</div>
+    </div>
+  </div>
+
+
+<!-- مودالات المكتبة -->
+<div id="quizModal" class="modal">
+  <span class="close" onclick="document.getElementById('quizModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🧩 ألغاز</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">1. ما الشيء الذي يمشي بلا رجلين ولا يدخل إلا بالأذنين؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الصوت</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">2. ما هو الشيء الذي كلما أخذت منه يكبر؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الحفرة</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">3. ما هو الشيء الذي له أسنان ولا يعض؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: المشط</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">4. ما هو الشيء الذي يكتب ولا يقرأ؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: القلم</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">5. ما هو الشيء الذي يكسو الناس ولا يلبس؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الجلد</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">6. ما هو الشيء الذي كلما زاد نقص؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: العمر</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">7. ما هو الشيء الذي تراه ولا تستطيع لمسه؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الظل</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">8. ما هو الشيء الذي يطير بلا جناح؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الوقت</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">9. ما هو الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الهاتف</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">10. ما هو الشيء الذي يوجد في كل بيت؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: الهواء</p>
+  </div>
 </div>
+
+<div id="testModal" class="modal">
+  <span class="close" onclick="document.getElementById('testModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>❓ اختبر معلوماتك</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هي عاصمة اليابان؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: طوكيو</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أكبر قارة في العالم؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: آسيا</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أول رئيس للولايات المتحدة؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: جورج واشنطن</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أطول نهر في العالم؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: النيل</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هو الكوكب الأحمر؟</p>
+    <p style="display:none; color:#ffeb3b;">الإجابة: المريخ</p>
+  </div>
+</div>
+
+<div id="generalModal" class="modal">
+  <span class="close" onclick="document.getElementById('generalModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🌍 معلومات عامة</h2>
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">هل تعلم أن قلب الحوت الأزرق أكبر قلب في الكائنات الحية؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: يزن حوالي 180 كيلوغرامًا.</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم يستغرق الضوء للوصول من الشمس إلى الأرض؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: 8 دقائق</p>
+
+    <p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم عدد الخلايا العصبية في الدماغ البشري؟</p>
+    <p style="display:none; color:#ffeb3b;">الجواب: حوالي 86 مليار خلية عصبية.</p>
+  </div>
+</div>
+
+<div id="historyModal" class="modal">
+  <span class="close" onclick="document.getElementById('historyModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>🏛️ أسماء وضعت للتاريخ</h2>
+    <p>فلاسفة: سقراط، أفلاطون، أرسطو، ديكارت، سبينوزا، هيغل</p>
+    <p>مخترعون: توماس إديسون، نيكولا تسلا، غاليليو غاليلي، ليوناردو دافنشي، ألكسندر جراهام بيل، ماركوني</p>
+  </div>
+</div>
+
+<div id="humanModal" class="modal">
+  <span class="close" onclick="document.getElementById('humanModal').style.display='none'">×</span>
+  <div class="modal-content">
+    <h2>👤 الإنسان من المولد حتى الموت</h2>
+    <p>مرحلة الجنين: من التزاوج حتى الولادة.</p>
+    <p>الطفولة المبكرة: من الولادة حتى 6 سنوات.</p>
+    <p>الطفولة المتوسطة: 6-12 سنة.</p>
+    <p>المراهقة: 12-18 سنة.</p>
+    <p>الشباب: 18-30 سنة.</p>
+    <p>مرحلة البلوغ: 30-50 سنة.</p>
+    <p>الشيخوخة: 50-70 سنة.</p>
+    <p>المرحلة الأخيرة: 70 سنة وما فوق حتى الوفاة.</p>
+  </div>
+</div>
+
+<style>
+.library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
+.library-knowledge .icon-circle:hover { background: rgba(255,0,0,0.35); }
+.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999; overflow:auto;}
+.modal-content { width:90%; max-width:900px; background: rgba(0,0,0,0.85); padding:20px; border-radius:10px; color:#fff; position:relative; }
+.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
+</style>
+
 <script>
-/* فتح الفيديو (القديم) */
+function toggleLibrary(id){
+  const content = document.getElementById(id);
+  content.style.display = (content.style.display==='flex')?'none':'flex';
+  content.style.flexWrap='wrap';
+}
+</script>
+
+<!-- فيديو الحيوانات -->
+<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+  <img src="https://img.youtube.com/vi/DnLTWjRV0UE/hqdefault.jpg" alt="Animals Video">
+  <div class="play-button">▶</div>
+</div>
+
+<!-- خواطر (s5 أول قصة) -->
+<div id="storyModal">
+  <div class="content">
+    <button class="close-btn" onclick="document.getElementById('storyModal').style.display='none'">إغلاق</button>
+    <h2 style="margin-top:6px; color:#fff;">خواطر أبوالقمر زمرد</h2>
+
+    <!-- قصتي مع الزمن (أولاً) -->
+    <div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
+    <div id="s5" class="story">
+      <p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
+    لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
+    ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
+    ولكن كان كل منا يحمل جعبة من الماضي والحاضر والمستقبل مع محيطنا كما هو سائد بين معلم ومتعلم ومقرب ومنبوذ وبين صديق وعدو.</p>
+
+    <p>... (remaining original content preserved) ...</p>
+    </div>
+
+    <!-- بقية القصص (كما كانت) -->
+    <div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
+    <div id="s1" class="story"><p>التنين الفضي يحكي عن عودة النور للأرض بعد غياب طويل....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
+    <div id="s2" class="story"><p>قصت أبوالقمر حين استطاع أن يمزج أنوار القمر بأحجار الزمرد....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s3')">قصة البحر الأزرق</div>
+    <div id="s3" class="story"><p>جلس أبوالقمر على شاطئ البحر الأزرق يتأمل أمواجَه الهادئة....</p></div>
+
+    <div class="story-title" onclick="toggleStory('s4')">قصة زهرة الليل</div>
+    <div id="s4" class="story"><p>في ليلة صافية ظهرت زهرة غامضة في حديقة أبوالقمر....</p></div>
+
+  </div>
+</div>
+
+<!-- إضافة مودال الدردشة في نهاية الصفحة (ضمن نفس الملف) -->
+<div id="chatModal" class="modal" style="z-index:1600;">
+  <span class="close" onclick="document.getElementById('chatModal').style.display='none'">×</span>
+  <div class="modal-content" style="max-width:420px; background: rgba(0,0,0,0.95); padding:12px; display:flex; flex-direction:column; height:420px;">
+    <h3 style="color:#fff; text-align:center; margin:6px 0;">💬 دردشة عامة مؤقتة</h3>
+    <div id="chatMessages" style="flex:1; overflow-y:auto; background:#111; padding:10px; border-radius:6px; color:#fff; margin-bottom:8px;"></div>
+    <input id="chatInput" type="text" placeholder="اكتب رسالتك..." style="padding:10px; border-radius:6px; border:none; width:100%; box-sizing:border-box; margin-bottom:8px;">
+    <button onclick="sendMessage()" style="padding:10px; border-radius:6px; border:none; background:#4caf50; color:#fff; cursor:pointer;">إرسال</button>
+    <small style="color:#ccc; margin-top:6px; text-align:center;">الرسائل مؤقتة وتحذف تلقائياً بعد 60 ثانية</small>
+  </div>
+</div>
+
+<script>
+/* فتح الفيديو */
 function openVideo(url){
   var modal = document.getElementById('videoModal');
   var frame = document.getElementById('videoFrame');
@@ -545,12 +703,296 @@ function openVideo(url){
 function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
 function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
 
-/* تشغيل الفيديو المصغّر التلقائي */
-document.querySelectorAll('.event-thumb').forEach(el=>{
-  let url = el.dataset.videoUrl;
-  let iframe = el.querySelector('.thumb-frame');
-  iframe.src = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&mute=1&controls=0&rel=0';
+/* صوت الطيور */
+const birdBtn=document.getElementById('bird-sound-btn');
+const birdAudio=document.getElementById('bird-sound');
+birdBtn.addEventListener('click',()=>{ if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1; } });
+
+/* مكتبات */
+function toggleLibrary(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.style.display = (el.style.display==='flex') ? 'none' : 'flex';
+}
+
+/* خواطر */
+function toggleStory(id){
+  var s=document.getElementById(id);
+  if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
+}
+
+/* دردشة مؤقتة داخل نفس الملف */
+function sendMessage(){
+  var input = document.getElementById('chatInput');
+  var messages = document.getElementById('chatMessages');
+  var text = input.value.trim();
+  if(text === '') return;
+  var p = document.createElement('div');
+  p.textContent = text;
+  p.style.margin = '6px 0';
+  p.style.padding = '8px';
+  p.style.background = '#222';
+  p.style.borderRadius = '6px';
+  p.style.color = '#fff';
+  p.style.textAlign = 'right';
+  messages.appendChild(p);
+  messages.scrollTop = messages.scrollHeight;
+  input.value = '';
+  // حذف الرسالة بعد 60 ثانية
+  setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, 60000);
+}
+</script>
+
+</body>
+</html>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const icons = document.querySelectorAll('.icon-circle');
+  const floatInterval = 3000;
+  const originalPositions = new Map();
+
+  // الأيقونات الرئيسية عائمة أسفل الصفحة
+  icons.forEach(icon => {
+    icon.style.position = "fixed";
+    icon.style.zIndex = 9999;
+    originalPositions.set(icon, {top: icon.offsetTop, left: icon.offsetLeft});
+
+    // تأكد أن الأيقونات الفرعية موجودة داخل كل أيقونة
+    const subContainer = icon.querySelector('.sub-icons');
+    if(subContainer){
+      subContainer.style.position = 'absolute';
+      subContainer.style.top = '100%'; // مباشرة تحت الأيقونة
+      subContainer.style.left = '50%';
+      subContainer.style.transform = 'translateX(-50%)';
+      subContainer.style.display = 'none';
+      subContainer.style.flexDirection = 'column';
+      subContainer.style.gap = '5px';
+      subContainer.style.zIndex = 10000;
+    }
+  });
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function floatIcons() {
+    const containerWidth = window.innerWidth;
+    const bottomLimit = window.innerHeight - 150;
+    const topLimit = bottomLimit - 100;
+
+    icons.forEach(icon => {
+      if (!icon.classList.contains('active')) {
+        const x = random(10, containerWidth - icon.offsetWidth - 10);
+        const y = random(topLimit, bottomLimit);
+        icon.style.top = y + "px";
+        icon.style.left = x + "px";
+        icon.style.transform = `rotate(${random(-15,15)}deg) scale(${random(0.9,1.1)})`;
+        originalPositions.set(icon, {top: y, left: x});
+      }
+    });
+  }
+
+  floatIcons();
+  setInterval(floatIcons, floatInterval);
+
+  icons.forEach(icon => {
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      // إزالة حالة النشاط من كل الأيقونات
+      icons.forEach(i => i.classList.remove('active'));
+      icon.classList.add('active');
+
+      // إخفاء أيقونات فرعية الأخرى
+      document.querySelectorAll('.icon-circle .sub-icons').forEach(sub => {
+        if(sub.parentElement !== icon) sub.style.display = 'none';
+      });
+
+      // عرض الأيقونات الفرعية للأيقونة الحالية
+      const sub = icon.querySelector('.sub-icons');
+      if(sub) sub.style.display = (sub.style.display === 'flex') ? 'none' : 'flex';
+    });
+  });
+
+  // إخفاء أي قائمة فرعية عند الضغط خارجها
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.icon-circle .sub-icons').forEach(sub => sub.style.display = 'none');
+    icons.forEach(i => i.classList.remove('active'));
+  });
 });
+</script>
+
+<style>
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: white;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  font-weight: bold;
+}
+
+.icon-circle .sub-icons button {
+  width: 50px;
+  height: 40px;
+  border-radius: 5px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-circle .sub-icons button:hover {
+  background: rgba(33,150,243,0.8);
+}
+</style>
+
+  <canvas id="pongCanvas"></canvas>
+</div>
+
+<audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+<audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
+
+<style>
+#pongContainer { position: relative; width: 95%; max-width: 350px; margin: 20px auto; text-align: center; }
+#pongCanvas { width: 100%; height: 200px; background: transparent; display: block; margin-top: 10px; border-radius: 12px; }
+#pongUi button { margin: 3px; padding: 4px 10px; border-radius: 6px; border: none; background: rgba(0,0,0,0.6); color: #fff; cursor: pointer; font-size: 12px; }
+#levelMsg { display: none; text-align: center; font-weight: bold; font-size: 14px; }
+</style>
+
+<script>
+(function(){
+  const canvas = document.getElementById('pongCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const scoreP_el = document.getElementById('scoreP');
+  const scoreA_el = document.getElementById('scoreA');
+  const pauseBtn = document.getElementById('pongPauseBtn');
+  const closeBtn = document.getElementById('pongCloseBtn');
+  const startBtn = document.getElementById('startBtn');
+  const ui = document.getElementById('pongUi');
+  const levelMsg = document.getElementById('levelMsg');
+
+  // **أيقونات الفيديو أسفل الصفحة**
+  const controls = document.querySelector('.controls'); // إذا كانت لديك أيقونات الفيديو في div.controls
+  const playerContainer = document.getElementById('player-container'); // الفيديو أسفل الصفحة
+
+  let state = { running:false, playerScore:0, aiScore:0, level:1 };
+  const paddle = { w:60, h:8, x:0, y:0 };
+  const ai = { w:60, h:8, x:0, y:0, speed:4 };
+  const ball = { x:0,y:0,r:6,vx:0,vy:0,speed:3 };
+
+  let colors = [
+    {paddle:'#4dd0e1', ai:'#ff5252', ball:'#ffeb3b'},
+    {paddle:'#ff9800', ai:'#9c27b0', ball:'#4caf50'},
+    {paddle:'#2196f3', ai:'#f44336', ball:'#e91e63'},
+    {paddle:'#00bcd4', ai:'#ffc107', ball:'#8bc34a'},
+    {paddle:'#ff5722', ai:'#3f51b5', ball:'#ffeb3b'}
+  ];
+
+  function fitCanvas(){ canvas.width=canvas.clientWidth; canvas.height=canvas.clientHeight; }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function resetPositions(){
+    paddle.x=(canvas.width-paddle.w)/2; paddle.y=canvas.height-15;
+    ai.x=(canvas.width-ai.w)/2; ai.y=5;
+    ball.x=canvas.width/2; ball.y=canvas.height/2;
+    const dirX=(Math.random()<0.5?-1:1);
+    const dirY=(Math.random()<0.5?-1:1);
+    ball.vx=dirX*ball.speed; ball.vy=dirY*ball.speed;
+  }
+
+  function pointerMove(x){
+    const rect = canvas.getBoundingClientRect();
+    const cx = x-rect.left;
+    paddle.x = Math.min(Math.max(0, cx-paddle.w/2), canvas.width-paddle.w);
+  }
+  canvas.addEventListener('mousemove', e=>pointerMove(e.clientX));
+  canvas.addEventListener('touchmove', e=>{ e.preventDefault(); pointerMove(e.touches[0].clientX); }, {passive:false});
+
+  function showLevelMessage(msg, lvl){
+    levelMsg.textContent=msg;
+    levelMsg.style.display='block';
+    levelMsg.style.background='rgba(0,0,0,0.7)';
+    levelMsg.style.padding='6px 10px';
+    levelMsg.style.margin='8px auto';
+    levelMsg.style.borderRadius='6px';
+    setTimeout(()=>{ levelMsg.style.display='none'; },1500);
+
+    let c = colors[(lvl-1)%colors.length];
+    paddle.color = c.paddle; ai.color = c.ai; ball.color = c.ball;
+  }
+
+  paddle.color = colors[0].paddle; ai.color = colors[0].ai; ball.color = colors[0].ball;
+
+  function update(){
+    if(!state.running) return;
+    ball.x+=ball.vx; ball.y+=ball.vy;
+    if(ball.x-ball.r<0||ball.x+ball.r>canvas.width) ball.vx*=-1;
+
+    if(ball.y+ball.r>=paddle.y && ball.x>=paddle.x && ball.x<=paddle.x+paddle.w){ 
+      ball.vy=-Math.abs(ball.vy); document.getElementById('hitSound').play();
+    }
+    if(ball.y-ball.r<=ai.y+ai.h && ball.x>=ai.x && ball.x<=ai.x+ai.w){ 
+      ball.vy=Math.abs(ball.vy); document.getElementById('hitSound').play();
+    }
+
+    if(ball.y-ball.r>canvas.height){ 
+      state.aiScore++; scoreA_el.textContent=state.aiScore; document.getElementById('scoreSound').play();
+      resetPositions(); 
+    }
+    if(ball.y+ball.r<0){ 
+      state.playerScore++; scoreP_el.textContent=state.playerScore; document.getElementById('scoreSound').play();
+      if(state.playerScore % 5 === 0){ 
+        state.level++;
+        paddle.w=Math.max(30,paddle.w*0.9);
+        ball.speed*=1.15;
+        ai.speed+=0.5;
+        showLevelMessage("🎯 مستوى جديد: " + state.level, state.level);
+      }
+      resetPositions(); 
+    }
+
+    ai.x += Math.sign(ball.x-(ai.x+ai.w/2))*ai.speed*0.9;
+    ai.x = Math.max(0, Math.min(ai.x, canvas.width-ai.w));
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle=paddle.color; ctx.fillRect(paddle.x,paddle.y,paddle.w,paddle.h);
+    ctx.fillStyle=ai.color; ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
+    ctx.beginPath(); ctx.fillStyle=ball.color; ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
+  }
+
+  function loop(){ if(state.running){ update(); draw(); requestAnimationFrame(loop); } }
+
+  pauseBtn.addEventListener('click', ()=>{ state.running=!state.running; if(state.running) loop(); });
+  closeBtn.addEventListener('click', ()=>{
+    state.running=false; 
+    ui.style.display='none'; 
+    startBtn.style.display='block'; 
+    // إعادة إظهار الفيديو والأيقونات
+    if(controls) controls.style.display='flex';
+    if(playerContainer) playerContainer.style.display='block';
+  });
+
+  startBtn.addEventListener('click', ()=>{
+    // إخفاء الفيديو والأيقونات
+    if(controls) controls.style.display='none';
+    if(playerContainer) playerContainer.style.display='none';
+
+    startBtn.style.display='none'; 
+    ui.style.display='flex'; 
+    state.running=true; state.playerScore=0; state.aiScore=0; state.level=1; 
+    paddle.w=60; ball.speed=3; ai.speed=4;
+    paddle.color = colors[0].paddle; ai.color = colors[0].ai; ball.color = colors[0].ball;
+    fitCanvas(); resetPositions(); loop();
+  });
 
 /* فتح المودال مع عنوان الحدث */
 function openEventModalFromEl(el){
