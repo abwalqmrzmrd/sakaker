@@ -600,6 +600,7 @@ function closeSection(btn) {
       }
     }
   </style>
+  
 <body>
 <div id="player-container">
 <div id="player"></div>
@@ -784,6 +785,109 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 <!-- نهاية التعديلات -->
 </head>
 <body>
+<!-- أيقونة الفيديو -->
+<div class="video-icon" onclick="openVideoModal('WujYCdZsDVw')">
+  <img src="https://img.youtube.com/vi/WujYCdZsDVw/hqdefault.jpg" alt="فيديو" class="video-thumb">
+</div>
+
+<!-- مودال الفيديو -->
+<div id="videoModal" class="video-modal">
+  <div class="video-content">
+    <span class="close-btn" onclick="closeVideoModal()">×</span>
+    <iframe id="modalVideo" src="" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+</div>
+
+<style>
+/* الأيقونة */
+.video-thumb {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.video-thumb:hover {
+  transform: scale(1.05);
+}
+
+/* المودال */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+/* محتوى الفيديو */
+.video-content {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  background: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+
+/* الفيديو نفسه */
+.video-content iframe {
+  width: 100%;
+  height: 500px;
+  display: block;
+}
+
+/* زر الإغلاق */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close-btn:hover {
+  color: #ff5555;
+}
+
+/* توافق الجوال */
+@media (max-width: 768px) {
+  .video-content {
+    width: 95%;
+  }
+  .video-content iframe {
+    height: 55vw;
+  }
+}
+</style>
+
+<script>
+function openVideoModal(videoId) {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  modal.style.display = 'flex';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = '';
+  modal.style.display = 'none';
+}
+</script>
 
 <!-- صوت الطيور -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
@@ -807,161 +911,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 </style>
 
 
-<!-- أيقونة الفيديو -->
-<div class="video-icon" onclick="openVideo()">
-  <img src="https://img.youtube.com/vi/WujYCdZsDVw/hqdefault.jpg" alt="فيديو" class="video-thumb">
-</div>
-
-<!-- مودال الفيديو -->
-<div id="videoModal" class="video-modal">
-  <!-- الصورة الخلفية داخل المودال -->
-  <img id="videoPlaceholder" src="https://img.youtube.com/vi/WujYCdZsDVw/hqdefault.jpg" class="modal-thumb">
-  <iframe id="modalVideo" frameborder="0" allowfullscreen
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin" style="display:none;"></iframe>
-
-  <!-- شريط التحكم -->
-  <div class="video-controls">
-    <button onclick="togglePlay()">تشغيل/إيقاف</button>
-    <button onclick="toggleMute()">صوت/كتم</button>
-    <button onclick="closeVideo()">إغلاق</button>
-  </div>
-</div>
-
-<style>
-.video-thumb {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  cursor: pointer;
-  object-fit: cover;
-}
-
-.video-modal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80vw;
-  height: 80vw;
-  max-width: 90vh;
-  max-height: 90vh;
-  border-radius: 50%;
-  overflow: hidden;
-  z-index: 1000;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  position: relative;
-  background: #000;
-}
-
-.video-modal iframe, .video-modal .modal-thumb {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.video-modal .modal-thumb {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* شريط التحكم أسفل الفيديو */
-.video-controls {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 1001;
-}
-
-.video-controls button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  background: rgba(255,255,255,0.8);
-}
-
-@media (max-width: 768px) {
-  .video-thumb {
-    width: 60px;
-    height: 60px;
-  }
-  .video-modal {
-    width: 90vw;
-    height: 90vw;
-    max-width: 95vw;
-    max-height: 95vw;
-  }
-}
-</style>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-let player;
-
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('modalVideo', {});
-}
-
-function openVideo() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  const placeholder = document.getElementById('videoPlaceholder');
-
-  modal.style.display = 'block';
-  placeholder.style.display = 'none';
-  iframe.style.display = 'block';
-
-  if (!player) {
-    player = new YT.Player('modalVideo', {
-      videoId: 'WujYCdZsDVw',
-      playerVars: { autoplay: 1 },
-    });
-  } else {
-    player.playVideo();
-  }
-}
-
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  const placeholder = document.getElementById('videoPlaceholder');
-
-  modal.style.display = 'none';
-  placeholder.style.display = 'block';
-  iframe.style.display = 'none';
-  if (player) player.stopVideo();
-}
-
-function togglePlay() {
-  if (player) {
-    const state = player.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  }
-}
-
-function toggleMute() {
-  if (player) {
-    if (player.isMuted()) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
-  }
-}
-</script>
 
 
 <style>
@@ -1006,7 +955,6 @@ function togglePersonalStory(id){
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
 </script>
-
 <!-- صف الفيديوهات -->
 <div class="video-row">
   <!-- فيديو اليمين -->
@@ -1123,6 +1071,7 @@ function togglePersonalStory(id){
 </div>
 
 </script>
+
 <!-- مودال قصصي من الواقع -->
 <div class="modal" id="storyRealityModal">
 <span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
