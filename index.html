@@ -818,6 +818,70 @@ function closeVideoModal() {
     }
   }
 </script>
+
+<!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
+<style>
+.video-modal,
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+}
+
+.video-modal iframe,
+.video-content iframe,
+.modal-content iframe {
+  width: 100% !important;
+  height: 80vh !important;
+  display: block;
+  background: #000;
+  border: none;
+  border-radius: 10px;
+}
+
+.close, .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close:hover, .close-btn:hover {
+  color: #ff5555;
+}
+</style>
+
+<script>
+function openVideo(videoId) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'flex';
+    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+  }
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'none';
+    frame.src = "";
+  }
+}
+</script>
+
 </body>
 </div>
 <html lang="ar" dir="rtl">
@@ -1305,6 +1369,70 @@ function togglePersonalStory(id){
 </div>
 <audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
 <audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
+
+<!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
+<style>
+.video-modal,
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+}
+
+.video-modal iframe,
+.video-content iframe,
+.modal-content iframe {
+  width: 100% !important;
+  height: 80vh !important;
+  display: block;
+  background: #000;
+  border: none;
+  border-radius: 10px;
+}
+
+.close, .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close:hover, .close-btn:hover {
+  color: #ff5555;
+}
+</style>
+
+<script>
+function openVideo(videoId) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'flex';
+    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+  }
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'none';
+    frame.src = "";
+  }
+}
+</script>
+
 </body>
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
