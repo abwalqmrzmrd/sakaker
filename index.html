@@ -851,40 +851,30 @@ function togglePersonalStory(id){
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
 </script>
-
-
 <!-- صف الفيديوهات -->
 <div class="video-row">
-  <!-- فيديو اليسار -->
-  <div class="video-icon" onclick="openModal('tFdlhlmQ-ek')">
+  <!-- فيديو اليمين -->
+  <div class="video-icon float-animation" onclick="openModal('tFdlhlmQ-ek')">
     <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen frameborder="0"
       src="https://www.youtube.com/embed/tFdlhlmQ-ek"
       title="YouTube video player" width="280" height="157"></iframe>
   </div>
 
-  <!-- فيديو اليمين -->
-  <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
-    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen frameborder="0"
-      src="https://www.youtube.com/embed/DnLTWjRV0UE"
-      title="YouTube video player" width="280" height="157"></iframe>
-  </div>
 </div>
 
 <style>
 .video-row {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between; /* واحدة على اليمين، واحدة على اليسار */
   margin: 20px;
 }
 
 .video-icon {
-  width: 280px;      /* عرض الفيديو */
-  height: 157px;     /* ارتفاع الفيديو */
-  border-radius: 20px; /* جعل الإطار بيضاوي صغير حول الفيديو */
-  overflow: hidden;  /* الفيديو لا يتجاوز الإطار */
+  width: 280px;
+  height: 157px;
+  border-radius: 20px; /* إطار بيضاوي حول الفيديو */
+  overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease;
   background: rgba(255,255,255,0.05); /* إطار شفاف */
@@ -892,6 +882,17 @@ function togglePersonalStory(id){
 
 .video-icon:hover {
   transform: scale(1.05);
+}
+
+/* حركة الفيديو */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
 }
 
 /* للجوال */
