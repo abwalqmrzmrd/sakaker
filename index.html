@@ -386,18 +386,169 @@ function closeSection(btn) {
   btn.parentElement.style.display = 'none';
 }
 </script>
+<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
+<div class="video-top-container">
+  <!-- الفيديو الأيمن -->
+  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
+    <iframe
+      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+      title="فيديو أيمن" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
 
-</body>
-</html>
+  <!-- الفيديو الأيسر -->
+  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
+    <iframe
+      src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY"
+      title="فيديو أيسر" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+</div>
 
-<div class="video-section">
-<div class="video-icon">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=n7eQejkXbnM&amp;controls=0"></iframe>
+<!-- ====== المودال ====== -->
+<div id="videoModal" class="video-modal">
+  <div class="video-content">
+    <span class="close-btn" onclick="closeVideoModal()">×</span>
+    <iframe id="modalVideo" src="" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
 </div>
-<div class="video-icon">
-<iframe allowfullscreen="" src="https://www.youtube.com/embed/zq6ohxTDNZY?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=zq6ohxTDNZY&amp;controls=0"></iframe>
-</div>
-</div>
+
+<style>
+/* الحاوية العليا */
+.video-top-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+/* الفيديو الدائري */
+.video-circle {
+  position: absolute;
+  top: 30px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 4px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.video-circle:hover {
+  transform: scale(1.08);
+  border-color: #00e6ff;
+  box-shadow: 0 0 25px rgba(0, 230, 255, 0.8), inset 0 0 10px rgba(0, 230, 255, 0.4);
+}
+
+/* جهة اليمين واليسار */
+.video-circle.right { right: 40px; }
+.video-circle.left { left: 40px; }
+
+.video-circle iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* المودال */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* محتوى الفيديو */
+.video-content {
+  position: relative;
+  width: 85%;
+  max-width: 900px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+  animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+  from {transform: scale(0.8);}
+  to {transform: scale(1);}
+}
+
+.video-content iframe {
+  width: 100%;
+  height: 500px;
+  display: block;
+  border: none;
+}
+
+/* زر الإغلاق */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close-btn:hover {
+  color: #ff5555;
+}
+
+/* للجوال */
+@media (max-width: 768px) {
+  .video-top-container {
+    height: 160px;
+  }
+  .video-circle {
+    width: 100px;
+    height: 100px;
+  }
+  .video-circle.right { right: 20px; }
+  .video-circle.left { left: 20px; }
+  .video-content iframe {
+    height: 55vw;
+  }
+}
+</style>
+
+<script>
+function openVideoModal(videoId) {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  modal.style.display = 'flex';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = '';
+  modal.style.display = 'none';
+}
+</script>
 
   </div>
 </div>
