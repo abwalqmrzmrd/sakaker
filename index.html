@@ -997,111 +997,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
   .library-content .icon-circle{ width:68px; height:68px; font-size:10px; }
 }
 </style>
-<!-- نهاية التعديلات -->
-</head>
-<body>
-<!-- أيقونة الفيديو -->
-<div class="video-icon" onclick="openVideoModal('WujYCdZsDVw')">
-  <img src="https://img.youtube.com/vi/WujYCdZsDVw/hqdefault.jpg" alt="فيديو" class="video-thumb">
-</div>
-
-<!-- مودال الفيديو -->
-<div id="videoModal" class="video-modal">
-  <div class="video-content">
-    <span class="close-btn" onclick="closeVideoModal()">×</span>
-    <iframe id="modalVideo" src="" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-/* الأيقونة */
-.video-thumb {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  cursor: pointer;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-.video-thumb:hover {
-  transform: scale(1.05);
-}
-
-/* المودال */
-.video-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-}
-
-/* محتوى الفيديو */
-.video-content {
-  position: relative;
-  width: 80%;
-  max-width: 900px;
-  background: #000;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
-/* الفيديو نفسه */
-.video-content iframe {
-  width: 100%;
-  height: 500px;
-  display: block;
-}
-
-/* زر الإغلاق */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-.close-btn:hover {
-  color: #ff5555;
-}
-
-/* توافق الجوال */
-@media (max-width: 768px) {
-  .video-content {
-    width: 95%;
-  }
-  .video-content iframe {
-    height: 55vw;
-  }
-}
-</style>
-
-<script>
-function openVideoModal(videoId) {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-  modal.style.display = 'flex';
-}
-
-function closeVideoModal() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  iframe.src = '';
-  modal.style.display = 'none';
-}
 </script>
 
 <!-- صوت الطيور -->
@@ -1124,9 +1019,6 @@ function closeVideoModal() {
 #pongUi button { margin: 3px; padding: 4px 10px; border-radius: 6px; border: none; background: rgba(0,0,0,0.6); color: #fff; cursor: pointer; font-size: 12px; }
 #levelMsg { display: none; text-align: center; font-weight: bold; font-size: 14px; }
 </style>
-
-
-
 
 <style>
 .library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
@@ -1180,7 +1072,34 @@ function togglePersonalStory(id){
       title="YouTube video player" width="280" height="157"></iframe>
   </div>
 
+</div><div class="video-row">
+  <!-- فيديو اليمين -->
+  <div class="video-icon float-animation" onclick="openModal('SOIJjJaSMgw')">
+    <iframe
+      width="280"
+      height="157"
+      src="https://www.youtube.com/embed/SOIJjJaSMgw?si=9aHLxV9REj-KBr9_"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- فيديو اليسار -->
+  <div class="video-icon float-animation" onclick="openModal('bbmoXwaSpGY')">
+    <iframe
+      width="280"
+      height="157"
+      src="https://www.youtube.com/embed/bbmoXwaSpGY?si=wr8PNGvowUxzmytx"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
 </div>
+
 
 <style>
 .video-row {
@@ -1660,16 +1579,6 @@ function closeVideo() {
 </div>
 </div>
 <script>
-/* فتح الفيديو */
-function openVideo(url){
-  var modal = document.getElementById('videoModal');
-  var frame = document.getElementById('videoFrame');
-  modal.style.display = 'flex';
-  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
-}
-function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
-function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
-
 /* صوت الطيور */
 const birdBtn=document.getElementById('bird-sound-btn');
 const birdAudio=document.getElementById('bird-sound');
@@ -1861,3 +1770,209 @@ function showLevelMessage(msg) {
   }
 }
 </style>
+<script>
+// 🚫 تعطيل أي دوال قديمة لتشغيل المودال الدائري
+window.openVideoModal = () => {};
+window.openModal = () => {};
+window.openVideo = () => {};
+
+// ✅ ربط كل الأيقونات والفيديوهات بالنظام الجديد فقط
+document.querySelectorAll('.video-icon, .video-circle, iframe[src*="youtube.com"]').forEach(v => {
+  v.onclick = e => {
+    e.preventDefault();
+    const rect = v.getBoundingClientRect();
+    const side = (rect.left < window.innerWidth / 2) ? 'left' : 'right';
+    openUnifiedVideo(side);
+  };
+});
+</script>
+<!-- 🔹 كود توحيد تشغيل جميع الفيديوهات في مودال مستطيل واحد -->
+<style>
+.video-modal-unified {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+}
+.video-modal-unified .video-content {
+  position: relative;
+  width: 85%;
+  max-width: 900px;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
+.video-modal-unified iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  display: block;
+}
+.video-modal-unified .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.video-modal-unified .close-btn:hover {
+  color: #ff5555;
+}
+@media (max-width: 768px) {
+  .video-modal-unified .video-content { width: 95%; }
+  .video-modal-unified iframe { height: 55vw; }
+}
+</style>
+
+<!-- ✅ المودال الموحد -->
+<div id="unifiedVideoModal" class="video-modal-unified">
+  <div class="video-content">
+    <span class="close-btn" onclick="closeUnifiedVideo()">×</span>
+    <iframe id="unifiedVideoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+// 🔹 فتح الفيديو الأيمن أو الأيسر في نفس المودال
+function openUnifiedVideo(side = 'right') {
+  const modal = document.getElementById('unifiedVideoModal');
+  const frame = document.getElementById('unifiedVideoFrame');
+  const videoId = (side === 'left') ? 'zq6ohxTDNZY' : 'n7eQejkXbnM';
+  frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1`;
+  modal.style.display = 'flex';
+}
+
+// 🔹 إغلاق الفيديو
+function closeUnifiedVideo() {
+  const modal = document.getElementById('unifiedVideoModal');
+  const frame = document.getElementById('unifiedVideoFrame');
+  frame.src = '';
+  modal.style.display = 'none';
+}
+
+// 🔹 تطبيق التشغيل الموحد على كل الفيديوهات في الصفحة
+document.querySelectorAll('.video-icon, .video-circle, iframe[src*="youtube.com"]').forEach(v => {
+  v.addEventListener('click', e => {
+    e.preventDefault();
+    // تحديد الجهة (يمين / يسار)
+    const rect = v.getBoundingClientRect();
+    const side = (rect.left < window.innerWidth / 2) ? 'left' : 'right';
+    openUnifiedVideo(side);
+  });
+});
+</script>
+</script>
+
+<!-- كود الإصلاح الجديد يبدأ من هنا -->
+<style>
+.video-modal,
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+}
+
+.video-modal iframe,
+.video-content iframe,
+.modal-content iframe {
+  width: 100% !important;
+  height: 80vh !important;
+  display: block;
+  background: #000;
+  border: none;
+  border-radius: 10px;
+}
+
+.close, .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close:hover, .close-btn:hover {
+  color: #ff5555;
+}
+</style>
+
+<script>
+function openVideo(videoId) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'flex';
+    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+  }
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'none';
+    frame.src = "";
+  }
+}
+</script>
+<!-- كود الإصلاح الجديد ينتهي هنا -->
+
+</body>
+</html>
+<script>
+// ✅ إلغاء النظام القديم لدالة openVideo
+window.openVideo = function(url) {
+  const modal = document.getElementById('unifiedVideoModal');
+  const frame = document.getElementById('unifiedVideoFrame');
+  const videoIdMatch = url.match(/(?:embed\/|watch\\?v=)([A-Za-z0-9_-]{6,})/);
+  const videoId = videoIdMatch ? videoIdMatch[1] : null;
+  if (!videoId) return;
+  frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  modal.style.display = 'flex';
+};
+
+// ✅ تخصيص الأيقونات الرئيسية العلوية (اليمين/اليسار)
+document.querySelectorAll('.video-circle').forEach(v => {
+  v.onclick = e => {
+    e.preventDefault();
+    const rect = v.getBoundingClientRect();
+    const side = (rect.left < window.innerWidth / 2) ? 'left' : 'right';
+    openUnifiedVideo(side);
+  };
+});
+
+// ✅ تخصيص المكتبات (الفرعية) بنفس النظام
+document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
+  const link = icon.getAttribute('onclick');
+  if (link && link.includes('openVideo')) {
+    icon.onclick = e => {
+      e.preventDefault();
+      const urlMatch = link.match(/'(.*?)'/);
+      if (urlMatch && urlMatch[1]) {
+        openVideo(urlMatch[1]);
+      }
+    };
+  }
+});
+</script>
