@@ -851,133 +851,62 @@ function togglePersonalStory(id){
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
 </script>
-<div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
-<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tFdlhlmQ-ek?si=rE4SmsxeSsk4f5ld" title="YouTube video player" width="560"></iframe>
+
+
+<!-- صف الفيديوهات -->
+<div class="video-row">
+  <!-- فيديو اليسار -->
+  <div class="video-icon" onclick="openModal('tFdlhlmQ-ek')">
+    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen frameborder="0"
+      src="https://www.youtube.com/embed/tFdlhlmQ-ek"
+      title="YouTube video player" width="280" height="157"></iframe>
+  </div>
+
+  <!-- فيديو اليمين -->
+  <div class="video-icon" onclick="openModal('DnLTWjRV0UE')">
+    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen frameborder="0"
+      src="https://www.youtube.com/embed/DnLTWjRV0UE"
+      title="YouTube video player" width="280" height="157"></iframe>
+  </div>
 </div>
-</script>
+
 <style>
-.icon-circle {
-  transition: all 2s ease-in-out;
+.video-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px;
 }
-.sub-icons {
-  transition: all 0.5s ease-in-out;
+
+.video-icon {
+  width: 280px;      /* عرض الفيديو */
+  height: 157px;     /* ارتفاع الفيديو */
+  border-radius: 20px; /* جعل الإطار بيضاوي صغير حول الفيديو */
+  overflow: hidden;  /* الفيديو لا يتجاوز الإطار */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background: rgba(255,255,255,0.05); /* إطار شفاف */
+}
+
+.video-icon:hover {
+  transform: scale(1.05);
+}
+
+/* للجوال */
+@media (max-width:600px){
+  .video-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-icon {
+    width: 90%;
+    height: auto;
+    margin-bottom: 15px;
+  }
 }
 </style>
-<script>
-(function(){
-  const canvas = document.getElementById('pongCanvas');
-  const ctx = canvas.getContext('2d');
-
-// نظام المستويات
-let level = 1;
-function updateLevel() {
-  const playerScore = parseInt(scoreP_el.textContent);
-  const aiScore = parseInt(scoreA_el.textContent);
-  const total = playerScore + aiScore;
-  let newLevel = Math.floor(total / 5) + 1;
-  if (newLevel !== level) {
-    level = newLevel;
-    document.getElementById('levelLabel').textContent = "المستوى: " + level;
-    showLevelMessage("🎯 مستوى جديد: " + level);
-  }
-}
-
-function showLevelMessage(msg) {
-  const levelMsg = document.getElementById('levelMsg');
-  levelMsg.textContent = msg;
-  levelMsg.style.display = 'block';
-  levelMsg.style.background = 'rgba(0,0,0,0.7)';
-  levelMsg.style.padding = '8px 12px';
-  levelMsg.style.margin = '10px auto';
-  levelMsg.style.borderRadius = '8px';
-  setTimeout(() => { levelMsg.style.display = 'none'; }, 2000);
-}
-
-  const scoreP_el = document.getElementById('scoreP');
-  const scoreA_el = document.getElementById('scoreA');
-  const pauseBtn = document.getElementById('pongPauseBtn');
-  const closeBtn = document.getElementById('pongCloseBtn');
-  const startBtn = document.getElementById('startBtn');
-  const ui = document.getElementById('pongUi');
-  const levelMsg = document.getElementById('levelMsg');
-
-  let state = { running: false, playerScore: 0, aiScore: 0, level: 1 };
-  const paddle = { w: 80, h: 10, x: 0, y: 0 };
-  const ai = { w: 80, h: 10, x: 0, y: 0, speed: 5 };
-  const ball = { x:0,y:0,r:7,vx:0,vy:0,speed:4 };
-
-  function fitCanvas(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; }
-  fitCanvas();
-  window.addEventListener('resize', fitCanvas);
-
-  function resetPositions(){
-    paddle.x = (canvas.width-paddle.w)/2;
-    paddle.y = canvas.height-20;
-    ai.x = (canvas.width-ai.w)/2;
-    ai.y = 10;
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
-    const dirX = (Math.random()<0.5?-1:1);
-    const dirY = (Math.random()<0.5?-1:1);
-    ball.vx = dirX * ball.speed;
-    ball.vy = dirY * ball.speed;
-  }
-
-  function pointerMove(x){
-    const rect = canvas.getBoundingClientRect();
-    const cx = x-rect.left;
-    const half = paddle.w/2;
-    paddle.x = Math.min(Math.max(0, cx-half), canvas.width-paddle.w);
-  }
-
-  canvas.addEventListener('touchmove', e=>{ e.preventDefault(); pointerMove(e.touches[0].clientX); }, {passive:false});
-  canvas.addEventListener('mousemove', e=>pointerMove(e.clientX));
-
-  function update(){
-    if(!state.running) return;
-    ball.x += ball.vx; ball.y += ball.vy;
-    if(ball.x-ball.r<0||ball.x+ball.r>canvas.width) ball.vx*=-1;
-
-    if(ball.y+ball.r>=paddle.y && ball.x>=paddle.x && ball.x<=paddle.x+paddle.w){ ball.vy = -Math.abs(ball.vy); }
-    if(ball.y-ball.r<=ai.y+ai.h && ball.x>=ai.x && ball.x<=ai.x+ai.w){ ball.vy = Math.abs(ball.vy); }
-
-    if(ball.y-ball.r>canvas.height){ state.aiScore++; scoreA_el.textContent=state.aiScore; resetPositions(); }
-    if(ball.y+ball.r<0){ state.playerScore++; scoreP_el.textContent=state.playerScore; if(state.playerScore % 5 === 0){ state.level++; paddle.w = Math.max(30, paddle.w * 0.85); ball.speed *= 1.15; showLevel(state.level); } resetPositions(); }
-
-    ai.x += Math.sign(ball.x-(ai.x+ai.w/2))*ai.speed;
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#4dd0e1'; ctx.fillRect(paddle.x,paddle.y,paddle.w,paddle.h);
-    ctx.fillStyle='#ff5252'; ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
-    ctx.beginPath(); ctx.fillStyle='#ffeb3b'; ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
-  }
-
-  function loop(){ if(state.running){ update(); draw(); requestAnimationFrame(loop);} }
-
-  pauseBtn.addEventListener('click', ()=>{ state.running=!state.running; if(state.running) loop(); });
-  closeBtn.addEventListener('click', ()=>{ state.running=false; ui.style.display="none"; startBtn.style.display="block"; });
-  startBtn.addEventListener('click', ()=>{ startBtn.style.display="none"; ui.style.display="flex"; state.running=true; state.playerScore=0; state.aiScore=0; state.level=1; paddle.w=80; ball.speed=4; fitCanvas(); resetPositions(); loop(); });
-
-  function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
-})();
-</script>
-<audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
-<audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
-</body>
-
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
-<div id="cvPage">
-<div class="cv-content">
-<h1>التعريف بالموقع</h1>
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
-</div>
-</div>
-</div>
-</div>
-
 
 <!-- مودال قصة فكاهية -->
 <div class="modal" id="funnyStoryModal">
@@ -1041,7 +970,7 @@ function showLevelMessage(msg) {
 <div class="modal" id="storyRealityModal">
 <span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
 <div class="content">
-(قصص من الواقع والخيال)
+
 <!-- القصة الأولى -->
 <div class="story" id="ps1">
 <h3>قصتي بمراحل العمل</h3>
@@ -1113,35 +1042,6 @@ function showLevelMessage(msg) {
 <p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
     وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
 </div>
-<!-- بقية القصص (كما كانت) -->
-<div class="story-title" onclick="toggleStory('s1')">قصة التنين الفضي</div>
-<div class="story" id="s1"><p>.كان في قديم الزمان تنينٌ عظيم يملأ السماء بظلاله، لكنه لم يكن نارياً كما اعتاد الناس، بل كان تنيناً من الفضة، تتلألأ قشوره تحت ضوء القمر.
-اختبأ بين الجبال بعد أن عمّت الأرض فوضى، حتى جاء اليوم الذي خفت فيه النور وانطفأت قلوب البشر بالخوف.
-عندها نهض التنين الفضي من سباته، يزأر لا ليُرعب، بل ليبعث الأمل من جديد.
-طار فوق القرى والأنهار، ونفث من صدره دخاناً مضيئاً كالنجوم، حتى عاد النور للأرض.
-ومنذ ذلك الحين، قيل: كلما غاب الأمل، سيعود التنين الفضي ليذكّرنا أن الظلام لا يدوم أبداً.
-</p></div>
-<div class="story-title" onclick="toggleStory('s2')">قصة القمر والزمرد</div>
-<div class="story" id="s2"><p>.جلس أبوالقمر على صخرة تطل على البحر، بيده أحجار زمردٍ نادرة حصل عليها من شعب المرجان.
-رفعها نحو القمر، فإذا بالأشعة الفضية تنعكس عليها وتكوّن جسراً من نور يمتد فوق الأمواج.
-سار فوقه بخطواتٍ مترددة، حتى وصل سطح القمر، فوضع الزمرد في قلبه.
-ومنذ تلك الليلة أصبح للقمر إشعاع خاص، يمزج بين نوره الأبيض وصفاء الزمرد الأخضر، يُضيء دروب الحالمين ويحقق لهم أمنياتهم.
-وهكذا صارت حكاية "القمر والزمرد" رمزاً لكل من يجرؤ على أن يحلم رغم المستحيل.
-.</p></div>
-<div class="story-title" onclick="toggleStory('s3')">قصة البحر الأزرق</div>
-<div class="story" id="s3"><p>.في مساءٍ هادئ، جلس أبوالقمر عند البحر الأزرق، يسمع أنين الموج وكأنه حوارٌ خفي بين الماء والسماء.
-اقتربت منه موجة عالية، ثم انسحبت تاركةً صدفة صغيرة عند قدميه.
-فتحها فوجد بداخلها نجمة بحر تلمع بضياء غريب.
-أحسّ أن البحر يحدثه قائلاً: أنا البحر الذي يخزن أسرار العابرين، فاحمل هذه الهدية تذكرةً بأن كل سرّ يوماً ما سيُكشف بنور الحقيقة.
-فابتسم أبوالقمر، وعاد إلى بيته والنجمة في يده، وكلما نظر إليها تذكر أن البحر صديق لمن يصغي بصدق.
-</p></div>
-<div class="story-title" onclick="toggleStory('s4')">قصة زهرة الليل</div>
-<div class="story" id="s4"><p>..في حديقة مظلمة، وبين أشجار صامتة، ظهرت زهرة لم يرها أحد من قبل.
-كانت تتفتح فقط عند منتصف الليل، وتنشر عبيراً يملأ المكان بالسكينة.
-اقترب أبوالقمر منها، فوضع يده عليها فسمع همساً: أنا زهرة الليل، خُلقتُ لأضيء القلوب لا العيون، فلا تبحث عني في النهار.
-ومنذ تلك الليلة صار يزور الحديقة كل مساء، يكتب أشعاره بجوارها ويترك أحزانه بين أوراقها.
-وهكذا أصبحت زهرة الليل رمزاً لكل ما لا يُرى في وضح النهار، لكنه يضيء القلوب في عتمة الحياة.
-
 </p></div>
 </div>
 </div>
@@ -1522,6 +1422,16 @@ function showLevelMessage(msg) {
 })();
 </script>
 
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
 <!-- قائمة الدعم -->
 <div class="footer-menu">
 <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
