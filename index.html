@@ -860,26 +860,207 @@ function closeVideoModal() {
 .close:hover, .close-btn:hover {
   color: #ff5555;
 }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💬 دردشة الزوار</title>
+<style>
+body {
+  background: transparent;
+  font-family: "Tajawal", sans-serif;
+  text-align: center;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 💬 حاوية الدردشة */
+#chat-container {
+  width: 88%;
+  max-width: 280px; /* ✅ أصغر من السابق */
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+}
+
+#chat-container h3 {
+  margin: 4px 0 8px 0;
+  color: #fff;
+  font-size: 12px; /* ✅ أصغر */
+  text-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* 💬 صندوق الرسائل */
+#chat-box {
+  height: 150px; /* ✅ أقل ارتفاع */
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 4px;
+  background: rgba(0,0,0,0.25);
+  margin-bottom: 5px;
+}
+
+#chat-box p {
+  background: rgba(255,255,255,0.1);
+  padding: 3px 4px;
+  border-radius: 5px;
+  margin: 2px 0;
+  color: #fff;
+  font-size: 11.5px; /* ✅ أصغر خط */
+  word-wrap: break-word;
+}
+
+/* 💬 إدخال الرسائل */
+#chat-input {
+  display: flex;
+  gap: 3px;
+}
+
+#chat-input input {
+  flex: 1;
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 11.5px;
+}
+
+#chat-input input::placeholder {
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+}
+
+#chat-input button {
+  background: rgba(0, 200, 255, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 11.5px;
+}
+
+#chat-input button:hover {
+  background: rgba(0, 255, 255, 0.9);
+}
+
+/* 📱 ضبط إضافي للشاشات الصغيرة جدًا */
+@media (max-width: 400px) {
+  #chat-container {
+    max-width: 240px;
+    padding: 5px;
+  }
+  #chat-box {
+    height: 130px;
+  }
+  #chat-container h3 {
+    font-size: 11px;
+  }
+}
 </style>
+</head>
+<body>
+
+<!-- 💬 واجهة الدردشة -->
+<div id="chat-container">
+  <h3>💬 دردشة الزوار</h3>
+  <div id="chat-box"></div>
+  <div id="chat-input">
+    <input type="text" id="chat-name" placeholder="اسمك">
+    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
+    <button id="chat-send">إرسال</button>
+  </div>
+</div>
+
+<!-- مكتبات Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
 <script>
-function openVideo(videoId) {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'flex';
-    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  }
+// ======= إعداد Firebase (استبدل القيم بمفاتيح مشروعك الحقيقي) =======
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_DOMAIN",
+  databaseURL: "https://YOUR_DATABASE_NAME.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// تهيئة الاتصال بـ Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ======= عناصر الصفحة =======
+const chatBox = document.getElementById("chat-box");
+const nameInput = document.getElementById("chat-name");
+const messageInput = document.getElementById("chat-message");
+const sendBtn = document.getElementById("chat-send");
+const displayedKeys = new Set(); // لمنع التكرار
+
+// 🔹 دالة إرسال الرسالة
+function sendMessage() {
+  const name = nameInput.value.trim() || "مجهول";
+  const msg = messageInput.value.trim();
+  if (!msg) return;
+
+  const newRef = db.ref("messages").push();
+  const id = newRef.key;
+
+  const p = document.createElement("p");
+  p.textContent = `${name}: ${msg}`;
+  p.dataset.key = id;
+  chatBox.appendChild(p);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  displayedKeys.add(id);
+
+  newRef.set({ name, msg }).catch(err => console.error("Firebase error:", err));
+  messageInput.value = "";
 }
 
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'none';
-    frame.src = "";
+// زر الإرسال
+sendBtn.onclick = sendMessage;
+
+// عند الضغط على Enter
+messageInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
   }
-}
+});
+
+// استقبال الرسائل الجديدة من Firebase
+db.ref("messages").on("child_added", snapshot => {
+  const id = snapshot.key;
+  if (displayedKeys.has(id)) return;
+
+  const data = snapshot.val();
+  if (!data) return;
+  const p = document.createElement("p");
+  p.textContent = `${data.name}: ${data.msg}`;
+  p.dataset.key = id;
+  chatBox.appendChild(p);
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+</script>
+
+</body>
+</html>
+
 </script>
 
 </body>
@@ -998,214 +1179,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 }
 </style>
 </script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💬 دردشة الزوار</title>
-<style>
-body {
-  background: transparent;
-  font-family: "Tajawal", sans-serif;
-  text-align: center;
-  color: #fff;
-  margin: 0;
-  padding: 0;
-}
-
-/* 💬 حاوية الدردشة */
-#chat-container {
-  width: 95%;
-  max-width: 350px; /* ✅ تصغير العرض العام */
-  margin: 15px auto;
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 15px;
-  padding: 8px;
-  box-shadow: 0 0 15px rgba(255,255,255,0.15);
-  backdrop-filter: blur(4px);
-}
-
-#chat-container h3 {
-  margin: 5px 0 10px 0;
-  color: #fff;
-  font-size: 14px; /* ✅ تصغير العنوان للجوال */
-  text-shadow: 0 0 8px rgba(0,0,0,0.4);
-}
-
-/* 💬 صندوق الرسائل */
-#chat-box {
-  height: 200px; /* ✅ أصغر للجوال */
-  overflow-y: auto;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 10px;
-  padding: 6px;
-  background: rgba(0,0,0,0.25);
-  margin-bottom: 6px;
-}
-
-#chat-box p {
-  background: rgba(255,255,255,0.1);
-  padding: 5px 6px;
-  border-radius: 6px;
-  margin: 3px 0;
-  color: #fff;
-  font-size: 13px; /* ✅ أصغر قليلاً */
-  word-wrap: break-word;
-}
-
-/* 💬 إدخال الرسائل */
-#chat-input {
-  display: flex;
-  gap: 3px;
-}
-
-#chat-input input {
-  flex: 1;
-  padding: 5px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(0,0,0,0.3);
-  color: #fff;
-  font-size: 13px;
-}
-
-#chat-input input::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-
-#chat-input button {
-  background: rgba(0, 200, 255, 0.8);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-size: 13px;
-}
-
-#chat-input button:hover {
-  background: rgba(0, 255, 255, 0.9);
-}
-
-/* 📱 تحسين إضافي للجوال الصغير جدًا */
-@media (max-width: 400px) {
-  #chat-container {
-    max-width: 90%;
-    padding: 6px;
-  }
-
-  #chat-box {
-    height: 180px;
-  }
-
-  #chat-input input, #chat-input button {
-    font-size: 12px;
-    padding: 4px;
-  }
-
-  #chat-container h3 {
-    font-size: 12px;
-  }
-}
-</style>
-</head>
-<body>
-
-<!-- 💬 واجهة الدردشة -->
-<div id="chat-container">
-  <h3>💬 (سيتم تفعيله قريبًا بمشيئة الله) دردشة الزوار</h3>
-  <div id="chat-box"></div>
-  <div id="chat-input">
-    <input type="text" id="chat-name" placeholder="اسمك">
-    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
-    <button id="chat-send">إرسال</button>
-  </div>
-</div>
-
-<!-- مكتبات Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
-<script>
-// ======= إعداد Firebase (استبدل القيم بمفاتيح مشروعك الحقيقي) =======
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "https://YOUR_DATABASE_NAME.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-// تهيئة الاتصال بـ Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// ======= عناصر الصفحة =======
-const chatBox = document.getElementById("chat-box");
-const nameInput = document.getElementById("chat-name");
-const messageInput = document.getElementById("chat-message");
-const sendBtn = document.getElementById("chat-send");
-const displayedKeys = new Set(); // لمنع التكرار
-
-// 🔹 دالة إرسال الرسالة
-function sendMessage() {
-  const name = nameInput.value.trim() || "مجهول";
-  const msg = messageInput.value.trim();
-  if (!msg) return;
-
-  const newRef = db.ref("messages").push();
-  const id = newRef.key;
-
-  const p = document.createElement("p");
-  p.textContent = `${name}: ${msg}`;
-  p.dataset.key = id;
-  chatBox.appendChild(p);
-  chatBox.scrollTop = chatBox.scrollHeight;
-  displayedKeys.add(id);
-
-  newRef.set({ name, msg }).catch(err => console.error("Firebase error:", err));
-  messageInput.value = "";
-}
-
-// زر الإرسال
-sendBtn.onclick = sendMessage;
-
-// عند الضغط على Enter
-messageInput.addEventListener("keydown", e => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-// استقبال الرسائل الجديدة من Firebase
-db.ref("messages").on("child_added", snapshot => {
-  const id = snapshot.key;
-  if (displayedKeys.has(id)) return;
-
-  const data = snapshot.val();
-  if (!data) return;
-  const p = document.createElement("p");
-  p.textContent = `${data.name}: ${data.msg}`;
-  p.dataset.key = id;
-  chatBox.appendChild(p);
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
-</script>
-
-</body>
-</html>
-
-</script>
-
-</body>
-</html>
 
 <!-- صوت الطيور -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
