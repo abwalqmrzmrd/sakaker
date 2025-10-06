@@ -939,14 +939,17 @@ body {
   word-wrap: break-word;
 }
 
+/* 💬 إدخال الرسائل */
 #chat-input {
   display: flex;
   gap: 3px;
+  flex-wrap: wrap; /* يسمح للأجزاء بالانتقال للسطر عند الحاجة */
   transition: all 0.3s ease;
 }
 
 #chat-input input {
-  flex: 1;
+  flex: 1 1 auto; /* يجعل الحقول مرنة داخل المربع */
+  min-width: 60px; /* الحد الأدنى للعرض */
   padding: 4px;
   border-radius: 5px;
   border: 1px solid rgba(255,255,255,0.3);
@@ -961,6 +964,7 @@ body {
 }
 
 #chat-input button {
+  flex: 0 0 auto; /* الزر لا يتأثر بالحقل */
   background: rgba(0, 200, 255, 0.8);
   color: #fff;
   border: none;
@@ -1062,7 +1066,7 @@ db.ref("messages").on("child_added", snapshot=>{
   chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-// ======= السحب الديناميكي =======
+// ======= السحب الديناميكي مع تكبير الحافة =======
 const chatContainer = document.getElementById("chat-container");
 let isDragging = false, offsetX = 0, offsetY = 0;
 
@@ -1090,6 +1094,15 @@ function drag(e) {
   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
   chatContainer.style.left = `${clientX - offsetX}px`;
   chatContainer.style.top = `${clientY - offsetY}px`;
+
+  // تكبير تلقائي عند الحافة
+  const threshold = 50;
+  const screenWidth = window.innerWidth;
+  if(clientX - offsetX < threshold || clientX - offsetX > screenWidth - chatContainer.offsetWidth - threshold) {
+    chatContainer.classList.add("expanded");
+  } else {
+    chatContainer.classList.remove("expanded");
+  }
 }
 
 document.addEventListener("mouseup", endDrag);
@@ -1100,12 +1113,15 @@ function endDrag() {
   chatContainer.style.cursor = "grab";
 }
 
-// ======= زر التكبير/التصغير =======
+// ======= زر التكبير/التصغير اليدوي =======
 const toggleBtn = document.getElementById("toggle-size");
 toggleBtn.addEventListener("click", ()=>{
   chatContainer.classList.toggle("expanded");
   toggleBtn.textContent = chatContainer.classList.contains("expanded") ? "⬇️" : "⬆️";
 });
+</script>
+</body>
+</html>
 
 </script>
 </body>
