@@ -865,7 +865,7 @@ function closeVideoModal() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💬 دردشة ديناميكية</title>
+<title>💬 دردشة الزوار</title>
 <style>
 body {
   background: transparent;
@@ -886,7 +886,6 @@ body {
   padding: 6px;
   box-shadow: 0 0 10px rgba(255,255,255,0.2);
   backdrop-filter: blur(4px);
-
   position: fixed;
   top: 50%;
   left: 50%;
@@ -894,231 +893,180 @@ body {
   cursor: grab;
   z-index: 9999;
   transition: all 0.3s ease;
+  display: none;
 }
 
-/* 💬 عنوان الدردشة */
-#chat-container h3 {
-  margin: 4px 0 8px 0;
-  font-size: 12px;
-  text-shadow: 0 0 6px rgba(0,0,0,0.4);
-  cursor: grab;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* زر التكبير/التصغير */
-#toggle-size {
-  background: rgba(0,200,255,0.8);
-  border: none;
+/* شاشة إدخال البريد */
+#email-screen {
+  width: 88%;
+  max-width: 280px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: #fff;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* صندوق الرسائل */
-#chat-box {
-  height: 150px;
-  overflow-y: auto;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 5px;
-  transition: height 0.3s ease;
-}
-
-#chat-box p {
-  background: rgba(255,255,255,0.1);
-  padding: 3px 4px;
-  border-radius: 5px;
-  margin: 2px 0;
-  color: #fff;
-  font-size: 11.5px;
-  word-wrap: break-word;
-}
-
-/* 💬 إدخال الرسائل */
-#chat-input {
-  display: flex;
-  gap: 3px;
-  flex-wrap: wrap; /* يسمح للأجزاء بالانتقال للسطر عند الحاجة */
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
   transition: all 0.3s ease;
+  cursor: grab;
 }
 
-#chat-input input {
-  flex: 1 1 auto; /* يجعل الحقول مرنة داخل المربع */
-  min-width: 60px; /* الحد الأدنى للعرض */
-  padding: 4px;
+#email-screen input {
+  width: 90%;
+  padding: 6px;
   border-radius: 5px;
   border: 1px solid rgba(255,255,255,0.3);
   background: rgba(0,0,0,0.3);
   color: #fff;
-  font-size: 11.5px;
+  margin-top: 5px;
+  font-size: 12px;
 }
 
-#chat-input input::placeholder {
-  color: rgba(255,255,255,0.6);
-  font-size: 11px;
-}
-
-#chat-input button {
-  flex: 0 0 auto; /* الزر لا يتأثر بالحقل */
-  background: rgba(0, 200, 255, 0.8);
-  color: #fff;
+#email-screen button {
+  margin-top: 6px;
+  padding: 6px 10px;
   border: none;
   border-radius: 5px;
-  padding: 4px 6px;
+  background: rgba(0,200,255,0.8);
+  color: #fff;
   cursor: pointer;
-  transition: background 0.3s ease;
-  font-size: 11.5px;
+  transition: background 0.3s;
+  font-size: 12px;
 }
 
-#chat-input button:hover {
-  background: rgba(0, 255, 255, 0.9);
+#email-screen button:hover {
+  background: rgba(0,255,255,0.9);
+}
+
+#email-note {
+  margin-top: 5px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
 }
 
 /* 📱 تحجيم تلقائي */
 @media (max-width: 400px) {
-  #chat-container { max-width: 200px; padding: 4px; }
-  #chat-box { height: 100px; }
-  #chat-container h3 { font-size: 11px; }
+  #chat-container, #email-screen { max-width: 220px; padding: 6px; }
 }
 
-/* وضع مكبر */
 #chat-container.expanded {
   max-width: 90%;
 }
 
 #chat-container.expanded #chat-box { height: 250px; }
-#chat-container.expanded #chat-input input { font-size: 13px; }
-
 </style>
 </head>
 <body>
 
+<!-- شاشة إدخال البريد -->
+<div id="email-screen">
+  <h4>أدخل بريدك الإلكتروني</h4>
+  <input type="email" id="user-email" placeholder="example@email.com">
+  <button id="email-submit">متابعة</button>
+  <p id="email-note">(بث تجريبي غير مفعل باتصال العام بالإنترنت)</p>
+</div>
+
+<!-- واجهة الدردشة -->
 <div id="chat-container">
   <h3>
-    (سيتم تفعيلها مستقبلا بذن الله)💬 دردشة الزوار
+    💬 دردشة الزوار
     <button id="toggle-size">⬆️</button>
   </h3>
   <div id="chat-box"></div>
   <div id="chat-input">
     <input type="text" id="chat-name" placeholder="اسمك">
-    <input type="text" id="chat-message" placeholder="اكتب رسالتك..." autofocus>
+    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
     <button id="chat-send">إرسال</button>
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
 <script>
-// ======= Firebase =======
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "https://YOUR_DATABASE_NAME.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+// ===== شاشة البريد =====
+const emailScreen = document.getElementById('email-screen');
+const chatContainer = document.getElementById('chat-container');
+const emailInput = document.getElementById('user-email');
+const emailButton = document.getElementById('email-submit');
+
+emailButton.onclick = () => {
+  if (emailInput.value.trim() === '') {
+    alert('يرجى إدخال بريد إلكتروني صحيح');
+    return;
+  }
+  emailScreen.style.display = 'none';
+  chatContainer.style.display = 'block';
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-// ======= إرسال واستقبال الرسائل =======
-const chatBox = document.getElementById("chat-box");
-const nameInput = document.getElementById("chat-name");
-const messageInput = document.getElementById("chat-message");
-const sendBtn = document.getElementById("chat-send");
-const displayedKeys = new Set();
+// ===== السحب الديناميكي =====
+function makeDraggable(element) {
+  let isDragging = false, offsetX = 0, offsetY = 0;
 
-function sendMessage() {
-  const name = nameInput.value.trim() || "مجهول";
-  const msg = messageInput.value.trim();
-  if (!msg) return;
-  const newRef = db.ref("messages").push();
-  const id = newRef.key;
-  const p = document.createElement("p");
-  p.textContent = `${name}: ${msg}`;
-  p.dataset.key = id;
-  chatBox.appendChild(p);
-  chatBox.scrollTop = chatBox.scrollHeight;
-  displayedKeys.add(id);
-  newRef.set({ name, msg }).catch(err => console.error(err));
-  messageInput.value = "";
-}
+  element.addEventListener("mousedown", startDrag);
+  element.addEventListener("touchstart", startDrag);
 
-sendBtn.onclick = sendMessage;
-messageInput.addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); sendMessage(); }});
+  function startDrag(e) {
+    isDragging = true;
+    const rect = element.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    element.style.transform = "none";
+    element.style.cursor = "grabbing";
+  }
 
-db.ref("messages").on("child_added", snapshot=>{
-  const id = snapshot.key;
-  if(displayedKeys.has(id)) return;
-  const data = snapshot.val();
-  if(!data) return;
-  const p = document.createElement("p");
-  p.textContent = `${data.name}: ${data.msg}`;
-  p.dataset.key = id;
-  chatBox.appendChild(p);
-  chatBox.scrollTop = chatBox.scrollHeight;
-});
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("touchmove", drag, {passive:false});
 
-// ======= السحب الديناميكي مع تكبير الحافة =======
-const chatContainer = document.getElementById("chat-container");
-let isDragging = false, offsetX = 0, offsetY = 0;
+  function drag(e) {
+    if(!isDragging) return;
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    element.style.left = `${clientX - offsetX}px`;
+    element.style.top = `${clientY - offsetY}px`;
 
-chatContainer.addEventListener("mousedown", startDrag);
-chatContainer.addEventListener("touchstart", startDrag);
+    // تكبير تلقائي عند الحافة
+    const threshold = 50;
+    const screenWidth = window.innerWidth;
+    if(clientX - offsetX < threshold || clientX - offsetX > screenWidth - element.offsetWidth - threshold) {
+      element.classList.add("expanded");
+    } else {
+      element.classList.remove("expanded");
+    }
+  }
 
-function startDrag(e) {
-  isDragging = true;
-  const rect = chatContainer.getBoundingClientRect();
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  offsetX = clientX - rect.left;
-  offsetY = clientY - rect.top;
-  chatContainer.style.transform = "none";
-  chatContainer.style.cursor = "grabbing";
-}
+  document.addEventListener("mouseup", endDrag);
+  document.addEventListener("touchend", endDrag);
 
-document.addEventListener("mousemove", drag);
-document.addEventListener("touchmove", drag, {passive:false});
-
-function drag(e) {
-  if(!isDragging) return;
-  e.preventDefault();
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  chatContainer.style.left = `${clientX - offsetX}px`;
-  chatContainer.style.top = `${clientY - offsetY}px`;
-
-  // تكبير تلقائي عند الحافة
-  const threshold = 50;
-  const screenWidth = window.innerWidth;
-  if(clientX - offsetX < threshold || clientX - offsetX > screenWidth - chatContainer.offsetWidth - threshold) {
-    chatContainer.classList.add("expanded");
-  } else {
-    chatContainer.classList.remove("expanded");
+  function endDrag() {
+    isDragging = false;
+    element.style.cursor = "grab";
   }
 }
 
-document.addEventListener("mouseup", endDrag);
-document.addEventListener("touchend", endDrag);
+// تطبيق السحب على البريد والدردشة
+makeDraggable(chatContainer);
+makeDraggable(emailScreen);
 
-function endDrag() {
-  isDragging = false;
-  chatContainer.style.cursor = "grab";
-}
-
-// ======= زر التكبير/التصغير اليدوي =======
-const toggleBtn = document.getElementById("toggle-size");
-toggleBtn.addEventListener("click", ()=>{
+// ===== زر التكبير =====
+document.getElementById("toggle-size").addEventListener("click", ()=>{
   chatContainer.classList.toggle("expanded");
-  toggleBtn.textContent = chatContainer.classList.contains("expanded") ? "⬇️" : "⬆️";
 });
+</script>
+
+</body>
+</html>
+
+</script>
+</body>
+</html>
+
 </script>
 </body>
 </html>
