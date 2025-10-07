@@ -865,7 +865,7 @@ function closeVideoModal() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💬 دردشة الزوار</title>
+<title>💬 دردشة الزوار مرنة للجوال</title>
 <style>
 body {
   background: transparent;
@@ -877,8 +877,9 @@ body {
 
 /* 💬 حاوية الدردشة */
 #chat-container {
-  width: 280px;
-  height: 380px;
+  width: 90%;
+  max-width: 400px;
+  height: 70vh;
   background: rgba(0,0,0,0.35);
   border: 2px solid rgba(0,200,255,0.8);
   border-radius: 12px;
@@ -891,8 +892,9 @@ body {
   transform: translateX(-50%);
   cursor: grab;
   z-index: 9999;
-  display: none;
+  display: block; /* ظهوره مباشرة */
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 /* زر إغلاق الدردشة باللون الأصفر */
@@ -914,76 +916,23 @@ body {
   background: rgba(255,255,50,0.95);
 }
 
-/* شاشة إدخال البريد */
-#email-screen {
-  width: 260px;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 10px;
-  padding: 8px;
-  text-align: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-  backdrop-filter: blur(5px);
-  z-index: 10000;
-  cursor: grab;
-}
-
-#email-screen input {
-  width: 90%;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: rgba(0,0,0,0.3);
-  color: #fff;
-  margin-top: 5px;
-  font-size: 12px;
-}
-
-#email-screen button {
-  margin-top: 6px;
-  padding: 5px 8px;
-  border: none;
-  border-radius: 5px;
-  background: rgba(0,200,255,0.8);
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s;
-  font-size: 12px;
-}
-
-#email-screen button:hover {
-  background: rgba(0,255,255,0.9);
-}
-
-#email-note {
-  margin-top: 5px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-}
-
 /* زر إظهار/إخفاء الدردشة */
 #chat-toggle-btn {
   position: fixed;
   bottom: 15px;
   right: 15px;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   background: rgba(0,200,255,0.9);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 26px;
   color: #fff;
   z-index: 10001;
   box-shadow: 0 0 12px rgba(0,200,255,0.7);
   transition: background 0.3s, transform 0.3s;
 }
-
 #chat-toggle-btn:hover {
   background: rgba(0,255,255,0.95);
   transform: scale(1.1);
@@ -994,10 +943,9 @@ body {
   width: 100%;
   height: 100%;
   border: none;
-  overflow: hidden;
 }
 
-/* 🛡️ إخفاء الاسم والروابط */
+/* 🛡️ إخفاء الروابط */
 #cid0020000420826899789 a[href*="chatango.com"] {
   display: none !important;
 }
@@ -1010,27 +958,20 @@ body {
 @media screen and (max-width: 480px) {
   #chat-container {
     width: 95% !important;
-    height: 75vh !important;
-    top: 10px;
+    height: 80vh !important;
+    top: 5px;
     left: 50%;
     transform: translateX(-50%);
   }
-
-  #email-screen {
-    width: 90% !important;
+  #chat-toggle-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
   }
 }
 </style>
 </head>
 <body>
-
-<!-- شاشة إدخال البريد -->
-<div id="email-screen">
-  <h4>💬 Enter your email</h4>
-  <input type="email" id="user-email" placeholder="example@email.com">
-  <button id="email-submit">Continue</button>
-  <p id="email-note">(Enter your email to access the chat)</p>
-</div>
 
 <!-- واجهة الدردشة Chatango -->
 <div id="chat-container">
@@ -1046,36 +987,18 @@ body {
 <button id="chat-toggle-btn">💬</button>
 
 <script>
-const emailScreen = document.getElementById('email-screen');
 const chatContainer = document.getElementById('chat-container');
-const emailInput = document.getElementById('user-email');
-const emailButton = document.getElementById('email-submit');
 const chatToggleBtn = document.getElementById('chat-toggle-btn');
 const chatCloseBtn = document.getElementById('chat-close-btn');
 
-// عند إدخال البريد، عرض الدردشة
-emailButton.onclick = () => {
-  if(emailInput.value.trim() === '') { 
-    alert('Please enter a valid email'); 
-    return; 
-  }
-  emailScreen.style.display = 'none';
-  chatContainer.style.display = 'block';
-};
-
 // زر إظهار/إخفاء الدردشة
 chatToggleBtn.onclick = () => {
-  if(chatContainer.style.display === 'none' || chatContainer.style.display === '') {
-    chatContainer.style.display = 'block';
-  } else {
-    chatContainer.style.display = 'none';
-  }
+  chatContainer.style.display = (chatContainer.style.display === 'none' ? 'block' : 'none');
 };
 
-// زر إغلاق الدردشة والرجوع للبريد
+// زر إغلاق الدردشة
 chatCloseBtn.onclick = () => {
   chatContainer.style.display = 'none';
-  emailScreen.style.display = 'block';
 };
 
 // ===== السحب الديناميكي =====
@@ -1101,8 +1024,20 @@ function makeDraggable(element){
     e.preventDefault();
     const clientX=e.touches ? e.touches[0].clientX : e.clientX;
     const clientY=e.touches ? e.touches[0].clientY : e.clientY;
-    element.style.left=`${clientX - offsetX}px`;
-    element.style.top=`${clientY - offsetY}px`;
+
+    // حدود الشاشة
+    const maxLeft = window.innerWidth - element.offsetWidth;
+    const maxTop = window.innerHeight - element.offsetHeight;
+    let newLeft = clientX - offsetX;
+    let newTop = clientY - offsetY;
+
+    if(newLeft < 0) newLeft = 0;
+    if(newTop < 0) newTop = 0;
+    if(newLeft > maxLeft) newLeft = maxLeft;
+    if(newTop > maxTop) newTop = maxTop;
+
+    element.style.left=`${newLeft}px`;
+    element.style.top=`${newTop}px`;
   }
 
   function endDrag(){
@@ -1116,9 +1051,7 @@ function makeDraggable(element){
   document.addEventListener('touchend', endDrag);
 }
 
-// تطبيق السحب على الدردشة والبريد
 makeDraggable(chatContainer);
-makeDraggable(emailScreen);
 </script>
 </body>
 </html>
