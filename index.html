@@ -874,8 +874,6 @@ body {
   padding: 0;
   color: #fff;
 }
-
-/* 💬 حاوية الدردشة */
 #chat-container {
   width: 88%;
   max-width: 280px;
@@ -895,8 +893,6 @@ body {
   transition: all 0.3s ease;
   display: none;
 }
-
-/* شاشة إدخال البريد */
 #email-screen {
   width: 88%;
   max-width: 280px;
@@ -916,7 +912,6 @@ body {
   transition: all 0.3s ease;
   cursor: grab;
 }
-
 #email-screen input {
   width: 90%;
   padding: 6px;
@@ -927,7 +922,6 @@ body {
   margin-top: 5px;
   font-size: 12px;
 }
-
 #email-screen button {
   margin-top: 6px;
   padding: 6px 10px;
@@ -939,18 +933,14 @@ body {
   transition: background 0.3s;
   font-size: 12px;
 }
-
 #email-screen button:hover {
   background: rgba(0,255,255,0.9);
 }
-
 #email-note {
   margin-top: 5px;
   font-size: 11px;
   color: rgba(255,255,255,0.7);
 }
-
-/* صندوق الرسائل المدخلة */
 #chat-box {
   height: 150px;
   overflow-y: auto;
@@ -959,7 +949,6 @@ body {
   padding: 4px;
   margin-bottom: 5px;
 }
-
 #chat-box p {
   background: rgba(255,255,255,0.1);
   padding: 3px 4px;
@@ -968,15 +957,11 @@ body {
   font-size: 11.5px;
   word-wrap: break-word;
 }
-
-/* إدخال الرسائل */
 #chat-input {
   display: flex;
   gap: 3px;
   flex-wrap: wrap;
-  transition: all 0.3s ease;
 }
-
 #chat-input input {
   flex: 1 1 auto;
   min-width: 60px;
@@ -987,9 +972,7 @@ body {
   color: #fff;
   font-size: 11.5px;
 }
-
 #chat-input input::placeholder { color: rgba(255,255,255,0.6); }
-
 #chat-input button {
   flex: 0 0 auto;
   background: rgba(0,200,255,0.8);
@@ -1000,46 +983,31 @@ body {
   cursor: pointer;
   font-size: 11.5px;
 }
-
 #chat-input button:hover {
   background: rgba(0,255,255,0.9);
 }
-
-/* 📱 تحجيم تلقائي */
-@media (max-width: 400px) {
-  #chat-container, #email-screen { max-width: 220px; padding: 6px; }
-}
-
-/* مكبر */
-#chat-container.expanded, #email-screen.expanded { max-width: 90%; }
-#chat-container.expanded #chat-box { height: 250px; }
 </style>
 </head>
 <body>
 
-<!-- شاشة إدخال البريد -->
 <div id="email-screen">
-  <h4>أدخل بريدك الإلكتروني</h4>
+  <h4>أدخل بريدك الإلكتروني / Enter your email</h4>
   <input type="email" id="user-email" placeholder="example@email.com">
-  <button id="email-submit">متابعة</button>
-  <p id="email-note">(بث تجريبي غير مفعل باتصال العام بالإنترنت)</p>
+  <button id="email-submit">متابعة / Continue</button>
+  <p id="email-note">(💬 دردشة الزوار – بث تجريبي / Visitor Chat – Demo)</p>
 </div>
 
-<!-- واجهة الدردشة -->
 <div id="chat-container">
-  <h3>
-    💬 دردشة الزوار (سيتم تفعيله مستقبلا إنشاء الله)
-    <button id="toggle-size">⬆️</button>
-  </h3>
   <div id="chat-box"></div>
   <div id="chat-input">
-    <input type="text" id="chat-name" placeholder="اسمك">
-    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
-    <button id="chat-send">إرسال</button>
+    <input type="text" id="chat-name" placeholder="اسمك / Your Name">
+    <input type="text" id="chat-message" placeholder="اكتب رسالتك... / Write your message...">
+    <button id="chat-send">إرسال / Send</button>
   </div>
 </div>
 
 <script>
+// العناصر
 const emailScreen = document.getElementById('email-screen');
 const chatContainer = document.getElementById('chat-container');
 const emailInput = document.getElementById('user-email');
@@ -1051,14 +1019,14 @@ const chatSend = document.getElementById('chat-send');
 
 // إدخال البريد وفتح الدردشة
 emailButton.onclick = () => {
-  if(emailInput.value.trim() === '') { alert('يرجى إدخال بريد صحيح'); return; }
+  if(emailInput.value.trim() === '') { alert('يرجى إدخال بريد صحيح / Please enter a valid email'); return; }
   emailScreen.style.display = 'none';
   chatContainer.style.display = 'block';
 };
 
-// إرسال الرسائل
+// إرسال الرسائل مع اختفاء بعد دقيقة
 chatSend.onclick = () => {
-  const name = chatName.value.trim() || 'زائر';
+  const name = chatName.value.trim() || 'زائر / Visitor';
   const msg = chatMessage.value.trim();
   if(!msg) return;
   const p = document.createElement('p');
@@ -1066,21 +1034,17 @@ chatSend.onclick = () => {
   chatBox.appendChild(p);
   chatBox.scrollTop = chatBox.scrollHeight;
   chatMessage.value = '';
+
+  setTimeout(() => {
+    p.remove();
+  }, 60000);
 };
 
-// زر تكبير/تصغير
-document.getElementById('toggle-size').onclick = () => {
-  chatContainer.classList.toggle('expanded');
-  emailScreen.classList.toggle('expanded');
-};
-
-// ===== السحب الديناميكي للدردشة والبريد =====
+// زر السحب
 function makeDraggable(element){
   let isDragging=false, offsetX=0, offsetY=0;
-
   element.addEventListener('mousedown', startDrag);
   element.addEventListener('touchstart', startDrag);
-
   function startDrag(e){
     isDragging=true;
     const rect=element.getBoundingClientRect();
@@ -1091,7 +1055,6 @@ function makeDraggable(element){
     element.style.transform='none';
     element.style.cursor='grabbing';
   }
-
   function drag(e){
     if(!isDragging) return;
     e.preventDefault();
@@ -1100,43 +1063,27 @@ function makeDraggable(element){
     element.style.left=`${clientX - offsetX}px`;
     element.style.top=`${clientY - offsetY}px`;
   }
-
-  function endDrag(){
-    isDragging=false;
-    element.style.cursor='grab';
-  }
-
+  function endDrag(){ isDragging=false; element.style.cursor='grab'; }
   document.addEventListener('mousemove', drag);
   document.addEventListener('touchmove', drag,{passive:false});
   document.addEventListener('mouseup', endDrag);
   document.addEventListener('touchend', endDrag);
 }
-
-// تطبيق السحب على كل من الدردشة والبريد
 makeDraggable(chatContainer);
 makeDraggable(emailScreen);
-
-</script>
-</body>
-</html>
-
 </script>
 
-</body>
-</html>
-
-</script>
-</body>
-</html>
-
-</script>
-</body>
-</html>
-
-</script>
-</body>
-</html>
-
+<!-- Tawk.to -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/68a0d1bd11c62119233a9be9/1j2q36k9k';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
 </script>
 
 </body>
