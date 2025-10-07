@@ -950,15 +950,68 @@ body {
   color: rgba(255,255,255,0.7);
 }
 
+/* صندوق الرسائل المدخلة */
+#chat-box {
+  height: 150px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+
+#chat-box p {
+  background: rgba(255,255,255,0.1);
+  padding: 3px 4px;
+  border-radius: 5px;
+  margin: 2px 0;
+  font-size: 11.5px;
+  word-wrap: break-word;
+}
+
+/* إدخال الرسائل */
+#chat-input {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  transition: all 0.3s ease;
+}
+
+#chat-input input {
+  flex: 1 1 auto;
+  min-width: 60px;
+  padding: 4px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 11.5px;
+}
+
+#chat-input input::placeholder { color: rgba(255,255,255,0.6); }
+
+#chat-input button {
+  flex: 0 0 auto;
+  background: rgba(0,200,255,0.8);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 6px;
+  cursor: pointer;
+  font-size: 11.5px;
+}
+
+#chat-input button:hover {
+  background: rgba(0,255,255,0.9);
+}
+
 /* 📱 تحجيم تلقائي */
 @media (max-width: 400px) {
   #chat-container, #email-screen { max-width: 220px; padding: 6px; }
 }
 
-#chat-container.expanded {
-  max-width: 90%;
-}
-
+/* مكبر */
+#chat-container.expanded, #email-screen.expanded { max-width: 90%; }
 #chat-container.expanded #chat-box { height: 250px; }
 </style>
 </head>
@@ -975,7 +1028,7 @@ body {
 <!-- واجهة الدردشة -->
 <div id="chat-container">
   <h3>
-    💬 دردشة الزوار
+    💬 دردشة الزوار (سيتم تفعيله مستقبلا إنشاء الله)
     <button id="toggle-size">⬆️</button>
   </h3>
   <div id="chat-box"></div>
@@ -987,77 +1040,86 @@ body {
 </div>
 
 <script>
-// ===== شاشة البريد =====
 const emailScreen = document.getElementById('email-screen');
 const chatContainer = document.getElementById('chat-container');
 const emailInput = document.getElementById('user-email');
 const emailButton = document.getElementById('email-submit');
+const chatBox = document.getElementById('chat-box');
+const chatName = document.getElementById('chat-name');
+const chatMessage = document.getElementById('chat-message');
+const chatSend = document.getElementById('chat-send');
 
+// إدخال البريد وفتح الدردشة
 emailButton.onclick = () => {
-  if (emailInput.value.trim() === '') {
-    alert('يرجى إدخال بريد إلكتروني صحيح');
-    return;
-  }
+  if(emailInput.value.trim() === '') { alert('يرجى إدخال بريد صحيح'); return; }
   emailScreen.style.display = 'none';
   chatContainer.style.display = 'block';
 };
 
-// ===== السحب الديناميكي =====
-function makeDraggable(element) {
-  let isDragging = false, offsetX = 0, offsetY = 0;
+// إرسال الرسائل
+chatSend.onclick = () => {
+  const name = chatName.value.trim() || 'زائر';
+  const msg = chatMessage.value.trim();
+  if(!msg) return;
+  const p = document.createElement('p');
+  p.textContent = `${name}: ${msg}`;
+  chatBox.appendChild(p);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  chatMessage.value = '';
+};
 
-  element.addEventListener("mousedown", startDrag);
-  element.addEventListener("touchstart", startDrag);
+// زر تكبير/تصغير
+document.getElementById('toggle-size').onclick = () => {
+  chatContainer.classList.toggle('expanded');
+  emailScreen.classList.toggle('expanded');
+};
 
-  function startDrag(e) {
-    isDragging = true;
-    const rect = element.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    offsetX = clientX - rect.left;
-    offsetY = clientY - rect.top;
-    element.style.transform = "none";
-    element.style.cursor = "grabbing";
+// ===== السحب الديناميكي للدردشة والبريد =====
+function makeDraggable(element){
+  let isDragging=false, offsetX=0, offsetY=0;
+
+  element.addEventListener('mousedown', startDrag);
+  element.addEventListener('touchstart', startDrag);
+
+  function startDrag(e){
+    isDragging=true;
+    const rect=element.getBoundingClientRect();
+    const clientX=e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY=e.touches ? e.touches[0].clientY : e.clientY;
+    offsetX=clientX - rect.left;
+    offsetY=clientY - rect.top;
+    element.style.transform='none';
+    element.style.cursor='grabbing';
   }
 
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("touchmove", drag, {passive:false});
-
-  function drag(e) {
+  function drag(e){
     if(!isDragging) return;
     e.preventDefault();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    element.style.left = `${clientX - offsetX}px`;
-    element.style.top = `${clientY - offsetY}px`;
-
-    // تكبير تلقائي عند الحافة
-    const threshold = 50;
-    const screenWidth = window.innerWidth;
-    if(clientX - offsetX < threshold || clientX - offsetX > screenWidth - element.offsetWidth - threshold) {
-      element.classList.add("expanded");
-    } else {
-      element.classList.remove("expanded");
-    }
+    const clientX=e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY=e.touches ? e.touches[0].clientY : e.clientY;
+    element.style.left=`${clientX - offsetX}px`;
+    element.style.top=`${clientY - offsetY}px`;
   }
 
-  document.addEventListener("mouseup", endDrag);
-  document.addEventListener("touchend", endDrag);
-
-  function endDrag() {
-    isDragging = false;
-    element.style.cursor = "grab";
+  function endDrag(){
+    isDragging=false;
+    element.style.cursor='grab';
   }
+
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('touchmove', drag,{passive:false});
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
 }
 
-// تطبيق السحب على البريد والدردشة
+// تطبيق السحب على كل من الدردشة والبريد
 makeDraggable(chatContainer);
 makeDraggable(emailScreen);
 
-// ===== زر التكبير =====
-document.getElementById("toggle-size").addEventListener("click", ()=>{
-  chatContainer.classList.toggle("expanded");
-});
+</script>
+</body>
+</html>
+
 </script>
 
 </body>
