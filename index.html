@@ -374,6 +374,224 @@ body {
 
 >
 </div>
+<style>
+/* ===== تصميم البريد والدردشة ===== */
+body {
+  font-family: "Tajawal", sans-serif;
+  margin:0; padding:0;
+  color:#fff;
+  background: transparent;
+}
+
+/* شاشة البريد */
+#email-screen {
+  width: 260px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
+  cursor: grab;
+}
+
+#email-screen input {
+  width: 90%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+#email-screen button {
+  margin-top: 6px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(0,200,255,0.8);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 12px;
+}
+#email-screen button:hover { background: rgba(0,255,255,0.9); }
+
+#email-note {
+  margin-top: 5px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* مربع الدردشة */
+#chat-container {
+  width: 280px;
+  height: 380px;
+  background: rgba(0,0,0,0.35);
+  border: 2px solid rgba(0,200,255,0.8);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 0 15px rgba(0,200,255,0.5);
+  backdrop-filter: blur(6px);
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: grab;
+  z-index: 9999;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+/* زر الإغلاق الأصفر */
+#chat-close-btn {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(255,255,0,0.85);
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  z-index: 10001;
+  box-shadow: 0 0 4px rgba(255,255,0,0.7);
+}
+#chat-close-btn:hover { background: rgba(255,255,50,0.95); }
+
+/* زر إظهار/إخفاء الدردشة */
+#chat-toggle-btn {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  background: rgba(0,200,255,0.9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  z-index: 10001;
+  box-shadow: 0 0 12px rgba(0,200,255,0.7);
+  transition: background 0.3s, transform 0.3s;
+}
+#chat-toggle-btn:hover { background: rgba(0,255,255,0.95); transform: scale(1.1); }
+
+/* iframe Chatango */
+#chat-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+/* إخفاء الروابط والاسم */
+#chat-container a[href*="chatango.com"]{ display:none !important; }
+#chat-container .msg a{ pointer-events:none !important; cursor:default !important; }
+
+/* استجابة الجوال */
+@media screen and (max-width:480px){
+  #chat-container{ width:95% !important; height:75vh !important; top:10px; left:50%; transform:translateX(-50%); }
+  #email-screen{ width:90% !important; }
+}
+</style>
+
+<!-- شاشة البريد -->
+<div id="email-screen">
+  <h4>💬 Enter your email</h4>
+  <input type="email" id="user-email" placeholder="example@email.com">
+  <button id="email-submit">Continue</button>
+  <p id="email-note">(Enter your email to access the chat)</p>
+</div>
+
+<!-- مربع الدردشة -->
+<div id="chat-container">
+  <button id="chat-close-btn">✖</button>
+</div>
+
+<!-- زر إظهار/إخفاء الدردشة -->
+<button id="chat-toggle-btn">💬</button>
+
+<script>
+const emailScreen = document.getElementById('email-screen');
+const chatContainer = document.getElementById('chat-container');
+const emailInput = document.getElementById('user-email');
+const emailButton = document.getElementById('email-submit');
+const chatToggleBtn = document.getElementById('chat-toggle-btn');
+const chatCloseBtn = document.getElementById('chat-close-btn');
+
+// عند إدخال البريد، عرض الدردشة وتحميل Chatango
+emailButton.onclick = () => {
+  if(emailInput.value.trim() === '') { alert('Please enter a valid email'); return; }
+  emailScreen.style.display = 'none';
+  chatContainer.style.display = 'block';
+
+  // تحميل Chatango فقط عند العرض
+  if(!document.getElementById('chatango-script')){
+    const script = document.createElement('script');
+    script.id = 'chatango-script';
+    script.async = true;
+    script.src = '//st.chatango.com/js/gz/emb.js';
+    script.style.width='100%';
+    script.style.height='100%';
+    script.textContent='{"handle":"sakakera","arch":"js","styles":{"a":"CC0000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"CC0000","l":"CC0000","m":"CC0000","n":"FFFFFF","p":"10","q":"CC0000","r":100,"fwtickm":1}}';
+    chatContainer.appendChild(script);
+  }
+};
+
+// زر إظهار/إخفاء الدردشة
+chatToggleBtn.onclick = () => {
+  chatContainer.style.display = (chatContainer.style.display==='none'||chatContainer.style.display==='')?'block':'none';
+};
+
+// زر الإغلاق والرجوع للبريد
+chatCloseBtn.onclick = () => {
+  chatContainer.style.display='none';
+  emailScreen.style.display='block';
+};
+
+// السحب الديناميكي
+function makeDraggable(el){
+  let isDragging=false, offsetX=0, offsetY=0;
+  el.addEventListener('mousedown', startDrag);
+  el.addEventListener('touchstart', startDrag);
+  function startDrag(e){
+    isDragging=true;
+    const rect=el.getBoundingClientRect();
+    const clientX=e.touches?e.touches[0].clientX:e.clientX;
+    const clientY=e.touches?e.touches[0].clientY:e.clientY;
+    offsetX=clientX-rect.left; offsetY=clientY-rect.top;
+    el.style.transform='none';
+    el.style.cursor='grabbing';
+  }
+  function drag(e){
+    if(!isDragging) return;
+    e.preventDefault();
+    const clientX=e.touches?e.touches[0].clientX:e.clientX;
+    const clientY=e.touches?e.touches[0].clientY:e.clientY;
+    el.style.left=`${clientX-offsetX}px`;
+    el.style.top=`${clientY-offsetY}px`;
+  }
+  function endDrag(){ isDragging=false; el.style.cursor='grab'; }
+  document.addEventListener('mousemove', drag);
+  document.addEventListener('touchmove', drag,{passive:false});
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+}
+makeDraggable(chatContainer);
+makeDraggable(emailScreen);
+</script>
 
 <script>
 function showSection(id) {
@@ -1017,7 +1235,7 @@ body {
 
 <!-- واجهة الدردشة -->
 <div id="chat-container">
-  <h3>💬 دردشة الزوار | Visitors Chat<br><small>سيتم تطويره إن شاء الله / Coming soon online)</small></h3>
+  <h3>💬 دردشة الزوار | Visitors Chat<br><s / Coming soon online)</small></h3>
   <div id="chat-box"></div>
   <div id="chat-input">
     <input type="text" id="chat-name" placeholder="الاسم / Name">
@@ -2240,79 +2458,4 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
     };
   }
 });
-</script>
-<!-- أيقونة فتح الدردشة -->
-<div id="chatIcon" onclick="toggleChat()" style="
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: gold;
-  color: #000;
-  border-radius: 50%;
-  width: 65px;
-  height: 65px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  animation: floatIcon 3s ease-in-out infinite;
-  z-index: 9999;
-">💬</div>
-
-<!-- نافذة الدردشة -->
-<div id="chatBox" style="
-  display: none;
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 90%;
-  max-width: 350px;
-  height: 70vh;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  z-index: 9999;
-">
-  <!-- زر إغلاق باللون الأصفر -->
-  <button id="chatCloseBtn" style="
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: gold;
-    border: none;
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 10000;
-  ">✖</button>
-
-  <iframe id="chatFrame" src="https://chatango.com/embed/sakakera" 
-    style="width: 100%; height: 100%; border: none;"></iframe>
-</div>
-
-<!-- الحركة -->
-<style>
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-</style>
-
-<!-- السكربت -->
-<script>
-const chatBox = document.getElementById("chatBox");
-const chatCloseBtn = document.getElementById("chatCloseBtn");
-
-function toggleChat() {
-  chatBox.style.display = (chatBox.style.display === "none" || chatBox.style.display === "") ? "block" : "none";
-}
-
-// زر الإغلاق يغلق الدردشة
-chatCloseBtn.onclick = () => {
-  chatBox.style.display = "none";
-};
 </script>
