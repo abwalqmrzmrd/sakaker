@@ -1098,20 +1098,27 @@ function closeVideoModal() {
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com",
-    projectId: "abwalqmrzmrd-47557",
-    storageBucket: "abwalqmrzmrd-47557.appspot.com",
-    messagingSenderId: "957400167542",
-    appId: "1:957400167542:web:9115ea4c12d5f73faedb57",
-    measurementId: "G-4VF7GHETP0"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  const messagesRef = db.ref("messages");
+<script>// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+  projectId: "abwalqmrzmrd-47557",
+  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
+  messagingSenderId: "957400167542",
+  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
+  measurementId: "G-24BWC6N21W"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
   const emailScreen = document.getElementById('email-screen');
   const chatContainer = document.getElementById('chat-container');
