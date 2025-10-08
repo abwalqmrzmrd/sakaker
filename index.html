@@ -953,15 +953,38 @@ function closeVideoModal() {
     }
 
     @keyframes glowGradient {
-      0% {
-        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
-      }
-      50% {
-        text-shadow: 0 0 18px #00e6ff, 0 0 28px #00ffcc;
-      }
-      100% {
-        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
-      }
+      0% { text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff; }
+      50% { text-shadow: 0 0 18px #00e6ff, 0 0 28px #00ffcc; }
+      100% { text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff; }
+    }
+
+    /* 💬 مربع الخطأ الأنيق */
+    #error-box {
+      position: fixed;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 50, 50, 0.15);
+      border: 1px solid rgba(255, 120, 120, 0.5);
+      border-radius: 12px;
+      padding: 8px 12px;
+      color: #ff9999;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 0 12px rgba(255, 70, 70, 0.5);
+      backdrop-filter: blur(6px);
+      animation: fadeInOut 5s ease-in-out;
+      z-index: 99999;
+      text-align: center;
+      width: fit-content;
+      max-width: 90%;
+      word-wrap: break-word;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      10%, 90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
     }
 
     /* 💬 صندوق الدردشة */
@@ -1076,7 +1099,6 @@ function closeVideoModal() {
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-  // ✅ إعداد Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
     authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
@@ -1087,7 +1109,6 @@ function closeVideoModal() {
     appId: "1:957400167542:web:9115ea4c12d5f73faedb57",
     measurementId: "G-4VF7GHETP0"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   const messagesRef = db.ref("messages");
@@ -1102,7 +1123,7 @@ function closeVideoModal() {
   const chatSend = document.getElementById('chat-send');
   const connectSound = document.getElementById('connect-sound');
 
-  // ✅ التحقق من الاتصال بـ Firebase
+  // ✅ التحقق من الاتصال وعرض السبب عند الفشل
   function checkFirebaseConnection() {
     const statusEl = document.getElementById("firebase-status");
     const connectedRef = firebase.database().ref(".info/connected");
@@ -1110,23 +1131,58 @@ function closeVideoModal() {
 
     connectedRef.on("value", (snap) => {
       if (snap.val() === true) {
-        statusEl.textContent = "✅ تم الاتصال بنجاح بـ Firebase";
+        statusEl.innerHTML = "✅ تم الاتصال بنجاح بـ Firebase";
         statusEl.style.background = "linear-gradient(90deg, #00ff99, #00e6ff, #00ffcc)";
         statusEl.style.webkitBackgroundClip = "text";
         statusEl.style.webkitTextFillColor = "transparent";
+        removeErrorBox();
 
         if (!connectedOnce) {
-          connectSound.play().catch(() => {}); // تشغيل الصوت مرة واحدة فقط
+          connectSound.play().catch(() => {});
           connectedOnce = true;
         }
       } else {
-        statusEl.textContent = "❌ تعذر الاتصال بقاعدة البيانات";
+        statusEl.innerHTML = "❌ تعذر الاتصال بقاعدة البيانات";
         statusEl.style.background = "linear-gradient(90deg, #ff4444, #ff7777)";
         statusEl.style.webkitBackgroundClip = "text";
         statusEl.style.webkitTextFillColor = "transparent";
+        testFirebaseError();
       }
     });
   }
+
+  function testFirebaseError() {
+    const testRef = firebase.database().ref("testConnection").push();
+    testRef.set({ time: Date.now() })
+      .catch((error) => {
+        let reason = "";
+        if (error.message.includes("network")) {
+          reason = "⚠️ انقطاع في الإنترنت أو ضعف الشبكة.";
+        } else if (error.message.includes("permission")) {
+          reason = "🚫 إعدادات الأمان في قاعدة البيانات لا تسمح بالوصول.";
+        } else if (error.message.includes("auth")) {
+          reason = "🔐 مشكلة في مصادقة Firebase.";
+        } else {
+          reason = "❗ سبب غير معروف: " + error.message;
+        }
+        showErrorBox(reason);
+      });
+  }
+
+  function showErrorBox(message) {
+    removeErrorBox();
+    const box = document.createElement("div");
+    box.id = "error-box";
+    box.innerHTML = message;
+    document.body.appendChild(box);
+    setTimeout(() => removeErrorBox(), 5000);
+  }
+
+  function removeErrorBox() {
+    const existing = document.getElementById("error-box");
+    if (existing) existing.remove();
+  }
+
   window.addEventListener("load", checkFirebaseConnection);
 
   // ✅ إدخال البريد وفتح الدردشة
@@ -1199,10 +1255,6 @@ function closeVideoModal() {
 
   makeDraggable(chatContainer);
   makeDraggable(emailScreen);
-</script>
-</body>
-</html>
-
 </script>
 </body>
 </html>
