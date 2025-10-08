@@ -870,6 +870,342 @@ function closeVideoModal() {
 .close:hover, .close-btn:hover {
   color: #ff5555;
 }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💬 دردشة الزوار - أبوالقمر زمرد</title>
+  <style>
+    body {
+      background: transparent;
+      font-family: "Tajawal", sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* 💬 واجهة البريد */
+    #email-screen {
+      width: 88%;
+      max-width: 280px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+      backdrop-filter: blur(5px);
+      z-index: 10000;
+      transition: all 0.3s ease;
+      cursor: grab;
+    }
+
+    #email-screen input {
+      width: 90%;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    #email-screen button {
+      margin-top: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(0,200,255,0.8);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 12px;
+    }
+    #email-screen button:hover {
+      background: rgba(0,255,255,0.9);
+    }
+
+    #email-note {
+      margin-top: 5px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.9);
+      font-weight: bold;
+    }
+
+    /* ✨ تأثير التوهج المتدرج */
+    #firebase-status {
+      margin-top: 6px;
+      font-size: 12.5px;
+      font-weight: bold;
+      text-align: center;
+      background: linear-gradient(90deg, #00ff99, #00e6ff, #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glowGradient 3s infinite ease-in-out;
+    }
+
+    @keyframes glowGradient {
+      0% {
+        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
+      }
+      50% {
+        text-shadow: 0 0 18px #00e6ff, 0 0 28px #00ffcc;
+      }
+      100% {
+        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
+      }
+    }
+
+    /* 💬 صندوق الدردشة */
+    #chat-container {
+      width: 88%;
+      max-width: 280px;
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: grab;
+      z-index: 9999;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    #chat-box {
+      height: 150px;
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 5px;
+    }
+
+    #chat-box p {
+      background: rgba(255,255,255,0.1);
+      padding: 3px 4px;
+      border-radius: 5px;
+      margin: 2px 0;
+      font-size: 11.5px;
+      word-wrap: break-word;
+    }
+
+    #chat-input {
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+    }
+
+    #chat-input input {
+      flex: 1 1 auto;
+      min-width: 60px;
+      padding: 4px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-size: 11.5px;
+    }
+
+    #chat-input button {
+      flex: 0 0 auto;
+      background: rgba(0,200,255,0.8);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 6px;
+      cursor: pointer;
+      font-size: 11.5px;
+    }
+
+    #chat-input button:hover {
+      background: rgba(0,255,255,0.9);
+    }
+
+    @media (max-width: 400px) {
+      #chat-container, #email-screen { max-width: 220px; padding: 6px; }
+    }
+
+    #chat-container.expanded, #email-screen.expanded { max-width: 90%; }
+    #chat-container.expanded #chat-box { height: 250px; }
+  </style>
+</head>
+<body>
+
+<!-- شاشة إدخال البريد -->
+<div id="email-screen">
+  <h4>أدخل بريدك الإلكتروني</h4>
+  <input type="email" id="user-email" placeholder="example@email.com">
+  <button id="email-submit">متابعة</button>
+  <p id="email-note">🌐 الدخول إلى الدردشة | Enter Chat</p>
+
+  <!-- 🔄 حالة الاتصال بـ Firebase -->
+  <div id="firebase-status">جارٍ التحقق من الاتصال...</div>
+</div>
+
+<!-- واجهة الدردشة -->
+<div id="chat-container">
+  <h3>💬 دردشة الزوار <button id="toggle-size">⬆️</button></h3>
+  <div id="chat-box"></div>
+  <div id="chat-input">
+    <input type="text" id="chat-name" placeholder="اسمك">
+    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
+    <button id="chat-send">إرسال</button>
+  </div>
+</div>
+
+<!-- 🔊 صوت نجاح الاتصال -->
+<audio id="connect-sound" src="https://cdn.pixabay.com/download/audio/2022/10/16/audio_b45e4f82f2.mp3?filename=soft-notification-tone-1466.mp3" preload="auto"></audio>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+  // ✅ إعداد Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com",
+    projectId: "abwalqmrzmrd-47557",
+    storageBucket: "abwalqmrzmrd-47557.appspot.com",
+    messagingSenderId: "957400167542",
+    appId: "1:957400167542:web:9115ea4c12d5f73faedb57",
+    measurementId: "G-4VF7GHETP0"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const messagesRef = db.ref("messages");
+
+  const emailScreen = document.getElementById('email-screen');
+  const chatContainer = document.getElementById('chat-container');
+  const emailInput = document.getElementById('user-email');
+  const emailButton = document.getElementById('email-submit');
+  const chatBox = document.getElementById('chat-box');
+  const chatName = document.getElementById('chat-name');
+  const chatMessage = document.getElementById('chat-message');
+  const chatSend = document.getElementById('chat-send');
+  const connectSound = document.getElementById('connect-sound');
+
+  // ✅ التحقق من الاتصال بـ Firebase
+  function checkFirebaseConnection() {
+    const statusEl = document.getElementById("firebase-status");
+    const connectedRef = firebase.database().ref(".info/connected");
+    let connectedOnce = false;
+
+    connectedRef.on("value", (snap) => {
+      if (snap.val() === true) {
+        statusEl.textContent = "✅ تم الاتصال بنجاح بـ Firebase";
+        statusEl.style.background = "linear-gradient(90deg, #00ff99, #00e6ff, #00ffcc)";
+        statusEl.style.webkitBackgroundClip = "text";
+        statusEl.style.webkitTextFillColor = "transparent";
+
+        if (!connectedOnce) {
+          connectSound.play().catch(() => {}); // تشغيل الصوت مرة واحدة فقط
+          connectedOnce = true;
+        }
+      } else {
+        statusEl.textContent = "❌ تعذر الاتصال بقاعدة البيانات";
+        statusEl.style.background = "linear-gradient(90deg, #ff4444, #ff7777)";
+        statusEl.style.webkitBackgroundClip = "text";
+        statusEl.style.webkitTextFillColor = "transparent";
+      }
+    });
+  }
+  window.addEventListener("load", checkFirebaseConnection);
+
+  // ✅ إدخال البريد وفتح الدردشة
+  emailButton.onclick = () => {
+    if (emailInput.value.trim() === '') { alert('يرجى إدخال بريد صحيح'); return; }
+    emailScreen.style.display = 'none';
+    chatContainer.style.display = 'block';
+  };
+
+  // ✅ إرسال الرسائل
+  chatSend.onclick = () => {
+    const name = chatName.value.trim() || 'زائر';
+    const msg = chatMessage.value.trim();
+    if (!msg) return;
+    messagesRef.push({ name, msg, time: Date.now() });
+    chatMessage.value = '';
+  };
+
+  // ✅ استقبال الرسائل
+  messagesRef.on("child_added", snapshot => {
+    const data = snapshot.val();
+    const p = document.createElement('p');
+    p.textContent = `${data.name}: ${data.msg}`;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  // ✅ زر تكبير/تصغير
+  document.getElementById('toggle-size').onclick = () => {
+    chatContainer.classList.toggle('expanded');
+    emailScreen.classList.toggle('expanded');
+  };
+
+  // ✅ خاصية السحب
+  function makeDraggable(element) {
+    let isDragging = false, offsetX = 0, offsetY = 0;
+    element.addEventListener('mousedown', startDrag);
+    element.addEventListener('touchstart', startDrag);
+
+    function startDrag(e) {
+      isDragging = true;
+      const rect = element.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      offsetX = clientX - rect.left;
+      offsetY = clientY - rect.top;
+      element.style.transform = 'none';
+      element.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      element.style.left = `${clientX - offsetX}px`;
+      element.style.top = `${clientY - offsetY}px`;
+    }
+
+    function endDrag() {
+      isDragging = false;
+      element.style.cursor = 'grab';
+    }
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag, { passive: false });
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('touchend', endDrag);
+  }
+
+  makeDraggable(chatContainer);
+  makeDraggable(emailScreen);
+</script>
+</body>
+</html>
+
+</script>
+</body>
+</html>
 
 </script>
 
@@ -1052,99 +1388,8 @@ function togglePersonalStory(id){
   var s=document.getElementById(id);
   if(s) s.style.display = (s.style.display==='block') ? 'none' : 'block';
 }
-</script><!-- معرض الفيديوهات -->
-<div class="video-gallery">
-  
-  <!-- فيديو 1 -->
-  <div class="video-item" onclick="openModal('tFdlhlmQ-ek')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/tFdlhlmQ-ek" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-    <span class="video-title">فيديو 1</span>
-  </div>
-
-  <!-- فيديو 2 -->
-  <div class="video-item" onclick="openModal('IMbzTtwxFSo')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/IMbzTtwxFSo?si=eqYW6VL9F6WtGpd8" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-    <span class="video-title">فيديو 2</span>
-  </div>
-
-  <!-- فيديو 3 -->
-  <div class="video-item" onclick="openModal('SOIJjJaSMgw')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/SOIJjJaSMgw?si=9aHLxV9REj-KBr9_" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-    <span class="video-title">فيديو 3</span>
-  </div>
-
-  <!-- فيديو 4 -->
-  <div class="video-item" onclick="openModal('bbmoXwaSpGY')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/bbmoXwaSpGY?si=wr8PNGvowUxzmytx" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </div>
-    <span class="video-title">فيديو 4</span>
-  </div>
-
-</div>
-
-<style>
-.video-gallery {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.video-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.video-icon.circular-video {
-  width: 160px;  /* حجم الدائرة */
-  height: 160px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-  transition: transform 0.3s;
-}
-
-.video-icon.circular-video iframe {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-icon.circular-video:hover {
-  transform: scale(1.1);
-}
-
-.video-title {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #555;
-  text-align: center;
-}
-</style>
-
-  </div>
-</div>
+</script>
+<!-- صف الفيديوهات
 
 <style>
 .video-row {
@@ -1255,45 +1500,9 @@ function togglePersonalStory(id){
 <div class="modal" id="storyRealityModal">
 <span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
 <div class="content">
-<style>
-.story {
-  display: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid silver;
-  border-radius: 12px;
-  padding: 10px;
-  margin: 10px 0;
-  color: silver;
-  line-height: 1.8;
-  font-size: 16px;
-}
-.story-title {
-  cursor: pointer;
-  background: linear-gradient(90deg, #999999, #bbbbbb); /* لون فضي موحد */
-  color: silver; /* النص بلون فضي */
-  font-weight: bold;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 8px 0;
-  transition: 0.3s;
-  text-align: center;
-}
-.story-title:hover {
-  background: linear-gradient(90deg, #bbbbbb, #999999);
-  transform: scale(1.02);
-}
-</style>
-
-<script>
-function toggleStory(id) {
-  const story = document.getElementById(id);
-  story.style.display = story.style.display === "block" ? "none" : "block";
-}
-</script>
 
 <!-- القصة الأولى -->
-<div class="story-title" onclick="toggleStory('s1')">قصتي بمراحل العمل</div>
-<div class="story" id="s1">
+<div class="story" id="ps1">
 <h3>قصتي بمراحل العمل</h3>
 <p>بدأت حياتي العملية بخطوات مترددة بين الدراسة والتجارة، أبحث عن الطريق الذي يثبت قدمي. 
       في بداياتي لم تكن الفرص كثيرة، لكني تعلمت أن العمل يحتاج صبرًا ومثابرة. 
@@ -1323,10 +1532,9 @@ function toggleStory(id) {
       ورغم الصعاب، كانت كل مرحلة سببًا في أن أكون أكثر صلابة وإصرارًا على الاستمرار. 
       وما زلت أؤمن أن رحلة العمل لم تنتهِ بعد، فكل يوم يحمل تجربة جديدة تستحق أن تُروى.</p>
 </div>
-
 <!-- القصة الثانية -->
-<div class="story-title" onclick="toggleStory('s2')">بعض من تجاربي</div>
-<div class="story" id="s2">
+<div class="story-title" onclick="togglePersonalStory('ps2')">بعض من تجاربي</div>
+<div class="story" id="ps2">
 <h3>بعض من تجاربي</h3>
 <p>من أجمل ما أحتفظ به في ذاكرتي هو تنوع التجارب التي مررت بها في حياتي.  
       ففي <strong>الرياضة</strong> مارست كرة القدم والجري كهواية جعلتني أكثر نشاطًا وانضباطًا.  
@@ -1336,11 +1544,9 @@ function toggleStory(id) {
       في التعامل مع الناس وفهم شخصياتهم.  
       هذه التجارب شكلت جزءًا من مساري، وأدركت معها أن الحياة ليست فقط دراسة أو عمل، 
       بل أيضًا اكتشاف وتجديد.</p>
-</div>
-
-<!-- القصة الثالثة -->
-<div class="story-title" onclick="toggleStory('s3')">قصتي مع الزمن</div>
-<div class="story" id="s3">
+<!-- قصتي مع الزمن (أولاً) -->
+<div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
+<div class="story" id="s5">
 <p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
     لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
     ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
@@ -1359,71 +1565,13 @@ function toggleStory(id) {
     وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
     فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: 
     <strong>اثنان لا يشبعان: طالب علم وطالب مال</strong>.</p>
+<p><em>خاتمة مقترحة لإكمال السرد:</em></p>
 <p>مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
     بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
     لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.</p>
 <p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
     وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
-    
 </div>
-<!-- القصة الرابعة -->
-<div class="story-title" onclick="togglePersonalStory('ps4')">أنا ومنزلي</div>
-<div class="story" id="ps4">
-<h3>أنا ومنزلي</h3>
-
-<p>حينما تركت العمل، شعرت وكأنني أضع نقطة نهاية في سطرٍ طويل من التعب. التفتُّ إلى الوراء، فوجدتُ ذكرياتي تنتظرني عند عتبة الصمت، تهمس لي بأن أعود إليها قليلًا، لأرسم ملامح طريقي القادم بيدي هذه المرة.</p>
-
-<p>قررت أن أعيش بهدوء… في منزلي الذي جعلته مرآةً لروحي. صممته كما أحببت؛ غرفة نومٍ تضمني آخر الليل، ومجلسٍ تملؤه السكينة، ومطبخٍ تفوح منه رائحة الحياة. زرعتُ حولي أشجارًا خضراء، وغرستُ بين الزوايا زهورًا، وجعلتُ في وسط الحديقة ماءً ينبع من صخرٍ صافٍ، صوته يزيل الهمّ، ويردّ للحياة نبضها حين يأذن الله.</p>
-
-<p>جلست هناك، أكتب بعض الأبيات، أعزف نغماتٍ بسيطة على آلةٍ قديمةٍ كانت شاهدة على لحظاتي، وأرسم بخطٍ هادئ ما يختلج في قلبي من أحلامٍ وألوان.</p>
-
-<p>رفعت يدي إلى السماء، دعوت الله بدمعةٍ هادئة وقلبٍ حزين، أن يتمّ عليّ نعمة اليقين، وأن يبقي في قلبي حسن الظنّ، فكل المحال في الجبين مكتوب، وكل ما كان لي، لن يضيع بين السطور.</p>
-
-<p>هنا، بين جدران هذا المنزل، وجدت نفسي… رسمت طريقي، أيقنت بوجودي، وشعرت أني ما زلت حيًّا، ما دام في القلب ضوءٌ لا ينطفئ.</p>
-
-<hr>
-<h4>Me and My Home</h4>
-
-<p>When I left my job, it felt as though I had placed a final dot at the end of a long line of exhaustion. I turned back and found my memories waiting at the threshold of silence, whispering for me to return, to draw the path of my future with my own hands this time.</p>
-
-<p>I decided to live quietly… in my home, which became a reflection of my soul. I designed it as I wished — a bedroom to hold me through the night, a living room filled with serenity, and a kitchen that carries the scent of life. I planted green trees, scattered flowers in every corner, and placed a fountain in the middle of the garden — its sound washing away sorrow and reviving the heart by God’s will.</p>
-
-<p>There, I sat and wrote verses, played simple tunes on an old instrument that had witnessed my moments, and painted my dreams with calm strokes of color.</p>
-
-<p>I raised my hands to the sky, praying with a quiet tear and a heavy heart that God may bless me with certainty and preserve within me good faith — for every fate is written on the forehead, and what is meant for me will never be lost between the lines.</p>
-
-<p>Here, within these walls, I found myself… I drew my path, realized my existence, and felt alive again — as long as there is light in the heart that never fades.</p>
-
-<hr>
-<h4>Moi et ma maison</h4>
-
-<p>Quand j’ai quitté mon travail, j’ai eu l’impression de poser un point final à une longue phrase de fatigue. En me retournant, j’ai trouvé mes souvenirs qui m’attendaient au seuil du silence, me murmurant de revenir un instant pour tracer de mes propres mains le chemin de mon avenir.</p>
-
-<p>J’ai décidé de vivre dans la tranquillité… dans ma maison, devenue le miroir de mon âme. Je l’ai conçue comme je le voulais : une chambre qui m’enlace la nuit, un salon empli de sérénité, et une cuisine qui respire la vie. J’y ai planté des arbres verts, semé des fleurs dans chaque coin, et placé au centre du jardin une source claire dont le murmure apaise les peines et redonne vie à celui que Dieu veut garder en ce monde.</p>
-
-<p>Là, je me suis assis pour écrire quelques vers, jouer de douces mélodies sur un vieil instrument témoin de mes instants, et peindre mes rêves avec des traits calmes et pleins de couleurs.</p>
-
-<p>J’ai levé les mains vers le ciel, priant avec une larme discrète et un cœur mélancolique, demandant à Dieu de m’accorder la grâce de la certitude et de conserver en moi la bonté de la foi — car tout destin est écrit sur le front, et ce qui est à moi ne se perdra jamais entre les lignes.</p>
-
-<p>Ici, entre les murs de cette maison, je me suis trouvé… J’ai tracé ma route, reconnu mon existence, et ressenti la vie à nouveau — tant qu’il reste une lumière dans le cœur qui ne s’éteint jamais.</p>
-
-<hr>
-<h4>我和我的家</h4>
-
-<p>当我离开工作时，感觉就像在漫长疲惫的一句中画上了句号。  
-我回首望去，发现记忆在寂静的门口等着我，轻声呼唤我回去，用自己的双手描绘未来的道路。</p>
-
-<p>我决定平静地生活……在我的家中——它成了我灵魂的映照。  
-我按自己的心意设计它：一间夜晚能拥抱我的卧室，一间充满安宁的客厅，还有一间弥漫着生活气息的厨房。  
-我种下绿色的树木，在角落里撒下花朵，在花园中央放了一汪清泉——它的潺潺声能洗去忧愁，让生命在上帝的旨意下再次苏醒。</p>
-
-<p>我坐在那里，写下几句诗，弹奏几段简单的旋律，那把旧乐器见证了我的时光；我用平静的笔触描绘内心的梦与色彩。</p>
-
-<p>我举起双手，含着泪、怀着忧伤的心祈祷：愿上帝赐我坚定的信念，并保留我心中的善意——因为一切命运都写在额上，属于我的，不会消失在文字之间。</p>
-
-<p>在这所房子里，我找到了自己……我描绘了道路，确认了存在，感受到了生命依旧——只要心中还有那不灭的光。</p>
-</div>
-
 </p></div>
 </div>
 </div>
@@ -1568,6 +1716,19 @@ function closeVideo() {
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة القدم رجال</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')" style="background:rgba(165,42,42,0.4);color:#fff;">نادي تشلسي الإنجليزي</div>
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
+
+  <!-- فيديو 4 -->
+  <div class="video-item" onclick="openModal('bbmoXwaSpGY')">
+    <div class="video-icon circular-video">
+      <iframe src="https://www.youtube.com/embed/bbmoXwaSpGY?si=wr8PNGvowUxzmytx" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <span class="video-title">فيديو 4</span>
+  </div>
+
+</div>
+
 <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/T1REYeRJgMU?si=fpmhmbbgPCX0YKWb')" style="background:rgba(165,42,42,0.4);color:#fff;">مصارعة</div><div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bGm1S2yQAxg?si=JThCE7eXXYefnoUB')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة الطائرة</div></div>
 <div class="library-col">
 <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
@@ -1585,6 +1746,33 @@ function closeVideo() {
     <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')" style="background:rgba(255,105,180,0.4);color:#000;">شرقية</div>
     <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')" style="background:rgba(255,105,180,0.4);color:#000;">غربية</div>
 
+  <!-- فيديو 1 -->
+  <div class="video-item" onclick="openModal('tFdlhlmQ-ek')">
+    <div class="video-icon circular-video">
+      <iframe src="https://www.youtube.com/embed/tFdlhlmQ-ek" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <span class="video-title">فيديو 1</span>
+  </div>
+
+  <!-- فيديو 2 -->
+  <div class="video-item" onclick="openModal('IMbzTtwxFSo')">
+    <div class="video-icon circular-video">
+      <iframe src="https://www.youtube.com/embed/IMbzTtwxFSo?si=eqYW6VL9F6WtGpd8" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <span class="video-title">فيديو 2</span>
+  </div>
+
+  <!-- فيديو 3 -->
+  <div class="video-item" onclick="openModal('SOIJjJaSMgw')">
+    <div class="video-icon circular-video">
+      <iframe src="https://www.youtube.com/embed/SOIJjJaSMgw?si=9aHLxV9REj-KBr9_" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
     <!-- أيقونات الفنانين الجدد -->
     <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2U0RjjiBorY?si=XDirZJD_VasmMvNP')" style="background:rgba(255,105,180,0.4);color:#000;">فهد السعيد</div>
     <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/FDyB8dcSptk?si=t1qVsi5CgRhFSgLw')" style="background:rgba(255,105,180,0.4);color:#000;">عيسى الأحسائي</div>
@@ -2143,187 +2331,4 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
     };
   }
 });
-</script>
-<!-- ===== أيقونة البريد المتحركة ===== -->
-<div id="email-icon" style="
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 50px;
-  color: #ADD8E6;
-  cursor: pointer;
-  z-index: 9999;
-  animation: float 2s ease-in-out infinite alternate;
-">
-  📧
-</div>
-
-<!-- ===== واجهة إدخال البريد قبل الدردشة ===== -->
-<div id="login-box" style="display:none; position: fixed; top: 50px; right: 20px; width: 280px; background: rgba(20,20,20,0.9); padding: 15px; border-radius: 10px; color: white; z-index: 9999;">
-  <h3>🔑 تسجيل الدخول للدردشة</h3>
-  <input type="email" id="login-email" placeholder="بريدك الإلكتروني" style="width: 100%; padding: 5px; margin: 5px 0; border-radius:5px; border:none;">
-  <div id="login-connection-status" style="color: #00FF00; font-size: 14px; margin: 5px 0;">جارٍ فحص الاتصال بالخادم...</div>
-  <button id="login-btn" style="background: #ADD8E6; border:none; padding:7px 10px; border-radius:5px; width:100%;">دخول</button>
-  <button id="close-login" style="background: red; border:none; padding:5px 10px; border-radius:5px; width:100%; margin-top:5px;">إغلاق</button>
-</div>
-
-<!-- ===== صندوق الدردشة (مخفي في البداية) أسفل الصفحة يمين ===== -->
-<div id="chat-box" style="display:none; position: fixed; bottom: 20px; right: 20px; width: 300px; background: rgba(20,20,20,0.8); border-radius:10px; padding:10px; z-index: 9999;">
-  <div id="chat-header" style="cursor:move; background:silver; padding:10px; font-weight:bold;">
-    💬 دردشة الزوار <span id="close-chat" style="float:right; cursor:pointer; color: yellow;">×</span>
-  </div>
-  <div id="connection-status" style="color: #00FF00; font-size: 14px; margin-top:5px;">جارٍ فحص الاتصال بالخادم...</div>
-  <div id="messages" style="height: 200px; overflow-y: auto; margin:10px 0; padding:5px; border-radius:8px; background: rgba(0,0,0,0.3); color:white;"></div>
-  <input type="text" id="message" placeholder="اكتب رسالة..." style="width: 100%; padding:5px; border-radius:5px; border:none; margin-top:5px;">
-  <button onclick="sendMessage()" style="background: #ADD8E6; border:none; padding:5px 10px; border-radius:5px; margin-top:5px; width:100%;">إرسال</button>
-</div>
-
-<style>
-/* ===== حركة الأيقونة ===== */
-@keyframes float {
-  0% { transform: translate(-50%, -50%) translateY(-10px); }
-  50% { transform: translate(-50%, -50%) translateY(10px); }
-  100% { transform: translate(-50%, -50%) translateY(-10px); }
-}
-</style>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, remove, query, limitToLast, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-// ===== إعداد Firebase =====
-const firebaseConfig = {
-  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-  projectId: "abwalqmrzmrd-47557",
-  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
-  messagingSenderId: "957400167542",
-  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
-  measurementId: "G-24BWC6N21W"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let currentEmail = ""; // البريد للتسجيل فقط
-const emailIcon = document.getElementById("email-icon");
-const loginBox = document.getElementById("login-box");
-const loginBtn = document.getElementById("login-btn");
-const closeLoginBtn = document.getElementById("close-login");
-const loginStatusDiv = document.getElementById("login-connection-status");
-const chatBox = document.getElementById("chat-box");
-const statusDiv = document.getElementById("connection-status");
-const messagesDiv = document.getElementById("messages");
-const messagesRef = ref(db, "chatMessages");
-
-// ===== فحص الاتصال الحقيقي =====
-let isConnected = false; 
-const connectedRef = ref(db, ".info/connected");
-onValue(connectedRef, snap => {
-    isConnected = snap.val() === true;
-    loginStatusDiv.textContent = isConnected ? "✅ متصل بالخادم" : "⚠️ غير متصل بالخادم";
-    loginStatusDiv.style.color = isConnected ? "#00FF00" : "red";
-    statusDiv.textContent = loginStatusDiv.textContent;
-    statusDiv.style.color = loginStatusDiv.style.color;
-});
-
-// ===== النقر على الأيقونة لإظهار تسجيل البريد =====
-emailIcon.addEventListener("click", () => {
-  emailIcon.style.display = "none";
-  loginBox.style.display = "block";
-});
-
-// ===== زر إغلاق تسجيل البريد =====
-closeLoginBtn.addEventListener("click", () => {
-  loginBox.style.display = "none";
-  emailIcon.style.display = "block";
-});
-
-// ===== الدخول بالدردشة بعد التحقق =====
-loginBtn.addEventListener("click", () => {
-    const email = document.getElementById("login-email").value.trim();
-    if (!email) return alert("الرجاء إدخال البريد الإلكتروني");
-
-    if (!isConnected) return alert("لا يمكن الاتصال بالخادم حالياً. حاول لاحقاً.");
-
-    currentEmail = email;
-    loginBox.style.display = "none";
-    emailIcon.style.display = "none";
-    chatBox.style.display = "block";
-    document.getElementById("login-email").value = "";
-});
-
-// ===== إرسال الرسائل =====
-window.sendMessage = function() {
-  const message = document.getElementById("message").value.trim();
-  if (!message) return;
-  let username = "زائر"; 
-  push(messagesRef, {
-    username: username,
-    text: message,
-    time: Date.now()
-  });
-  document.getElementById("message").value = "";
-};
-
-// ===== استقبال الرسائل مباشرة =====
-const recentMessages = query(messagesRef, limitToLast(50));
-onChildAdded(recentMessages, snapshot => {
-  const msg = snapshot.val();
-  const msgDiv = document.createElement("div");
-  let nameToShow = msg.username || "زائر";
-  msgDiv.innerHTML = `<b>${nameToShow}:</b> ${msg.text}`;
-  messagesDiv.appendChild(msgDiv);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
-
-// ===== حذف الرسائل القديمة بعد دقيقة =====
-setInterval(() => {
-  remove(ref(db, "chatMessages"));
-}, 60000);
-
-// ===== زر إغلاق الدردشة =====
-document.getElementById("close-chat").addEventListener("click", () => {
-  chatBox.style.display = "none";
-  loginBox.style.display = "block";
-  document.getElementById("login-email").value = "";
-  messagesDiv.innerHTML = "";
-  emailIcon.style.display = "block";
-});
-
-// ===== السحب والتحريك =====
-const header = document.getElementById("chat-header");
-let isDragging = false, offsetX = 0, offsetY = 0;
-
-function startDrag(x, y){
-  isDragging = true;
-  offsetX = x - chatBox.offsetLeft;
-  offsetY = y - chatBox.offsetTop;
-}
-function doDrag(x, y){
-  if (isDragging){
-    chatBox.style.left = `${x - offsetX}px`;
-    chatBox.style.top = `${y - offsetY}px`;
-    chatBox.style.bottom = "auto";
-    chatBox.style.right = "auto";
-  }
-}
-function stopDrag(){ isDragging = false; }
-
-header.addEventListener("mousedown", e => startDrag(e.clientX, e.clientY));
-document.addEventListener("mousemove", e => doDrag(e.clientX, e.clientY));
-document.addEventListener("mouseup", stopDrag);
-
-header.addEventListener("touchstart", e => {
-  const t = e.touches[0];
-  startDrag(t.clientX, t.clientY);
-});
-document.addEventListener("touchmove", e => {
-  const t = e.touches[0];
-  doDrag(t.clientX, t.clientY);
-});
-document.addEventListener("touchend", stopDrag);
-
 </script>
