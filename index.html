@@ -1248,17 +1248,6 @@ body {
 .modal-content iframe { width:100%; height:80vh; border:none; }
 .close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
 
-/* أيقونات المكتبات */
-.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
-.library-col { display:flex; flex-direction:column; align-items:center; }
-.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.12); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.2s; padding:8px; box-sizing:border-box; color: green; }
-.icon-circle:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
-
-/* أيقونات مكتبة فرعية */
-.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
-/* أيقونات مكتبة فرعية */
-.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
-
 /* سيرة ذاتية */
 #cvIcon { text-align:center; margin:20px auto; width:150px; height:120px; #pongCanvas {
   background: transparent !important;   /* شفاف */
@@ -1433,141 +1422,6 @@ function togglePersonalStory(id){
 }
 </style>
 
-<!-- مودال قصة فكاهية -->
-<div class="modal" id="funnyStoryModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('funnyStoryModal').style.display='none'">×</span>
-<h2>😂 قصة فكاهية</h2>
-<p>كان رجل بخيل جدًا، ذهب إلى الطبيب يشكو من ألم في بطنه.<br/>
-    فسأله الطبيب: "هل أكلت شيئًا غريبًا؟"<br/>
-    قال البخيل: "نعم، أكلت طعامًا عند جاري!
-: "واضح، لأن معدتك لم تتعود على الأكل المجاني!"
-    
-    قيل إن أشعب خال الأصمعي.
-
-عن سالم أنه قال لأشعب: إني أرى الشيطان ليتمثل على صورتك، وكان رآه بكرة، وأطعمه هريسة، ثم بعد ساعتين رآه مصفرا عاصبًا رأسه، بيده قصبة، قد تحامل إلى دار عبد الله بن عمرو بن عثمان.
-
-قال الزبير: قيل لأشعب: نزوّجك؟ قال ابغوني امرأة أتجشأ في وجهها تشبع، وتأكل فخذ جرادة تنتخمن.ا
-</p>
-</div>
-</div>
-<!-- مودال نكت -->
-<div class="modal" id="jokesModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
-<h2>🤣 نكت</h2>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br/>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br/>- الطالب: كتبوا عنه في التاريخ!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br/>- البقال: لا والله عندي ضغط!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-</div>
-</div>
-<!-- مودال حكايات الأغبياء -->
-<div class="modal" id="stupidModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
-<h2>🙃 حكايات الأغبياء</h2>
-<h3>الحكاية الأولى</h3>
-<p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br/>
-    قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
-<hr/>
-<h3>الحكاية الثانية</h3>
-<p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br/>
-    فسأله الدكتور: "منذ متى؟"<br/>
-    رد الغبي: "منذ متى إيش؟"</p>
-<hr/>
-<h3>الحكاية الثالثة</h3>
-<p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br/>
-    سألوه: "ليش غمضت عيونك؟"<br/>
-    قال: "ما أبغى أشوف الحوادث!"</p>
-<hr/>
-<h3>الحكاية الرابعة</h3>
-<p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br/>
-    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br/>
-    فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
-</div>
-</div>
-
-</script>
-
-<!-- مودال قصصي من الواقع -->
-<div class="modal" id="storyRealityModal">
-<span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
-<div class="content">
-
-<!-- القصة الأولى -->
-<div class="story" id="ps1">
-<h3>قصتي بمراحل العمل</h3>
-<p>بدأت حياتي العملية بخطوات مترددة بين الدراسة والتجارة، أبحث عن الطريق الذي يثبت قدمي. 
-      في بداياتي لم تكن الفرص كثيرة، لكني تعلمت أن العمل يحتاج صبرًا ومثابرة. 
-      عملت في مجالات مختلفة، بعضها كان مجرد تجربة، وبعضها الآخر شكل أساسًا لبناء خبرتي.</p>
-<p>عندما كنت في السنة الثالثة بالجامعة الفصل الأول، وفي عام 1999 تحديدًا، 
-      أوقفت الجامعة المكافأة المالية التي كانت تبلغ 850 ريالًا بسبب نزول معدلي الأكاديمي. 
-      عندها شعرت بضرورة أن أجد مصدر دخل يعينني على المصاريف. 
-      فبدأت أبحث عن عمل، وكان ذلك التحول أول خطوة فعلية لي في ميدان الحياة العملية.</p>
-<p>استمر عملي منذاك الوقت حتى عام 2009 في مستشفى السعودي الألماني، 
-      حيث تعلمت الكثير من الانضباط وأهمية تحمل المسؤولية. 
-      وبعدها قُبلت للعمل في القطاع الحكومي بإمارة منطقة القصيم، 
-      لكن وبسبب ظروف وزارة الصحة ومشورة بعض المعارف وتأييد والدي، 
-      قدّمت اعتذاري لمقام الإمارة وتنازلت عن الوظيفة هناك، 
-      واخترت الاستمرار مع وزارة الصحة في نفس المنطقة.</p>
-<p>استمررت في عملي حتى شهر رمضان عام 1446هـ، 
-      حيث انسحبت من العمل رسميًا، 
-      ثم قدمت لاحقًا طلب الاستقالة أو الاستغناء عن عملي بتاريخ 20/10/1446هـ 
-      لأواكب حياتي الشخصية وأفتح لنفسي طريقًا جديدًا.</p>
-<p>مع مرور السنوات تنقلت بين عدة مراحل، أواجه التحديات وأتعلم من الأخطاء. 
-      اكتشفت أن كل مرحلة من مراحل العمل ليست مجرد مصدر رزق، بل درس في الحياة. 
-      علّمتني التجارب أن النجاح لا يأتي دفعة واحدة، وإنما هو تراكم محاولات صغيرة تصنع إنجازًا كبيرًا.</p>
-<p>تعلمت أن زملاء العمل قد يكونون عائلة ثانية، 
-      وأن المدير الناصح قد يفتح لك بابًا تتذكره طوال حياتك. 
-      كما أدركت أن التحديات المالية والضغوط اليومية تصنع فينا صلابة لا تهتز بسهولة.</p>
-<p>اليوم أنظر إلى رحلتي في مراحل العمل كخريطة مليئة بالعقبات والفرص. 
-      لم يكن الطريق مستقيمًا، لكني فخور بأنني مشيت فيه خطوة بخطوة، 
-      ورغم الصعاب، كانت كل مرحلة سببًا في أن أكون أكثر صلابة وإصرارًا على الاستمرار. 
-      وما زلت أؤمن أن رحلة العمل لم تنتهِ بعد، فكل يوم يحمل تجربة جديدة تستحق أن تُروى.</p>
-</div>
-<!-- القصة الثانية -->
-<div class="story-title" onclick="togglePersonalStory('ps2')">بعض من تجاربي</div>
-<div class="story" id="ps2">
-<h3>بعض من تجاربي</h3>
-<p>من أجمل ما أحتفظ به في ذاكرتي هو تنوع التجارب التي مررت بها في حياتي.  
-      ففي <strong>الرياضة</strong> مارست كرة القدم والجري كهواية جعلتني أكثر نشاطًا وانضباطًا.  
-      أما <strong>الرحلات والسفر</strong> فقد أخذتني إلى أماكن جديدة، تعلمت منها عادات الشعوب 
-      ورأيت جمال الطبيعة من زوايا مختلفة.  
-      وكانت <strong>المقابلات الشخصية</strong>، سواءً في العمل أو الحياة، محطات مهمة زادت من خبرتي 
-      في التعامل مع الناس وفهم شخصياتهم.  
-      هذه التجارب شكلت جزءًا من مساري، وأدركت معها أن الحياة ليست فقط دراسة أو عمل، 
-      بل أيضًا اكتشاف وتجديد.</p>
-<!-- قصتي مع الزمن (أولاً) -->
-<div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
-<div class="story" id="s5">
-<p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
-    لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
-    ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
-    ولكن كان كل منا يحمل جعبة من الماضي والحاضر والمستقبل مع محيطنا كما هو سائد بين معلم ومتعلم ومقرب ومنبوذ وبين صديق وعدو.</p>
-<p>حينها رأيت أني قد افتقدت جميع محاور الحياة، ليس لأني فقدت الأمل ولكن جميع السبل قد سلكتها. خاصة وإني تعلمت الدين بالمتوسط كتخصص ديني معرفي، 
-    ثم لم أرَ طريقًا في تكملة مراحل علوم الدين. فاتجهت إلى التجارة وحين ذاك تخرجت أحمل شهادة تسمى <strong>دبلوم ثانوي تجاري</strong>. 
-    ثم التحقت بالجامعة وأشار كثير أن أكمل نفس المسار كما هو معتاد، لكني رفضت بدون مناقشة. 
-    لأني حينها كان سبق لي أن غيرت الدراسة من تخصص إلى تخصص، فاتجهت للجامعة بتخصص الجغرافيا وهو علم يهتم بالكرة الأرضية وما حولها. 
-    لكن بعد الانتظام لم يحالفني الحظ باستكمال الدراسة وبدأت النهاية بالجامعة في عام 2001. 
-    فبعد مرور ست سنوات بعضها متقطع لنزول المعدل الأكاديمي تم طي قيدي لتعدي سنوات الدراسة حسب أنظمة الجامعة، وكنت في السنة الثالثة الفصل الدراسي الثاني.</p>
-<p>وحين تم طي قيدي بدأت أنمي مهاراتي كما تكلمت عنه سابقًا وهو في عام 2000 حيث بدأت بأخذ فكرة عن العوالم مثل الرسم. 
-    وتذكرت أن أول قصيدة لي كانت وأنا بسن 13 وكانت مرثية لأخوين لي توفوا إثر حريق وكانت أعمارهم لا تتجاوز السبع سنوات. 
-    ولا أتذكرها، ولكن بعد سنين علمت أن والدي كان مفتخر ومعجب بها. 
-    فقمت بعام 2000 أو بعده بقليل من السنوات بمراسلة الجريدة، وكانت أيام لم يكن فيها مثل الآن التواصل الإلكتروني. 
-    وطلبت من محرر الجريدة إرسال رأيه عن هل عندي فعلًا قريحة الشعر أم أنها مجرد تجربة. 
-    وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
-    فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: 
-    <strong>اثنان لا يشبعان: طالب علم وطالب مال</strong>.</p>
-<p><em>خاتمة مقترحة لإكمال السرد:</em></p>
-<p>مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
-    بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
-    لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.</p>
-<p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
-    وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
-</div>
 </p></div>
 </div>
 </div>
@@ -1640,322 +1494,115 @@ function closeVideo() {
 
 </body>
 </html>
-<!-- أيقونات المكتبات أفقي تحت الفيديو -->
-<div class="icons-row">
-<!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
-<div class="library-col library-funny">
-<div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
-<div class="library-content" id="libraryFunnyContent">
-<div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
-<div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
-<div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
-</div>
-</div><div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 المكتبة الوثائقية</div>
-  <div class="library-content" id="libraryDocContent">
-    <!-- الأيقونات القديمة -->
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R62QVvz1Aso?si=fBpxO3bP0lgywZ0o')" style="background:rgba(255,215,0,0.4);color:#000;">نيرون صبيا (رومان)</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/23jGQdwSRJs?si=wVO22IfAImGPMP01')" style="background:rgba(255,215,0,0.4);color:#000;">الحرب العالمية الثانية</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/DNE6YbGO6-M?si=wJ0MYQGkT_4LU_xH')" style="background:rgba(255,215,0,0.4);color:#000;">زواج كاترين دي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/zh2HwG8fYFo?si=TadrwzFeaJvCAum9')" style="background:rgba(255,215,0,0.4);color:#000;">الحضارات الإنسانية</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hvJSvGslOl8?si=dHs5b1t3BS3gDPm9')" style="background:rgba(255,215,0,0.4);color:#000;">صدام حسين</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/RO0xx5oeTA8?si=p4UOx0rHS6xXwrQG')" style="background:rgba(255,215,0,0.4);color:#000;">كوريا الشمالية</div>
-
-    <!-- الأيقونات الجديدة -->
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4F-47lqOHDU?si=gIVhcdzVK-gufkkD')" style="background:rgba(255,215,0,0.4);color:#000;">جريمة في المنازل</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/EB6-ZDBF0hM?si=HzyVkxaTanMD3AxG')" style="background:rgba(255,215,0,0.4);color:#000;">سرقة القرن في البرازيل</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/uvjMiLxNLnk?si=6tgGx6YkjuskJHbN')" style="background:rgba(255,215,0,0.4);color:#000;">تاريخ اليهود</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/3HmOr-as-TA?si=bPEU4sHlzoSqlWOc')" style="background:rgba(255,215,0,0.4);color:#000;">منغوليا</div>
+<!-- أيقونة مكتبة الفيديو -->
+<div class="library-col">
+  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
+    🎥 مكتبة الفيديو
   </div>
-</div>
 
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.85);color:#fff;">🎨 كرتون</div>
-<div class="library-content" id="libraryCartoonContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA?si=D0qKCMTzMzH_Qwll')" style="background:rgba(0,0,0,0.4);color:#fff;">كرتون</div>
-</div>
-</div><div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.85);color:#fff;">🎬 أفلام</div>
-  <div class="library-content" id="libraryMoviesContent">
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE?si=PpEENjfmij06kLDS')">Sisters with Secrets</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8?si=iRv4Ytz-Ypnu5MaW')">جاكي شان</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/0go3k0frmjc?si=vicRBNisMf-lzxop')">فلم هندي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/D3oO_9S6TVM?si=Pq4zB2RsQ3NS4DCg')">filme faster</div>
-    <!-- أيقونة جديدة -->
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Hf0-8kV-6E4?si=iEeACk5B8OGYnUqs')">comedy filme</div>
-  </div>
-</div>
-
-</div></div>
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.8);color:#fff;">📚 دينية</div>
-<div class="library-content" id="libraryReligionContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
-
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo?si=wxx-tx-9X3OTIVhs')">تلبيس إبليس</div>
-
-</div>
-</div>
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
-<div class="library-content" id="librarySportsContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')" style="background:rgba(165,42,42,0.4);color:#fff;">رياضة</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ?si=bsy0dIU7zo3k_o7L')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة القدم النسائية</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ?si=ZS0wPg9gWeXY1JE7')" style="background:rgba(165,42,42,0.4);color:#fff;">كرة القدم رجال</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24?si=eLg0PS02LHSj4ToY')" style="background:rgba(165,42,42,0.4);color:#fff;">نادي تشلسي الإنجليزي</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o?si=oeViCqxCoJbQf2M2')" style="background:rgba(165,42,42,0.4);color:#fff;">التعاون5 الرائد1</div>
-  <div class="video-item" onclick="openModal('bbmoXwaSpGY')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/bbmoXwaSpGY?si=wr8PNGvowUxzmytx" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
+  <div class="library-content" id="videoLibraryContent">
+    <!-- 📼 القسم الوثائقي -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 الوثائقية</div>
+    <div class="library-content" id="libraryDocContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R62QVvz1Aso')">نيرون صبيا</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/23jGQdwSRJs')">الحرب العالمية الثانية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/DNE6YbGO6-M')">زواج كاترين دي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/zh2HwG8fYFo')">الحضارات الإنسانية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hvJSvGslOl8')">صدام حسين</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/RO0xx5oeTA8')">كوريا الشمالية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/4F-47lqOHDU')">جريمة في المنازل</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/EB6-ZDBF0hM')">سرقة القرن في البرازيل</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/uvjMiLxNLnk')">تاريخ اليهود</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/3HmOr-as-TA')">منغوليا</div>
     </div>
 
-
-
-  </div>
-
-</div>
-
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
-<div class="library-content" id="libraryCookingContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')" style="background:rgba(199,21,133,0.4);color:#fff;">الطبخ</div>
-</div>
-</div>
-<div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
-  
-  <div class="library-content" id="libraryMusicContent">
-
-  <div class="video-item" onclick="openModal('tFdlhlmQ-ek')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/tFdlhlmQ-ek" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
+    <!-- 🎨 كرتون -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.8);color:#fff;">🎨 كرتون</div>
+    <div class="library-content" id="libraryCartoonContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/U5sBC9Fr0fA')">كرتون</div>
     </div>
-    <span class="video-title"1</span>
-  </div>
 
-  <div class="video-item" onclick="openModal('IMbzTtwxFSo')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/IMbzTtwxFSo?si=eqYW6VL9F6WtGpd8" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
+    <!-- 🎬 أفلام -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.9);color:#fff;">🎬 أفلام</div>
+    <div class="library-content" id="libraryMoviesContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE')">Sisters with Secrets</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8')">جاكي شان</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/0go3k0frmjc')">فلم هندي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/D3oO_9S6TVM')">Filme Faster</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
     </div>
-    <span class="video-title">فيديو 2</span>
-  </div>
 
-
-  <div class="video-item" onclick="openModal('SOIJjJaSMgw')">
-    <div class="video-icon circular-video">
-      <iframe src="https://www.youtube.com/embed/SOIJjJaSMgw?si=9aHLxV9REj-KBr9_" title="YouTube video player"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
+    <!-- 📚 دينية -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.85);color:#fff;">📚 دينية</div>
+    <div class="library-content" id="libraryReligionContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
     </div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')" style="background:rgba(255,105,180,0.4);color:#000;">عربي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')" style="background:rgba(255,105,180,0.4);color:#000;">أجنبي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')" style="background:rgba(255,105,180,0.4);color:#000;">شرقية</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')" style="background:rgba(255,105,180,0.4);color:#000;">غربية</div>
 
- 
-    <!-- أيقونات الفنانين الجدد -->
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2U0RjjiBorY?si=XDirZJD_VasmMvNP')" style="background:rgba(255,105,180,0.4);color:#000;">فهد السعيد</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/FDyB8dcSptk?si=t1qVsi5CgRhFSgLw')" style="background:rgba(255,105,180,0.4);color:#000;">عيسى الأحسائي</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/l8CGuJzyiR8?si=U6hDn8IkjESa-_Aq')" style="background:rgba(255,105,180,0.4);color:#000;">بشير</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/r-m2wwJy2cQ?si=sOol-HW6agPz1Q6q')" style="background:rgba(255,105,180,0.4);color:#000;">طلال</div>
-    <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kEIWBDqovoI?si=b5MCSJyuULJp2bnx')" style="background:rgba(255,105,180,0.4);color:#000;">محمد عبده</div>
+    <!-- ⚽ رياضة -->
+    <div class="icon-circle" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
+    <div class="library-content" id="librarySportsContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/NYTo6KB7IqQ')">كرة القدم النسائية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/yMb_7VEhyNQ')">كرة القدم رجال</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/s3qWsdWfK24')">نادي تشلسي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/6J4JEFwm63o')">التعاون 5 الرائد 1</div>
+    </div>
+
+    <!-- 🍳 مطبخ -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
+    <div class="library-content" id="libraryCookingContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/bW_nnH2EAMM')">الطبخ</div>
+    </div>
+
+    <!-- 🎵 موسيقى -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
+    <div class="library-content" id="libraryMusicContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/2U0RjjiBorY')">فهد السعيد</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/FDyB8dcSptk')">عيسى الأحسائي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/l8CGuJzyiR8')">بشير</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/r-m2wwJy2cQ')">طلال</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/kEIWBDqovoI')">محمد عبده</div>
+    </div>
+
+    <!-- 📝 أبوالقمر زمرد -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')" style="background:rgba(192,192,192,0.85);color:#000;">📝 أبوالقمر زمرد</div>
+    <div class="library-content" id="libraryAbwalqmrContent">
+      <div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div>
+    </div>
+
+    <!-- 📖 جولة معرفية -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')" style="background:rgba(0,0,128,0.75);color:#fff;">📖 جولة معرفية</div>
+    <div class="library-content" id="libraryKnowledgeContent">
+      <div class="icon-circle" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
+      <div class="icon-circle" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
+      <div class="icon-circle" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
+      <div class="icon-circle" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
+      <div class="icon-circle" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
+    </div>
+
+    <!-- 📘 تعليمية -->
+    <div class="icon-circle" onclick="toggleLibrary('libraryEducationContent')" style="background:rgba(0,0,255,0.25);color:#fff;">📘 تعليمية</div>
+    <div class="library-content" id="libraryEducationContent">
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
+      <div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
+    </div>
   </div>
 </div>
 
-<div class="library-col">
-<div class="icon-circle" onclick="toggleLibrary('libraryAbwalqmrContent')" style="background:rgba(192,192,192,0.85);color:#000;">
-  📝 أبوالقمر زمرد
-</div>
-<div class="library-content" id="libraryAbwalqmrContent">
-
-<div class="icon-circle" onclick="document.getElementById('storyRealityModal').style.display='block'">قصصي من الواقع</div></div>
-</div>
-<!-- مكتبة جولة معرفية كاملة -->
-<div class="library-col library-knowledge">
-<div class="icon-circle" onclick="toggleLibrary('libraryKnowledgeContent')">📖 جولة معرفية</div>
-<div class="library-content" id="libraryKnowledgeContent">
-<div class="icon-circle" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
-<div class="icon-circle" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
-<div class="icon-circle" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
-<div class="icon-circle" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
-<div class="icon-circle" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
-</div>
-</div>
-<!-- الأيقونة الجديدة المكتبة التعليمية -->
-<div class="library-col library-education">
-<div class="icon-circle" onclick="toggleLibrary('libraryEducationContent')" style="background:rgba(0,0,255,0.25);color:#fff;">📘 المكتبة التعليمية</div>
-<div class="library-content" id="libraryEducationContent">
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8?si=_1GOIEn2z7NMDSrF')">إبراهيم الفقي</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8?si=E4CnzKAZFu7MpVuF')">مصطفى محمود</div>
-<div class="icon-circle" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw?si=u8f0uTO8kKwJpVrN')">سقراط</div>
-</div>
-</div>
-<!-- مودالات المكتبة -->
-<div class="modal" id="quizModal">
-<span class="close" onclick="document.getElementById('quizModal').style.display='none'">×</span>
-<div class="modal-content">
-<h2>🧩 ألغاز</h2>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">1. ما الشيء الذي يمشي بلا رجلين ولا يدخل إلا بالأذنين؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الصوت</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">2. ما هو الشيء الذي كلما أخذت منه يكبر؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الحفرة</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">3. ما هو الشيء الذي له أسنان ولا يعض؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: المشط</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">4. ما هو الشيء الذي يكتب ولا يقرأ؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: القلم</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">5. ما هو الشيء الذي يكسو الناس ولا يلبس؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الجلد</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">6. ما هو الشيء الذي كلما زاد نقص؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: العمر</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">7. ما هو الشيء الذي تراه ولا تستطيع لمسه؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الظل</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">8. ما هو الشيء الذي يطير بلا جناح؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الوقت</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">9. ما هو الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الهاتف</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">10. ما هو الشيء الذي يوجد في كل بيت؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: الهواء</p>
-</div>
-</div>
-<div class="modal" id="testModal">
-<span class="close" onclick="document.getElementById('testModal').style.display='none'">×</span>
-<div class="modal-content">
-<h2>❓ اختبر معلوماتك</h2>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هي عاصمة اليابان؟</p>
-<p style="display:none; color:#ffeb3b;">الإجابة: طوكيو</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أكبر قارة في العالم؟</p>
-<p style="display:none; color:#ffeb3b;">الإجابة: آسيا</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أول رئيس للولايات المتحدة؟</p>
-<p style="display:none; color:#ffeb3b;">الإجابة: جورج واشنطن</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: أطول نهر في العالم؟</p>
-<p style="display:none; color:#ffeb3b;">الإجابة: النيل</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">سؤال: ما هو الكوكب الأحمر؟</p>
-<p style="display:none; color:#ffeb3b;">الإجابة: المريخ</p>
-</div>
-</div>
-<div class="modal" id="generalModal">
-<span class="close" onclick="document.getElementById('generalModal').style.display='none'">×</span>
-<div class="modal-content">
-<h2>🌍 معلومات عامة</h2>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">هل تعلم أن قلب الحوت الأزرق أكبر قلب في الكائنات الحية؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: يزن حوالي 180 كيلوغرامًا.</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم يستغرق الضوء للوصول من الشمس إلى الأرض؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: 8 دقائق</p>
-<p onclick="this.nextElementSibling.style.display='block'; this.style.cursor='default';" style="cursor:pointer;">كم عدد الخلايا العصبية في الدماغ البشري؟</p>
-<p style="display:none; color:#ffeb3b;">الجواب: حوالي 86 مليار خلية عصبية.</p>
-</div>
-</div>
-<div class="modal" id="historyModal">
-<span class="close" onclick="document.getElementById('historyModal').style.display='none'">×</span>
-<div class="modal-content">
-<h2>🏛️ أسماء وضعت للتاريخ</h2>
-<p>فلاسفة: سقراط، أفلاطون، أرسطو، ديكارت، سبينوزا، هيغل</p>
-<p>مخترعون: توماس إديسون، نيكولا تسلا، غاليليو غاليلي، ليوناردو دافنشي، ألكسندر جراهام بيل، ماركوني</p>
-</div>
-</div>
-<div class="modal" id="humanModal">
-<span class="close" onclick="document.getElementById('humanModal').style.display='none'">×</span>
-<div class="modal-content">
-<h2>👤 الإنسان من المولد حتى الموت</h2>
-<p>مرحلة الجنين: من التزاوج حتى الولادة.</p>
-<p>الطفولة المبكرة: من الولادة حتى 6 سنوات.</p>
-<p>الطفولة المتوسطة: 6-12 سنة.</p>
-<p>المراهقة: 12-18 سنة.</p>
-<p>الشباب: 18-30 سنة.</p>
-<p>مرحلة البلوغ: 30-50 سنة.</p>
-<p>الشيخوخة: 50-70 سنة.</p>
-<p>المرحلة الأخيرة: 70 سنة وما فوق حتى الوفاة.</p>
-</div>
-</div>
-
-<!-- مودال نكت -->
-<div class="modal" id="jokesModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('jokesModal').style.display='none'">×</span>
-<h2>🤣 نكت</h2>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للطبيب قاله: دكتور كل ما أشرب شاي أحس بألم في عيني.<br/>- الطبيب: جرب شيل الملعقة من الكوب أول!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- المدرس: ماذا فعل نابليون بعد ما مات؟<br/>- الطالب: كتبوا عنه في التاريخ!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-<p onclick="this.nextElementSibling.style.display='block';this.style.cursor='default';">- مرة واحد ذهب للبقال وقال له: عندك سكر؟<br/>- البقال: لا والله عندي ضغط!</p>
-<p style="display:none;color:#ffeb3b;">😂</p>
-</div>
-</div>
-<!-- مودال حكايات الأغبياء -->
-<div class="modal" id="stupidModal">
-<div class="modal-content" onclick="event.stopPropagation()">
-<span class="close" onclick="document.getElementById('stupidModal').style.display='none'">×</span>
-<h2>🙃 حكايات الأغبياء</h2>
-<h3>الحكاية الأولى</h3>
-<p>غبي راح يشتري ساعة… سأله البائع: "رقمية ولا عادية؟"<br/>
-    قال الغبي: "لا، أبغاها تدق وتعلّمني الوقت!"</p>
-<hr/>
-<h3>الحكاية الثانية</h3>
-<p>واحد غبي راح للطبيب وقال له: "دكتور، عندي مشكلة بالنسيان."<br/>
-    فسأله الدكتور: "منذ متى؟"<br/>
-    رد الغبي: "منذ متى إيش؟"</p>
-<hr/>
-<h3>الحكاية الثالثة</h3>
-<p>غبي وقف عند إشارة المرور، لمّا صارت خضراء… غمض عيونه ومشى 🚶‍♂️<br/>
-    سألوه: "ليش غمضت عيونك؟"<br/>
-    قال: "ما أبغى أشوف الحوادث!"</p>
-<hr/>
-<h3>الحكاية الرابعة</h3>
-<p>مر رجل يحمل على حمار قوارير عسل، فوجد شخصين يقتتلان، فسألهم عن السبب.<br/>
-    قالوا: "نحن راعيين غنم، فتمنيت أن تكون الغنم لي، وتمنى الثاني أن يكون له ذئاب فتأكل الغنم."<br/>
-    فسكب الرجل العسل الذي معه وقال: "أسأل الله أن يكون دمي مثل هذا العسل إن لم تكونوا أغبياء!"</p>
-</div>
-</div>
-
-
-<div aria-hidden="true" class="modal" id="videoModal">
-<span class="close" onclick="closeVideo()" title="إغلاق">×</span>
-<div class="modal-content">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" id="videoFrame" referrerpolicy="strict-origin-when-cross-origin" src=""></iframe>
-</div>
-</div>
-<script>
-/* صوت الطيور */
-const birdBtn=document.getElementById('bird-sound-btn');
-const birdAudio=document.getElementById('bird-sound');
-birdBtn.addEventListener('click',()=>{ if(birdAudio.paused){ birdAudio.play(); birdBtn.style.opacity=0.8; } else { birdAudio.pause(); birdBtn.style.opacity=1;
-
-      // عرض الأيقونات الفرعية لهذه الأيقونة
-      let subIcons = icon.querySelector('.sub-icons');
-      if (subIcons) {
-        subIcons.style.display = 'block';
-        const rect = icon.getBoundingClientRect();
-        subIcons.style.position = 'fixed';
-        subIcons.style.top = rect.bottom + 'px';
-        subIcons.style.left = rect.left + 'px';
-        subIcons.style.zIndex = 9999; // تظل فوق كل الأيقونات الأخرى
-      }
-    });
-  });
-
-  // عند الضغط خارج أيقونة -> إخفاء الفرعية واستئناف الحركة
-  document.addEventListener('click', () => {
-    icons.forEach(i => i.classList.remove('active'));
-    document.querySelectorAll('.sub-icons').forEach(sub => sub.style.display = 'none');
-    stopMovement = false; // إعادة الحركة
-  });
-
-  window.addEventListener('resize', floatIcons);
-});
 </script>
 <style>
 .icon-circle {
@@ -2310,4 +1957,77 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
     };
   }
 });
+</script>
+<!-- 🎛️ أزرار التحكم في الفيديو -->
+<div id="video-controls" style="
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: 10px; margin: 20px auto; z-index: 1000;
+  background: rgba(255,255,255,0.1); border-radius: 15px;
+  padding: 10px 15px; width: fit-content; backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+">
+  <button onclick='playPause()' style="
+    background: rgba(200,200,200,0.3); color: white; border: 1px solid silver;
+    border-radius: 10px; padding: 8px 15px; cursor: pointer; font-size: 14px;
+    transition: 0.3s;
+  " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+     onmouseout="this.style.background='rgba(200,200,200,0.3)'">▶ تشغيل / ⏸ إيقاف</button>
+
+  <button onclick='muteUnmute()' style="
+    background: rgba(200,200,200,0.3); color: white; border: 1px solid silver;
+    border-radius: 10px; padding: 8px 15px; cursor: pointer; font-size: 14px;
+    transition: 0.3s;
+  " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+     onmouseout="this.style.background='rgba(200,200,200,0.3)'">🔇 كتم / تشغيل الصوت</button>
+
+  <button onclick='volumeUp()' style="
+    background: rgba(200,200,200,0.3); color: white; border: 1px solid silver;
+    border-radius: 10px; padding: 8px 15px; cursor: pointer; font-size: 14px;
+    transition: 0.3s;
+  " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+     onmouseout="this.style.background='rgba(200,200,200,0.3)'">🔊 رفع الصوت</button>
+
+  <button onclick='volumeDown()' style="
+    background: rgba(200,200,200,0.3); color: white; border: 1px solid silver;
+    border-radius: 10px; padding: 8px 15px; cursor: pointer; font-size: 14px;
+    transition: 0.3s;
+  " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+     onmouseout="this.style.background='rgba(200,200,200,0.3)'">🔉 خفض الصوت</button>
+</div>
+
+<script>
+  // 🎥 التحكم في الفيديو الخلفي الجديد
+  const iframe = document.querySelector('#player-container iframe');
+  let isPlaying = true;
+  let isMuted = true;
+
+  // ⏯ تشغيل / إيقاف
+  function playPause() {
+    if (isPlaying) {
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+    isPlaying = !isPlaying;
+  }
+
+  // 🔊 كتم / تفعيل الصوت
+  function muteUnmute() {
+    if (isMuted) {
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+    }
+    isMuted = !isMuted;
+  }
+
+  // 🔼 رفع الصوت
+  function volumeUp() {
+    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
+  }
+
+  // 🔽 خفض الصوت
+  function volumeDown() {
+    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
+  }
 </script>
