@@ -870,145 +870,6 @@ function closeVideoModal() {
 .close:hover, .close-btn:hover {
   color: #ff5555;
 }
-<!-- ===== واجهة إدخال البريد قبل الدردشة ===== -->
-<div id="login-box" style="position: fixed; bottom: 10px; right: 10px; width: 280px; background: rgba(20,20,20,0.8); padding: 10px; border-radius: 10px; color: white; z-index: 9999;">
-  <h3>🔑 تسجيل الدخول للدردشة</h3>
-  <input type="email" id="login-email" placeholder="بريدك الإلكتروني" style="width: 100%; padding: 5px; margin: 5px 0; border-radius:5px; border:none;">
-  <button id="login-btn" style="background: yellow; border:none; padding:5px 10px; border-radius:5px; width:100%;">دخول</button>
-</div>
-
-<!-- ===== صندوق الدردشة (مخفي في البداية) ===== -->
-<div id="chat-box" style="display:none; position: fixed; bottom: 10px; right: 10px; width: 300px; background: rgba(20,20,20,0.8); border-radius:10px; padding:10px; z-index: 9999;">
-  <div id="chat-header" style="cursor:move; background:silver; padding:10px; font-weight:bold;">
-    💬 دردشة الزوار <span id="close-chat" style="float:right; cursor:pointer; color: yellow;">×</span>
-  </div>
-  <div id="connection-status" style="color: yellow; font-size: 14px; margin-top:5px;">جاري فحص الاتصال...</div>
-  <div id="messages" style="height: 200px; overflow-y: auto; margin:10px 0; padding:5px; border-radius:8px; background: rgba(0,0,0,0.3); color:white;"></div>
-  <input type="text" id="message" placeholder="اكتب رسالة..." style="width: 100%; padding:5px; border-radius:5px; border:none; margin-top:5px;">
-  <button onclick="sendMessage()" style="background: yellow; border:none; padding:5px 10px; border-radius:5px; margin-top:5px; width:100%;">إرسال</button>
-</div>
-
-<!-- ===== مكتبات Firebase ===== -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, remove, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-  projectId: "abwalqmrzmrd-47557",
-  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
-  messagingSenderId: "957400167542",
-  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
-  measurementId: "G-24BWC6N21W"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let currentEmail = "";
-
-const loginBox = document.getElementById("login-box");
-const loginBtn = document.getElementById("login-btn");
-const chatBox = document.getElementById("chat-box");
-const statusDiv = document.getElementById("connection-status");
-const messagesDiv = document.getElementById("messages");
-const messagesRef = ref(db, "chatMessages");
-
-// 🔑 عند الضغط على زر الدخول
-loginBtn.addEventListener("click", () => {
-  const email = document.getElementById("login-email").value.trim();
-  if (!email) return alert("الرجاء إدخال البريد الإلكتروني");
-  currentEmail = email;
-  loginBox.style.display = "none";
-  chatBox.style.display = "block";
-  checkConnection();
-});
-
-// فحص الاتصال بالإنترنت
-function checkConnection() {
-  if (navigator.onLine) {
-    statusDiv.textContent = "✅ متصل بالإنترنت";
-    statusDiv.style.color = "lightgreen";
-  } else {
-    statusDiv.textContent = "⚠️ غير متصل بالإنترنت";
-    statusDiv.style.color = "red";
-  }
-}
-window.addEventListener("online", checkConnection);
-window.addEventListener("offline", checkConnection);
-
-// إرسال الرسائل
-window.sendMessage = function() {
-  const message = document.getElementById("message").value.trim();
-  if (!message) return;
-  push(messagesRef, {
-    email: currentEmail,
-    text: message,
-    time: Date.now()
-  });
-  document.getElementById("message").value = "";
-};
-
-// عرض الرسائل مباشرة (يعرض البريد فقط داخليًا أو يمكن حذفه إذا أردت)
-const recentMessages = query(messagesRef, limitToLast(20));
-onChildAdded(recentMessages, snapshot => {
-  const msg = snapshot.val();
-  const msgDiv = document.createElement("div");
-  msgDiv.innerHTML = `<b>${msg.email}:</b> ${msg.text}`;
-  messagesDiv.appendChild(msgDiv);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
-
-// حذف الرسائل القديمة بعد دقيقة
-setInterval(() => {
-  remove(ref(db, "chatMessages"));
-}, 60000);
-
-// زر إغلاق الدردشة
-document.getElementById("close-chat").addEventListener("click", () => {
-  chatBox.style.display = "none";
-});
-
-// ===== السحب والتحريك =====
-const header = document.getElementById("chat-header");
-let isDragging = false, offsetX = 0, offsetY = 0;
-
-header.addEventListener("mousedown", e => {
-  isDragging = true;
-  offsetX = e.clientX - chatBox.offsetLeft;
-  offsetY = e.clientY - chatBox.offsetTop;
-});
-document.addEventListener("mousemove", e => {
-  if (isDragging) {
-    chatBox.style.left = `${e.clientX - offsetX}px`;
-    chatBox.style.top = `${e.clientY - offsetY}px`;
-    chatBox.style.bottom = "auto";
-    chatBox.style.right = "auto";
-  }
-});
-document.addEventListener("mouseup", () => isDragging = false);
-
-// لمسات الجوال
-header.addEventListener("touchstart", e => {
-  const t = e.touches[0];
-  isDragging = true;
-  offsetX = t.clientX - chatBox.offsetLeft;
-  offsetY = t.clientY - chatBox.offsetTop;
-});
-document.addEventListener("touchmove", e => {
-  if (isDragging) {
-    const t = e.touches[0];
-    chatBox.style.left = `${t.clientX - offsetX}px`;
-    chatBox.style.top = `${t.clientY - offsetY}px`;
-    chatBox.style.bottom = "auto";
-    chatBox.style.right = "auto";
-  }
-});
-document.addEventListener("touchend", () => isDragging = false);
-
-</script>
 
 </script>
 
@@ -2093,142 +1954,6 @@ function closeVideo() {
 }
 </script>
 <!-- كود الإصلاح الجديد ينتهي هنا -->
-<!-- ===== واجهة إدخال البريد قبل الدردشة ===== -->
-<div id="login-box" style="position: fixed; bottom: 10px; right: 10px; width: 280px; background: rgba(20,20,20,0.8); padding: 10px; border-radius: 10px; color: white; z-index: 9999;">
-  <h3>🔑 تسجيل الدخول للدردشة</h3>
-  <input type="email" id="login-email" placeholder="بريدك الإلكتروني" style="width: 100%; padding: 5px; margin: 5px 0; border-radius:5px; border:none;">
-  <button id="login-btn" style="background: #ADD8E6; border:none; padding:5px 10px; border-radius:5px; width:100%;">دخول</button>
-</div>
-
-<!-- ===== صندوق الدردشة (مخفي في البداية) ===== -->
-<div id="chat-box" style="display:none; position: fixed; bottom: 10px; right: 10px; width: 300px; background: rgba(20,20,20,0.8); border-radius:10px; padding:10px; z-index: 9999;">
-  <div id="chat-header" style="cursor:move; background:silver; padding:10px; font-weight:bold;">
-    💬 دردشة الزوار <span id="close-chat" style="float:right; cursor:pointer; color: yellow;">×</span>
-  </div>
-  <div id="connection-status" style="color: yellow; font-size: 14px; margin-top:5px;">جاري فحص الاتصال...</div>
-  <div id="messages" style="height: 200px; overflow-y: auto; margin:10px 0; padding:5px; border-radius:8px; background: rgba(0,0,0,0.3); color:white;"></div>
-  <input type="text" id="message" placeholder="اكتب رسالة..." style="width: 100%; padding:5px; border-radius:5px; border:none; margin-top:5px;">
-  <button onclick="sendMessage()" style="background: #ADD8E6; border:none; padding:5px 10px; border-radius:5px; margin-top:5px; width:100%;">إرسال</button>
-</div>
-
-<!-- ===== مكتبات Firebase ===== -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, remove, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-  projectId: "abwalqmrzmrd-47557",
-  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
-  messagingSenderId: "957400167542",
-  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
-  measurementId: "G-24BWC6N21W"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let currentEmail = "";
-
-const loginBox = document.getElementById("login-box");
-const loginBtn = document.getElementById("login-btn");
-const chatBox = document.getElementById("chat-box");
-const statusDiv = document.getElementById("connection-status");
-const messagesDiv = document.getElementById("messages");
-const messagesRef = ref(db, "chatMessages");
-
-// 🔑 عند الضغط على زر الدخول
-loginBtn.addEventListener("click", () => {
-  const email = document.getElementById("login-email").value.trim();
-  if (!email) return alert("الرجاء إدخال البريد الإلكتروني");
-  currentEmail = email;
-  loginBox.style.display = "none";
-  chatBox.style.display = "block";
-  checkConnection();
-});
-
-// فحص الاتصال بالإنترنت
-function checkConnection() {
-  if (navigator.onLine) {
-    statusDiv.textContent = "✅ متصل بالإنترنت";
-    statusDiv.style.color = "lightgreen";
-  } else {
-    statusDiv.textContent = "⚠️ غير متصل بالإنترنت";
-    statusDiv.style.color = "red";
-  }
-}
-window.addEventListener("online", checkConnection);
-window.addEventListener("offline", checkConnection);
-
-// إرسال الرسائل
-window.sendMessage = function() {
-  const message = document.getElementById("message").value.trim();
-  if (!message) return;
-  push(messagesRef, {
-    email: currentEmail,
-    text: message,
-    time: Date.now()
-  });
-  document.getElementById("message").value = "";
-};
-
-// عرض الرسائل مباشرة
-const recentMessages = query(messagesRef, limitToLast(20));
-onChildAdded(recentMessages, snapshot => {
-  const msg = snapshot.val();
-  const msgDiv = document.createElement("div");
-  msgDiv.innerHTML = `<b>${msg.email}:</b> ${msg.text}`;
-  messagesDiv.appendChild(msgDiv);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
-
-// حذف الرسائل القديمة بعد دقيقة
-setInterval(() => {
-  remove(ref(db, "chatMessages"));
-}, 60000);
-
-// زر إغلاق الدردشة
-document.getElementById("close-chat").addEventListener("click", () => {
-  chatBox.style.display = "none";
-});
-
-// ===== السحب والتحريك =====
-const header = document.getElementById("chat-header");
-let isDragging = false, offsetX = 0, offsetY = 0;
-
-function startDrag(x, y){
-  isDragging = true;
-  offsetX = x - chatBox.offsetLeft;
-  offsetY = y - chatBox.offsetTop;
-}
-function doDrag(x, y){
-  if (isDragging){
-    chatBox.style.left = `${x - offsetX}px`;
-    chatBox.style.top = `${y - offsetY}px`;
-    chatBox.style.bottom = "auto";
-    chatBox.style.right = "auto";
-  }
-}
-function stopDrag(){ isDragging = false; }
-
-// الماوس
-header.addEventListener("mousedown", e => startDrag(e.clientX, e.clientY));
-document.addEventListener("mousemove", e => doDrag(e.clientX, e.clientY));
-document.addEventListener("mouseup", stopDrag);
-
-// اللمس
-header.addEventListener("touchstart", e => {
-  const t = e.touches[0];
-  startDrag(t.clientX, t.clientY);
-});
-document.addEventListener("touchmove", e => {
-  const t = e.touches[0];
-  doDrag(t.clientX, t.clientY);
-});
-document.addEventListener("touchend", stopDrag);
-</script>
 
 </body>
 </html>
@@ -2267,4 +1992,144 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
     };
   }
 });
+</script>
+<!-- ===== واجهة إدخال البريد قبل الدردشة ===== -->
+<div id="login-box" style="position: fixed; bottom: 10px; right: 10px; width: 280px; background: rgba(20,20,20,0.8); padding: 10px; border-radius: 10px; color: white; z-index: 9999;">
+  <h3>🔑 تسجيل الدخول للدردشة</h3>
+  <input type="email" id="login-email" placeholder="بريدك الإلكتروني" style="width: 100%; padding: 5px; margin: 5px 0; border-radius:5px; border:none;">
+  <button id="login-btn" style="background: #ADD8E6; border:none; padding:5px 10px; border-radius:5px; width:100%;">دخول</button>
+</div>
+
+<!-- ===== صندوق الدردشة (مخفي في البداية) ===== -->
+<div id="chat-box" style="display:none; position: fixed; bottom: 10px; right: 10px; width: 300px; background: rgba(20,20,20,0.8); border-radius:10px; padding:10px; z-index: 9999;">
+  <div id="chat-header" style="cursor:move; background:silver; padding:10px; font-weight:bold;">
+    💬 دردشة الزوار <span id="close-chat" style="float:right; cursor:pointer; color: yellow;">×</span>
+  </div>
+  <div id="connection-status" style="color: #00FF00; font-size: 14px; margin-top:5px;">جارٍ فحص الاتصال بالخادم...</div>
+  <div id="messages" style="height: 200px; overflow-y: auto; margin:10px 0; padding:5px; border-radius:8px; background: rgba(0,0,0,0.3); color:white;"></div>
+  <input type="text" id="message" placeholder="اكتب رسالة..." style="width: 100%; padding:5px; border-radius:5px; border:none; margin-top:5px;">
+  <button onclick="sendMessage()" style="background: #ADD8E6; border:none; padding:5px 10px; border-radius:5px; margin-top:5px; width:100%;">إرسال</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded, remove, query, limitToLast, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ===== إعداد Firebase =====
+const firebaseConfig = {
+  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
+  projectId: "abwalqmrzmrd-47557",
+  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
+  messagingSenderId: "957400167542",
+  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
+  measurementId: "G-24BWC6N21W"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let currentEmail = ""; // البريد للتسجيل فقط
+const loginBox = document.getElementById("login-box");
+const loginBtn = document.getElementById("login-btn");
+const chatBox = document.getElementById("chat-box");
+const statusDiv = document.getElementById("connection-status");
+const messagesDiv = document.getElementById("messages");
+const messagesRef = ref(db, "chatMessages");
+
+// ===== فحص الاتصال الحقيقي بالقاعدة =====
+async function checkFirebaseConnection() {
+  try {
+    await get(ref(db, ".info/connected")); // فحص الاتصال
+    statusDiv.textContent = "✅ متصل بالخادم";
+    statusDiv.style.color = "#00FF00"; // فسفوري
+  } catch (e) {
+    statusDiv.textContent = "⚠️ غير متصل بالخادم";
+    statusDiv.style.color = "red";
+  }
+}
+
+// ===== الدخول بالدردشة =====
+loginBtn.addEventListener("click", async () => {
+  const email = document.getElementById("login-email").value.trim();
+  if (!email) return alert("الرجاء إدخال البريد الإلكتروني");
+  currentEmail = email; // فقط للتسجيل
+  loginBox.style.display = "none";
+  chatBox.style.display = "block";
+  await checkFirebaseConnection();
+});
+
+// ===== إرسال الرسائل =====
+window.sendMessage = function() {
+  const message = document.getElementById("message").value.trim();
+  if (!message) return;
+  let username = "زائر"; // الاسم الافتراضي إذا لم يحدد
+  push(messagesRef, {
+    username: username,
+    text: message,
+    time: Date.now()
+  });
+  document.getElementById("message").value = "";
+};
+
+// ===== استقبال الرسائل مباشرة =====
+const recentMessages = query(messagesRef, limitToLast(50));
+onChildAdded(recentMessages, snapshot => {
+  const msg = snapshot.val();
+  const msgDiv = document.createElement("div");
+  let nameToShow = msg.username || "زائر"; // إذا لم يوجد اسم، يظهر "زائر"
+  msgDiv.innerHTML = `<b>${nameToShow}:</b> ${msg.text}`;
+  messagesDiv.appendChild(msgDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+
+// ===== حذف الرسائل القديمة بعد دقيقة =====
+setInterval(() => {
+  remove(ref(db, "chatMessages"));
+}, 60000);
+
+// ===== زر إغلاق الدردشة =====
+document.getElementById("close-chat").addEventListener("click", () => {
+  chatBox.style.display = "none";
+  loginBox.style.display = "block";
+  document.getElementById("login-email").value = "";
+  messagesDiv.innerHTML = ""; // تفريغ الرسائل عند الرجوع للتسجيل
+});
+
+// ===== السحب والتحريك =====
+const header = document.getElementById("chat-header");
+let isDragging = false, offsetX = 0, offsetY = 0;
+
+function startDrag(x, y){
+  isDragging = true;
+  offsetX = x - chatBox.offsetLeft;
+  offsetY = y - chatBox.offsetTop;
+}
+function doDrag(x, y){
+  if (isDragging){
+    chatBox.style.left = `${x - offsetX}px`;
+    chatBox.style.top = `${y - offsetY}px`;
+    chatBox.style.bottom = "auto";
+    chatBox.style.right = "auto";
+  }
+}
+function stopDrag(){ isDragging = false; }
+
+// الماوس
+header.addEventListener("mousedown", e => startDrag(e.clientX, e.clientY));
+document.addEventListener("mousemove", e => doDrag(e.clientX, e.clientY));
+document.addEventListener("mouseup", stopDrag);
+
+// اللمس
+header.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  startDrag(t.clientX, t.clientY);
+});
+document.addEventListener("touchmove", e => {
+  const t = e.touches[0];
+  doDrag(t.clientX, t.clientY);
+});
+document.addEventListener("touchend", stopDrag);
+
 </script>
