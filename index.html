@@ -548,9 +548,7 @@ function closeSection(btn) {
 function openVideoModal(videoId) {
   const modal = document.getElementById('videoModal');
   const iframe = document.getElementById('modalVideo');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-  modal.style.display = 'flex';
-}
+  src="https://www.youtube.com/embed/QR3lp0ptpy8?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=QR3lp0ptpy8"
 
 function closeVideoModal() {
   const modal = document.getElementById('videoModal');
@@ -772,14 +770,6 @@ function closeVideoModal() {
     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
     style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; object-fit: cover;">
   </iframe>
-</div>
-
-</div>
-<div class="controls">
-<button onclick="playPause()">⏯</button>
-<button onclick="muteUnmute()">🔊</button>
-<button onclick="volumeUp()">🔼</button>
-<button onclick="volumeDown()">🔽</button>
 </div>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
@@ -1210,126 +1200,9 @@ function closeVideoModal() {
   makeDraggable(emailScreen);
 </script>
 
-<script>
-  // 🎥 التحكم في الفيديو الخلفي الجديد
-  const iframe = document.querySelector('#player-container iframe');
-  let isPlaying = true;
-  let isMuted = true;
-
-  // ⏯ تشغيل / إيقاف
-  function playPause() {
-    if (isPlaying) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    isPlaying = !isPlaying;
-  }
-
-  // 🔊 كتم / تفعيل الصوت
-  function muteUnmute() {
-    if (isMuted) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    }
-    isMuted = !isMuted;
-  }
-
-  // 🔼 رفع الصوت
-  function volumeUp() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
-  }
-
-  // 🔽 خفض الصوت
-  function volumeDown() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
-  }
-</script>
-
 </body>
 </html>
 
-</script>
-
-<script>
-  // 🎥 التحكم في الفيديو الخلفي الجديد
-  const iframe = document.querySelector('#player-container iframe');
-  let isPlaying = true;
-  let isMuted = true;
-
-  // ⏯ تشغيل / إيقاف
-  function playPause() {
-    if (isPlaying) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    isPlaying = !isPlaying;
-  }
-
-  // 🔊 كتم / تفعيل الصوت
-  function muteUnmute() {
-    if (isMuted) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    }
-    isMuted = !isMuted;
-  }
-
-  // 🔼 رفع الصوت
-  function volumeUp() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
-  }
-
-  // 🔽 خفض الصوت
-  function volumeDown() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
-  }
-</script>
-
-</body>
-</html>
-
-</script>
-
-
-<script>
-  // 🎥 التحكم في الفيديو الخلفي الجديد
-  const iframe = document.querySelector('#player-container iframe');
-  let isPlaying = true;
-  let isMuted = true;
-
-  // ⏯ تشغيل / إيقاف
-  function playPause() {
-    if (isPlaying) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    isPlaying = !isPlaying;
-  }
-
-  // 🔊 كتم / تفعيل الصوت
-  function muteUnmute() {
-    if (isMuted) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    }
-    isMuted = !isMuted;
-  }
-
-  // 🔼 رفع الصوت
-  function volumeUp() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
-  }
-
-  // 🔽 خفض الصوت
-  function volumeDown() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
-  }
 </script>
 
 </body>
@@ -1765,44 +1638,6 @@ function closeVideo() {
 }
 </script>
 
-
-<script>
-  // 🎥 التحكم في الفيديو الخلفي الجديد
-  const iframe = document.querySelector('#player-container iframe');
-  let isPlaying = true;
-  let isMuted = true;
-
-  // ⏯ تشغيل / إيقاف
-  function playPause() {
-    if (isPlaying) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    isPlaying = !isPlaying;
-  }
-
-  // 🔊 كتم / تفعيل الصوت
-  function muteUnmute() {
-    if (isMuted) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    }
-    isMuted = !isMuted;
-  }
-
-  // 🔼 رفع الصوت
-  function volumeUp() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
-  }
-
-  // 🔽 خفض الصوت
-  function volumeDown() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
-  }
-</script>
-
 </body>
 </html>
 <!-- أيقونات المكتبات أفقي تحت الفيديو -->
@@ -1907,10 +1742,10 @@ function closeVideo() {
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen></iframe>
     </div>
-    <span class="video-title">فيديو 1</span>
+    <span class="video-title"1</span>
   </div>
 
-  <!-- فيديو 2 -->  <div class="video-item" onclick="openModal('IMbzTtwxFSo')">
+  <div class="video-item" onclick="openModal('IMbzTtwxFSo')">
     <div class="video-icon circular-video">
       <iframe src="https://www.youtube.com/embed/IMbzTtwxFSo?si=eqYW6VL9F6WtGpd8" title="YouTube video player"
         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -2432,64 +2267,11 @@ document.querySelectorAll('.video-icon, .video-circle, iframe[src*="youtube.com"
 }
 </style>
 
-<script>
-function openVideo(videoId) {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'flex';
-    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  }
-}
 
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'none';
-    frame.src = "";
-  }
-}
 </script>
 <!-- كود الإصلاح الجديد ينتهي هنا -->
 
 
-<script>
-  // 🎥 التحكم في الفيديو الخلفي الجديد
-  const iframe = document.querySelector('#player-container iframe');
-  let isPlaying = true;
-  let isMuted = true;
-
-  // ⏯ تشغيل / إيقاف
-  function playPause() {
-    if (isPlaying) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    }
-    isPlaying = !isPlaying;
-  }
-
-  // 🔊 كتم / تفعيل الصوت
-  function muteUnmute() {
-    if (isMuted) {
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    }
-    isMuted = !isMuted;
-  }
-
-  // 🔼 رفع الصوت
-  function volumeUp() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[80]}', '*');
-  }
-
-  // 🔽 خفض الصوت
-  function volumeDown() {
-    iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[30]}', '*');
-  }
-</script>
 
 </body>
 </html>
