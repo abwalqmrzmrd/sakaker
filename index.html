@@ -1201,9 +1201,45 @@ function togglePersonalStory(id){
 <div class="modal" id="storyRealityModal">
 <span class="close" onclick="document.getElementById('storyRealityModal').style.display='none'">×</span>
 <div class="content">
+<style>
+.story {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid silver;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0;
+  color: silver;
+  line-height: 1.8;
+  font-size: 16px;
+}
+.story-title {
+  cursor: pointer;
+  background: linear-gradient(90deg, #999999, #bbbbbb); /* لون فضي موحد */
+  color: silver; /* النص بلون فضي */
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  transition: 0.3s;
+  text-align: center;
+}
+.story-title:hover {
+  background: linear-gradient(90deg, #bbbbbb, #999999);
+  transform: scale(1.02);
+}
+</style>
+
+<script>
+function toggleStory(id) {
+  const story = document.getElementById(id);
+  story.style.display = story.style.display === "block" ? "none" : "block";
+}
+</script>
 
 <!-- القصة الأولى -->
-<div class="story" id="ps1">
+<div class="story-title" onclick="toggleStory('s1')">قصتي بمراحل العمل</div>
+<div class="story" id="s1">
 <h3>قصتي بمراحل العمل</h3>
 <p>بدأت حياتي العملية بخطوات مترددة بين الدراسة والتجارة، أبحث عن الطريق الذي يثبت قدمي. 
       في بداياتي لم تكن الفرص كثيرة، لكني تعلمت أن العمل يحتاج صبرًا ومثابرة. 
@@ -1233,9 +1269,10 @@ function togglePersonalStory(id){
       ورغم الصعاب، كانت كل مرحلة سببًا في أن أكون أكثر صلابة وإصرارًا على الاستمرار. 
       وما زلت أؤمن أن رحلة العمل لم تنتهِ بعد، فكل يوم يحمل تجربة جديدة تستحق أن تُروى.</p>
 </div>
+
 <!-- القصة الثانية -->
-<div class="story-title" onclick="togglePersonalStory('ps2')">بعض من تجاربي</div>
-<div class="story" id="ps2">
+<div class="story-title" onclick="toggleStory('s2')">بعض من تجاربي</div>
+<div class="story" id="s2">
 <h3>بعض من تجاربي</h3>
 <p>من أجمل ما أحتفظ به في ذاكرتي هو تنوع التجارب التي مررت بها في حياتي.  
       ففي <strong>الرياضة</strong> مارست كرة القدم والجري كهواية جعلتني أكثر نشاطًا وانضباطًا.  
@@ -1245,9 +1282,11 @@ function togglePersonalStory(id){
       في التعامل مع الناس وفهم شخصياتهم.  
       هذه التجارب شكلت جزءًا من مساري، وأدركت معها أن الحياة ليست فقط دراسة أو عمل، 
       بل أيضًا اكتشاف وتجديد.</p>
-<!-- قصتي مع الزمن (أولاً) -->
-<div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن</div>
-<div class="story" id="s5">
+</div>
+
+<!-- القصة الثالثة -->
+<div class="story-title" onclick="toggleStory('s3')">قصتي مع الزمن</div>
+<div class="story" id="s3">
 <p>عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
     لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
     ومن ذاك العام أطلقت على نفسي لقب <strong>(أبوالقمر زمرد)</strong>. وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
@@ -1266,13 +1305,71 @@ function togglePersonalStory(id){
     وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
     فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: 
     <strong>اثنان لا يشبعان: طالب علم وطالب مال</strong>.</p>
-<p><em>خاتمة مقترحة لإكمال السرد:</em></p>
 <p>مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
     بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
     لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.</p>
 <p>اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
     وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.</p>
+    
 </div>
+<!-- القصة الرابعة -->
+<div class="story-title" onclick="togglePersonalStory('ps4')">أنا ومنزلي</div>
+<div class="story" id="ps4">
+<h3>أنا ومنزلي</h3>
+
+<p>حينما تركت العمل، شعرت وكأنني أضع نقطة نهاية في سطرٍ طويل من التعب. التفتُّ إلى الوراء، فوجدتُ ذكرياتي تنتظرني عند عتبة الصمت، تهمس لي بأن أعود إليها قليلًا، لأرسم ملامح طريقي القادم بيدي هذه المرة.</p>
+
+<p>قررت أن أعيش بهدوء… في منزلي الذي جعلته مرآةً لروحي. صممته كما أحببت؛ غرفة نومٍ تضمني آخر الليل، ومجلسٍ تملؤه السكينة، ومطبخٍ تفوح منه رائحة الحياة. زرعتُ حولي أشجارًا خضراء، وغرستُ بين الزوايا زهورًا، وجعلتُ في وسط الحديقة ماءً ينبع من صخرٍ صافٍ، صوته يزيل الهمّ، ويردّ للحياة نبضها حين يأذن الله.</p>
+
+<p>جلست هناك، أكتب بعض الأبيات، أعزف نغماتٍ بسيطة على آلةٍ قديمةٍ كانت شاهدة على لحظاتي، وأرسم بخطٍ هادئ ما يختلج في قلبي من أحلامٍ وألوان.</p>
+
+<p>رفعت يدي إلى السماء، دعوت الله بدمعةٍ هادئة وقلبٍ حزين، أن يتمّ عليّ نعمة اليقين، وأن يبقي في قلبي حسن الظنّ، فكل المحال في الجبين مكتوب، وكل ما كان لي، لن يضيع بين السطور.</p>
+
+<p>هنا، بين جدران هذا المنزل، وجدت نفسي… رسمت طريقي، أيقنت بوجودي، وشعرت أني ما زلت حيًّا، ما دام في القلب ضوءٌ لا ينطفئ.</p>
+
+<hr>
+<h4>Me and My Home</h4>
+
+<p>When I left my job, it felt as though I had placed a final dot at the end of a long line of exhaustion. I turned back and found my memories waiting at the threshold of silence, whispering for me to return, to draw the path of my future with my own hands this time.</p>
+
+<p>I decided to live quietly… in my home, which became a reflection of my soul. I designed it as I wished — a bedroom to hold me through the night, a living room filled with serenity, and a kitchen that carries the scent of life. I planted green trees, scattered flowers in every corner, and placed a fountain in the middle of the garden — its sound washing away sorrow and reviving the heart by God’s will.</p>
+
+<p>There, I sat and wrote verses, played simple tunes on an old instrument that had witnessed my moments, and painted my dreams with calm strokes of color.</p>
+
+<p>I raised my hands to the sky, praying with a quiet tear and a heavy heart that God may bless me with certainty and preserve within me good faith — for every fate is written on the forehead, and what is meant for me will never be lost between the lines.</p>
+
+<p>Here, within these walls, I found myself… I drew my path, realized my existence, and felt alive again — as long as there is light in the heart that never fades.</p>
+
+<hr>
+<h4>Moi et ma maison</h4>
+
+<p>Quand j’ai quitté mon travail, j’ai eu l’impression de poser un point final à une longue phrase de fatigue. En me retournant, j’ai trouvé mes souvenirs qui m’attendaient au seuil du silence, me murmurant de revenir un instant pour tracer de mes propres mains le chemin de mon avenir.</p>
+
+<p>J’ai décidé de vivre dans la tranquillité… dans ma maison, devenue le miroir de mon âme. Je l’ai conçue comme je le voulais : une chambre qui m’enlace la nuit, un salon empli de sérénité, et une cuisine qui respire la vie. J’y ai planté des arbres verts, semé des fleurs dans chaque coin, et placé au centre du jardin une source claire dont le murmure apaise les peines et redonne vie à celui que Dieu veut garder en ce monde.</p>
+
+<p>Là, je me suis assis pour écrire quelques vers, jouer de douces mélodies sur un vieil instrument témoin de mes instants, et peindre mes rêves avec des traits calmes et pleins de couleurs.</p>
+
+<p>J’ai levé les mains vers le ciel, priant avec une larme discrète et un cœur mélancolique, demandant à Dieu de m’accorder la grâce de la certitude et de conserver en moi la bonté de la foi — car tout destin est écrit sur le front, et ce qui est à moi ne se perdra jamais entre les lignes.</p>
+
+<p>Ici, entre les murs de cette maison, je me suis trouvé… J’ai tracé ma route, reconnu mon existence, et ressenti la vie à nouveau — tant qu’il reste une lumière dans le cœur qui ne s’éteint jamais.</p>
+
+<hr>
+<h4>我和我的家</h4>
+
+<p>当我离开工作时，感觉就像在漫长疲惫的一句中画上了句号。  
+我回首望去，发现记忆在寂静的门口等着我，轻声呼唤我回去，用自己的双手描绘未来的道路。</p>
+
+<p>我决定平静地生活……在我的家中——它成了我灵魂的映照。  
+我按自己的心意设计它：一间夜晚能拥抱我的卧室，一间充满安宁的客厅，还有一间弥漫着生活气息的厨房。  
+我种下绿色的树木，在角落里撒下花朵，在花园中央放了一汪清泉——它的潺潺声能洗去忧愁，让生命在上帝的旨意下再次苏醒。</p>
+
+<p>我坐在那里，写下几句诗，弹奏几段简单的旋律，那把旧乐器见证了我的时光；我用平静的笔触描绘内心的梦与色彩。</p>
+
+<p>我举起双手，含着泪、怀着忧伤的心祈祷：愿上帝赐我坚定的信念，并保留我心中的善意——因为一切命运都写在额上，属于我的，不会消失在文字之间。</p>
+
+<p>在这所房子里，我找到了自己……我描绘了道路，确认了存在，感受到了生命依旧——只要心中还有那不灭的光。</p>
+</div>
+
 </p></div>
 </div>
 </div>
