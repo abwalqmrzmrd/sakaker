@@ -3,35 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صفحة دخول بخلفية فيديو مستمرة</title>
+<title>صفحة دخول بخلفية البحر + فيديو</title>
 <style>
-  body { margin:0; font-family:'Tajawal',sans-serif; }
-
-  /* فيديو الخلفية الدائم */
-  #bgVideo {
-    position: fixed; top:0; left:0;
-    width:100%; height:100%;
-    object-fit:cover; z-index:-2;
-  }
-
-  /* أزرار التحكم */
-  #soundControl, #birdControl {
-    position: fixed; z-index:1000000; cursor:pointer; user-select:none; transition:0.3s;
-  }
-  #soundControl:hover, #birdControl:hover { transform: scale(1.15); }
-  #soundControl { bottom:20px; left:50%; transform:translateX(-50%); font-size:28px; }
-  #birdControl { top:20px; right:20px; font-size:30px; opacity:0.6; }
-
-  /* نافذة الدخول */
+  body.login-active { overflow: hidden !important; font-family:'Tajawal',sans-serif; margin:0; }
+  
   #loginOverlay {
     position:fixed; top:0; left:0; width:100%; height:100%;
+    z-index:999999; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.9); backdrop-filter:blur(3px); z-index:9999;
+    background:rgba(0,0,0,0.9); backdrop-filter:blur(3px);
   }
 
   #loginBox {
-    background:rgba(0,0,0,0.75); padding:28px; border-radius:16px;
-    width:90%; max-width:420px; text-align:center; color:#fff; z-index:10;
+    background:rgba(0,0,0,0.75);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:16px;
+    padding:28px;
+    width:90%; max-width:420px;
+    box-shadow:0 0 25px rgba(0,0,0,0.7);
+    color:#fff; text-align:center; z-index:10;
   }
 
   input[type="email"], input[type="password"] {
@@ -63,80 +53,61 @@
     transition:0.3s;
   }
   #guestLogin:hover { background:rgba(255,255,255,0.25); }
-
-  /* فيديو YouTube داخل overlay فقط */
-  #bgYoutube {
-    position:absolute; top:0; left:0; width:100%; height:100%;
-    object-fit:cover; opacity:0.35; z-index:-2; pointer-events:none;
-  }
 </style>
 </head>
-<body>
+<body class="login-active">
 
-<!-- 🌊 خلفية الفيديو المستمرة -->
-<iframe id="bgVideo"
-  src="https://www.youtube.com/embed/QR3lp0ptpy8?autoplay=1&mute=1&loop=1&controls=0&playlist=QR3lp0ptpy8"
-  frameborder="0" allow="autoplay; fullscreen"
-  style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none;">
-</iframe>
-
-<!-- أزرار التحكم -->
-<div id="soundControl" title="تشغيل / إيقاف صوت البحر">🌊🔈</div>
-<div id="birdControl" title="تشغيل / إيقاف صوت العصافير">🕊️</div>
-
-<!-- نافذة تسجيل الدخول -->
 <div id="loginOverlay">
-  <div id="loginBox">
-    <h2>تسجيل الدخول</h2>
+  <!-- 🌊 خلفية البحر -->
+  <video autoplay muted loop playsinline id="bgSea" style="
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    object-fit:cover;z-index:-2;filter:brightness(0.3) blur(2px);
+  ">
+    <source src='https://cdn.coverr.co/videos/coverr-tropical-ocean-waves-1586/1080p.mp4' type='video/mp4'>
+  </video>
 
-    <!-- خانة البريد كما هي -->
+  <!-- 🎬 فيديو YouTube الجديد كخلفية -->
+  <iframe id="bgYoutube"
+    src="https://www.youtube.com/embed/QR3lp0ptpy8?autoplay=1&mute=1&loop=1&controls=0&playlist=QR3lp0ptpy8"
+    frameborder="0" allow="autoplay; fullscreen"
+    style="
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      object-fit:cover;opacity:0.35;z-index:-1;pointer-events:none;">
+  </iframe>
+
+  <!-- 🧭 واجهة تسجيل الدخول -->
+  <div id="loginBox">
+    <h2 style="margin-bottom:20px;color:#fff">تسجيل الدخول للموقع</h2>
+
     <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" />
     <input id="passwordInput" type="password" placeholder="🔒 كلمة المرور" />
 
     <button id="loginButton">دخول بالبريد</button>
     <div id="loginError" style="color:#ff8888;font-size:14px;margin:8px 0;"></div>
 
-    <!-- أزرار الدخول الاجتماعي -->
-    <div id="googleLogin" class="socialBtn">
-      <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg' width='20' height='20'>
-      الدخول عبر Google
-    </div>
+    <div style="margin-top:18px;">
+      <div id="googleLogin" class="socialBtn">
+        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg' width='20' height='20'>
+        الدخول عبر Google
+      </div>
 
-    <div id="facebookLogin" class="socialBtn">
-      <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg' width='20' height='20'>
-      الدخول عبر Facebook
-    </div>
+      <div id="facebookLogin" class="socialBtn">
+        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg' width='20' height='20'>
+        الدخول عبر Facebook
+      </div>
 
-    <!-- دخول كزائر -->
-    <div id="guestLogin">🚀 دخول كزائر مباشر</div>
+      <!-- زر دخول كزائر مباشر تحت فيسبوك -->
+      <div id="guestLogin">🚀 دخول كزائر مباشر</div>
+    </div>
   </div>
 </div>
 
 <script>
-  // أصوات الخلفية
-  const oceanSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_1d88c08188.mp3");
-  const birdsSound = new Audio("https://cdn.pixabay.com/audio/2023/05/31/audio_82928ab26e.mp3");
-  oceanSound.loop = true; birdsSound.loop = true;
-  oceanSound.volume = 0.5; birdsSound.volume = 0.4;
-
-  let oceanPlaying = false, birdsPlaying = false;
-
-  document.getElementById("soundControl").onclick = () => {
-    if(oceanPlaying){ oceanSound.pause(); document.getElementById("soundControl").textContent="🌊🔈"; }
-    else{ oceanSound.play(); document.getElementById("soundControl").textContent="🌊🔊"; }
-    oceanPlaying = !oceanPlaying;
-  };
-
-  document.getElementById("birdControl").onclick = () => {
-    if(birdsPlaying){ birdsSound.pause(); document.getElementById("birdControl").style.opacity="0.6"; }
-    else{ birdsSound.play(); document.getElementById("birdControl").style.opacity="1"; }
-    birdsPlaying = !birdsPlaying;
-  };
-
-  // دخول كزائر مباشر
-  document.getElementById("guestLogin").onclick = () => {
+  // زر دخول كزائر مباشر
+  const guestBtn = document.getElementById("guestLogin");
+  guestBtn.onclick = () => {
     document.getElementById("loginOverlay").style.display = "none";
-    // الفيديو يظل مرئي دائمًا
+    document.body.classList.remove("login-active");
   };
 </script>
 
@@ -539,26 +510,25 @@ function showSection(id) {
 function closeSection(btn) {
   btn.parentElement.style.display = 'none';
 }
-</script>
-<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
-<div class="video-top-container">
-  <!-- الفيديو الأيمن -->
-  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
-    <iframe
-      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
-      title="فيديو أيمن" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
-
-  <!-- الفيديو الأيسر -->
-  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
-    <iframe
-      src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY"
-      title="فيديو أيسر" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
+</script><!-- ====== فيديو دائري قابل لتحديد موقعه ====== -->
+<div class="video-circle" style="
+  position: absolute; /* ضروري لتحديد المكان */
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  /* ضع هنا top / bottom و left / right كما تريد */
+  top: 50px;      /* مثال: من أعلى الصفحة */
+  left: 50%;      /* أفقيًا في منتصف الصفحة */
+  transform: translateX(-50%);
+" onclick="openVideoModal('n7eQejkXbnM')">
+  <iframe
+    src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+    title="فيديو قابل لوضعه أعلى أو وسط أو أسفل الصفحة" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width:100%; height:100%; border:none;"
+  ></iframe>
 </div>
 
 <!-- ====== المودال ====== -->
