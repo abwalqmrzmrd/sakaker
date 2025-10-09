@@ -223,6 +223,17 @@ body {
 </style>
 </head>
 
+<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
+<div class="video-top-container">
+  <!-- الفيديو الأيمن -->
+  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
+    <iframe
+      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+      title="فيديو أيمن" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
 <body>
 
 <!-- صف الأيقونات -->
@@ -510,37 +521,6 @@ function showSection(id) {
 function closeSection(btn) {
   btn.parentElement.style.display = 'none';
 }
-</script><!-- ====== فيديو دائري قابل لتحديد موقعه ====== -->
-<div class="video-circle" style="
-  position: absolute; /* ضروري لتحديد المكان */
-  width: 150px; height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  /* ضع هنا top / bottom و left / right كما تريد */
-  top: 50px;      /* مثال: من أعلى الصفحة */
-  left: 50%;      /* أفقيًا في منتصف الصفحة */
-  transform: translateX(-50%);
-" onclick="openVideoModal('n7eQejkXbnM')">
-  <iframe
-    src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
-    title="فيديو قابل لوضعه أعلى أو وسط أو أسفل الصفحة" frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen
-    style="width:100%; height:100%; border:none;"
-  ></iframe>
-</div>
-
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
-<div id="cvPage">
-<div class="cv-content">
-<h1>التعريف بالموقع</h1>
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
-</div>
-</div>
-</div>
-</div>
 <!-- ====== المودال ====== -->
 <div id="videoModal" class="video-modal">
   <div class="video-content">
@@ -2417,14 +2397,32 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
 });
 </script>
 
+<!-- ====== قائمة الدعم تحت حقول الدخول وأزرار الدخول ====== -->
+<div id="loginFooter" style="
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Tajawal', sans-serif;
+  color: #00ff99;
+">
 
-<!-- قائمة الدعم -->
-<div class="footer-menu">
-<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
-<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
-<p>🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
-</p>
-<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
+  <!-- روابط الدعم -->
+  <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+  <p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+  <p>🔗 شارك: 
+      <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
+      <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+  </p>
+  <p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>  
+
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
