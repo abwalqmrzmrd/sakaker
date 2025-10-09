@@ -3,219 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل الدخول - موقعك</title>
+<title>صفحة دخول بخلفية فيديو مستمرة</title>
 <style>
-  body.login-active { overflow: hidden !important; margin: 0; padding: 0; }
+  body { margin:0; font-family:'Tajawal',sans-serif; }
+
+  /* فيديو الخلفية الدائم */
+  #bgVideo {
+    position: fixed; top:0; left:0;
+    width:100%; height:100%;
+    object-fit:cover; z-index:-2;
+  }
+
+  /* أزرار التحكم */
   #soundControl, #birdControl {
-    position: fixed;
-    z-index: 1000000;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.3s;
+    position: fixed; z-index:1000000; cursor:pointer; user-select:none; transition:0.3s;
   }
   #soundControl:hover, #birdControl:hover { transform: scale(1.15); }
-  #soundControl { bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 28px; }
-  #birdControl { top: 20px; right: 20px; font-size: 30px; }
+  #soundControl { bottom:20px; left:50%; transform:translateX(-50%); font-size:28px; }
+  #birdControl { top:20px; right:20px; font-size:30px; opacity:0.6; }
+
+  /* نافذة الدخول */
+  #loginOverlay {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.9); backdrop-filter:blur(3px); z-index:9999;
+  }
+
+  #loginBox {
+    background:rgba(0,0,0,0.75); padding:28px; border-radius:16px;
+    width:90%; max-width:420px; text-align:center; color:#fff; z-index:10;
+  }
+
+  input[type="email"], input[type="password"] {
+    width:100%; padding:12px; border-radius:8px; margin-bottom:10px;
+    border:none; background:rgba(255,255,255,0.1); color:#fff; font-size:16px;
+  }
+
+  #loginButton {
+    width:100%;
+    background:linear-gradient(90deg,#FFD700,#007BFF);
+    color:#000; border:none; border-radius:8px; padding:12px;
+    font-size:17px; font-weight:bold; cursor:pointer; margin-bottom:10px;
+    transition:0.3s;
+  }
+
+  .socialBtn {
+    border-radius:8px; padding:10px; margin-bottom:8px;
+    cursor:pointer; font-weight:bold; display:flex;
+    align-items:center; justify-content:center; gap:8px;
+  }
+
+  #googleLogin { background:#fff; color:#000; }
+  #facebookLogin { background:#1877F2; color:#fff; }
+
+  #guestLogin {
+    background:rgba(255,255,255,0.15); color:#fff; border-radius:8px;
+    padding:10px; cursor:pointer; font-weight:bold;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:0.3s;
+  }
+  #guestLogin:hover { background:rgba(255,255,255,0.25); }
+
+  /* فيديو YouTube داخل overlay فقط */
+  #bgYoutube {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    object-fit:cover; opacity:0.35; z-index:-2; pointer-events:none;
+  }
 </style>
 </head>
-<body class="login-active">
+<body>
 
-<div id="loginOverlay" style="
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  z-index:999999;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.9);backdrop-filter:blur(3px);
-">
+<!-- 🌊 خلفية الفيديو المستمرة -->
+<iframe id="bgVideo"
+  src="https://www.youtube.com/embed/QR3lp0ptpy8?autoplay=1&mute=1&loop=1&controls=0&playlist=QR3lp0ptpy8"
+  frameborder="0" allow="autoplay; fullscreen"
+  style="position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none;">
+</iframe>
 
-  <!-- 🌊 خلفية البحر -->
-  <video autoplay muted loop playsinline id="bgSea" style="
-    position:absolute;top:0;left:0;width:100%;height:100%;
-    object-fit:cover;z-index:-2;filter:brightness(0.3) blur(2px);
-  ">
-    <source src='https://cdn.coverr.co/videos/coverr-tropical-ocean-waves-1586/1080p.mp4' type='video/mp4'>
-  </video>
+<!-- أزرار التحكم -->
+<div id="soundControl" title="تشغيل / إيقاف صوت البحر">🌊🔈</div>
+<div id="birdControl" title="تشغيل / إيقاف صوت العصافير">🕊️</div>
 
-  <!-- 🔊 أزرار الصوت -->
-  <div id="soundControl" title="تشغيل / إيقاف صوت البحر">🌊🔈</div>
-  <div id="birdControl" title="تشغيل / إيقاف صوت العصافير">🕊️</div>
+<!-- نافذة تسجيل الدخول -->
+<div id="loginOverlay">
+  <div id="loginBox">
+    <h2>تسجيل الدخول</h2>
 
-  <!-- 🧭 واجهة تسجيل الدخول -->
-  <div style="
-    background:rgba(0,0,0,0.75);
-    border:1px solid rgba(255,255,255,0.2);
-    border-radius:16px;
-    padding:28px;
-    width:90%;max-width:420px;
-    box-shadow:0 0 25px rgba(0,0,0,0.7);
-    color:#fff;text-align:center;
-    font-family:'Tajawal',sans-serif;z-index:10;
-  ">
-    <h2 style="margin-bottom:20px;color:#fff">تسجيل الدخول للموقع</h2>
+    <!-- خانة البريد كما هي -->
+    <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" />
+    <input id="passwordInput" type="password" placeholder="🔒 كلمة المرور" />
 
-    <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" style="
-      width:100%;padding:12px;border-radius:8px;margin-bottom:10px;
-      border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;" />
-
-    <input id="passwordInput" type="password" placeholder="🔒 كلمة المرور" style="
-      width:100%;padding:12px;border-radius:8px;margin-bottom:12px;
-      border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;" />
-
-    <button id="loginButton" style="
-      width:100%;
-      background:linear-gradient(90deg,#FFD700,#007BFF);
-      color:#000;border:none;border-radius:8px;padding:12px;
-      font-size:17px;font-weight:bold;cursor:pointer;margin-bottom:10px;
-      transition:0.3s;
-    ">دخول بالبريد</button>
-
+    <button id="loginButton">دخول بالبريد</button>
     <div id="loginError" style="color:#ff8888;font-size:14px;margin:8px 0;"></div>
 
-    <div style="margin-top:18px;">
-      <div id="googleLogin" style="
-        background:#fff;color:#000;border-radius:8px;
-        padding:10px;margin-bottom:8px;cursor:pointer;
-        font-weight:bold;display:flex;align-items:center;justify-content:center;gap:8px;">
-        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg' width='20' height='20'>
-        الدخول عبر Google
-      </div>
-
-      <div id="facebookLogin" style="
-        background:#1877F2;color:#fff;border-radius:8px;
-        padding:10px;margin-bottom:8px;cursor:pointer;
-        font-weight:bold;display:flex;align-items:center;justify-content:center;gap:8px;">
-        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg' width='20' height='20'>
-        الدخول عبر Facebook
-      </div>
-
-      <div id="guestLogin" style="
-        background:rgba(255,255,255,0.15);color:#fff;border-radius:8px;
-        padding:10px;cursor:pointer;
-        font-weight:bold;display:flex;align-items:center;justify-content:center;gap:8px;">
-        🚀 دخول كزائر
-      </div>
+    <!-- أزرار الدخول الاجتماعي -->
+    <div id="googleLogin" class="socialBtn">
+      <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg' width='20' height='20'>
+      الدخول عبر Google
     </div>
+
+    <div id="facebookLogin" class="socialBtn">
+      <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg' width='20' height='20'>
+      الدخول عبر Facebook
+    </div>
+
+    <!-- دخول كزائر -->
+    <div id="guestLogin">🚀 دخول كزائر مباشر</div>
   </div>
 </div>
 
-<script type="module">
-  // 🎧 الأصوات — فقط عند الضغط على الأيقونات
+<script>
+  // أصوات الخلفية
   const oceanSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_1d88c08188.mp3");
   const birdsSound = new Audio("https://cdn.pixabay.com/audio/2023/05/31/audio_82928ab26e.mp3");
-  oceanSound.loop = true;
-  birdsSound.loop = true;
-  oceanSound.volume = 0.5;
-  birdsSound.volume = 0.4;
+  oceanSound.loop = true; birdsSound.loop = true;
+  oceanSound.volume = 0.5; birdsSound.volume = 0.4;
 
-  let oceanPlaying = false;
-  let birdsPlaying = false;
+  let oceanPlaying = false, birdsPlaying = false;
 
-  const soundBtn = document.getElementById("soundControl");
-  const birdBtn = document.getElementById("birdControl");
-
-  soundBtn.addEventListener("click", () => {
-    if (oceanPlaying) {
-      oceanSound.pause();
-      soundBtn.textContent = "🌊🔈";
-    } else {
-      oceanSound.play();
-      soundBtn.textContent = "🌊🔊";
-    }
+  document.getElementById("soundControl").onclick = () => {
+    if(oceanPlaying){ oceanSound.pause(); document.getElementById("soundControl").textContent="🌊🔈"; }
+    else{ oceanSound.play(); document.getElementById("soundControl").textContent="🌊🔊"; }
     oceanPlaying = !oceanPlaying;
-  });
-
-  birdBtn.addEventListener("click", () => {
-    if (birdsPlaying) {
-      birdsSound.pause();
-      birdBtn.style.opacity = "0.6";
-    } else {
-      birdsSound.play();
-      birdBtn.style.opacity = "1";
-    }
-    birdsPlaying = !birdsPlaying;
-  });
-
-  // 🔧 إعداد Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    FacebookAuthProvider,
-    signInWithPopup,
-    signInAnonymously,
-    setPersistence,
-    browserLocalPersistence
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-    projectId: "abwalqmrzmrd-47557",
-    storageBucket: "abwalqmrzmrd-47557.appspot.com",
-    messagingSenderId: "957400167542",
-    appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
-    measurementId: "G-24BWC6N21W"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  await setPersistence(auth, browserLocalPersistence);
+  document.getElementById("birdControl").onclick = () => {
+    if(birdsPlaying){ birdsSound.pause(); document.getElementById("birdControl").style.opacity="0.6"; }
+    else{ birdsSound.play(); document.getElementById("birdControl").style.opacity="1"; }
+    birdsPlaying = !birdsPlaying;
+  };
 
-  const overlay = document.getElementById("loginOverlay");
-  const emailInput = document.getElementById("emailInput");
-  const passwordInput = document.getElementById("passwordInput");
-  const loginBtn = document.getElementById("loginButton");
-  const errorBox = document.getElementById("loginError");
-  const googleBtn = document.getElementById("googleLogin");
-  const facebookBtn = document.getElementById("facebookLogin");
-  const guestBtn = document.getElementById("guestLogin");
-
-  function showError(msg){ errorBox.textContent = msg; }
-  function clearError(){ errorBox.textContent = ""; }
-
-  loginBtn.addEventListener("click", async ()=>{
-    clearError();
-    const email = emailInput.value.trim();
-    const pass = passwordInput.value;
-    if(!email || !pass) return showError("الرجاء إدخال البريد وكلمة المرور");
-    try{
-      await signInWithEmailAndPassword(auth, email, pass);
-    }catch(e){ showError("❌ " + e.message); }
-  });
-
-  googleBtn.addEventListener("click", async ()=>{
-    try{
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-    }catch(e){ showError("⚠️ " + e.message); }
-  });
-
-  facebookBtn.addEventListener("click", async ()=>{
-    try{
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-    }catch(e){ showError("⚠️ " + e.message); }
-  });
-
-  guestBtn.addEventListener("click", async ()=>{
-    try{
-      await signInAnonymously(auth);
-    }catch(e){ showError("⚠️ " + e.message); }
-  });
-
-  onAuthStateChanged(auth, user=>{
-    if(user){
-      overlay.style.display = "none";
-      document.body.classList.remove("login-active");
-      oceanSound.pause(); birdsSound.pause();
-    } else {
-      overlay.style.display = "flex";
-      document.body.classList.add("login-active");
-    }
-  });
+  // دخول كزائر مباشر
+  document.getElementById("guestLogin").onclick = () => {
+    document.getElementById("loginOverlay").style.display = "none";
+    // الفيديو يظل مرئي دائمًا
+  };
 </script>
+
 </body>
 </html>
 <!DOCTYPE html>
