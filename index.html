@@ -910,7 +910,7 @@ function closeVideoModal() {
   }
 
   #email-box button {
-    margin-top: 15px;
+    margin-top: 10px;
     background: linear-gradient(45deg, #FFD700, #00BFFF);
     color: black;
     border: none;
@@ -929,18 +929,19 @@ function closeVideoModal() {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 280px;
+    width: 300px;
     max-height: 400px;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.2); /* شفافة */
     border-radius: 15px;
     display: none;
     flex-direction: column;
     box-shadow: 0 0 15px #00BFFF;
     overflow: hidden;
+    backdrop-filter: blur(5px);
   }
 
   #chat-header {
-    background: linear-gradient(90deg, #FFD700, #00BFFF);
+    background: rgba(0,0,0,0.3);
     color: black;
     padding: 10px;
     font-weight: bold;
@@ -952,6 +953,7 @@ function closeVideoModal() {
     padding: 10px;
     overflow-y: auto;
     font-size: 14px;
+    color: white;
   }
 
   #chat-input {
@@ -966,6 +968,8 @@ function closeVideoModal() {
     border-radius: 8px;
     border: none;
     font-size: 14px;
+    background: rgba(0,0,0,0.3);
+    color: white;
   }
 
   #chat-input button {
@@ -982,6 +986,7 @@ function closeVideoModal() {
     text-align: center;
     font-size: 12px;
     margin-top: 5px;
+    color: white;
   }
 
 </style>
@@ -992,17 +997,18 @@ function closeVideoModal() {
   <h3>📨 أدخل بريدك الإلكتروني</h3>
   <input type="email" id="emailInput" placeholder="example@email.com">
   <button onclick="registerEmail()">تسجيل</button>
+  <button onclick="enterLiveChat()">الدخول للمحادثة المباشرة / Enter Live Chat</button>
   <p id="statusMessage"></p>
   <p id="connection-status">جارٍ فحص الاتصال بالإنترنت...</p>
   <p id="firebase-status">جارٍ فحص الاتصال بالخادم...</p>
 </div>
 
 <div id="chat-container">
-  <div id="chat-header">💬 دردشة الزوار</div>
+  <div id="chat-header">💬 دردشة الزوار بالموقع / Visitors Chat</div>
   <div id="chat-messages"></div>
   <div id="chat-input">
-    <input type="text" id="messageInput" placeholder="اكتب رسالتك...">
-    <button onclick="sendMessage()">إرسال</button>
+    <input type="text" id="messageInput" placeholder="اكتب رسالتك / Type your message...">
+    <button onclick="sendMessage()">إرسال / Send</button>
   </div>
   <p id="chat-connection-status">جارٍ فحص الاتصال بالإنترنت...</p>
   <p id="chat-firebase-status">جارٍ فحص الاتصال بالخادم...</p>
@@ -1025,10 +1031,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
 let currentEmail = "";
 
-// 🔹 تحديث حالة الإنترنت
+// تحديث حالة الإنترنت
 function updateInternetStatus() {
   const statusEl = document.getElementById('connection-status');
   const chatStatus = document.getElementById('chat-connection-status');
@@ -1049,7 +1054,7 @@ window.addEventListener('online', updateInternetStatus);
 window.addEventListener('offline', updateInternetStatus);
 updateInternetStatus();
 
-// 🔹 فحص الاتصال بـ Firebase
+// فحص الاتصال بـ Firebase
 async function checkFirebaseConnection() {
   const statusEl = document.getElementById('firebase-status');
   const chatStatus = document.getElementById('chat-firebase-status');
@@ -1070,7 +1075,7 @@ async function checkFirebaseConnection() {
   }
 }
 
-// 🔹 تسجيل البريد
+// تسجيل البريد
 async function registerEmail() {
   const email = document.getElementById('emailInput').value.trim();
   const statusMessage = document.getElementById('statusMessage');
@@ -1111,7 +1116,26 @@ async function registerEmail() {
   }
 }
 
-// 🔹 إرسال الرسائل
+// الدخول المباشر للدردشة بدون تسجيل البريد
+async function enterLiveChat() {
+  if (!navigator.onLine) {
+    alert("❌ لا يمكن الدخول للدردشة، غير متصل بالإنترنت");
+    return;
+  }
+
+  const firebaseConnected = await checkFirebaseConnection();
+  if (!firebaseConnected) {
+    alert("❌ لا يمكن الدخول للدردشة، غير متصل بالخادم");
+    return;
+  }
+
+  currentEmail = "زائر";
+  document.getElementById('email-box').style.display = 'none';
+  document.getElementById('chat-container').style.display = 'flex';
+  startChatListener();
+}
+
+// إرسال الرسائل
 async function sendMessage() {
   const msgInput = document.getElementById('messageInput');
   const message = msgInput.value.trim();
@@ -1143,7 +1167,7 @@ async function sendMessage() {
   }
 }
 
-// 🔹 التحديث التلقائي للدردشة من Firebase
+// التحديث التلقائي للدردشة
 function startChatListener() {
   const messagesDiv = document.getElementById('chat-messages');
   const chatRef = ref(db, "chat");
