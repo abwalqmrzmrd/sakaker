@@ -873,332 +873,293 @@ function closeVideoModal() {
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💬 دردشة الزوار - أبوالقمر زمرد</title>
-  <style>
-    body {
-      background: transparent;
-      font-family: "Tajawal", sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #fff;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل البريد والدردشة</title>
+<style>
+  body {
+    font-family: "Tahoma", sans-serif;
+    background: radial-gradient(circle, #001f3f, #000);
+    color: white;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 
-    /* 💬 واجهة البريد */
-    #email-screen {
-      width: 88%;
-      max-width: 280px;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      box-shadow: 0 0 10px rgba(255,255,255,0.3);
-      backdrop-filter: blur(5px);
-      z-index: 10000;
-      transition: all 0.3s ease;
-      cursor: grab;
-    }
+  #email-box {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px #00BFFF;
+    width: 300px;
+    text-align: center;
+  }
 
-    #email-screen input {
-      width: 90%;
-      padding: 6px;
-      border-radius: 5px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(0,0,0,0.3);
-      color: #fff;
-      margin-top: 5px;
-      font-size: 12px;
-    }
+  #email-box input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #00BFFF;
+    border-radius: 8px;
+    background: black;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+  }
 
-    #email-screen button {
-      margin-top: 6px;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 5px;
-      background: rgba(0,200,255,0.8);
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-      font-size: 12px;
-    }
-    #email-screen button:hover {
-      background: rgba(0,255,255,0.9);
-    }
+  #email-box button {
+    margin-top: 15px;
+    background: linear-gradient(45deg, #FFD700, #00BFFF);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
-    #email-note {
-      margin-top: 5px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.9);
-      font-weight: bold;
-    }
+  #statusMessage, #connection-status, #firebase-status {
+    margin-top: 8px;
+    font-size: 13px;
+  }
 
-    /* ✨ تأثير التوهج المتدرج */
-    #firebase-status {
-      margin-top: 6px;
-      font-size: 12.5px;
-      font-weight: bold;
-      text-align: center;
-      background: linear-gradient(90deg, #00ff99, #00e6ff, #00ffcc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glowGradient 3s infinite ease-in-out;
-    }
+  #chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    max-height: 400px;
+    background: rgba(0,0,0,0.85);
+    border-radius: 15px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 0 15px #00BFFF;
+    overflow: hidden;
+  }
 
-    @keyframes glowGradient {
-      0% {
-        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
-      }
-      50% {
-        text-shadow: 0 0 18px #00e6ff, 0 0 28px #00ffcc;
-      }
-      100% {
-        text-shadow: 0 0 6px #00ff99, 0 0 12px #00e6ff;
-      }
-    }
+  #chat-header {
+    background: linear-gradient(90deg, #FFD700, #00BFFF);
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
 
-    /* 💬 صندوق الدردشة */
-    #chat-container {
-      width: 88%;
-      max-width: 280px;
-      background: rgba(0,0,0,0.25);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      padding: 6px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      cursor: grab;
-      z-index: 9999;
-      transition: all 0.3s ease;
-      display: none;
-    }
+  #chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
 
-    #chat-box {
-      height: 150px;
-      overflow-y: auto;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      padding: 4px;
-      margin-bottom: 5px;
-    }
+  #chat-input {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+  }
 
-    #chat-box p {
-      background: rgba(255,255,255,0.1);
-      padding: 3px 4px;
-      border-radius: 5px;
-      margin: 2px 0;
-      font-size: 11.5px;
-      word-wrap: break-word;
-    }
+  #chat-input input {
+    flex: 1;
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+  }
 
-    #chat-input {
-      display: flex;
-      gap: 3px;
-      flex-wrap: wrap;
-      transition: all 0.3s ease;
-    }
+  #chat-input button {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(45deg, #FFD700, #00BFFF);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-    #chat-input input {
-      flex: 1 1 auto;
-      min-width: 60px;
-      padding: 4px;
-      border-radius: 5px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: rgba(0,0,0,0.3);
-      color: #fff;
-      font-size: 11.5px;
-    }
+  #chat-connection-status, #chat-firebase-status {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 5px;
+  }
 
-    #chat-input button {
-      flex: 0 0 auto;
-      background: rgba(0,200,255,0.8);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 4px 6px;
-      cursor: pointer;
-      font-size: 11.5px;
-    }
-
-    #chat-input button:hover {
-      background: rgba(0,255,255,0.9);
-    }
-
-    @media (max-width: 400px) {
-      #chat-container, #email-screen { max-width: 220px; padding: 6px; }
-    }
-
-    #chat-container.expanded, #email-screen.expanded { max-width: 90%; }
-    #chat-container.expanded #chat-box { height: 250px; }
-  </style>
+</style>
 </head>
 <body>
 
-<!-- شاشة إدخال البريد -->
-<div id="email-screen">
-  <h4>أدخل بريدك الإلكتروني</h4>
-  <input type="email" id="user-email" placeholder="example@email.com">
-  <button id="email-submit">متابعة</button>
-  <p id="email-note">🌐 الدخول إلى الدردشة | Enter Chat</p>
-
-  <!-- 🔄 حالة الاتصال بـ Firebase -->
-  <div id="firebase-status">جارٍ التحقق من الاتصال...</div>
+<div id="email-box">
+  <h3>📨 أدخل بريدك الإلكتروني</h3>
+  <input type="email" id="emailInput" placeholder="example@email.com">
+  <button onclick="registerEmail()">تسجيل</button>
+  <p id="statusMessage"></p>
+  <p id="connection-status">جارٍ فحص الاتصال بالإنترنت...</p>
+  <p id="firebase-status">جارٍ فحص الاتصال بالخادم...</p>
 </div>
 
-<!-- واجهة الدردشة -->
 <div id="chat-container">
-  <h3>💬 دردشة الزوار <button id="toggle-size">⬆️</button></h3>
-  <div id="chat-box"></div>
+  <div id="chat-header">💬 دردشة الزوار</div>
+  <div id="chat-messages"></div>
   <div id="chat-input">
-    <input type="text" id="chat-name" placeholder="اسمك">
-    <input type="text" id="chat-message" placeholder="اكتب رسالتك...">
-    <button id="chat-send">إرسال</button>
+    <input type="text" id="messageInput" placeholder="اكتب رسالتك...">
+    <button onclick="sendMessage()">إرسال</button>
   </div>
+  <p id="chat-connection-status">جارٍ فحص الاتصال بالإنترنت...</p>
+  <p id="chat-firebase-status">جارٍ فحص الاتصال بالخادم...</p>
 </div>
 
-<!-- 🔊 صوت نجاح الاتصال -->
-<audio id="connect-sound" src="https://cdn.pixabay.com/download/audio/2022/10/16/audio_b45e4f82f2.mp3?filename=soft-notification-tone-1466.mp3" preload="auto"></audio>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
+  projectId: "abwalqmrzmrd-47557",
+  storageBucket: "abwalqmrzmrd-47557.firebasestorage.app",
+  messagingSenderId: "957400167542",
+  appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
+  measurementId: "G-24BWC6N21W"
+};
 
-<script>
-  // ✅ إعداد Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com",
-    projectId: "abwalqmrzmrd-47557",
-    storageBucket: "abwalqmrzmrd-47557.appspot.com",
-    messagingSenderId: "957400167542",
-    appId: "1:957400167542:web:9115ea4c12d5f73faedb57",
-    measurementId: "G-4VF7GHETP0"
-  };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  const messagesRef = db.ref("messages");
+let currentEmail = "";
 
-  const emailScreen = document.getElementById('email-screen');
-  const chatContainer = document.getElementById('chat-container');
-  const emailInput = document.getElementById('user-email');
-  const emailButton = document.getElementById('email-submit');
-  const chatBox = document.getElementById('chat-box');
-  const chatName = document.getElementById('chat-name');
-  const chatMessage = document.getElementById('chat-message');
-  const chatSend = document.getElementById('chat-send');
-  const connectSound = document.getElementById('connect-sound');
+// 🔹 تحديث حالة الإنترنت
+function updateInternetStatus() {
+  const statusEl = document.getElementById('connection-status');
+  const chatStatus = document.getElementById('chat-connection-status');
+  if (navigator.onLine) {
+    statusEl.textContent = "🟢 متصل بالإنترنت";
+    statusEl.style.color = "lime";
+    chatStatus.textContent = "🟢 متصل بالإنترنت";
+    chatStatus.style.color = "lime";
+  } else {
+    statusEl.textContent = "🔴 غير متصل بالإنترنت";
+    statusEl.style.color = "red";
+    chatStatus.textContent = "🔴 غير متصل بالإنترنت";
+    chatStatus.style.color = "red";
+  }
+}
 
-  // ✅ التحقق من الاتصال بـ Firebase
-  function checkFirebaseConnection() {
-    const statusEl = document.getElementById("firebase-status");
-    const connectedRef = firebase.database().ref(".info/connected");
-    let connectedOnce = false;
+window.addEventListener('online', updateInternetStatus);
+window.addEventListener('offline', updateInternetStatus);
+updateInternetStatus();
 
-    connectedRef.on("value", (snap) => {
-      if (snap.val() === true) {
-        statusEl.textContent = "✅ تم الاتصال بنجاح بـ Firebase";
-        statusEl.style.background = "linear-gradient(90deg, #00ff99, #00e6ff, #00ffcc)";
-        statusEl.style.webkitBackgroundClip = "text";
-        statusEl.style.webkitTextFillColor = "transparent";
+// 🔹 فحص الاتصال بـ Firebase
+async function checkFirebaseConnection() {
+  const statusEl = document.getElementById('firebase-status');
+  const chatStatus = document.getElementById('chat-firebase-status');
+  try {
+    const testRef = ref(db, "test_connection");
+    await set(testRef, { time: Date.now() });
+    statusEl.textContent = "🟢 متصل بالخادم";
+    statusEl.style.color = "lime";
+    chatStatus.textContent = "🟢 متصل بالخادم";
+    chatStatus.style.color = "lime";
+    return true;
+  } catch (err) {
+    statusEl.textContent = "🔴 غير متصل بالخادم";
+    statusEl.style.color = "red";
+    chatStatus.textContent = "🔴 غير متصل بالخادم";
+    chatStatus.style.color = "red";
+    return false;
+  }
+}
 
-        if (!connectedOnce) {
-          connectSound.play().catch(() => {}); // تشغيل الصوت مرة واحدة فقط
-          connectedOnce = true;
-        }
-      } else {
-        statusEl.textContent = "❌ تعذر الاتصال بقاعدة البيانات";
-        statusEl.style.background = "linear-gradient(90deg, #ff4444, #ff7777)";
-        statusEl.style.webkitBackgroundClip = "text";
-        statusEl.style.webkitTextFillColor = "transparent";
-      }
+// 🔹 تسجيل البريد
+async function registerEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  const statusMessage = document.getElementById('statusMessage');
+
+  if (!email) {
+    statusMessage.textContent = "⚠️ الرجاء إدخال البريد الإلكتروني";
+    statusMessage.style.color = "yellow";
+    return;
+  }
+
+  if (!navigator.onLine) {
+    statusMessage.textContent = "❌ لا يمكن التسجيل بدون اتصال بالإنترنت";
+    statusMessage.style.color = "red";
+    return;
+  }
+
+  const firebaseConnected = await checkFirebaseConnection();
+  if (!firebaseConnected) {
+    statusMessage.textContent = "❌ لا يمكن التسجيل، غير متصل بالخادم";
+    statusMessage.style.color = "red";
+    return;
+  }
+
+  try {
+    const emailsRef = ref(db, "emails");
+    await push(emailsRef, { email: email, time: new Date().toISOString() });
+    statusMessage.textContent = "✅ تم تسجيل البريد بنجاح!";
+    statusMessage.style.color = "lime";
+
+    currentEmail = email;
+    document.getElementById('email-box').style.display = 'none';
+    document.getElementById('chat-container').style.display = 'flex';
+
+    startChatListener();
+  } catch (err) {
+    statusMessage.textContent = "❌ حدث خطأ أثناء الاتصال بالخادم";
+    statusMessage.style.color = "red";
+  }
+}
+
+// 🔹 إرسال الرسائل
+async function sendMessage() {
+  const msgInput = document.getElementById('messageInput');
+  const message = msgInput.value.trim();
+  const messagesDiv = document.getElementById('chat-messages');
+
+  if (!message) return;
+
+  if (!navigator.onLine) {
+    alert("❌ لا يمكن إرسال الرسالة، غير متصل بالإنترنت");
+    return;
+  }
+
+  const firebaseConnected = await checkFirebaseConnection();
+  if (!firebaseConnected) {
+    alert("❌ لا يمكن إرسال الرسالة، غير متصل بالخادم");
+    return;
+  }
+
+  try {
+    const chatRef = ref(db, "chat");
+    await push(chatRef, {
+      name: currentEmail || "زائر",
+      message: message,
+      time: new Date().toISOString()
     });
+    msgInput.value = '';
+  } catch (err) {
+    alert("❌ فشل إرسال الرسالة");
   }
-  window.addEventListener("load", checkFirebaseConnection);
+}
 
-  // ✅ إدخال البريد وفتح الدردشة
-  emailButton.onclick = () => {
-    if (emailInput.value.trim() === '') { alert('يرجى إدخال بريد صحيح'); return; }
-    emailScreen.style.display = 'none';
-    chatContainer.style.display = 'block';
-  };
+// 🔹 التحديث التلقائي للدردشة من Firebase
+function startChatListener() {
+  const messagesDiv = document.getElementById('chat-messages');
+  const chatRef = ref(db, "chat");
 
-  // ✅ إرسال الرسائل
-  chatSend.onclick = () => {
-    const name = chatName.value.trim() || 'زائر';
-    const msg = chatMessage.value.trim();
-    if (!msg) return;
-    messagesRef.push({ name, msg, time: Date.now() });
-    chatMessage.value = '';
-  };
-
-  // ✅ استقبال الرسائل
-  messagesRef.on("child_added", snapshot => {
-    const data = snapshot.val();
-    const p = document.createElement('p');
-    p.textContent = `${data.name}: ${data.msg}`;
-    chatBox.appendChild(p);
-    chatBox.scrollTop = chatBox.scrollHeight;
+  onValue(chatRef, (snapshot) => {
+    messagesDiv.innerHTML = "";
+    snapshot.forEach((child) => {
+      const data = child.val();
+      const msgEl = document.createElement('div');
+      msgEl.textContent = (data.name || "زائر") + ": " + data.message;
+      messagesDiv.appendChild(msgEl);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
+}
 
-  // ✅ زر تكبير/تصغير
-  document.getElementById('toggle-size').onclick = () => {
-    chatContainer.classList.toggle('expanded');
-    emailScreen.classList.toggle('expanded');
-  };
-
-  // ✅ خاصية السحب
-  function makeDraggable(element) {
-    let isDragging = false, offsetX = 0, offsetY = 0;
-    element.addEventListener('mousedown', startDrag);
-    element.addEventListener('touchstart', startDrag);
-
-    function startDrag(e) {
-      isDragging = true;
-      const rect = element.getBoundingClientRect();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      offsetX = clientX - rect.left;
-      offsetY = clientY - rect.top;
-      element.style.transform = 'none';
-      element.style.cursor = 'grabbing';
-    }
-
-    function drag(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      element.style.left = `${clientX - offsetX}px`;
-      element.style.top = `${clientY - offsetY}px`;
-    }
-
-    function endDrag() {
-      isDragging = false;
-      element.style.cursor = 'grab';
-    }
-
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('touchmove', drag, { passive: false });
-    document.addEventListener('mouseup', endDrag);
-    document.addEventListener('touchend', endDrag);
-  }
-
-  makeDraggable(chatContainer);
-  makeDraggable(emailScreen);
 </script>
 </body>
 </html>
