@@ -1,17 +1,49 @@
-<!-- 🔒 صفحة دخول بخلفية فيديو متحرك -->
+<!-- 🔒 صفحة دخول بخلفية البحر + فيديو + تحكم بالصوت والطيور -->
+<style>
+  body.login-active { overflow: hidden !important; }
+  #soundControl, #birdControl {
+    position: fixed;
+    z-index: 1000000;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+  }
+  #soundControl:hover, #birdControl:hover { transform: scale(1.15); }
+  #soundControl { bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 28px; }
+  #birdControl { top: 20px; right: 20px; font-size: 30px; }
+</style>
+
 <div id="loginOverlay" style="
   position:fixed;top:0;left:0;width:100%;height:100%;
-  overflow:hidden;z-index:9999;
-  display:flex;align-items:center;justify-content:center;">
-  
-  <!-- 🎬 خلفية الفيديو -->
-  <video autoplay muted loop playsinline id="bgVideo" style="
+  z-index:999999;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(3px);
+">
+
+  <!-- 🌊 خلفية البحر -->
+  <video autoplay muted loop playsinline id="bgSea" style="
     position:absolute;top:0;left:0;width:100%;height:100%;
-    object-fit:cover;z-index:-1;filter:brightness(0.35) blur(1px);">
-    <source src="https://cdn.coverr.co/videos/coverr-sunrise-over-the-mountains-7450/1080p.mp4" type="video/mp4">
+    object-fit:cover;z-index:-2;filter:brightness(0.3) blur(2px);
+  ">
+    <source src='https://cdn.coverr.co/videos/coverr-tropical-ocean-waves-1586/1080p.mp4' type='video/mp4'>
   </video>
 
-  <!-- 🧭 نموذج تسجيل الدخول -->
+  <!-- 🎬 فيديو يوتيوب كخلفية -->
+  <iframe id="bgYoutube"
+    src="https://www.youtube.com/embed/0go3k0frmjc?autoplay=1&mute=1&loop=1&controls=0&playlist=0go3k0frmjc"
+    frameborder="0" allow="autoplay; fullscreen"
+    style="
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      object-fit:cover;opacity:0.35;z-index:-1;pointer-events:none;">
+  </iframe>
+
+  <!-- 🔊 زر صوت الخلفية -->
+  <div id="soundControl" title="تشغيل / إيقاف صوت البحر">🌊🔈</div>
+
+  <!-- 🕊️ زر صوت الطيور -->
+  <div id="birdControl" title="تشغيل / إيقاف صوت العصافير">🕊️</div>
+
+  <!-- 🧭 واجهة تسجيل الدخول -->
   <div style="
     background:rgba(0,0,0,0.75);
     border:1px solid rgba(255,255,255,0.2);
@@ -20,8 +52,8 @@
     width:90%;max-width:420px;
     box-shadow:0 0 25px rgba(0,0,0,0.7);
     color:#fff;text-align:center;
-    font-family:'Tajawal',sans-serif;">
-    
+    font-family:'Tajawal',sans-serif;z-index:10;
+  ">
     <h2 style="margin-bottom:20px;color:#fff">تسجيل الدخول للموقع</h2>
 
     <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" style="
@@ -35,32 +67,12 @@
     <button id="loginButton" style="
       width:100%;
       background:linear-gradient(90deg,#FFD700,#007BFF);
-      color:#000;
-      border:none;
-      border-radius:8px;
-      padding:12px;
-      font-size:17px;
-      font-weight:bold;
-      cursor:pointer;
-      margin-bottom:8px;
+      color:#000;border:none;border-radius:8px;padding:12px;
+      font-size:17px;font-weight:bold;cursor:pointer;margin-bottom:10px;
       transition:0.3s;
     ">دخول بالبريد</button>
 
     <div id="loginError" style="color:#ff8888;font-size:14px;margin:8px 0;"></div>
-
-    <button id="signupButton" style="
-      width:100%;
-      background:rgba(255,255,255,0.12);
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.2);
-      border-radius:8px;
-      padding:12px;
-      font-size:16px;
-      font-weight:bold;
-      margin-top:10px;
-      cursor:pointer;
-      transition:0.3s;
-    ">إنشاء حساب جديد</button>
 
     <div style="margin-top:18px;">
       <div id="googleLogin" style="
@@ -90,12 +102,36 @@
 </div>
 
 <script type="module">
-  // Firebase إعدادات
+  // 🎧 تحميل الأصوات
+  const oceanSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_1d88c08188.mp3");
+  const birdsSound = new Audio("https://cdn.pixabay.com/audio/2023/05/31/audio_82928ab26e.mp3");
+  oceanSound.loop = true;
+  birdsSound.loop = true;
+  oceanSound.volume = 0.5;
+  birdsSound.volume = 0.4;
+
+  const soundBtn = document.getElementById("soundControl");
+  const birdBtn = document.getElementById("birdControl");
+  let oceanPlaying = false;
+  let birdsPlaying = false;
+
+  soundBtn.onclick = () => {
+    if (oceanPlaying) { oceanSound.pause(); soundBtn.textContent = "🌊🔈"; }
+    else { oceanSound.play(); soundBtn.textContent = "🌊🔊"; }
+    oceanPlaying = !oceanPlaying;
+  };
+
+  birdBtn.onclick = () => {
+    if (birdsPlaying) { birdsSound.pause(); birdBtn.style.opacity = "0.6"; }
+    else { birdsSound.play(); birdBtn.style.opacity = "1"; }
+    birdsPlaying = !birdsPlaying;
+  };
+
+  // 🔧 إعداد Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
     getAuth,
     signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
     onAuthStateChanged,
     GoogleAuthProvider,
     FacebookAuthProvider,
@@ -124,7 +160,6 @@
   const emailInput = document.getElementById("emailInput");
   const passwordInput = document.getElementById("passwordInput");
   const loginBtn = document.getElementById("loginButton");
-  const signupBtn = document.getElementById("signupButton");
   const errorBox = document.getElementById("loginError");
   const googleBtn = document.getElementById("googleLogin");
   const facebookBtn = document.getElementById("facebookLogin");
@@ -133,7 +168,7 @@
   function showError(msg){ errorBox.textContent = msg; }
   function clearError(){ errorBox.textContent = ""; }
 
-  // تسجيل دخول بالبريد
+  // دخول بالبريد
   loginBtn.addEventListener("click", async ()=>{
     clearError();
     const email = emailInput.value.trim();
@@ -141,18 +176,6 @@
     if(!email || !pass) return showError("الرجاء إدخال البريد وكلمة المرور");
     try{
       await signInWithEmailAndPassword(auth, email, pass);
-    }catch(e){ showError("❌ " + e.message); }
-  });
-
-  // إنشاء حساب
-  signupBtn.addEventListener("click", async ()=>{
-    clearError();
-    const email = emailInput.value.trim();
-    const pass = passwordInput.value;
-    if(pass.length < 8) return showError("كلمة المرور قصيرة جدًا (8 أحرف على الأقل)");
-    try{
-      await createUserWithEmailAndPassword(auth, email, pass);
-      showError("✅ تم إنشاء الحساب بنجاح! يمكنك الآن الدخول.");
     }catch(e){ showError("❌ " + e.message); }
   });
 
@@ -179,13 +202,18 @@
     }catch(e){ showError("⚠️ " + e.message); }
   });
 
-  // مراقبة الحالة
+  // مراقبة المستخدم
   onAuthStateChanged(auth, user=>{
-    if(user){ overlay.style.display = "none"; }
-    else { overlay.style.display = "flex"; }
+    if(user){
+      overlay.style.display = "none";
+      document.body.classList.remove("login-active");
+      oceanSound.pause(); birdsSound.pause();
+    } else {
+      overlay.style.display = "flex";
+      document.body.classList.add("login-active");
+    }
   });
 </script>
-<!-- 🔒 نهاية صفحة الدخول -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
