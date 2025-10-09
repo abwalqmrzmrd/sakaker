@@ -3,121 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صفحة دخول بخلفية البحر + فيديو</title>
-<style>
-  body.login-active { overflow: hidden !important; font-family:'Tajawal',sans-serif; margin:0; }
-  
-  #loginOverlay {
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    z-index:999999; overflow:hidden;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.9); backdrop-filter:blur(3px);
-  }
-
-  #loginBox {
-    background:rgba(0,0,0,0.75);
-    border:1px solid rgba(255,255,255,0.2);
-    border-radius:16px;
-    padding:28px;
-    width:90%; max-width:420px;
-    box-shadow:0 0 25px rgba(0,0,0,0.7);
-    color:#fff; text-align:center; z-index:10;
-  }
-
-  input[type="email"], input[type="password"] {
-    width:100%; padding:12px; border-radius:8px; margin-bottom:10px;
-    border:none; background:rgba(255,255,255,0.1); color:#fff; font-size:16px;
-  }
-
-  #loginButton {
-    width:100%;
-    background:linear-gradient(90deg,#FFD700,#007BFF);
-    color:#000; border:none; border-radius:8px; padding:12px;
-    font-size:17px; font-weight:bold; cursor:pointer; margin-bottom:10px;
-    transition:0.3s;
-  }
-
-  .socialBtn {
-    border-radius:8px; padding:10px; margin-bottom:8px;
-    cursor:pointer; font-weight:bold; display:flex;
-    align-items:center; justify-content:center; gap:8px;
-  }
-
-  #googleLogin { background:#fff; color:#000; }
-  #facebookLogin { background:#1877F2; color:#fff; }
-
-  #guestLogin {
-    background:rgba(255,255,255,0.15); color:#fff; border-radius:8px;
-    padding:10px; cursor:pointer; font-weight:bold;
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    transition:0.3s;
-  }
-  #guestLogin:hover { background:rgba(255,255,255,0.25); }
-</style>
-</head>
-<body class="login-active">
-
-<div id="loginOverlay">
-  <!-- 🌊 خلفية البحر -->
-  <video autoplay muted loop playsinline id="bgSea" style="
-    position:absolute;top:0;left:0;width:100%;height:100%;
-    object-fit:cover;z-index:-2;filter:brightness(0.3) blur(2px);
-  ">
-    <source src='https://cdn.coverr.co/videos/coverr-tropical-ocean-waves-1586/1080p.mp4' type='video/mp4'>
-  </video>
-
-  <!-- 🎬 فيديو YouTube الجديد كخلفية -->
-  <iframe id="bgYoutube"
-    src="https://www.youtube.com/embed/QR3lp0ptpy8?autoplay=1&mute=1&loop=1&controls=0&playlist=QR3lp0ptpy8"
-    frameborder="0" allow="autoplay; fullscreen"
-    style="
-      position:absolute;top:0;left:0;width:100%;height:100%;
-      object-fit:cover;opacity:0.35;z-index:-1;pointer-events:none;">
-  </iframe>
-
-  <!-- 🧭 واجهة تسجيل الدخول -->
-  <div id="loginBox">
-    <h2 style="margin-bottom:20px;color:#fff">تسجيل الدخول للموقع</h2>
-
-    <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" />
-    <input id="passwordInput" type="password" placeholder="🔒 كلمة المرور" />
-
-    <button id="loginButton">دخول بالبريد</button>
-    <div id="loginError" style="color:#ff8888;font-size:14px;margin:8px 0;"></div>
-
-    <div style="margin-top:18px;">
-      <div id="googleLogin" class="socialBtn">
-        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg' width='20' height='20'>
-        الدخول عبر Google
-      </div>
-
-      <div id="facebookLogin" class="socialBtn">
-        <img src='https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg' width='20' height='20'>
-        الدخول عبر Facebook
-      </div>
-
-      <!-- زر دخول كزائر مباشر تحت فيسبوك -->
-      <div id="guestLogin">🚀 دخول كزائر مباشر</div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // زر دخول كزائر مباشر
-  const guestBtn = document.getElementById("guestLogin");
-  guestBtn.onclick = () => {
-    document.getElementById("loginOverlay").style.display = "none";
-    document.body.classList.remove("login-active");
-  };
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أيقونات ثقافية</title>
 <style>
 body {
@@ -222,17 +107,6 @@ body {
 }
 </style>
 </head>
-
-<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
-<div class="video-top-container">
-  <!-- الفيديو الأيمن -->
-  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
-    <iframe
-      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
-      title="فيديو أيمن" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
 
 <body>
 
@@ -521,6 +395,28 @@ function showSection(id) {
 function closeSection(btn) {
   btn.parentElement.style.display = 'none';
 }
+</script>
+<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
+<div class="video-top-container">
+  <!-- الفيديو الأيمن -->
+  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
+    <iframe
+      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+      title="فيديو أيمن" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
+  <!-- الفيديو الأيسر -->
+  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
+    <iframe
+      src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY"
+      title="فيديو أيسر" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+</div>
+
 <!-- ====== المودال ====== -->
 <div id="videoModal" class="video-modal">
   <div class="video-content">
@@ -775,6 +671,101 @@ function closeVideoModal() {
 </head>
 
 <body>
+<!-- اللعبة -->
+
+<button id="startBtn">▶</button>
+<div id="levelMsg"></div>
+<div id="pongUi" style="display:none;">
+<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
+<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
+<button id="pongCloseBtn">إغلاق</button>
+</div>
+<canvas id="pongCanvas"></canvas>
+</div>
+<!-- إدخال المحتوى الأصلي -->
+<div style="margin:20px; text-align:right;">
+<style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلفية فيديو ممتدة</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 999;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+     #pongCanvas {
+  background: transparent !important;
+}
+
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+#pongCanvas {
+  background: transparent !important;   /* شفاف */
+}
+
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      .controls {
+        gap: 4px;
+        bottom: 8px;
+      }
+    }
+  </style>
+  
+<body>
+<div id="player-container">
+<div id="player"></div>
+</div>
 <div class="controls">
 <button onclick="playPause()">⏯</button>
 <button onclick="muteUnmute()">🔊</button>
@@ -1611,6 +1602,11 @@ function closeVideo() {
 }
 </script>
 
+<!-- أيقونة مكتبة الفيديو -->
+<div class="library-col">
+  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
+    🎥 مكتبة الفيديو
+  </div>
 </body>
 </html>
 
@@ -1689,11 +1685,6 @@ function closeVideo() {
   }
 }
 </script>
-<!-- أيقونة مكتبة الفيديو -->
-<div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
-    🎥 مكتبة الفيديو
-  </div>
 
   <div class="library-content" id="videoLibraryContent">
     <!-- 📼 القسم الوثائقي -->
@@ -1796,101 +1787,6 @@ function closeVideo() {
   </div>
 </div>
 
-<!-- اللعبة -->
-
-<button id="startBtn">▶</button>
-<div id="levelMsg"></div>
-<div id="pongUi" style="display:none;">
-<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
-<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
-<button id="pongCloseBtn">إغلاق</button>
-</div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-  
-<body>
-<div id="player-container">
-<div id="player"></div>
-</div>
 </body>
 </html>
 <!-- مكتبة جولة معرفية كاملة -->
@@ -2396,15 +2292,6 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
   }
 });
 </script>
-
-<!-- ====== قائمة الدعم تحت حقول الدخول وأزرار الدخول ====== -->
-<div id="loginFooter" style="
-  width: 100%;
-  text-align: center;
-  margin-top: 20px;
-  font-family: 'Tajawal', sans-serif;
-  color: #00ff99;
-">
 
   <!-- روابط الدعم -->
   <p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
