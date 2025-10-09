@@ -531,6 +531,16 @@ function closeSection(btn) {
   ></iframe>
 </div>
 
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
+<div id="cvPage">
+<div class="cv-content">
+<h1>التعريف بالموقع</h1>
+<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
+<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
+</div>
+</div>
+</div>
+</div>
 <!-- ====== المودال ====== -->
 <div id="videoModal" class="video-modal">
   <div class="video-content">
@@ -785,101 +795,6 @@ function closeVideoModal() {
 </head>
 
 <body>
-<!-- اللعبة -->
-
-<button id="startBtn">▶</button>
-<div id="levelMsg"></div>
-<div id="pongUi" style="display:none;">
-<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
-<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
-<button id="pongCloseBtn">إغلاق</button>
-</div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-  
-<body>
-<div id="player-container">
-<div id="player"></div>
-</div>
 <div class="controls">
 <button onclick="playPause()">⏯</button>
 <button onclick="muteUnmute()">🔊</button>
@@ -1901,6 +1816,101 @@ function closeVideo() {
   </div>
 </div>
 
+<!-- اللعبة -->
+
+<button id="startBtn">▶</button>
+<div id="levelMsg"></div>
+<div id="pongUi" style="display:none;">
+<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
+<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
+<button id="pongCloseBtn">إغلاق</button>
+</div>
+<canvas id="pongCanvas"></canvas>
+</div>
+<!-- إدخال المحتوى الأصلي -->
+<div style="margin:20px; text-align:right;">
+<style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلفية فيديو ممتدة</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 999;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+     #pongCanvas {
+  background: transparent !important;
+}
+
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+#pongCanvas {
+  background: transparent !important;   /* شفاف */
+}
+
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      .controls {
+        gap: 4px;
+        bottom: 8px;
+      }
+    }
+  </style>
+  
+<body>
+<div id="player-container">
+<div id="player"></div>
+</div>
 </body>
 </html>
 <!-- مكتبة جولة معرفية كاملة -->
@@ -2167,28 +2177,6 @@ function showLevelMessage(msg) {
   function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
 })();
 </script>
-
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='block'">SV Abwalqmrzmrd</div>
-<div id="cvPage">
-<div class="cv-content">
-<h1>التعريف بالموقع</h1>
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'">خروج</button>
-</div>
-</div>
-</div>
-</div>
-<!-- قائمة الدعم -->
-<div class="footer-menu">
-<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
-<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
-<p>🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
-</p>
-<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
-
 <style>
 .video-section {
   display: flex;
@@ -2428,3 +2416,15 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
   }
 });
 </script>
+
+
+<!-- قائمة الدعم -->
+<div class="footer-menu">
+<p>💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
+<p>📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
+<p>🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&amp;text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a>
+</p>
+<p>⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
