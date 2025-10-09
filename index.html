@@ -1,6 +1,11 @@
-<!-- 🔒 صفحة دخول بخلفية البحر + فيديو + تحكم بالصوت والطيور -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول - موقعك</title>
 <style>
-  body.login-active { overflow: hidden !important; }
+  body.login-active { overflow: hidden !important; margin: 0; padding: 0; }
   #soundControl, #birdControl {
     position: fixed;
     z-index: 1000000;
@@ -12,6 +17,8 @@
   #soundControl { bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 28px; }
   #birdControl { top: 20px; right: 20px; font-size: 30px; }
 </style>
+</head>
+<body class="login-active">
 
 <div id="loginOverlay" style="
   position:fixed;top:0;left:0;width:100%;height:100%;
@@ -28,19 +35,8 @@
     <source src='https://cdn.coverr.co/videos/coverr-tropical-ocean-waves-1586/1080p.mp4' type='video/mp4'>
   </video>
 
-  <!-- 🎬 فيديو يوتيوب كخلفية -->
-  <iframe id="bgYoutube"
-    src="https://www.youtube.com/embed/0go3k0frmjc?autoplay=1&mute=1&loop=1&controls=0&playlist=0go3k0frmjc"
-    frameborder="0" allow="autoplay; fullscreen"
-    style="
-      position:absolute;top:0;left:0;width:100%;height:100%;
-      object-fit:cover;opacity:0.35;z-index:-1;pointer-events:none;">
-  </iframe>
-
-  <!-- 🔊 زر صوت الخلفية -->
+  <!-- 🔊 أزرار الصوت -->
   <div id="soundControl" title="تشغيل / إيقاف صوت البحر">🌊🔈</div>
-
-  <!-- 🕊️ زر صوت الطيور -->
   <div id="birdControl" title="تشغيل / إيقاف صوت العصافير">🕊️</div>
 
   <!-- 🧭 واجهة تسجيل الدخول -->
@@ -102,7 +98,7 @@
 </div>
 
 <script type="module">
-  // 🎧 تحميل الأصوات
+  // 🎧 الأصوات — فقط عند الضغط على الأيقونات
   const oceanSound = new Audio("https://cdn.pixabay.com/audio/2022/03/15/audio_1d88c08188.mp3");
   const birdsSound = new Audio("https://cdn.pixabay.com/audio/2023/05/31/audio_82928ab26e.mp3");
   oceanSound.loop = true;
@@ -110,22 +106,33 @@
   oceanSound.volume = 0.5;
   birdsSound.volume = 0.4;
 
-  const soundBtn = document.getElementById("soundControl");
-  const birdBtn = document.getElementById("birdControl");
   let oceanPlaying = false;
   let birdsPlaying = false;
 
-  soundBtn.onclick = () => {
-    if (oceanPlaying) { oceanSound.pause(); soundBtn.textContent = "🌊🔈"; }
-    else { oceanSound.play(); soundBtn.textContent = "🌊🔊"; }
-    oceanPlaying = !oceanPlaying;
-  };
+  const soundBtn = document.getElementById("soundControl");
+  const birdBtn = document.getElementById("birdControl");
 
-  birdBtn.onclick = () => {
-    if (birdsPlaying) { birdsSound.pause(); birdBtn.style.opacity = "0.6"; }
-    else { birdsSound.play(); birdBtn.style.opacity = "1"; }
+  soundBtn.addEventListener("click", () => {
+    if (oceanPlaying) {
+      oceanSound.pause();
+      soundBtn.textContent = "🌊🔈";
+    } else {
+      oceanSound.play();
+      soundBtn.textContent = "🌊🔊";
+    }
+    oceanPlaying = !oceanPlaying;
+  });
+
+  birdBtn.addEventListener("click", () => {
+    if (birdsPlaying) {
+      birdsSound.pause();
+      birdBtn.style.opacity = "0.6";
+    } else {
+      birdsSound.play();
+      birdBtn.style.opacity = "1";
+    }
     birdsPlaying = !birdsPlaying;
-  };
+  });
 
   // 🔧 إعداد Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -168,7 +175,6 @@
   function showError(msg){ errorBox.textContent = msg; }
   function clearError(){ errorBox.textContent = ""; }
 
-  // دخول بالبريد
   loginBtn.addEventListener("click", async ()=>{
     clearError();
     const email = emailInput.value.trim();
@@ -179,7 +185,6 @@
     }catch(e){ showError("❌ " + e.message); }
   });
 
-  // Google
   googleBtn.addEventListener("click", async ()=>{
     try{
       const provider = new GoogleAuthProvider();
@@ -187,7 +192,6 @@
     }catch(e){ showError("⚠️ " + e.message); }
   });
 
-  // Facebook
   facebookBtn.addEventListener("click", async ()=>{
     try{
       const provider = new FacebookAuthProvider();
@@ -195,14 +199,12 @@
     }catch(e){ showError("⚠️ " + e.message); }
   });
 
-  // زائر
   guestBtn.addEventListener("click", async ()=>{
     try{
       await signInAnonymously(auth);
     }catch(e){ showError("⚠️ " + e.message); }
   });
 
-  // مراقبة المستخدم
   onAuthStateChanged(auth, user=>{
     if(user){
       overlay.style.display = "none";
@@ -214,6 +216,8 @@
     }
   });
 </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
