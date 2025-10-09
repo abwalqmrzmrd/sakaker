@@ -1097,18 +1097,14 @@ async function checkFirebaseConnection() {
 window.initChatConnection = async function() {
   if (chatInitialized) return;
   chatInitialized = true;
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
-    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-    projectId: "abwalqmrzmrd-47557",
-    storageBucket: "abwalqmrzmrd-47557.appspot.com",
-    messagingSenderId: "957400167542",
-    appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
-    measurementId: "G-24BWC6N21W"
-  };
-
+const firebaseConfig = {
+  apiKey: "AIzaSyCL2m__bCU5nj95HW3R8V1Gfk7cuxNqz8Y",
+  authDomain: "studio-8156636922-46d3b.firebaseapp.com",
+  projectId: "studio-8156636922-46d3b",
+  storageBucket: "studio-8156636922-46d3b.firebasestorage.app",
+  messagingSenderId: "881529730223",
+  appId: "1:881529730223:web:86344b1d274f3ad317105a"
+};
   app = initializeApp(firebaseConfig);
   db = getDatabase(app);
 
