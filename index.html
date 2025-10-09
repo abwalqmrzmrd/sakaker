@@ -1,153 +1,142 @@
-<!DOCTYPE html><!-- صفحة البداية بالفيديو -->
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+<!-- 🔒 صفحة دخول آمنة -->
+<div id="loginOverlay" style="
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:url('https://i.ytimg.com/vi/0go3k0frmjc/maxresdefault.jpg') center/cover no-repeat;
+  backdrop-filter: blur(3px);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;
+  ">
+  <div style="
+    background:rgba(0,0,0,0.75);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:15px;
+    padding:25px;
+    width:90%;max-width:420px;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
+    color:#fff;text-align:center;
+    font-family:'Tajawal',sans-serif;
+  ">
+    <h2 style="margin-bottom:20px;color:#fff">تسجيل الدخول للموقع</h2>
 
-  /* إخفاء محتوى الموقع بالكامل حتى يبدأ */
-  body {
-    overflow: hidden;
-  }
-  #main-content {
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-  }
-  #main-content.visible {
-    opacity: 1;
-  }
+    <input id="emailInput" type="email" placeholder="📧 البريد الإلكتروني" style="
+      width:100%;padding:12px;border-radius:8px;margin-bottom:12px;
+      border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;" />
 
-  /* صفحة البداية */
-  #intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 99999;
-    transition: opacity 1s ease-in-out, visibility 1s;
-  }
+    <input id="passwordInput" type="password" placeholder="🔒 كلمة المرور" style="
+      width:100%;padding:12px;border-radius:8px;margin-bottom:12px;
+      border:none;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;" />
 
-  #intro-screen.hide {
-    opacity: 0;
-    visibility: hidden;
-  }
+    <button id="loginButton" style="
+      width:100%;
+      background:linear-gradient(90deg,#EA4335,#DB4437);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      padding:12px;
+      font-size:17px;
+      font-weight:bold;
+      cursor:pointer;
+      margin-bottom:8px;
+      transition:0.3s;
+    ">دخول</button>
 
-  #intro-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
+    <div id="loginError" style="color:#ff8888;font-size:14px;margin:8px 0;"></div>
 
-  #intro-box {
-    background: rgba(0,0,0,0.85);
-    padding: 30px 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 25px #00BFFF;
-    color: white;
-    font-family: "Tahoma", sans-serif;
-  }
+    <div style="margin-top:8px;font-size:14px;color:#ccc;">
+      أو يمكنك التسجيل بالبريد الجديد 👇
+    </div>
 
-  #intro-box h2 {
-    color: #FFD700;
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  #intro-box input {
-    width: 250px;
-    padding: 10px;
-    border: 2px solid #00BFFF;
-    border-radius: 8px;
-    background: black;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-  }
-
-  #intro-box button {
-    margin-top: 15px;
-    background: linear-gradient(45deg, #FFD700, #00BFFF);
-    border: none;
-    border-radius: 10px;
-    padding: 12px 25px;
-    color: black;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  #intro-box button:hover {
-    transform: scale(1.05);
-  }
-
-  #intro-status {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #FFD700;
-  }
-</style>
-
-<div id="intro-screen">
-  <video id="intro-video" autoplay muted loop>
-    <!-- 🎥 استخدم نفس الفيديو الخلفية -->
-    <source src="https://sakakera-a11y.github.io/sakaker/video/background.mp4" type="video/mp4">
-  </video>
-
-  <div id="intro-box">
-    <h2>📩 أدخل البريد لتصفح الموقع<br>Enter your email to explore the site</h2>
-    <input id="intro-email" type="email" placeholder="example@email.com"><br>
-    <button onclick="startWebsite()">ابدأ الآن / Start Now</button>
-    <p id="intro-status"></p>
+    <button id="signupButton" style="
+      width:100%;
+      background:rgba(255,255,255,0.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:8px;
+      padding:12px;
+      font-size:16px;
+      font-weight:bold;
+      margin-top:10px;
+      cursor:pointer;
+      transition:0.3s;
+    ">إنشاء حساب جديد</button>
   </div>
 </div>
 
-<script>
-  // إخفاء الموقع مؤقتًا حتى يضغط المستخدم على "ابدأ الآن"
-  document.addEventListener("DOMContentLoaded", function() {
-    // لف كل محتوى الموقع داخل div ليُتحكم فيه
-    const bodyChildren = Array.from(document.body.children);
-    const wrapper = document.createElement("div");
-    wrapper.id = "main-content";
-    bodyChildren.forEach(el => {
-      if (el.id !== "intro-screen") wrapper.appendChild(el);
-    });
-    document.body.appendChild(wrapper);
+<script type="module">
+  // إعداد Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    setPersistence,
+    browserLocalPersistence
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+    authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+    databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
+    projectId: "abwalqmrzmrd-47557",
+    storageBucket: "abwalqmrzmrd-47557.appspot.com",
+    messagingSenderId: "957400167542",
+    appId: "1:957400167542:web:a3b341fad9b1142aaedb57",
+    measurementId: "G-24BWC6N21W"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  await setPersistence(auth, browserLocalPersistence);
+
+  const overlay = document.getElementById("loginOverlay");
+  const loginBtn = document.getElementById("loginButton");
+  const signupBtn = document.getElementById("signupButton");
+  const emailInput = document.getElementById("emailInput");
+  const passwordInput = document.getElementById("passwordInput");
+  const errorBox = document.getElementById("loginError");
+
+  function showError(msg){ errorBox.textContent = msg; }
+  function clearError(){ errorBox.textContent = ""; }
+
+  // دخول
+  loginBtn.addEventListener("click", async ()=>{
+    clearError();
+    const email = emailInput.value.trim();
+    const pass = passwordInput.value;
+    if(!email || !pass){ return showError("الرجاء إدخال البريد وكلمة المرور"); }
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+    }catch(e){
+      showError("❌ " + e.message);
+    }
   });
 
-  function startWebsite() {
-    const emailInput = document.getElementById('intro-email').value.trim();
-    const statusMsg = document.getElementById('intro-status');
-
-    if (!emailInput) {
-      statusMsg.textContent = "⚠️ الرجاء إدخال بريدك الإلكتروني أولاً";
-      return;
+  // إنشاء حساب
+  signupBtn.addEventListener("click", async ()=>{
+    clearError();
+    const email = emailInput.value.trim();
+    const pass = passwordInput.value;
+    if(!email || !pass){ return showError("أدخل بريدك وكلمة مرور لا تقل عن 8 أحرف"); }
+    try{
+      await createUserWithEmailAndPassword(auth, email, pass);
+      showError("✅ تم إنشاء الحساب! يمكنك الآن الدخول.");
+    }catch(e){
+      showError("❌ " + e.message);
     }
+  });
 
-    // حفظ البريد مؤقتًا (يمكنك استخدامه لاحقًا)
-    localStorage.setItem("visitor_email", emailInput);
-
-    // إخفاء صفحة البداية تدريجيًا
-    const intro = document.getElementById('intro-screen');
-    intro.classList.add('hide');
-
-    // بعد الإخفاء، أظهر الموقع تدريجيًا
-    setTimeout(() => {
-      intro.remove();
-      document.getElementById('main-content').classList.add('visible');
-      document.body.style.overflow = "auto";
-    }, 1000);
-  }
+  // مراقبة تسجيل الدخول
+  onAuthStateChanged(auth, user=>{
+    if(user){
+      overlay.style.display = "none"; // إخفاء صفحة الدخول
+    } else {
+      overlay.style.display = "flex"; // إظهار صفحة الدخول
+    }
+  });
 </script>
-
+<!-- 🔒 نهاية كود تسجيل الدخول -->
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
