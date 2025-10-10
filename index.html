@@ -722,198 +722,12 @@ function closeVideoModal() {
 </div>
 <!-- إدخال المحتوى الأصلي -->
 <div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-  
-<body>
-<div id="player-container">
-<div id="player"></div>
-</div>
-<div class="controls">
-<button onclick="playPause()">⏯</button>
-<button onclick="muteUnmute()">🔊</button>
-<button onclick="volumeUp()">🔼</button>
-<button onclick="volumeDown()">🔽</button>
-</div>
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  let player;
-  let currentVolume = 50;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: 'YFmV_MRSD7M',
-        controls: 0,
-        showinfo: 0,
-        modestbranding: 1
-      },
-      events: {
-        onReady: (event) => {
-          player.setVolume(currentVolume);
-          event.target.playVideo();
-        }
-      }
-    });
-  }
-
-  function playPause() {
-    if (player.getPlayerState() === 1) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  }
-
-  function muteUnmute() {
-    if (player.isMuted()) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
-  }
-
-  function volumeUp() {
-    if (currentVolume < 100) {
-      currentVolume += 10;
-      player.setVolume(currentVolume);
-    }
-  }
-
-  function volumeDown() {
-    if (currentVolume > 0) {
-      currentVolume -= 10;
-      player.setVolume(currentVolume);
-    }
-  }
-</script>
-
-<!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
-<style>
-.video-modal,
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 9999;
-}
-
-.video-modal iframe,
-.video-content iframe,
-.modal-content iframe {
-  width: 100% !important;
-  height: 80vh !important;
-  display: block;
-  background: #000;
-  border: none;
-  border-radius: 10px;
-}
-
-.close, .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-.close:hover, .close-btn:hover {
-  color: #ff5555;
-}
-<!DOCTYPE html>
+<style><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دردشة الزوار</title>
+<title>دردشة الزوار مع تسجيل الدخول</title>
 <style>
 body {
   margin: 0;
@@ -923,7 +737,7 @@ body {
   overflow-x: hidden;
 }
 
-/* أيقونة الدردشة العائمة */
+/* أيقونة الدردشة البنفسجية */
 #chat-icon {
   position: fixed;
   bottom: 80px;
@@ -931,8 +745,8 @@ body {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #00BFFF, #FFD700);
-  color: black;
+  background: linear-gradient(45deg, #8A2BE2, #DA70D6);
+  color: white;
   font-size: 26px;
   font-weight: bold;
   display: flex;
@@ -944,6 +758,47 @@ body {
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
+/* نافذة تسجيل الدخول */
+#login-modal {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+}
+#login-modal button {
+  margin:5px;
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+  background: linear-gradient(45deg, #8A2BE2, #DA70D6);
+  color:white;
+}
+
+/* زر فتح الدردشة بعد تسجيل الدخول */
+#open-chat-btn {
+  display: none;
+  position: fixed;
+  bottom: 150px;
+  right: 20px;
+  padding: 10px 16px;
+  font-size: 14px;
+  background: linear-gradient(45deg, #8A2BE2, #DA70D6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
 /* نافذة الدردشة */
 #chat-box {
   position: fixed;
@@ -952,7 +807,7 @@ body {
   width: 280px;
   height: 400px;
   background: rgba(0,0,0,0.85);
-  border: 2px solid #00BFFF;
+  border: 2px solid #8A2BE2;
   border-radius: 15px;
   display: none;
   flex-direction: column;
@@ -964,9 +819,9 @@ body {
 #chat-header {
   background: rgba(0,0,0,0.9);
   padding: 8px;
-  color: #FFD700;
+  color: #DA70D6;
   font-weight: bold;
-  border-bottom: 1px solid #00BFFF;
+  border-bottom: 1px solid #8A2BE2;
   text-align: center;
   position: relative;
   cursor: move;
@@ -979,11 +834,11 @@ body {
   position: absolute;
   left: 8px;
   top: 4px;
-  background: rgba(255,215,0,0.2);
-  color: #FFD700;
+  background: rgba(218,112,214,0.2);
+  color: #DA70D6;
   border-radius: 6px;
   padding: 3px 6px;
-  border: 1px solid #FFD700;
+  border: 1px solid #DA70D6;
   cursor: pointer;
   font-size: 12px;
 }
@@ -1011,7 +866,7 @@ body {
   flex-direction: column;
   gap: 5px;
   padding: 6px;
-  border-top: 1px solid #00BFFF;
+  border-top: 1px solid #8A2BE2;
   background: rgba(0,0,0,0.85);
   flex-shrink: 0;
 }
@@ -1029,7 +884,7 @@ body {
 
 #chat-input button {
   align-self: flex-end;
-  background: linear-gradient(45deg, #FFD700, #00BFFF);
+  background: linear-gradient(45deg, #DA70D6, #8A2BE2);
   border: none;
   border-radius: 8px;
   padding: 6px 10px;
@@ -1042,6 +897,15 @@ body {
 <body>
 
 <div id="chat-icon">💬</div>
+
+<div id="login-modal">
+  <h3>تسجيل الدخول للدردشة</h3>
+  <button id="login-google">Google</button>
+  <button id="login-facebook">Facebook</button>
+  <button id="login-cancel">إلغاء</button>
+</div>
+
+<button id="open-chat-btn">فتح الدردشة 💬</button>
 
 <div id="chat-box">
   <div id="chat-header">
@@ -1067,24 +931,33 @@ body {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, onValue, set, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-let app, db, chatInitialized = false;
+const firebaseConfig = {
+  apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
+  projectId: "abwalqmrzmrd-47557",
+  storageBucket: "abwalqmrzmrd-47557.appspot.com",
+  messagingSenderId: "957400167542",
+  appId: "1:957400167542:web:a3b341fad9b1142aaedb57"
+};
 
-const chatBox = document.getElementById("chat-box");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
 const chatIcon = document.getElementById("chat-icon");
-const closeBtn = document.getElementById("close-chat");
-const sendBtn = document.getElementById("sendBtn");
-const visitorEl = document.getElementById("visitor-count");
+const chatBox = document.getElementById("chat-box");
+const loginModal = document.getElementById("login-modal");
+const loginGoogleBtn = document.getElementById("login-google");
+const loginFacebookBtn = document.getElementById("login-facebook");
+const loginCancelBtn = document.getElementById("login-cancel");
+const openChatBtn = document.getElementById("open-chat-btn");
 const internetEl = document.getElementById("internet-status");
-const serverEl = document.getElementById("server-status");
 
-chatIcon.addEventListener("click", initChatConnection);
-closeBtn.addEventListener("click", () => {
-  chatBox.style.display = "none";
-  chatIcon.style.display = "flex";
-});
+let chatInitialized=false;
 
-// حالة الإنترنت
 function updateInternetStatus() {
   if (navigator.onLine) {
     internetEl.textContent = "🟢 متصل بالإنترنت";
@@ -1098,54 +971,78 @@ window.addEventListener("online", updateInternetStatus);
 window.addEventListener("offline", updateInternetStatus);
 updateInternetStatus();
 
-// تهيئة الدردشة و Firebase
-async function initChatConnection() {
-  chatBox.style.display = "flex";
-  chatIcon.style.display = "none";
+// الضغط على أيقونة الدردشة: فقط تظهر نافذة تسجيل الدخول
+chatIcon.addEventListener("click", ()=>{ loginModal.style.display="flex"; });
+
+// إلغاء تسجيل الدخول
+loginCancelBtn.addEventListener("click", ()=> loginModal.style.display="none");
+
+// تسجيل Google
+loginGoogleBtn.addEventListener("click", async ()=>{
+  try{
+    await signInWithPopup(auth, new GoogleAuthProvider());
+    loginModal.style.display="none";
+    sessionStorage.setItem("chatLoggedIn","true");
+    openChatBtn.style.display="block";
+    alert("تم تسجيل الدخول! اضغط على زر 'فتح الدردشة' لبدء المحادثة.");
+  }catch(err){ alert("خطأ: "+err.message); }
+});
+
+// تسجيل Facebook
+loginFacebookBtn.addEventListener("click", async ()=>{
+  try{
+    await signInWithPopup(auth, new FacebookAuthProvider());
+    loginModal.style.display="none";
+    sessionStorage.setItem("chatLoggedIn","true");
+    openChatBtn.style.display="block";
+    alert("تم تسجيل الدخول! اضغط على زر 'فتح الدردشة' لبدء المحادثة.");
+  }catch(err){ alert("خطأ: "+err.message); }
+});
+
+// زر فتح الدردشة بعد تسجيل الدخول
+openChatBtn.addEventListener("click", ()=>{
+  if(sessionStorage.getItem("chatLoggedIn")==="true"){
+    chatBox.style.display="flex";
+    chatIcon.style.display="none";
+    initChatConnection();
+  }else{
+    alert("❌ الرجاء تسجيل الدخول أولاً");
+  }
+});
+
+// زر إغلاق الدردشة
+document.getElementById("close-chat").addEventListener("click", ()=>{
+  chatBox.style.display="none";
+  chatIcon.style.display="flex";
+});
+
+// تهيئة الدردشة مع Firebase
+function initChatConnection(){
   if(chatInitialized) return;
-  chatInitialized = true;
-const firebaseConfig = {
-  apiKey: "AIzaSyCL2m__bCU5nj95HW3R8V1Gfk7cuxNqz8Y",
-  authDomain: "studio-8156636922-46d3b.firebaseapp.com",
-  databaseURL: "https://studio-8156636922-46d3b-asia-southeast1.firebasedatabase.app/",
-  projectId: "studio-8156636922-46d3b",
-  storageBucket: "studio-8156636922-46d3b.firebasestorage.app",
-  messagingSenderId: "881529730223",
-  appId: "1:881529730223:web:86344b1d274f3ad317105a"
-};
+  chatInitialized=true;
 
-
-
-  app = initializeApp(firebaseConfig);
-  db = getDatabase(app);
-
-  // عداد الزوار
-  const visitorsRef = ref(db, "visitors");
+  const visitorsRef = ref(db,"visitors");
   const myVisitorRef = push(visitorsRef);
-  set(myVisitorRef, { online: true, time: Date.now() });
+  set(myVisitorRef,{online:true,time:Date.now()});
   onDisconnect(myVisitorRef).remove();
-  onValue(visitorsRef, snapshot => {
-    const val = snapshot.val() || {};
-    visitorEl.textContent = Object.keys(val).length;
+  onValue(visitorsRef, snap => {
+    document.getElementById("visitor-count").textContent = Object.keys(snap.val()||{}).length;
   });
 
-  // حالة الخادم
-  const testRef = ref(db, "test_connection");
-  try {
-    await set(testRef, { time: Date.now() });
-    serverEl.textContent = "🟢 متصل بالخادم";
-    serverEl.style.color = "lime";
-  } catch {
-    serverEl.textContent = "🔴 غير متصل بالخادم";
-    serverEl.style.color = "red";
-  }
+  const testRef = ref(db,"test_connection");
+  set(testRef,{time:Date.now()}).then(()=>{
+    const serverEl = document.getElementById("server-status");
+    serverEl.textContent="🟢 متصل بالخادم"; serverEl.style.color="lime";
+  }).catch(()=>{
+    const serverEl = document.getElementById("server-status");
+    serverEl.textContent="🔴 غير متصل بالخادم"; serverEl.style.color="red";
+  });
 
-  // استقبال الرسائل
-  const chatRef = ref(db, "chat");
-  onValue(chatRef, snapshot => {
+  const chatRef = ref(db,"chat");
+  onValue(chatRef, snapshot=>{
     const box = document.getElementById("chat-messages");
-    box.innerHTML = "";
-    snapshot.forEach(child => {
+    box.innerHTML="";
+    snapshot.forEach(child=>{
       const data = child.val();
       const div = document.createElement("div");
       div.textContent = `${data.name || "زائر"}: ${data.message}`;
@@ -1154,29 +1051,25 @@ const firebaseConfig = {
     box.scrollTop = box.scrollHeight;
   });
 
-  // إرسال الرسائل
-  sendBtn.addEventListener("click", async () => {
-    const name = document.getElementById("usernameInput").value.trim() || "زائر";
+  document.getElementById("sendBtn").addEventListener("click", async ()=>{
+    const user = auth.currentUser;
+    const name = user?.displayName || document.getElementById("usernameInput").value.trim() || "زائر";
     const message = document.getElementById("messageInput").value.trim();
     if(!message) return alert("❌ الرجاء كتابة رسالة");
     if(!navigator.onLine) return alert("❌ لا يوجد اتصال بالإنترنت");
-    await push(chatRef, { name, message, time: new Date().toISOString() });
-    document.getElementById("messageInput").value = "";
+    await push(chatRef,{name,message,time:new Date().toISOString()});
+    document.getElementById("messageInput").value="";
     document.getElementById("messageInput").focus();
   });
 }
-</script>
 
-<script>
 // سحب الدردشة عبر الرأس
 const chatHeader = document.getElementById("chat-header");
-let isDragging = false, offsetX, offsetY;
-
+let isDragging=false, offsetX, offsetY;
 chatHeader.addEventListener("mousedown", startDrag);
 chatHeader.addEventListener("touchstart", startDrag);
-
 function startDrag(e){
-  isDragging = true;
+  isDragging=true;
   const evt = e.touches ? e.touches[0] : e;
   offsetX = evt.clientX - chatBox.getBoundingClientRect().left;
   offsetY = evt.clientY - chatBox.getBoundingClientRect().top;
@@ -1185,29 +1078,26 @@ function startDrag(e){
   document.addEventListener("touchmove", onDrag);
   document.addEventListener("touchend", stopDrag);
 }
-
 function onDrag(e){
   if(!isDragging) return;
   const evt = e.touches ? e.touches[0] : e;
   let x = evt.clientX - offsetX;
   let y = evt.clientY - offsetY;
-  x = Math.max(0, Math.min(window.innerWidth - chatBox.offsetWidth, x));
-  y = Math.max(0, Math.min(window.innerHeight - chatBox.offsetHeight, y));
-  chatBox.style.left = x + "px";
-  chatBox.style.top = y + "px";
-  chatBox.style.bottom = "auto";
-  chatBox.style.right = "auto";
+  x=Math.max(0,Math.min(window.innerWidth - chatBox.offsetWidth,x));
+  y=Math.max(0,Math.min(window.innerHeight - chatBox.offsetHeight,y));
+  chatBox.style.left=x+"px";
+  chatBox.style.top=y+"px";
+  chatBox.style.bottom="auto";
+  chatBox.style.right="auto";
 }
-
 function stopDrag(){
-  isDragging = false;
-  document.removeEventListener("mousemove", onDrag);
-  document.removeEventListener("mouseup", stopDrag);
-  document.removeEventListener("touchmove", onDrag);
-  document.removeEventListener("touchend", stopDrag);
+  isDragging=false;
+  document.removeEventListener("mousemove",onDrag);
+  document.removeEventListener("mouseup",stopDrag);
+  document.removeEventListener("touchmove",onDrag);
+  document.removeEventListener("touchend",stopDrag);
 }
 </script>
-
 </body>
 </html>
 
