@@ -722,7 +722,193 @@ function closeVideoModal() {
 </div>
 <!-- إدخال المحتوى الأصلي -->
 <div style="margin:20px; text-align:right;">
-<style><!DOCTYPE html>
+<style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خلفية فيديو ممتدة</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #player {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      pointer-events: none;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 999;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+     #pongCanvas {
+  background: transparent !important;
+}
+
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+#pongCanvas {
+  background: transparent !important;   /* شفاف */
+}
+
+    }
+
+    @media (max-width: 600px) {
+      button {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+      .controls {
+        gap: 4px;
+        bottom: 8px;
+      }
+    }
+  </style>
+  
+<body>
+<div id="player-container">
+<div id="player"></div>
+</div>
+<div class="controls">
+<button onclick="playPause()">⏯</button>
+<button onclick="muteUnmute()">🔊</button>
+<button onclick="volumeUp()">🔼</button>
+<button onclick="volumeDown()">🔽</button>
+</div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+  let currentVolume = 50;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: 'YFmV_MRSD7M',
+        controls: 0,
+        showinfo: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: (event) => {
+          player.setVolume(currentVolume);
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  function playPause() {
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
+
+  function muteUnmute() {
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      player.mute();
+    }
+  }
+
+  function volumeUp() {
+    if (currentVolume < 100) {
+      currentVolume += 10;
+      player.setVolume(currentVolume);
+    }
+  }
+
+  function volumeDown() {
+    if (currentVolume > 0) {
+      currentVolume -= 10;
+      player.setVolume(currentVolume);
+    }
+  }
+</script>
+
+<!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
+<style>
+.video-modal,
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+}
+
+.video-modal iframe,
+.video-content iframe,
+.modal-content iframe {
+  width: 100% !important;
+  height: 80vh !important;
+  display: block;
+  background: #000;
+  border: none;
+  border-radius: 10px;
+}
+
+.close, .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close:hover, .close-btn:hover {
+  color: #ff5555;
+}
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
