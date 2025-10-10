@@ -1106,7 +1106,7 @@ async function initChatConnection() {
   chatInitialized = true;
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDDPcEIVAn-xv6dKcPrTzDeOIxSA8M58v8",
+    apiKey:
     authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
     databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
     projectId: "abwalqmrzmrd-47557",
@@ -2355,3 +2355,137 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
 </div>
 </div>
 </div>
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>صفحة اختبار Firebase (مخفّى المفتاح)</title>
+  <meta name="description" content="مثال لتهيئة Firebase مع مفتاح مخفّى داخل index.html" />
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:24px;background:#f7f7f7;color:#111}
+    .container{max-width:900px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    h1{color:#333;text-align:center}
+    pre{background:#f2f2f2;padding:12px;border-radius:6px;overflow:auto}
+    .note{margin-top:12px;padding:10px;border-left:4px solid #888;background:#fafafa}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>تهيئة Firebase — المفتاح مخفّى</h1>
+    <p>انسخ السلسلة المشفّرة (من الصورة) والصقها في أحد الأمكنة التالية داخل هذا الملف:</p>
+    <ol>
+      <li>داخل هذا العنصر المخفي: <code>&lt;div id="obfString"&gt;...&lt;/div&gt;</code></li>
+      <li>أو استبدال قيمة المتغيّر <code>ob</code> داخل السكربت أدناه.</li>
+    </ol>
+
+    <div id="status" class="note">حالة: لم يتم تهيئة Firebase بعد.</div>
+
+    <h3>ملاحظة أمان</h3>
+    <p class="note">
+      هذه الطريقة تُخفي المفتاح من عمليات الفحص البسيطة، لكنها ليست بديلاً عن حفظ المفاتيح في مكان آمن (env/server). بعد حذف المفتاح المكشوف من المستودع، أنشئ مفتاحًا جديدًا وقيّده.
+    </p>
+
+    <h3>مخرجات Console</h3>
+    <pre id="consoleOut">-- سجّل هنا رسائل التشغيل --</pre>
+  </div>
+
+  <!-- ============================
+       Firebase SDKs (تأكّد من نسخها إذا لم تكن محمّلة من قبل)
+       تأكد من استخدام النسخ المناسبة حسب مشروعك
+  ============================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+  <!-- ============================
+       ضع السلسلة المشفّرة هنا إن أردت (أو اتركها فارغة واستخدم المتغير ob أدناه)
+       الصق السلسلة المشفّرة بين > و <
+  ============================ -->
+  <div id="obfString" style="display:none">PASTE_OBFUSCATED_STRING_HERE</div>
+
+  <!-- ============================
+       الكود النهائي: إستعادة المفتاح وتشغيل Firebase
+  ============================ -->
+  <script>
+  (function(){
+    // الطريقة 1: الصق السلسلة المشفّرة مباشرة هنا بين علامتي التنصيص:
+    let ob = "PASTE_OBFUSCATED_STRING_HERE";
+
+    // الطريقة 2: إن لم تستطع تعديل المتغيّر أعلاه، الصق السلسلة داخل <div id="obfString"> في HTML
+    if (!ob || ob.trim() === "" || ob.includes("PASTE_OBFUSCATED_STRING_HERE")) {
+      try {
+        const el = document.getElementById('obfString');
+        if (el && el.textContent && el.textContent.trim() !== "" && !el.textContent.includes("PASTE_OBFUSCATED_STRING_HERE")) {
+          ob = el.textContent.trim();
+        }
+      } catch (e) {
+        console.warn("لم نستطع قراءة النص من العنصر #obfString:", e);
+      }
+    }
+
+    function decode(obf){
+      try {
+        const b64 = obf.split('').reverse().join('');
+        const bumped = atob(b64);
+        return Array.from(bumped).map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join('');
+      } catch (e) {
+        console.error("decode error:", e);
+        return null;
+      }
+    }
+
+    function log(msg){
+      try {
+        const out = document.getElementById('consoleOut');
+        out.textContent += "\n" + msg;
+      } catch(e){}
+      console.log(msg);
+    }
+
+    if (!ob || ob.trim() === "" || ob.includes("PASTE_OBFUSCATED_STRING_HERE")) {
+      log("⚠️ لم تُحدد السلسلة المشفّرة بعد. الصقها داخل div#obfString أو استبدل قيمة المتغيّر ob.");
+      return;
+    }
+
+    const apiKeyHidden = decode(ob);
+    if (!apiKeyHidden) {
+      log("❌ فشل استرجاع مفتاح Firebase — تأكد من لصق السلسلة المشفّرة بشكل صحيح.");
+      return;
+    }
+
+    const firebaseConfig = {
+      apiKey: apiKeyHidden,
+      authDomain: "studio-8156636922-46d3.firebaseapp.com",
+      projectId: "studio-8156636922-46d3",
+      storageBucket: "studio-8156636922-46d3.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abcdef123456"
+    };
+
+    try {
+      if (typeof firebase !== "undefined" && firebase.initializeApp) {
+        firebase.initializeApp(firebaseConfig);
+        log("✅ Firebase initialized (obfuscated key)");
+        // مثال: قراءة قيمة من قاعدة البيانات (اختياري)
+        try {
+          const db = firebase.database();
+          const ref = db.ref('/testConnection');
+          ref.set({ ok: true, ts: Date.now() })
+            .then(()=> log("✔️ تم كتابة اختبار إلى Firebase Realtime Database"))
+            .catch(err => log("خطأ كتابة الاختبار: " + err));
+        } catch(e){
+          log("ملاحظة: لم يتم تنفيذ اختبار القاعدة: " + e);
+        }
+        document.getElementById('status').textContent = "حالة: Firebase مهيأ ✅";
+      } else {
+        log("⚠️ Firebase SDK غير موجود أو لم يُحمّل بعد. تأكد من إضافة سكربت Firebase قبل هذا الكود.");
+      }
+    } catch (err) {
+      log("Firebase init error: " + err);
+    }
+  })();
+  </script>
+
+</body>
+</html>
