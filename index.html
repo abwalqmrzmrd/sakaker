@@ -2427,25 +2427,26 @@ document.querySelectorAll('.library-content .icon-circle').forEach(icon => {
 </div>
 
 <h1 data-i18n="site_title"></h1>
-<!-- أيقونات المكتبات أفقي تحت الفيديو -->
+ 
+<div class="library-col">
+  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
+    🎥 مكتبة الفيديو
+  </div>
 <div class="icons-row">
 <!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
 <div class="library-col library-funny">
 <div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
 
-<!-- أيقونة مكتبة الفيديو -->
-<div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
-    🎥 مكتبة الفيديو
-  </div>
+<div class="icon-circle" data-i18n="library_cartoon">🎨 قريبا</div>
+
 </body>
 </html>
 <script>
 const translations = {
   ar: {
   
-    library_doc: "📼 المكتبة الوثائقية",
-    library_cartoon: "🎨 كرتون",
+    library_doc: "قريبا",
+   
     library_movies: "🎬 أفلام",
     library_religion: "📚 دينية",
     library_sports: "⚽ رياضة",
@@ -2455,14 +2456,14 @@ const translations = {
   },
   en: {
  
-    library_doc: "📼 Documentary Library",
-    library_cartoon: "🎨 Cartoons",
+    library_doc: "📼 storey Library",
+    library_cartoon: "🎨 comming soon",
     library_movies: "🎬 Movies",
-    library_religion: "📚 Religious",
-    library_sports: "⚽ Sports",
-    library_cooking: "🍳 Cooking",
-    library_music: "🎵 Music",
-    library_cv: "📝 CV / Biography"
+    library_religion: "📚 storeyious",
+    library_sports: "⚽ Spstorey",
+    library_cooking: "🍳 storey",
+    library_music: "🎵 storey",
+    library_cv: "📝 CV / storey"
   }
 };
 
