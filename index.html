@@ -943,25 +943,23 @@ function closeSection(btn){ btn.parentElement.style.display='none'; }
 
 <!-- أيقونة مكتبة الفيديو -->
 <div class="library-col">
-  <div class="icon-circle" onclick="toggleLibrary('videoLibraryContent')" style="background:rgba(0,0,0,0.85);color:#fff;">
-    🎥 مكتبة الفيديو
+ 
+<!-- أيقونتان فوق قسم الدعم -->
+<div style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
+  <div class="icon-circle" onclick="document.getElementById('videoLibraryContent').style.display='block';" 
+       style="background:linear-gradient(45deg,#FFD700,#00BFFF); color:#000; padding:15px 25px; border-radius:50%; cursor:pointer;">
+       🎥 مكتبة الفيديو
   </div>
-</body>
-</html>
+  <div class="icon-circle" onclick="document.getElementById('funnyLibrary').style.display='flex';" 
+       style="background:linear-gradient(45deg,#FF69B4,#FF4500); color:#fff; padding:15px 25px; border-radius:50%; cursor:pointer;">
+       😂 قصص فكاهية
+  </div>
+</div>
+
 
 <audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
 <audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
 
-<!-- أيقونات المكتبات أفقي تحت الفيديو -->
-<div class="icons-row">
-<!-- مكتبة قصص فكاهية ونكت (مضافة من ChatGPT) -->
-<div class="library-col library-funny">
-<div class="icon-circle" onclick="toggleLibrary('libraryFunnyContent')" style="background:rgba(255,69,0,0.85);color:#fff;">😂 قصص فكاهية ونكت</div>
-<div class="library-content" id="libraryFunnyContent">
-<div class="icon-circle" onclick="document.getElementById('funnyStoryModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">قصص فكاهية</div>
-<div class="icon-circle" onclick="document.getElementById('jokesModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">نكت</div>
-<div class="icon-circle" onclick="document.getElementById('stupidModal').style.display='block'" style="background:rgba(255,69,0,0.6);color:#fff;">حكايات الأغبياء</div>
-</div>
 <!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
 <style>
 .video-modal,
@@ -2061,4 +2059,136 @@ function showLevelMessage(msg) {
 
   function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
 })();
+</script>
+
+<!-- نافذة النكت -->
+<div id="funnyLibrary" class="video-modal" style="display:none; justify-content:center; align-items:center;">
+  <div style="background:rgba(0,0,0,0.9); color:#fff; border-radius:12px; padding:20px; width:80%; max-width:600px; text-align:center; position:relative;">
+    <span class="close-btn" onclick="document.getElementById('funnyLibrary').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
+    <h2>😂 نكت مضحكة</h2>
+    <p id="jokeText" style="font-size:18px; margin:20px 0;">نكتة البداية...</p>
+    <div>
+      <button onclick="prevJoke()" style="margin:5px;">⬅️ السابق</button>
+      <button onclick="nextJoke()" style="margin:5px;">➡️ التالي</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة الفيديوهات المضحكة -->
+<div id="funnyVideos" class="video-modal" style="display:none; justify-content:center; align-items:center;">
+  <div class="video-content" style="position:relative; width:85%; max-width:900px;">
+    <span class="close-btn" onclick="document.getElementById('funnyVideos').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
+    <iframe id="funnyFrame" src="" frameborder="0" allowfullscreen style="width:100%; height:500px; border-radius:10px;"></iframe>
+  </div>
+</div>
+
+<script>
+// ✅ نكت متغيرة تلقائيًا
+const jokes = [
+  "مرة واحد راح للدكتور قاله: كل ما أشرب شاي بحس بألم بعيني، قاله الدكتور: حاول تشيل المعلقة من الكوب 😂",
+  "واحد غبي بيقول لصاحبه: أنا اشتريت ساعة ضد الميه، قاله: طب ليه؟ الميه معاها موبايل؟ 🤣",
+  "فيه واحد نام في الشغل، المدير صحيه وقاله: انت نايم ليه؟ قاله: والله يا فندم كنت بحلم إني في الشغل! 😅",
+  "قالوا لواحد: ليه بتضحك؟ قالهم: أصل الدكتور قالي لازم أبتسم كل يوم… وأنا بنفذ الأوامر 😂",
+  "مرة واحد بخيل فتح التلاجة شاف المراية، قال: الحمد لله لسه في حد في البيت 😆"
+];
+let jokeIndex = 0;
+function showJoke(index){ document.getElementById('jokeText').innerText = jokes[index]; }
+function nextJoke(){ jokeIndex = (jokeIndex + 1) % jokes.length; showJoke(jokeIndex); }
+function prevJoke(){ jokeIndex = (jokeIndex - 1 + jokes.length) % jokes.length; showJoke(jokeIndex); }
+setInterval(nextJoke, 5000);
+showJoke(0);
+
+// ✅ فيديوهات مضحكة
+function openFunnyVideo(id){
+  const modal = document.getElementById('funnyVideos');
+  const frame = document.getElementById('funnyFrame');
+  modal.style.display = 'flex';
+  frame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+}
+</script>
+
+<script>
+function openVideo(videoId) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'flex';
+    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+  }
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'none';
+    frame.src = "";
+  }
+}
+</script>
+
+<!-- نافذة النكت -->
+<div id="funnyLibrary" class="video-modal" style="display:none; justify-content:center; align-items:center;">
+  <div style="background:rgba(0,0,0,0.9); color:#fff; border-radius:12px; padding:20px; width:80%; max-width:600px; text-align:center; position:relative;">
+    <span class="close-btn" onclick="document.getElementById('funnyLibrary').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
+    <h2>😂 نكت مضحكة</h2>
+    <p id="jokeText" style="font-size:18px; margin:20px 0;">نكتة البداية...</p>
+    <div>
+      <button onclick="prevJoke()" style="margin:5px;">⬅️ السابق</button>
+      <button onclick="nextJoke()" style="margin:5px;">➡️ التالي</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة الفيديوهات المضحكة -->
+<div id="funnyVideos" class="video-modal" style="display:none; justify-content:center; align-items:center;">
+  <div class="video-content" style="position:relative; width:85%; max-width:900px;">
+    <span class="close-btn" onclick="document.getElementById('funnyVideos').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
+    <iframe id="funnyFrame" src="" frameborder="0" allowfullscreen style="width:100%; height:500px; border-radius:10px;"></iframe>
+  </div>
+</div>
+
+<script>
+// ✅ نكت متغيرة تلقائيًا
+const jokes = [
+  "مرة واحد راح للدكتور قاله: كل ما أشرب شاي بحس بألم بعيني، قاله الدكتور: حاول تشيل المعلقة من الكوب 😂",
+  "واحد غبي بيقول لصاحبه: أنا اشتريت ساعة ضد الميه، قاله: طب ليه؟ الميه معاها موبايل؟ 🤣",
+  "فيه واحد نام في الشغل، المدير صحيه وقاله: انت نايم ليه؟ قاله: والله يا فندم كنت بحلم إني في الشغل! 😅",
+  "قالوا لواحد: ليه بتضحك؟ قالهم: أصل الدكتور قالي لازم أبتسم كل يوم… وأنا بنفذ الأوامر 😂",
+  "مرة واحد بخيل فتح التلاجة شاف المراية، قال: الحمد لله لسه في حد في البيت 😆"
+];
+let jokeIndex = 0;
+function showJoke(index){ document.getElementById('jokeText').innerText = jokes[index]; }
+function nextJoke(){ jokeIndex = (jokeIndex + 1) % jokes.length; showJoke(jokeIndex); }
+function prevJoke(){ jokeIndex = (jokeIndex - 1 + jokes.length) % jokes.length; showJoke(jokeIndex); }
+setInterval(nextJoke, 5000);
+showJoke(0);
+
+// ✅ فيديوهات مضحكة
+function openFunnyVideo(id){
+  const modal = document.getElementById('funnyVideos');
+  const frame = document.getElementById('funnyFrame');
+  modal.style.display = 'flex';
+  frame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+}
+</script>
+
+<script>
+function openVideo(videoId) {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'flex';
+    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+  }
+}
+
+function closeVideo() {
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  if (modal && frame) {
+    modal.style.display = 'none';
+    frame.src = "";
+  }
+}
 </script>
