@@ -1,218 +1,4 @@
-<!<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pong Pong</title>
-<style>
-body {margin:0;font-family:"Tajawal",sans-serif;background:transparent;overflow:hidden;}
-#pongButton {
-  position: fixed; bottom: 20px; right: 20px;
-  background: rgba(0,255,128,0.15); color:black;
-  border: 2px solid #00ff80; padding:12px 20px;
-  border-radius:50px; font-size:16px; font-weight:bold;
-  cursor:pointer; z-index:9999; display:flex; flex-direction:column;
-  align-items:center;
-}
-#playerCount { font-size:12px;color:#00ff80;margin-top:2px;}
-#connectionStatus { font-size:10px;color:#00ff80;}
-#pongContainer {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,200,100,0.12);
-  backdrop-filter: blur(3px); justify-content:center; align-items:center;
-  flex-direction:column; z-index:9998;
-}
-canvas {
-  background:rgba(0,255,128,0.12); box-shadow:0 0 25px rgba(0,255,128,0.3);
-  border-radius:15px; width:90%; max-width:900px; height:auto;
-}
-#menu {
-  display:none; flex-direction:column; align-items:center; gap:10px;
-  background:rgba(255,255,255,0.1); padding:15px; border-radius:12px;
-}
-button {
-  background: rgba(0,255,128,0.2); border:2px solid #00ff80; color:black;
-  font-weight:bold; padding:10px 20px; border-radius:12px; cursor:pointer;
-  transition:0.3s;
-}
-button:hover{background: rgba(0,255,128,0.35);}
-#closePong {
-  position:absolute; top:10px; left:10px;
-  background:rgba(255,0,0,0.6); color:white; padding:6px 12px; border-radius:10px;
-  cursor:pointer;
-}
-#endGame {
-  position:fixed; bottom:15px; left:50%; transform:translateX(-50%);
-  background:rgba(255,0,0,0.8); color:white; border:none;
-  padding:10px 25px; border-radius:20px; font-size:14px; cursor:pointer;
-  display:none; z-index:10000;
-}
-#difficulty { display:none; flex-direction:column; align-items:center; gap:8px; }
-label { color:black; font-weight:bold; }
-</style>
-</head>
-<body>
-
-<button id="pongButton">
-  🏓 Pong Pong
-  <span id="playerCount">👥 0</span>
-  <span id="connectionStatus">🌐 Offline</span>
-</button>
-
-<div id="pongContainer">
-  <div id="closePong">X</div>
-  <div id="menu">
-    <h3 style="color:black;">اختر الوضع:</h3>
-    <button id="vsComputer">اللعب ضد الكمبيوتر</button>
-    <button id="vsPlayer">اللعب ضد لاعب</button>
-    <div id="difficulty">
-      <label>اختر مستوى الصعوبة:</label>
-      <button data-level="easy">سهل Easy</button>
-      <button data-level="medium">متوسط Medium</button>
-      <button data-level="hard">صعب Hard</button>
-    </div>
-  </div>
-  <canvas id="pong"></canvas>
-</div>
-
-<button id="endGame">إنهاء اللعبة / End Game</button>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const _key = ["AIzaSy","DDPcEIVAn-","xv6dKcPrTzDeOIxSA8M58v8"];
-const firebaseConfig = {
-  apiKey:_key.join(""),
-  authDomain:"abwalqmrzmrd-47557.firebaseapp.com",
-  databaseURL:"https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-  projectId:"abwalqmrzmrd-47557",
-  storageBucket:"abwalqmrzmrd-47557.appspot.com",
-  messagingSenderId:"957400167542",
-  appId:"1:957400167542:web:a3b341fad9b1142aaedb57"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const playerCountEl = document.getElementById("playerCount");
-const connectionStatus = document.getElementById("connectionStatus");
-
-// تسجيل لاعب متصل
-const playersRef = ref(db,"pongPlayers");
-const myRef = push(playersRef);
-set(myRef,{online:true});
-onDisconnect(myRef).remove();
-
-// تحديث عداد اللاعبين
-onValue(playersRef, snap=>{
-  const val = snap.val() || {};
-  playerCountEl.textContent = "👥 " + Object.keys(val).length;
-});
-
-// حالة الانترنت
-function updateStatus(){
-  if(navigator.onLine){connectionStatus.textContent="🌐 Online"; connectionStatus.style.color="#00ff80";}
-  else{connectionStatus.textContent="🌐 Offline"; connectionStatus.style.color="red";}
-}
-window.addEventListener("online", updateStatus);
-window.addEventListener("offline", updateStatus);
-updateStatus();
-</script>
-
-<script>
-const pongContainer = document.getElementById("pongContainer");
-const canvas = document.getElementById("pong");
-const ctx = canvas.getContext("2d");
-const menu = document.getElementById("menu");
-const difficultyDiv = document.getElementById("difficulty");
-const pongButton = document.getElementById("pongButton");
-const closePong = document.getElementById("closePong");
-const endGameBtn = document.getElementById("endGame");
-
-let animFrame, mode, level;
-let player1, player2, ball;
-let ballSpeed = 4, paddleSpeed = 6;
-
-function resizeCanvas(){
-  canvas.width = window.innerWidth*0.9;
-  canvas.height = window.innerHeight*0.7;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-function initGame(){
-  const paddleHeight = canvas.height/5;
-  const paddleWidth = 10;
-  player1={x:10, y:canvas.height/2 - paddleHeight/2, color:"yellow"};
-  player2={x:canvas.width-20, y:canvas.height/2 - paddleHeight/2, color:"yellow"};
-  ball={x:canvas.width/2, y:canvas.height/2, r:8, dx:ballSpeed, dy:ballSpeed};
-}
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle=player1.color; ctx.fillRect(player1.x,player1.y,10,canvas.height/5);
-  ctx.fillStyle=player2.color; ctx.fillRect(player2.x,player2.y,10,canvas.height/5);
-  ctx.fillStyle="white"; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
-}
-
-function update(){
-  ball.x += ball.dx; ball.y += ball.dy;
-  if(ball.y-ball.r<0 || ball.y+ball.r>canvas.height) ball.dy*=-1;
-  if(ball.x-player1.x-10<ball.r && ball.y>player1.y && ball.y<player1.y+canvas.height/5) ball.dx*=-1;
-  if(ball.x-ball.r>player2.x && ball.y>player2.y && ball.y<player2.y+canvas.height/5) ball.dx*=-1;
-
-  // حركة الكمبيوتر محسنة مع حدود الملعب
-  if(mode==="computer"){
-    const target = ball.y - (canvas.height/10);
-    player2.y += (target - player2.y) * 0.1; // تتبع سلسة بنسبة 10%
-    if(player2.y<0) player2.y=0;
-    if(player2.y+canvas.height/5>canvas.height) player2.y=canvas.height - canvas.height/5;
-  }
-
-  if(ball.x<0 || ball.x>canvas.width) initGame();
-}
-
-function gameLoop(){
-  update();
-  draw();
-  if(level==="hard") {ball.dx*=1.0001; ball.dy*=1.0001;}
-  animFrame=requestAnimationFrame(gameLoop);
-}
-
-document.getElementById("vsComputer").onclick=()=>{mode="computer"; difficultyDiv.style.display="flex";}
-document.getElementById("vsPlayer").onclick=()=>{mode="player"; difficultyDiv.style.display="flex";}
-
-difficultyDiv.querySelectorAll("button").forEach(btn=>{
-  btn.onclick=()=>{
-    level=btn.dataset.level;
-    if(level==="easy"){ballSpeed=3;paddleSpeed=4;}
-    if(level==="medium"){ballSpeed=5;paddleSpeed=6;}
-    if(level==="hard"){ballSpeed=7;paddleSpeed=9;}
-    difficultyDiv.style.display="none";
-    menu.style.display="none";
-    initGame();
-    gameLoop();
-    endGameBtn.style.display="block";
-  };
-});
-
-canvas.addEventListener("mousemove", e=>{
-  const rect=canvas.getBoundingClientRect();
-  player1.y = e.clientY - rect.top - canvas.height/10;
-});
-canvas.addEventListener("touchmove", e=>{
-  e.preventDefault();
-  const rect=canvas.getBoundingClientRect();
-  player1.y = e.touches[0].clientY - rect.top - canvas.height/10;
-},{passive:false});
-
-pongButton.onclick=()=>{pongContainer.style.display="flex"; menu.style.display="flex";}
-closePong.onclick=()=>{cancelAnimationFrame(animFrame); pongContainer.style.display="none"; endGameBtn.style.display="none";}
-endGameBtn.onclick=()=>{cancelAnimationFrame(animFrame); initGame(); menu.style.display="flex"; endGameBtn.style.display="none";}
-</script>
-
-</body>
-</html>
+<!DOCTYPE h
 
 <!DOCTYPE html><!-- 🌌 خلفية فيديو متوهجة بالزمرد -->
 <div id="video-background">
@@ -955,125 +741,329 @@ body {
   <div class="video-circle small glow-circle" onclick="openVideoModal('zq6ohxTDNZY')">
     <iframe src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY" frameborder="0" allowfullscreen></iframe>
   </div>
-  
-</div><!DOCTYPE html>
+</div>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مكتبة التعليم والدين والفيديو</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>لعبة بونج بونج</title>
 <style>
-body {
-  background: radial-gradient(circle at center, #000 60%, #001f3f);
-  color: #fff;
-  font-family: 'Tajawal', sans-serif;
-  text-align: center;
-  margin: 0;
-}
-.icon-circle {
-  padding: 12px 18px;
-  border-radius: 50%;
-  cursor: pointer;
-  text-align: center;
-  min-width: 80px;
-  transition: 0.3s;
-  background: rgba(0,0,0,0.7);
-  color: #fff;
-  display: inline-block;
-}
-.icon-circle:hover { transform: scale(1.1); }
-.library-content {
-  display: none;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-  justify-content: center;
-}
-.glow-circle {
-  animation: glow 2s infinite;
-}
-@keyframes glow {
-  0% { box-shadow: 0 0 10px #50C878, 0 0 20px #50C878; }
-  50% { box-shadow: 0 0 20px #50C878, 0 0 40px #50C878; }
-  100% { box-shadow: 0 0 10px #50C878, 0 0 20px #50C878; }
-}
-.blue-glow {
-  background: rgba(0,0,50,0.7);
-  color: #b3e6ff;
-  box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
-  transition: 0.3s;
-}
-.blue-glow:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px #00ffff, 0 0 45px #00bfff;
-}
+  body {
+    margin: 0;
+    font-family: "Tajawal", sans-serif;
+    background: #000;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* أيقونة اللعبة */
+  #pongButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 255, 255, 0.4);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 9999;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+  }
+  #pongButton:hover {
+    background: rgba(0, 255, 255, 0.7);
+  }
+
+  /* نافذة اللعبة */
+  #pongContainer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 200, 100, 0.15);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9998;
+  }
+
+  canvas {
+    background: rgba(0, 255, 128, 0.12);
+    box-shadow: 0 0 25px rgba(0, 255, 128, 0.3);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 700px;
+    height: auto;
+  }
+
+  #menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  button {
+    background: rgba(0, 255, 255, 0.3);
+    border: none;
+    color: black;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background: rgba(0, 255, 255, 0.6);
+  }
+
+  #closePong {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 0, 0, 0.6);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  #endGame {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    z-index: 10000;
+  }
+  #endGame:hover {
+    background: rgba(255, 50, 50, 0.9);
+  }
+
+  #difficulty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  label {
+    color: black;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
-  <div style="display:flex; justify-content:center; gap:20px; margin-top:20px; flex-wrap:wrap;">
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('videoLibraryContent')">🎥 مكتبة الفيديو</div>
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('funnyLibrary')">😂 قصص وفكاهة</div>
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryEducationContent')">📘 تعليمية</div>
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.85);color:#fff;">📚 دينية</div>
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.9);color:#fff;">🎬 أفلام</div>
-    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
-  </div>
 
-  <!-- المكتبة التعليمية -->
-  <div class="library-content" id="libraryEducationContent">
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
-  </div>
+<button id="pongButton">🎮 بونج بونج Pong Pong</button>
 
-  <!-- المكتبة الدينية -->
-  <div class="library-content" id="libraryReligionContent">
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
-  </div>
+<div id="pongContainer">
+  <div id="closePong">X</div>
+  <div id="menu">
+    <h3 style="color:black;">اختر الوضع:</h3>
+    <button id="vsComputer">اللعب ضد الكمبيوتر</button>
+    <button id="vsPlayer">اللعب ضد لاعب</button>
 
-  <!-- مكتبة الأفلام -->
-  <div class="library-content" id="libraryMoviesContent">
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/fqOALQ3pehE')">Sisters with Secrets</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/kJqW_xsMuh8')">جاكي شان</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/0go3k0frmjc')">فلم هندي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/D3oO_9S6TVM')">Filme Faster</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
+    <div id="difficulty">
+      <label>اختر مستوى الصعوبة:</label>
+      <button data-level="easy">سهل Easy</button>
+      <button data-level="medium">متوسط Medium</button>
+      <button data-level="hard">صعب Hard</button>
+    </div>
   </div>
+  <canvas id="pong"></canvas>
+</div>
 
-  <!-- مكتبة الموسيقى -->
-  <div class="library-content" id="libraryMusicContent">
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/2U0RjjiBorY')">فهد السعيد</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/FDyB8dcSptk')">عيسى الأحسائي</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/l8CGuJzyiR8')">بشير</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/r-m2wwJy2cQ')">طلال</div>
-    <div class="icon-circle blue-glow" onclick="openVideo('https://www.youtube.com/embed/kEIWBDqovoI')">محمد عبده</div>
-  </div>
+<button id="endGame">إنهاء اللعبة / End Game</button>
 
 <script>
-function toggleLibrary(id){
-  const section = document.getElementById(id);
-  section.style.display = (section.style.display === 'none' || section.style.display === '') ? 'flex' : 'none';
+const pongContainer = document.getElementById("pongContainer");
+const canvas = document.getElementById("pong");
+const ctx = canvas.getContext("2d");
+const menu = document.getElementById("menu");
+const difficultyDiv = document.getElementById("difficulty");
+const pongButton = document.getElementById("pongButton");
+const closePong = document.getElementById("closePong");
+const endGameBtn = document.getElementById("endGame");
+
+let animFrame, mode, level;
+let player1, player2, ball;
+
+let ballSpeed = 4, paddleSpeed = 6;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth * 0.9;
+  canvas.height = window.innerHeight * 0.6;
 }
-function openVideo(url){
-  const win = window.open(url, '_blank');
-  if (win) win.focus();
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function initGame() {
+  const paddleHeight = canvas.height / 5;
+  const paddleWidth = 10;
+  player1 = { x: 10, y: canvas.height / 2 - paddleHeight / 2, color: "yellow" };
+  player2 = { x: canvas.width - 20, y: canvas.height / 2 - paddleHeight / 2, color: "blue" };
+  ball = { x: canvas.width / 2, y: canvas.height / 2, r: 8, dx: ballSpeed, dy: ballSpeed };
 }
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = player1.color;
+  ctx.fillRect(player1.x, player1.y, 10, canvas.height / 5);
+  ctx.fillStyle = player2.color;
+  ctx.fillRect(player2.x, player2.y, 10, canvas.height / 5);
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.font = "bold 16px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText("Player", player1.x + 5, 20);
+  ctx.fillText(mode === "computer" ? "Computer" : "Player 2", player2.x - 80, 20);
+}
+
+function update() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if (ball.y - ball.r < 0 || ball.y + ball.r > canvas.height) ball.dy *= -1;
+  if (ball.x - ball.r < player1.x + 10 && ball.y > player1.y && ball.y < player1.y + canvas.height / 5) ball.dx *= -1;
+  if (ball.x + ball.r > player2.x && ball.y > player2.y && ball.y < player2.y + canvas.height / 5) ball.dx *= -1;
+
+  if (mode === "computer") {
+    if (player2.y + canvas.height / 10 < ball.y) player2.y += paddleSpeed;
+    else player2.y -= paddleSpeed;
+  }
+
+  if (ball.x < 0 || ball.x > canvas.width) initGame();
+}
+
+function gameLoop() {
+  update();
+  draw();
+  if (level === "hard") ballSpeed += 0.0003;
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+document.getElementById("vsComputer").onclick = () => {
+  mode = "computer";
+  difficultyDiv.style.display = "flex";
+};
+
+document.getElementById("vsPlayer").onclick = () => {
+  mode = "player";
+  difficultyDiv.style.display = "flex";
+};
+
+difficultyDiv.querySelectorAll("button").forEach(btn => {
+  btn.onclick = () => {
+    level = btn.dataset.level;
+    if (level === "easy") { ballSpeed = 3; paddleSpeed = 4; }
+    if (level === "medium") { ballSpeed = 5; paddleSpeed = 6; }
+    if (level === "hard") { ballSpeed = 7; paddleSpeed = 9; }
+    difficultyDiv.style.display = "none";
+    menu.style.display = "none";
+    initGame();
+    gameLoop();
+    endGameBtn.style.display = "block";
+  };
+});
+
+canvas.addEventListener("mousemove", e => {
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.clientY - rect.top - canvas.height / 10;
+});
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.touches[0].clientY - rect.top - canvas.height / 10;
+}, { passive: false });
+
+pongButton.onclick = () => {
+  pongContainer.style.display = "flex";
+  menu.style.display = "flex";
+};
+
+closePong.onclick = () => {
+  cancelAnimationFrame(animFrame);
+  pongContainer.style.display = "none";
+  endGameBtn.style.display = "none";
+};
+
+endGameBtn.onclick = () => {
+  cancelAnimationFrame(animFrame);
+  initGame();
+  menu.style.display = "flex";
+  endGameBtn.style.display = "none";
+};
 </script>
 </body>
 </html>
+
+<!-- مكتبة الفيديو والفكاهة والتعليمية -->
+<div class="library-col">
+  <div style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('videoLibraryContent')">🎥 مكتبة الفيديو</div>
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('funnyLibrary')">😂 قصص وفكاهة</div>
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryEducationContent')">📘 تعليمية</div>
+  </div>
+
+  <!-- مكتبة الفيديو -->
+  <div class="library-content" id="videoLibraryContent" style="display:none;">
+    <!-- الوثائقي -->
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryDocContent')">📼 الوثائقية</div>
+    <div class="library-content" id="libraryDocContent" style="display:none;">
+      <div class="icon-circle glow-circle" onclick="openVideoModal('R62QVvz1Aso')">نيرون صبيا</div>
+      <div class="icon-circle glow-circle" onclick="openVideoModal('23jGQdwSRJs')">الحرب العالمية الثانية</div>
+      <div class="icon-circle glow-circle" onclick="openVideoModal('DNE6YbGO6-M')">زواج كاترين دي</div>
+    </div>
+
+    <!-- كرتون -->
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryCartoonContent')">🎨 كرتون</div>
+    <div class="library-content" id="libraryCartoonContent" style="display:none;">
+      <div class="icon-circle glow-circle" onclick="openVideoModal('U5sBC9Fr0fA')">كرتون</div>
+    </div>
+
+    <!-- أفلام -->
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryMoviesContent')">🎬 أفلام</div>
+    <div class="library-content" id="libraryMoviesContent" style="display:none;">
+      <div class="icon-circle glow-circle" onclick="openVideoModal('R4TZ6r_af8A')">أجنبي</div>
+      <div class="icon-circle glow-circle" onclick="openVideoModal('qxAXFYcbOpU')">عربي</div>
+      <div class="icon-circle glow-circle" onclick="openVideoModal('LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+    </div>
+
+    <!-- موسيقى -->
+    <div class="icon-circle glow-circle" onclick="toggleLibrary('libraryMusicContent')">🎵 موسيقى</div>
+    <div class="library-content" id="libraryMusicContent" style="display:none;">
+      <div class="icon-circle glow-circle" onclick="openVideoModal('KKGQrOL6e7Y')">عربي</div>
+      <div class="icon-circle glow-circle" onclick="openVideoModal('vPg67r76hAA')">أجنبي</div>
+    </div>
+  </div>
+
+
+  <!-- مكتبة التعليم -->
+  <div class="library-content" id="libraryEducationContent" style="display:none;">
+    <div class="icon-circle glow-circle" onclick="openVideoModal('hOH7ZLE-ZN8')">إبراهيم الفقي</div>
+    <div class="icon-circle glow-circle" onclick="openVideoModal('sJ5ib2Gbfy8')">مصطفى محمود</div>
+    <div class="icon-circle glow-circle" onclick="openVideoModal('fMlF99erfHw')">سقراط</div>
+  </div>
+</div>
 
 <!-- مودال الفيديو -->
 <div id="videoModal" class="video-modal">
@@ -1277,8 +1267,10 @@ function closeVideoModal(){ document.getElementById('videoModal').style.display=
 function showSection(id){ document.getElementById(id).style.display='block'; }
 function closeSection(btn){ btn.parentElement.style.display='none'; }
 </script>
+
 </body>
 </html>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -2127,6 +2119,7 @@ function closeVideo() {
     frame.src = "";
   }
 }
+
 </script>
 <!-- 🔹 أيقونة الدردشة -->
 <div id="chat-icon" title="فتح الدردشة" style="
