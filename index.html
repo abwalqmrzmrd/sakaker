@@ -1,169 +1,4 @@
 <!DOCTYPE html>
-<!-- أيقونة مكتبة الفيديو والفكاهة -->
-<div class="library-col">
-
-  <!-- أيقونتان فوق قسم الدعم -->
-  <div style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
-    <div class="icon-circle glow" onclick="toggleLibrary('videoLibraryContent')" 
-         style="background:linear-gradient(45deg,#FFD700,#00BFFF); color:#000; padding:15px 25px; border-radius:50%; cursor:pointer;">
-         🎥 مكتبة الفيديو
-    </div>
-    <div class="icon-circle glow" onclick="toggleLibrary('funnyLibrary')" 
-         style="background:linear-gradient(45deg,#FF69B4,#FF4500); color:#fff; padding:15px 25px; border-radius:50%; cursor:pointer;">
-         😂 قصص فكاهية
-    </div>
-  </div>
-
-  <!-- مكتبة الفيديو -->
-  <div class="library-content" id="videoLibraryContent" style="display:none;">
-    <!-- الوثائقي -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 الوثائقية</div>
-    <div class="library-content" id="libraryDocContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('R62QVvz1Aso')">نيرون صبيا</div>
-      <div class="icon-circle glow" onclick="openVideo('23jGQdwSRJs')">الحرب العالمية الثانية</div>
-      <div class="icon-circle glow" onclick="openVideo('DNE6YbGO6-M')">زواج كاترين دي</div>
-      <div class="icon-circle glow" onclick="openVideo('zh2HwG8fYFo')">الحضارات الإنسانية</div>
-      <div class="icon-circle glow" onclick="openVideo('hvJSvGslOl8')">صدام حسين</div>
-      <div class="icon-circle glow" onclick="openVideo('RO0xx5oeTA8')">كوريا الشمالية</div>
-      <div class="icon-circle glow" onclick="openVideo('4F-47lqOHDU')">جريمة في المنازل</div>
-      <div class="icon-circle glow" onclick="openVideo('EB6-ZDBF0hM')">سرقة القرن في البرازيل</div>
-      <div class="icon-circle glow" onclick="openVideo('uvjMiLxNLnk')">تاريخ اليهود</div>
-      <div class="icon-circle glow" onclick="openVideo('3HmOr-as-TA')">منغوليا</div>
-    </div>
-
-    <!-- كرتون -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.8);color:#fff;">🎨 كرتون</div>
-    <div class="library-content" id="libraryCartoonContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('U5sBC9Fr0fA')">كرتون</div>
-    </div>
-
-    <!-- أفلام -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.9);color:#fff;">🎬 أفلام</div>
-    <div class="library-content" id="libraryMoviesContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('R4TZ6r_af8A')">أجنبي</div>
-      <div class="icon-circle glow" onclick="openVideo('qxAXFYcbOpU')">عربي</div>
-      <div class="icon-circle glow" onclick="openVideo('LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-      <div class="icon-circle glow" onclick="openVideo('2p55ymDVH5Y')">فلم الحدود</div>
-      <div class="icon-circle glow" onclick="openVideo('anMBqlPFCwU')">الرجل السكير</div>
-      <div class="icon-circle glow" onclick="openVideo('aznfIFN7cyo')">كينج فو</div>
-      <div class="icon-circle glow" onclick="openVideo('fqOALQ3pehE')">Sisters with Secrets</div>
-      <div class="icon-circle glow" onclick="openVideo('kJqW_xsMuh8')">جاكي شان</div>
-      <div class="icon-circle glow" onclick="openVideo('0go3k0frmjc')">فلم هندي</div>
-      <div class="icon-circle glow" onclick="openVideo('D3oO_9S6TVM')">Filme Faster</div>
-      <div class="icon-circle glow" onclick="openVideo('Hf0-8kV-6E4')">Comedy Filme</div>
-    </div>
-
-    <!-- دينية -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.85);color:#fff;">📚 دينية</div>
-    <div class="library-content" id="libraryReligionContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('myYiNE3HpKc')">قصص الأنبياء</div>
-      <div class="icon-circle glow" onclick="openVideo('kIj0E3Pl1kY')">تفسير القرآن</div>
-      <div class="icon-circle glow" onclick="openVideo('UR6vcevAi5o')">قرآن</div>
-      <div class="icon-circle glow" onclick="openVideo('s-KsCr4VjMo')">تلبيس إبليس</div>
-    </div>
-
-    <!-- رياضة -->
-    <div class="icon-circle glow" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
-    <div class="library-content" id="librarySportsContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('X7ByhZIGEjI')">رياضة</div>
-      <div class="icon-circle glow" onclick="openVideo('NYTo6KB7IqQ')">كرة القدم النسائية</div>
-      <div class="icon-circle glow" onclick="openVideo('yMb_7VEhyNQ')">كرة القدم رجال</div>
-      <div class="icon-circle glow" onclick="openVideo('s3qWsdWfK24')">نادي تشلسي</div>
-      <div class="icon-circle glow" onclick="openVideo('6J4JEFwm63o')">التعاون 5 الرائد 1</div>
-    </div>
-
-    <!-- مطبخ -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
-    <div class="library-content" id="libraryCookingContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('bW_nnH2EAMM')">الطبخ</div>
-    </div>
-
-    <!-- موسيقى -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
-    <div class="library-content" id="libraryMusicContent" style="display:none;">
-      <div class="icon-circle glow" onclick="openVideo('KKGQrOL6e7Y')">عربي</div>
-      <div class="icon-circle glow" onclick="openVideo('vPg67r76hAA')">أجنبي</div>
-      <div class="icon-circle glow" onclick="openVideo('o3PqK4ANeLU')">شرقية</div>
-      <div class="icon-circle glow" onclick="openVideo('Rp1gppNGmRo')">غربية</div>
-      <div class="icon-circle glow" onclick="openVideo('2U0RjjiBorY')">فهد السعيد</div>
-      <div class="icon-circle glow" onclick="openVideo('FDyB8dcSptk')">عيسى الأحسائي</div>
-      <div class="icon-circle glow" onclick="openVideo('l8CGuJzyiR8')">بشير</div>
-      <div class="icon-circle glow" onclick="openVideo('r-m2wwJy2cQ')">طلال</div>
-      <div class="icon-circle glow" onclick="openVideo('kEIWBDqovoI')">محمد عبده</div>
-    </div>
-
-    <!-- جولة معرفية -->
-    <div class="icon-circle glow" onclick="toggleLibrary('libraryKnowledgeContent')" style="background:rgba(0,0,128,0.75);color:#fff;">📖 جولة معرفية</div>
-    <div class="library-content" id="libraryKnowledgeContent" style="display:none;">
-      <div class="icon-circle glow" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
-      <div class="icon-circle glow" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
-      <div class="icon-circle glow" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
-      <div class="icon-circle glow" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء وضعت للتاريخ</div>
-      <div class="icon-circle glow" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
-    </div>
-  </div>
-
-  <!-- مكتبة الفكاهة -->
-  <div class="library-content" id="funnyLibrary" style="display:none;">
-    <div class="icon-circle glow" onclick="document.getElementById('jokesModal').style.display='flex'">🤣 نكت</div>
-    <div class="icon-circle glow" onclick="document.getElementById('stupidModal').style.display='flex'">🙃 حكايات الأغبياء</div>
-    <div class="icon-circle glow" onclick="document.getElementById('funnyStoryModal').style.display='flex'">😂 قصة فكاهية</div>
-  </div>
-
-</div>
-
-<!-- مودال الفيديو -->
-<div class="video-modal" id="videoModal">
-  <div class="video-circle" onclick="event.stopPropagation()">
-    <span class="close-video" onclick="closeVideo()">×</span>
-    <iframe id="videoFrame" src="" allowfullscreen></iframe>
-  </div>
-</div>
-
-<script>
-function openVideo(videoId){
-  const modal=document.getElementById('videoModal');
-  const frame=document.getElementById('videoFrame');
-  if(modal && frame){
-    modal.style.display='flex';
-    frame.src="https://www.youtube.com/embed/"+videoId+"?autoplay=1";
-  }
-}
-function closeVideo(){
-  const modal=document.getElementById('videoModal');
-  const frame=document.getElementById('videoFrame');
-  if(modal && frame){
-    modal.style.display='none';
-    frame.src="";
-  }
-}
-function toggleLibrary(id){
-  const lib=document.getElementById(id);
-  if(lib) lib.style.display = lib.style.display==='none'?'flex':'none';
-}
-</script>
-
-<style>
-.library-content { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0; }
-.icon-circle { padding:10px 15px; border-radius:50%; cursor:pointer; text-align:center; min-width:80px; transition:0.3s; }
-.icon-circle:hover { transform:scale(1.1); }
-.glow:hover { box-shadow:0 0 20px #50C878, 0 0 40px #50C878; }
-
-.video-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; justify-content:center; align-items:center; background:radial-gradient(circle, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%); z-index:9999; }
-.video-circle { position:relative; width:90%; max-width:800px; aspect-ratio:1/1; border-radius:50%; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000; box-shadow: 0 0 40px 20px #50C878; animation: pulse 2s infinite; }
-.video-circle iframe { width:100%; height:100%; border:none; border-radius:50%; }
-
-.close-video { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:48px; color:#fff; text-shadow:0 0 15px #50C878; cursor:pointer; z-index:1000; transition:0.3s; }
-.close-video:hover { color:#ff0; text-shadow:0 0 20px #fff; }
-
-@keyframes pulse { 0% { box-shadow:0 0 40px 20px #50C878; } 50% { box-shadow:0 0 60px 30px #50C878; } 100% { box-shadow:0 0 40px 20px #50C878; } }
-
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); z-index:9999; overflow:auto; }
-.modal-content { background:#222; color:#fff; padding:20px; border-radius:10px; max-width:600px; width:90%; position:relative; }
-.close { position:absolute; top:10px; right:15px; font-size:32px; cursor:pointer; color:#fff; }
-.close:hover { color:#ff5555; }
-</style>
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -956,24 +791,178 @@ input[type="text"] {
     }
   }
 </script>
-
-
-<!-- Video circles -->
+<!-- الفيديوهات العلوية -->
 <div class="video-top-container">
-  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
+  <div class="video-circle small glow" onclick="openVideoModal('n7eQejkXbnM')">
     <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM" frameborder="0" allowfullscreen></iframe>
   </div>
-  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
+  <div class="video-circle small glow" onclick="openVideoModal('zq6ohxTDNZY')">
     <iframe src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY" frameborder="0" allowfullscreen></iframe>
   </div>
 </div>
 
+<!-- مكتبة الفيديو والفكاهة -->
+<div class="library-col">
+  <div style="display:flex; justify-content:center; gap:20px; margin-top:20px;">
+    <div class="icon-circle glow" onclick="toggleLibrary('videoLibraryContent')" style="background:linear-gradient(45deg,#FFD700,#00BFFF); color:#000;">🎥 مكتبة الفيديو</div>
+    <div class="icon-circle glow" onclick="toggleLibrary('funnyLibrary')" style="background:linear-gradient(45deg,#FF69B4,#FF4500); color:#fff;">😂 قصص وفكاهة</div>
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryEducationContent')" style="background:linear-gradient(45deg,#00CED1,#00FA9A); color:#000;">🎓 مكتبة تعليمية</div>
+  </div>
+
+  <!-- مكتبة الفيديو -->
+  <div class="library-content" id="videoLibraryContent" style="display:none;">
+    <!-- الوثائقي -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryDocContent')" style="background:rgba(255,215,0,0.85);color:#000;">📼 الوثائقية</div>
+    <div class="library-content" id="libraryDocContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('R62QVvz1Aso')">نيرون صبيا</div>
+      <div class="icon-circle glow" onclick="openVideoModal('23jGQdwSRJs')">الحرب العالمية الثانية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('DNE6YbGO6-M')">زواج كاترين دي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('zh2HwG8fYFo')">الحضارات الإنسانية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('hvJSvGslOl8')">صدام حسين</div>
+      <div class="icon-circle glow" onclick="openVideoModal('RO0xx5oeTA8')">كوريا الشمالية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('4F-47lqOHDU')">جريمة في المنازل</div>
+      <div class="icon-circle glow" onclick="openVideoModal('EB6-ZDBF0hM')">سرقة القرن في البرازيل</div>
+      <div class="icon-circle glow" onclick="openVideoModal('uvjMiLxNLnk')">تاريخ اليهود</div>
+      <div class="icon-circle glow" onclick="openVideoModal('3HmOr-as-TA')">منغوليا</div>
+    </div>
+
+    <!-- كرتون -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryCartoonContent')" style="background:rgba(0,0,0,0.8);color:#fff;">🎨 كرتون</div>
+    <div class="library-content" id="libraryCartoonContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('U5sBC9Fr0fA')">كرتون</div>
+    </div>
+
+    <!-- أفلام -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryMoviesContent')" style="background:rgba(50,50,50,0.9);color:#fff;">🎬 أفلام</div>
+    <div class="library-content" id="libraryMoviesContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('R4TZ6r_af8A')">أجنبي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('qxAXFYcbOpU')">عربي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+      <div class="icon-circle glow" onclick="openVideoModal('2p55ymDVH5Y')">فلم الحدود</div>
+      <div class="icon-circle glow" onclick="openVideoModal('anMBqlPFCwU')">الرجل السكير</div>
+      <div class="icon-circle glow" onclick="openVideoModal('aznfIFN7cyo')">كينج فو</div>
+      <div class="icon-circle glow" onclick="openVideoModal('fqOALQ3pehE')">Sisters with Secrets</div>
+      <div class="icon-circle glow" onclick="openVideoModal('kJqW_xsMuh8')">جاكي شان</div>
+      <div class="icon-circle glow" onclick="openVideoModal('0go3k0frmjc')">فلم هندي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('D3oO_9S6TVM')">Filme Faster</div>
+      <div class="icon-circle glow" onclick="openVideoModal('Hf0-8kV-6E4')">Comedy Filme</div>
+    </div>
+
+    <!-- دينية -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryReligionContent')" style="background:rgba(0,100,0,0.85);color:#fff;">📚 دينية</div>
+    <div class="library-content" id="libraryReligionContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="icon-circle glow" onclick="openVideoModal('kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="icon-circle glow" onclick="openVideoModal('UR6vcevAi5o')">قرآن</div>
+      <div class="icon-circle glow" onclick="openVideoModal('s-KsCr4VjMo')">تلبيس إبليس</div>
+    </div>
+
+    <!-- رياضة -->
+    <div class="icon-circle glow" onclick="toggleLibrary('librarySportsContent')" style="background:rgba(165,42,42,0.85);color:#fff;">⚽ رياضة</div>
+    <div class="library-content" id="librarySportsContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('X7ByhZIGEjI')">رياضة</div>
+      <div class="icon-circle glow" onclick="openVideoModal('NYTo6KB7IqQ')">كرة القدم النسائية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('yMb_7VEhyNQ')">كرة القدم رجال</div>
+      <div class="icon-circle glow" onclick="openVideoModal('s3qWsdWfK24')">نادي تشلسي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('6J4JEFwm63o')">التعاون 5 الرائد 1</div>
+    </div>
+
+    <!-- مطبخ -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryCookingContent')" style="background:rgba(199,21,133,0.85);color:#fff;">🍳 مطبخ</div>
+    <div class="library-content" id="libraryCookingContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('bW_nnH2EAMM')">الطبخ</div>
+    </div>
+
+    <!-- موسيقى -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryMusicContent')" style="background:rgba(255,105,180,0.85);color:#000;">🎵 موسيقى</div>
+    <div class="library-content" id="libraryMusicContent" style="display:none;">
+      <div class="icon-circle glow" onclick="openVideoModal('KKGQrOL6e7Y')">عربي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('vPg67r76hAA')">أجنبي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('o3PqK4ANeLU')">شرقية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('Rp1gppNGmRo')">غربية</div>
+      <div class="icon-circle glow" onclick="openVideoModal('2U0RjjiBorY')">فهد السعيد</div>
+      <div class="icon-circle glow" onclick="openVideoModal('FDyB8dcSptk')">عيسى الأحسائي</div>
+      <div class="icon-circle glow" onclick="openVideoModal('l8CGuJzyiR8')">بشير</div>
+      <div class="icon-circle glow" onclick="openVideoModal('r-m2wwJy2cQ')">طلال</div>
+      <div class="icon-circle glow" onclick="openVideoModal('kEIWBDqovoI')">محمد عبده</div>
+    </div>
+
+    <!-- جولة معرفية -->
+    <div class="icon-circle glow" onclick="toggleLibrary('libraryKnowledgeContent')" style="background:rgba(0,0,128,0.75);color:#fff;">📖 جولة معرفية</div>
+    <div class="library-content" id="libraryKnowledgeContent" style="display:none;">
+      <div class="icon-circle glow" onclick="document.getElementById('quizModal').style.display='flex'">🧩 ألغاز</div>
+      <div class="icon-circle glow" onclick="document.getElementById('testModal').style.display='flex'">❓ اختبر معلوماتك</div>
+      <div class="icon-circle glow" onclick="document.getElementById('generalModal').style.display='flex'">🌍 معلومات عامة</div>
+      <div class="icon-circle glow" onclick="document.getElementById('historyModal').style.display='flex'">🏛️ أسماء للتاريخ</div>
+      <div class="icon-circle glow" onclick="document.getElementById('humanModal').style.display='flex'">👤 الإنسان من المولد حتى الموت</div>
+    </div>
+  </div>
+
+  <!-- مكتبة القصص والفكاهة -->
+  <div class="library-content" id="funnyLibrary" style="display:none;">
+    <div class="icon-circle glow" onclick="document.getElementById('jokesModal').style.display='flex'">🤣 نكت</div>
+    <div class="icon-circle glow" onclick="document.getElementById('stupidModal').style.display='flex'">🙃 حكايات الأغبياء</div>
+    <div class="icon-circle glow" onclick="document.getElementById('funnyStoryModal').style.display='flex'">😂 قصة فكاهية</div>
+  </div>
+</div>
+
+<!-- مودال الفيديو -->
 <div id="videoModal" class="video-modal">
-  <div class="video-content">
-    <span class="close-btn" onclick="closeVideoModal()">×</span>
+  <div class="video-circle">
+    <span class="close-video" onclick="closeVideoModal()">×</span>
     <iframe id="modalVideo" src="" frameborder="0" allowfullscreen></iframe>
   </div>
 </div>
+
+<script>
+function openVideoModal(id){
+  const modal=document.getElementById('videoModal');
+  const frame=document.getElementById('modalVideo');
+  if(modal && frame){
+    modal.style.display='flex';
+    frame.src="https://www.youtube.com/embed/"+id+"?autoplay=1";
+  }
+}
+function closeVideoModal(){
+  const modal=document.getElementById('videoModal');
+  const frame=document.getElementById('modalVideo');
+  if(modal && frame){
+    modal.style.display='none';
+    frame.src="";
+  }
+}
+function toggleLibrary(id){
+  const lib=document.getElementById(id);
+  if(lib) lib.style.display = lib.style.display==='none'?'flex':'none';
+}
+</script>
+
+<style>
+.video-top-container { display:flex; justify-content:center; gap:20px; margin-bottom:20px; flex-wrap:wrap; }
+.video-circle { position:relative; border-radius:50%; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000; box-shadow:0 0 40px 20px #50C878; animation:pulse 2s infinite; }
+.video-circle iframe { width:100%; height:100%; border:none; border-radius:50%; }
+.video-circle.small { width:120px; height:120px; }
+
+.video-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; justify-content:center; align-items:center; background:radial-gradient(circle, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 100%); z-index:9999; }
+.video-modal .video-circle { width:80%; max-width:600px; aspect-ratio:1/1; }
+
+.close-video { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:48px; color:#fff; text-shadow:0 0 15px #50C878; cursor:pointer; z-index:1000; }
+.close-video:hover { color:#ff0; text-shadow:0 0 20px #fff; }
+
+.library-content { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0; }
+.icon-circle { padding:10px 15px; border-radius:50%; cursor:pointer; text-align:center; min-width:80px; transition:0.3s; }
+.icon-circle:hover { transform:scale(1.1); }
+.glow { box-shadow:0 0 20px #50C878, 0 0 40px #50C878; }
+.glow:hover { box-shadow:0 0 30px #50C878, 0 0 60px #50C878; }
+
+@keyframes pulse { 0% { box-shadow:0 0 40px 20px #50C878; } 50% { box-shadow:0 0 60px 30px #50C878; } 100% { box-shadow:0 0 40px 20px #50C878; } }
+
+@media (max-width:768px){ 
+  .video-top-container { flex-direction:row; overflow-x:auto; padding:10px;}
+  .video-circle.small { width:90px; height:90px; } 
+}
+</style>
+
 
 <!-- Bird sound -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
@@ -1624,100 +1613,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 </script>
 
 
-<!-- أيقونات المكتبات أفقي تحت الفيديو -->
-<div class="icons-row">
-  <!-- مكتبات كما في الأصل -->
-</script>
-
-<audio id="hitSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
-<audio id="scoreSound" preload="auto" src="https://www.soundjay.com/button/sounds/button-10.mp3"></audio>
-
-<style>
-#pongContainer { position: relative; width: 95%; max-width: 350px; margin: 20px auto; text-align: center; }
-#pongCanvas { width: 100%; height: 200px; background: transparent; display: block; margin-top: 10px; border-radius: 12px; }
-#pongUi button { margin: 3px; padding: 4px 10px; border-radius: 6px; border: none; background: rgba(0,0,0,0.6); color: #fff; cursor: pointer; font-size: 12px; }
-#levelMsg { display: none; text-align: center; font-weight: bold; font-size: 14px; }
-</style>
-
-<style>
-.library-knowledge .icon-circle { background: rgba(255,0,0,0.25); color:#222; cursor:pointer; margin:5px; padding:10px; border-radius:50%; text-align:center; }
-.library-knowledge .icon-circle:hover { background: rgba(255,0,0,0.35); }
-.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999; overflow:auto;}
-.modal-content { width:90%; max-width:300px; background: rgba(0,0,0,0.85); padding:20px; border-radius:10px; color:#fff; position:relative; }
-.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
-</style>
-<script>
-function toggleLibrary(id){
-  const content = document.getElementById(id);
-  content.style.display = (content.style.display==='flex')?'none':'flex';
-  content.style.flexWrap='wrap';
-}
-</script>
-<div aria-hidden="true" class="modal" id="videoModal">
-<span class="close" onclick="closeVideo()" title="إغلاق">×</span>
-<div class="modal-content">
-<iframe allow="autoplay; encrypted-media" allowfullscreen="" id="videoFrame" referrerpolicy="strict-origin-when-cross-origin" src=""></iframe>
-</div>
-</div>
-<script>
-/* فتح الفيديو */
-function openVideo(url){
-  var modal = document.getElementById('videoModal');
-  var frame = document.getElementById('videoFrame');
-  modal.style.display = 'flex';
-  frame.src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
-}
-function openModal(videoId){ openVideo('https://www.youtube.com/embed/' + videoId); }
-function closeVideo(){ var modal = document.getElementById('videoModal'); var frame=document.getElementById('videoFrame'); modal.style.display='none'; frame.src=''; }
-
-</script>
-
-<style>
-.video-row {
-  display: flex;
-  justify-content: space-between; /* واحدة على اليمين، واحدة على اليسار */
-  margin: 20px;
-}
-
-.video-icon {
-  width: 280px;
-  height: 157px;
-  border-radius: 20px; /* إطار بيضاوي حول الفيديو */
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  background: rgba(255,255,255,0.05); /* إطار شفاف */
-}
-
-.video-icon:hover {
-  transform: scale(1.05);
-}
-
-/* حركة الفيديو */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-.float-animation {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* للجوال */
-@media (max-width:600px){
-  .video-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .video-icon {
-    width: 90%;
-    height: auto;
-    margin-bottom: 15px;
-  }
-}
-</style>
 
 <!-- أيقونة اللعبة -->
 <div id="yellowPongIcon" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:yellow;color:black;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:9999;font-size:30px;">🏓</div>
