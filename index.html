@@ -612,12 +612,20 @@ body {
 <button id="pongButton" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;font-size:16px;background:rgba(255,255,255,0.2);border:2px solid white;color:white;border-radius:10px;cursor:pointer;z-index:1000;backdrop-filter:blur(5px);">بونج بونج / Pong</button>
 
 <!-- نافذة اللعبة -->
-<div id="pongContainer" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;aspect-ratio:16/10;z-index:999;border:2px solid white;border-radius:10px;">
+<div id="pongContainer" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;aspect-ratio:16/10;z-index:999;border:2px solid white;border-radius:10px;background:rgba(0,0,0,0.8);">
   <button id="closeBtn" style="position:absolute;top:5px;right:5px;background:rgba(255,0,0,0.7);color:white;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;z-index:1002;">إغلاق</button>
-  <div id="menu" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:5px;align-items:center;z-index:1001;">
-    <div><label>لون المضرب 1: </label><input type="color" id="p1Color" value="#FFFF00"></div>
-    <div><label>لون المضرب 2: </label><input type="color" id="p2Color" value="#0000FF"></div>
+  <div id="menu" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:10px;align-items:center;z-index:1001;background:red;padding:10px;border-radius:10px;color:black;">
+    <div><label>اختر المضرب 1: </label><input type="color" id="p1Color" value="#FFFF00"></div>
+    <div><label>اختر المضرب 2: </label><input type="color" id="p2Color" value="#0000FF"></div>
     <div><label>لون الكرة: </label><input type="color" id="ballColor" value="#FFFFFF"></div>
+    <div>
+      <label>اختر المستوى: </label>
+      <select id="level">
+        <option value="easy">سهل</option>
+        <option value="medium">متوسط</option>
+        <option value="hard">صعب</option>
+      </select>
+    </div>
     <div>
       <button onclick="startGame('player')">ضد لاعب آخر</button>
       <button onclick="startGame('computer')">ضد الكمبيوتر</button>
@@ -634,16 +642,23 @@ const canvas=document.getElementById("pong");
 const ctx=canvas.getContext("2d");
 
 let paddleWidth=15,paddleHeight=100;
-let player1={x:10,y:0,color:"#FFFF00",score:0};
-let player2={x:0,y:0,color:"#0000FF",score:0};
-let ball={x:0,y:0,radius:10,speed:5,dx:5,dy:5,color:"#FFFFFF"};
+let player1,player2,ball;
 let gameMode="player",animFrame;
 let maxScore=5,round=1;
 
-// أصوات أوفلاين Base64 (تستبدل بالملفات الفعلية)
+// أصوات أوفلاين Base64 (يمكن استبدالها)
 const hitSound=new Audio('data:audio/mp3;base64,//Base64...');
 const wallSound=new Audio('data:audio/mp3;base64,//Base64...');
 
+// تهيئة اللعبة
+function initGame(){
+  player1={x:10,y:0,color:"#FFFF00",score:0};
+  player2={x:0,y:0,color:"#0000FF",score:0};
+  ball={x:0,y:0,radius:10,speed:5,dx:5,dy:5,color:"#FFFFFF"};
+  round=1;
+}
+
+// إعادة تحجيم اللوحة
 function resizeCanvas(){
   canvas.width=canvas.clientWidth;
   canvas.height=canvas.clientHeight;
@@ -664,13 +679,15 @@ function drawCircle(x,y,r,color){
   ctx.shadowBlur=0;
 }
 function drawText(text,x,y,size=30){ctx.fillStyle="white";ctx.font=size+"px Arial";ctx.fillText(text,x,y);}
-function resetBall(){ball.x=canvas.width/2;ball.y=canvas.height/2;ball.speed=5;ball.dx=(Math.random()>0.5?1:-1)*5;ball.dy=(Math.random()>0.5?1:-1)*5;}
+function resetBall(){ball.x=canvas.width/2;ball.y=canvas.height/2;}
 
 function movePaddle(){
   if(gameMode==="computer"){
+    let speed=ball.speed;
+    if(speed>15)speed=15; // الحد الأقصى للسرعة
     let target=ball.y-paddleHeight/2;
-    if(player2.y<target)player2.y+=5;
-    if(player2.y>target)player2.y-=5;
+    if(player2.y<target)player2.y+=speed;
+    if(player2.y>target)player2.y-=speed;
   }
 }
 
@@ -701,14 +718,23 @@ function draw(){
 function gameLoop(){update();draw();animFrame=requestAnimationFrame(gameLoop);}
 
 function startGame(mode){
+  initGame();
+  gameMode=mode;
+  
+  // ضبط ألوان حسب الوضع
   player1.color=document.getElementById("p1Color").value;
   player2.color=document.getElementById("p2Color").value;
   ball.color=document.getElementById("ballColor").value;
-  gameMode=mode;
+
+  // تحديد مستوى اللعبة
+  const level=document.getElementById("level").value;
+  if(level==="easy"){ball.speed=3;}
+  else if(level==="medium"){ball.speed=5;}
+  else{ball.speed=8;}
 
   // تغيير لون خلفية اللعبة حسب الوضع
-  if(mode==="computer") pongContainer.style.background="rgba(0,128,0,0.8)"; // أخضر
-  else pongContainer.style.background="rgba(255,255,0,0.3)"; // أصفر شفاف
+  if(mode==="computer") pongContainer.style.background="rgba(0,128,0,0.8)";
+  else pongContainer.style.background="rgba(255,255,0,0.3)";
 
   document.getElementById("menu").style.display="none";
   resizeCanvas();
@@ -722,7 +748,6 @@ canvas.addEventListener('mousemove',e=>{
   if(player1.y<0)player1.y=0;
   if(player1.y+paddleHeight>canvas.height)player1.y=canvas.height-paddleHeight;
 });
-
 canvas.addEventListener('touchmove',e=>{
   e.preventDefault();
   const rect=canvas.getBoundingClientRect();
@@ -731,11 +756,15 @@ canvas.addEventListener('touchmove',e=>{
   if(player1.y+paddleHeight>canvas.height)player1.y=canvas.height-paddleHeight;
 },{passive:false});
 
-pongButton.addEventListener('click',()=>{pongContainer.style.display='block';resizeCanvas();});
+// فتح وغلق اللعبة
+pongButton.addEventListener('click',()=>{
+  pongContainer.style.display='block';
+  document.getElementById("menu").style.display="flex";
+});
 closeBtn.addEventListener('click',()=>{
   pongContainer.style.display='none';
   cancelAnimationFrame(animFrame);
-  // إعادة اللون الأصلي عند الخروج
+  initGame();
   pongContainer.style.background="rgba(0,0,0,0.8)";
 });
 </script>
