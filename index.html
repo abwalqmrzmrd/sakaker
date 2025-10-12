@@ -1,4 +1,85 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- 🌌 خلفية فيديو متوهجة بالزمرد -->
+<div id="video-background">
+  <div id="player"></div>
+  <div class="emerald-glow"></div>
+</div>
+
+<script>
+  // تحميل YouTube API
+  let tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: 'mWp02s6Mjhs', // 🎬 الفيديو الجديد
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: 'mWp02s6Mjhs', // نفس المعرّف للتكرار
+        controls: 0,
+        showinfo: 0,
+        modestbranding: 1,
+        rel: 0
+      },
+      events: {
+        onReady: function (event) {
+          event.target.mute();
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+/* خلفية الفيديو */
+#video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -10;
+}
+
+/* إطار الفيديو */
+#video-background iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: none;
+}
+
+/* تأثير التوهج الزمردي حول الحواف */
+.emerald-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(80, 200, 120, 0.15) 0%, rgba(0, 0, 0, 0.85) 90%);
+  box-shadow: inset 0 0 100px 40px rgba(80, 200, 120, 0.2);
+  z-index: -9;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+
+/* حركة خفيفة للتوهج */
+@keyframes glowPulse {
+  0% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
+  50% { box-shadow: inset 0 0 120px 50px rgba(80, 200, 120, 0.35); }
+  100% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
+}
+</style>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -737,29 +818,6 @@ input[type="text"] {
 </div>
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  let player;
-  let currentVolume = 50;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: 'YFmV_MRSD7M',
-        controls: 0,
-        showinfo: 0,
-        modestbranding: 1
-      },
-      events: {
-        onReady: (event) => {
-          player.setVolume(currentVolume);
-          event.target.playVideo();
-        }
-      }
-    });
-  }
 
   function playPause() {
     if (player.getPlayerState() === 1) {
