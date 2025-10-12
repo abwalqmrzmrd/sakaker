@@ -1,3 +1,111 @@
+<!-- ويدجت بونج بونج النهائي -->
+<button id="pongButton" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;font-size:16px;background:rgba(255,255,255,0.2);border:2px solid white;color:white;border-radius:10px;cursor:pointer;z-index:1000;backdrop-filter:blur(5px);">بونج بونج / Pong</button>
+
+<div id="pongContainer" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;aspect-ratio:16/10;z-index:999;border:2px solid white;background:rgba(0,0,0,0.8);border-radius:10px;">
+  <button id="closeBtn" style="position:absolute;top:5px;right:5px;background:rgba(255,0,0,0.7);color:white;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;z-index:1002;">إغلاق</button>
+  <div id="menu" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:5px;align-items:center;z-index:1001;">
+    <div><label>لون المضرب 1: </label><input type="color" id="p1Color" value="#FFFF00"></div>
+    <div><label>لون المضرب 2: </label><input type="color" id="p2Color" value="#0000FF"></div>
+    <div><label>لون الكرة: </label><input type="color" id="ballColor" value="#FFFFFF"></div>
+    <div>
+      <button onclick="startGame('player')">ضد لاعب آخر</button>
+      <button onclick="startGame('computer')">ضد الكمبيوتر</button>
+    </div>
+  </div>
+  <canvas id="pong" style="width:100%;height:100%;display:block;"></canvas>
+</div>
+
+<script>
+const pongButton=document.getElementById('pongButton');
+const pongContainer=document.getElementById('pongContainer');
+const closeBtn=document.getElementById('closeBtn');
+const canvas=document.getElementById("pong");
+const ctx=canvas.getContext("2d");
+
+let paddleWidth=15,paddleHeight=100;
+let player1={x:10,y:0,color:"#FFFF00",score:0};
+let player2={x:0,y:0,color:"#0000FF",score:0};
+let ball={x:0,y:0,radius:10,speed:5,dx:5,dy:5,color:"#FFFFFF"};
+let up=false,down=false,w=false,s=false;
+let gameMode="player",animFrame;
+let maxScore=5,round=1;
+
+// أصوات أوفلاين Base64 (تستبدل بالملفات الفعلية إذا أحببت)
+const hitSound=new Audio('data:audio/mp3;base64,//Base64...');
+const wallSound=new Audio('data:audio/mp3;base64,//Base64...');
+
+function resizeCanvas(){
+  canvas.width=canvas.clientWidth;
+  canvas.height=canvas.clientHeight;
+  player2.x=canvas.width-paddleWidth-10;
+  player1.y=canvas.height/2-paddleHeight/2;
+  player2.y=canvas.height/2-paddleHeight/2;
+  ball.x=canvas.width/2;
+  ball.y=canvas.height/2;
+}
+window.addEventListener('resize',resizeCanvas);
+
+function drawRect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(x,y,w,h);}
+function drawCircle(x,y,r,color){
+  ctx.fillStyle=color;
+  ctx.shadowColor=color;
+  ctx.shadowBlur=15;
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.closePath();ctx.fill();
+  ctx.shadowBlur=0;
+}
+function drawText(text,x,y,size=30){ctx.fillStyle="white";ctx.font=size+"px Arial";ctx.fillText(text,x,y);}
+function resetBall(){ball.x=canvas.width/2;ball.y=canvas.height/2;ball.speed=5;ball.dx=(Math.random()>0.5?1:-1)*5;ball.dy=(Math.random()>0.5?1:-1)*5;}
+
+function movePaddle(){
+  if(up && player1.y>0)player1.y-=7;
+  if(down && player1.y+paddleHeight<canvas.height)player1.y+=7;
+  if(gameMode==="player"){if(w && player2.y>0)player2.y-=7;if(s && player2.y+paddleHeight<canvas.height)player2.y+=7;}
+  else{let target=ball.y-paddleHeight/2;if(player2.y<target)player2.y+=5;if(player2.y>target)player2.y-=5;}
+}
+
+function collision(b,p){return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;}
+
+function update(){
+  ball.x+=ball.dx;ball.y+=ball.dy;
+  if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0){ball.dy=-ball.dy;wallSound.play();}
+  if(collision(ball,player1)){ball.dx=-ball.dx;let cp=(ball.y-(player1.y+paddleHeight/2))/(paddleHeight/2);ball.dy=cp*5;ball.speed+=0.5;hitSound.play();}
+  if(collision(ball,player2)){ball.dx=-ball.dx;let cp=(ball.y-(player2.y+paddleHeight/2))/(paddleHeight/2);ball.dy=cp*5;ball.speed+=0.5;hitSound.play();}
+  if(ball.x-ball.radius<0){player2.score++;round++;resetBall();}
+  if(ball.x+ball.radius>canvas.width){player1.score++;round++;resetBall();}
+  movePaddle();
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawRect(player1.x,player1.y,paddleWidth,paddleHeight,player1.color);
+  drawRect(player2.x,player2.y,paddleWidth,paddleHeight,player2.color);
+  drawCircle(ball.x,ball.y,ball.radius,ball.color);
+  drawText(player1.score,canvas.width/4,40);
+  drawText(player2.score,3*canvas.width/4,40);
+  drawText("الجولة:"+round,canvas.width/2-60,40,25);
+  if(player1.score>=maxScore){drawText("اللاعب 1 فائز!",canvas.width/2-100,canvas.height/2,40);cancelAnimationFrame(animFrame);}
+  else if(player2.score>=maxScore){drawText("اللاعب 2 فائز!",canvas.width/2-100,canvas.height/2,40);cancelAnimationFrame(animFrame);}
+}
+
+function gameLoop(){update();draw();animFrame=requestAnimationFrame(gameLoop);}
+
+function startGame(mode){
+  player1.color=document.getElementById("p1Color").value;
+  player2.color=document.getElementById("p2Color").value;
+  ball.color=document.getElementById("ballColor").value;
+  gameMode=mode;
+  document.getElementById("menu").style.display="none";
+  resizeCanvas();
+  gameLoop();
+}
+
+pongButton.addEventListener('click',()=>{pongContainer.style.display='block';resizeCanvas();});
+closeBtn.addEventListener('click',()=>{pongContainer.style.display='none';cancelAnimationFrame(animFrame);});
+
+document.addEventListener("keydown",e=>{if(e.key==="ArrowUp")up=true;if(e.key==="ArrowDown")down=true;if(e.key==="w")w=true;if(e.key==="s")s=true;});
+document.addEventListener("keyup",e=>{if(e.key==="ArrowUp")up=false;if(e.key==="ArrowDown")down=false;if(e.key==="w")w=false;if(e.key==="s")s=false;});
+</script>
+
 <!DOCTYPE html><!-- 🌌 خلفية فيديو متوهجة بالزمرد -->
 <div id="video-background">
   <div id="player"></div>
@@ -119,64 +227,6 @@ body {
 }
 .lang-btn.active{ background: rgba(255,255,255,0.12); color:#000; }
 
-/* Chat icon */
-#chat-icon {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  color: #000;
-  cursor: pointer;
-  z-index: 9999;
-  box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
-}
-
-/* Chat window */
-#chat-box {
-  position: fixed;
-  bottom: 100px;
-  right: 15px;
-  width: 320px;
-  height: 420px;
-  background: rgba(0, 0, 0, 0.75);
-  border: 2px solid var(--accent1);
-  border-radius: 12px;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 9998;
-  backdrop-filter: blur(4px);
-}
-
-/* Chat header */
-#chat-header {
-  padding: 8px;
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
-  color: #000;
-  text-align: center;
-  font-weight: bold;
-  position: relative;
-}
-
-/* Close button */
-#close-chat {
-  position: absolute;
-  left: 8px;
-  top: 6px;
-  background: #000;
-  border: 1px solid var(--accent1);
-  border-radius: 6px;
-  color: var(--accent1);
-  cursor: pointer;
-  padding: 3px 6px;
-}
 
 /* Status bar */
 #status-bar {
@@ -195,33 +245,6 @@ body {
   padding: 8px;
   font-size: 13px;
   color: #fff;
-}
-
-/* Chat input */
-#chat-input {
-  padding: 8px;
-  border-top: 2px solid var(--accent2);
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-#chat-input .row { display:flex; gap:6px; }
-input[type="text"] {
-  flex: 1;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-.send-btn {
-  background: linear-gradient(45deg, var(--accent1), var(--accent2));
-  color: #000;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
 /* Icon row */
@@ -259,29 +282,6 @@ input[type="text"] {
 <div id="langToggle">
   <button id="btnAR" class="lang-btn">AR</button>
   <button id="btnEN" class="lang-btn">EN</button>
-</div>
-
-<!-- Chat icon -->
-<div id="chat-icon" title="فتح الدردشة">💬</div>
-
-<!-- Chat box -->
-<div id="chat-box">
-  <div id="chat-header">
-    <span id="chatHeaderLeft">👥</span> <span id="visitor-count">0</span>
-    <button id="close-chat">🔙</button>
-  </div>
-  <div id="status-bar">
-    <span id="internet-status">🌐 غير متصل</span>
-    <span id="server-status" data-connected="false">☁️ غير متصل</span>
-  </div>
-  <div id="chat-messages"></div>
-  <div id="chat-input">
-    <input type="text" id="usernameInput" placeholder="اسمك" />
-    <div class="row">
-      <input type="text" id="messageInput" placeholder="اكتب رسالتك..." />
-      <button id="sendBtn" class="send-btn">إرسال</button>
-    </div>
-  </div>
 </div>
 
 <!-- Icons -->
@@ -715,20 +715,6 @@ input[type="text"] {
 </head>
 
 <body>
-<!-- اللعبة -->
-
-<button id="startBtn">▶</button>
-<div id="levelMsg"></div>
-<div id="pongUi" style="display:none;">
-<div id="pongScore">أنت: <span id="scoreP">0</span> — خصم: <span id="scoreA">0</span><br/><span id="levelLabel">المستوى: 1</span></div>
-<button id="pongPauseBtn">⏸ إيقاف</button> <button id="pongRestartBtn">🔄 إعادة</button>
-<button id="pongCloseBtn">إغلاق</button>
-</div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -986,6 +972,7 @@ function openFunnyModal(id){
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    
 <!-- Footer -->
 <div id="footer" style="text-align:center; margin:20px 0; font-size:14px; color:#fff;">
   <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
@@ -1201,207 +1188,6 @@ function closeVideoModal() {
 }
 </script>
 
-  </div>
-</div>
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>موقعي</title>
-<style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-      text-align:center;
-    }
-    .video-section {
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-      margin-top:20px;
-    }
-    .video-icon iframe {
-      width:250px;
-      height:150px;
-      border-radius:12px;
-      border:2px solid #fff;
-    }
-    #pongContainer {
-  position: relative;
-  width: 90%;
-  max-width: 400px;
-  margin: 40px auto;
-  border: 2px solid #333;
-  border-radius: 12px;
-  overflow: hidden;
-  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px auto;
-      border: 2px solid #333;
-      border-radius: 10px;
-      overflow: hidden;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-    #pongCanvas {
-  width: 100%;
-  height: 300px;
-  display: block;
-  background: #000;
-
-      width: 100%;
-      height: 400px;
-      display: block;
-    }
-    .footer-left {
-      margin: 20px;
-      text-align:left;
-      background: rgba(0,0,0,0.6);
-      padding: 15px;
-      border-radius: 10px;
-      color:#fff;
-      max-width:250px;
-    }
-    .footer-left a { color:#ffd700; text-decoration:none; }
-    #cvIcon {
-      margin-top:10px;
-      padding:8px;
-      background:rgba(255,255,255,0.1);
-      border:1px solid #fff;
-      border-radius:6px;
-      cursor:pointer;
-    }
-    #cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
-
-/* تحسين استجابة لعبة بينج بونج */
-#pongCanvas {
-  width: 100%;
-  height: 400px; /* للحواسب */
-  display: block;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-}
-
-@media(max-width:600px){
-  #pongCanvas {
-    height: 220px; /* حجم أصغر للجوال */
-  }
-  #pongContainer {
-    max-width: 95%;
-  }
-}
-
-.hidden-icons {
-  display: none !important;
-}
-</style>
-</head>
-
-<body>
-<!-- اللعبة -->
-
-
-</div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-  
-<body>
-<div id="player-container">
-<div id="player"></div>
-</div>
 <div class="controls">
 <button onclick="playPause()">⏯</button>
 <button onclick="muteUnmute()">🔊</button>
@@ -1623,20 +1409,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 }
 </style>
 </script>
-
-
-
-<!-- أيقونة اللعبة -->
-<div id="yellowPongIcon" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:yellow;color:black;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:9999;font-size:30px;">🏓</div>
-
-<!-- نافذة اللعبة المنبثقة -->
-<div id="yellowPongWindow" style="position:fixed;bottom:100px;right:20px;width:300px;height:400px;background:#222;color:#fff;border-radius:10px;display:none;flex-direction:column;z-index:10000;box-shadow:0 0 15px rgba(0,0,0,0.5);">
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#333;border-top-left-radius:10px;border-top-right-radius:10px;">
-    <span>لعبة البونج</span>
-    <button id="closeYellowPong" style="background:red;color:#fff;border:none;border-radius:5px;padding:2px 5px;cursor:pointer;">×</button>
-  </div>
-  <canvas id="yellowPongCanvas" width="300" height="360" style="background:black;border-radius:0 0 10px 10px;"></canvas>
-</div>
 
 <script>
   // عناصر اللعبة
