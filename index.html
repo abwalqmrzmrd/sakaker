@@ -1,4 +1,15 @@
-
+<!-- Icons -->
+<div class="icon-row">
+<div class="icon-card" onclick="showSection('culture')">
+<div class="icon-label" data-i18n="culture">ثقافة عامة</div>
+</div>
+<div class="icon-card" onclick="showSection('islamic')">
+<div class="icon-label" data-i18n="islamic">التاريخ الإسلامي</div>
+</div>
+<div class="icon-card" onclick="showSection('thoughts')">
+<div class="icon-label" data-i18n="thoughts">خواطر</div>
+</div>
+</div>
 <!DOCTYPE html>
 <!-- 🌌 خلفية فيديو متوهجة بالزمرد -->
 <div id="video-background">
@@ -326,6 +337,7 @@ body {
 </style>
 </head>
 <body>
+    
 <!-- 🎥 الفيديوين في الأعلى -->
 <div class="video-top-container">
 <div class="video-circle left">
@@ -644,18 +656,7 @@ function openVideo(url) {
 <button class="lang-btn" id="btnAR">AR</button>
 <button class="lang-btn" id="btnEN">EN</button>
 </div>
-<!-- Icons -->
-<div class="icon-row">
-<div class="icon-card" onclick="showSection('culture')">
-<div class="icon-label" data-i18n="culture">ثقافة عامة</div>
-</div>
-<div class="icon-card" onclick="showSection('islamic')">
-<div class="icon-label" data-i18n="islamic">التاريخ الإسلامي</div>
-</div>
-<div class="icon-card" onclick="showSection('thoughts')">
-<div class="icon-label" data-i18n="thoughts">خواطر</div>
-</div>
-</div>
+
 <!-- Sections -->
 <div class="section" id="culture" style="display:none;">
 <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
