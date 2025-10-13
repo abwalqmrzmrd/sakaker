@@ -1,6 +1,12 @@
-<<!-- فيديو أقصى اليسار -->
+<!-- صوت الخلفية -->
+<audio id="bgAudio" autoplay loop>
+  <source src="birds.mp3" type="audio/mpeg">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<!-- فيديو أقصى اليسار -->
 <div class="video-wrapper-moving video-left">
-  <div class="video-circle-small glow-circle">
+  <div class="video-circle-large glow-circle">
     <iframe 
       src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=1&loop=1&playlist=LuKwFajn37U"
       frameborder="0"
@@ -15,7 +21,7 @@
 
 <!-- فيديو أقصى اليمين -->
 <div class="video-wrapper-moving video-right">
-  <div class="video-circle-small glow-circle">
+  <div class="video-circle-large glow-circle">
     <iframe 
       src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
       frameborder="0"
@@ -29,72 +35,117 @@
 </div>
 
 <style>
+/* تكبير حجم الفيديو */
 .video-wrapper-moving {
   position: absolute;
   top: 10%;
-  width: 80px;
-  height: 45px;
+  width: 160px;   /* كان 80px — الآن مضاعف */
+  height: 90px;   /* كان 45px — الآن مضاعف */
   z-index: 999;
 }
 
 .video-left { left: 10px; }
 .video-right { right: 10px; }
 
-.video-circle-small {
+/* دائرة الفيديو */
+.video-circle-large {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 
-    0 0 10px rgba(0,255,255,0.7),
-    0 0 20px rgba(0,255,255,0.5),
-    0 0 30px rgba(0,255,255,0.3);
+  box-shadow:
+    0 0 20px rgba(0,255,255,0.8),
+    0 0 40px rgba(0,255,255,0.6),
+    0 0 60px rgba(0,255,255,0.4);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.video-circle-small iframe {
+.video-circle-large iframe {
   width: 100%;
   height: 100%;
   border: none;
 }
 
-.video-circle-small:hover {
-  transform: scale(1.1);
-  box-shadow: 
-    0 0 20px rgba(0,255,255,1),
-    0 0 30px rgba(0,255,255,0.8),
-    0 0 40px rgba(0,255,255,0.6);
+.video-circle-large:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 30px rgba(0,255,255,1),
+    0 0 60px rgba(0,255,255,0.8),
+    0 0 90px rgba(0,255,255,0.6);
 }
 
+/* أزرار التحكم */
 .video-btn {
   position: absolute;
   top: 2px;
-  padding: 2px 5px;
+  padding: 4px 6px;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   cursor: pointer;
   background: rgba(0,0,0,0.6);
   color: white;
-  font-size: 12px;
-  transition: background 0.3s;
+  font-size: 13px;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .video-btn:hover {
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
+  box-shadow: 0 0 10px rgba(0,255,255,0.8);
 }
 
-.video-close { left: 2px; }
-.video-restore { left: 24px; }
-.video-fullscreen { right: 2px; }
+.video-close { left: 4px; }
+.video-restore { left: 30px; }
+.video-fullscreen { right: 4px; }
 
 @media (max-width: 768px) {
   .video-wrapper-moving {
-    width: 60px;
-    height: 35px;
+    width: 120px;
+    height: 68px;
   }
 }
 </style>
 
+<script>
+// التحكم بالصوت الخلفي (تشغيل تلقائي مع السماح)
+window.addEventListener("click", () => {
+  const audio = document.getElementById("bgAudio");
+  if (audio.paused) audio.play().catch(() => {});
+}, { once: true });
+
+// التحكم في الفيديو
+function closeVideo(btn) {
+  const wrapper = btn.parentElement;
+  const iframe = wrapper.querySelector('iframe');
+  iframe.style.display = 'none';
+  iframe.src = '';
+}
+
+function restoreVideo(btn, videoId) {
+  const wrapper = btn.parentElement;
+  const iframe = wrapper.querySelector('iframe');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?mute=1&autoplay=1&loop=1&playlist=${videoId}`;
+  iframe.style.display = 'block';
+}
+
+function toggleFullscreen(btn) {
+  const iframe = btn.parentElement.querySelector('iframe');
+  if (!document.fullscreenElement) {
+    iframe.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// تحريك الفيديوهات مع التمرير
+const leftVideo = document.querySelector('.video-left');
+const rightVideo = document.querySelector('.video-right');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  leftVideo.style.top = `${10 + scrollY * 0.2}%`;
+  rightVideo.style.top = `${10 + scrollY * 0.2}%`;
+});
+</script>
 <script>
 function closeVideo(btn) {
   const wrapper = btn.parentElement;
