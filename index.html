@@ -2668,7 +2668,7 @@ async function initChatConnection(){
   }
 })();
 </script>
-<!-- أيقونة Invidious عائمة مع نافذة draggable & resizable -->
+<!-- أيقونة Invidious عائمة مع نافذة video-specific draggable & resizable -->
 <div id="invidious-widget" style="position:fixed; top:50%; right:10px; transform:translateY(-50%); z-index:99999; font-family:Tajawal,sans-serif;">
   <!-- زر الفتح مع تأثير Glow -->
   <button id="invidious-open" class="glow-icon">📺</button>
@@ -2682,7 +2682,8 @@ async function initChatConnection(){
         <button id="invidious-close" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:18px;">✖</button>
       </div>
     </div>
-    <iframe id="invidious-iframe" src="https://invidious.snopyta.org/" frameborder="0" allowfullscreen style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
+    <!-- iframe minimal مع رابط فيديو محدد -->
+    <iframe id="invidious-iframe" src="" frameborder="0" allowfullscreen style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
   </div>
 </div>
 
@@ -2719,20 +2720,24 @@ async function initChatConnection(){
   const header = document.getElementById('invidious-header');
   const openNewBtn = document.getElementById('invidious-open-new');
 
-  // فتح النافذة داخل الصفحة
+  // ضع هنا رابط الفيديو المطلوب
+  const videoURL = "https://yewtu.be/embed/LuKwFajn37U"; // ضع رابط أي فيديو
+
+  // فتح النافذة داخل الصفحة مع تحميل الفيديو مباشرة
   openBtn.addEventListener('click', () => {
+    iframe.src = videoURL;
     popup.style.display = 'block';
   });
 
-  // إغلاق النافذة
+  // إغلاق النافذة وإيقاف الفيديو
   closeBtn.addEventListener('click', () => {
     popup.style.display = 'none';
-    iframe.src = iframe.src; // إيقاف أي فيديو
+    iframe.src = "";
   });
 
   // زر فتح في نافذة جديدة
   openNewBtn.addEventListener('click', () => {
-    window.open('https://invidious.snopyta.org/', '_blank');
+    window.open(videoURL, '_blank');
   });
 
   // جعل النافذة draggable
