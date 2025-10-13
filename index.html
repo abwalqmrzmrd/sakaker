@@ -1,3 +1,4 @@
+
 <!-- 🔹 بداية قسم الفيديو العائم (يمكن وضعه في أي صفحة) -->
 <div id="floating-videos-container">
   <!-- الأيقونات الجانبية -->
@@ -878,6 +879,93 @@ body {
 </style>
 </head>
 <body>
+<!-- أيقونة يوتيوب عائمة -->
+<div class="youtube-widget">
+  <button id="openYoutube">🎬</button>
+  <div class="youtube-popup" id="youtubePopup">
+    <div class="youtube-header">
+      <span>تصفح يوتيوب</span>
+      <button id="closeYoutube">✖</button>
+    </div>
+    <iframe src="https://www.youtube.com/" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
+<style>
+.youtube-widget {
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  z-index: 9999;
+}
+
+.youtube-widget #openYoutube {
+  background: radial-gradient(circle, #ff0000 0%, #c00000 100%);
+  border: none;
+  color: white;
+  font-size: 30px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+  transition: all 0.3s ease;
+}
+.youtube-widget #openYoutube:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 1);
+}
+
+.youtube-popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 350px;
+  background: rgba(0,0,0,0.9);
+  border: 2px solid red;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+  z-index: 9999;
+}
+
+.youtube-popup iframe {
+  width: 100%;
+  height: calc(100% - 40px);
+  border: none;
+}
+
+.youtube-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ff0000;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-family: "Tajawal", sans-serif;
+}
+
+.youtube-header button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.getElementById('openYoutube').onclick = function() {
+  document.getElementById('youtubePopup').style.display = 'block';
+};
+document.getElementById('closeYoutube').onclick = function() {
+  document.getElementById('youtubePopup').style.display = 'none';
+};
+</script>
 
 <!-- Language toggle -->
 <div id="langToggle">
