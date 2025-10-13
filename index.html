@@ -1,4 +1,3 @@
-
 <!-- 🔹 بداية قسم الفيديو العائم (يمكن وضعه في أي صفحة) -->
 <div id="floating-videos-container">
   <!-- الأيقونات الجانبية -->
@@ -879,93 +878,6 @@ body {
 </style>
 </head>
 <body>
-<!-- أيقونة يوتيوب عائمة -->
-<div class="youtube-widget">
-  <button id="openYoutube">🎬</button>
-  <div class="youtube-popup" id="youtubePopup">
-    <div class="youtube-header">
-      <span>تصفح يوتيوب</span>
-      <button id="closeYoutube">✖</button>
-    </div>
-    <iframe src="https://www.youtube.com/" frameborder="0" allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-.youtube-widget {
-  position: fixed;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  z-index: 9999;
-}
-
-.youtube-widget #openYoutube {
-  background: radial-gradient(circle, #ff0000 0%, #c00000 100%);
-  border: none;
-  color: white;
-  font-size: 30px;
-  padding: 10px 14px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-  transition: all 0.3s ease;
-}
-.youtube-widget #openYoutube:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 30px rgba(255, 0, 0, 1);
-}
-
-.youtube-popup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  right: 80px;
-  transform: translateY(-50%);
-  width: 500px;
-  height: 350px;
-  background: rgba(0,0,0,0.9);
-  border: 2px solid red;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
-  z-index: 9999;
-}
-
-.youtube-popup iframe {
-  width: 100%;
-  height: calc(100% - 40px);
-  border: none;
-}
-
-.youtube-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ff0000;
-  color: white;
-  font-weight: bold;
-  padding: 5px 10px;
-  font-family: "Tajawal", sans-serif;
-}
-
-.youtube-header button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-</style>
-
-<script>
-document.getElementById('openYoutube').onclick = function() {
-  document.getElementById('youtubePopup').style.display = 'block';
-};
-document.getElementById('closeYoutube').onclick = function() {
-  document.getElementById('youtubePopup').style.display = 'none';
-};
-</script>
 
 <!-- Language toggle -->
 <div id="langToggle">
@@ -2754,5 +2666,94 @@ async function initChatConnection(){
     document.removeEventListener("touchmove",move);
     document.removeEventListener("touchend",end);
   }
+})();
+</script>
+<!-- أيقونة Invidious عائمة مع نافذة draggable & resizable -->
+<div id="invidious-widget" style="position:fixed; top:50%; right:10px; transform:translateY(-50%); z-index:99999; font-family:Tajawal,sans-serif;">
+  <!-- زر الفتح مع تأثير Glow -->
+  <button id="invidious-open" class="glow-icon">📺</button>
+
+  <!-- نافذة Invidious draggable & resizable -->
+  <div id="invidious-popup" style="display:none; position:fixed; top:50%; right:80px; width:520px; height:360px; background:#000; border-radius:10px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.6); border:3px solid #ff3b3b; z-index:99999; cursor:move; resize:both;">
+    <div id="invidious-header" style="height:40px; background:#ff3b3b; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:0 10px; font-weight:700; cursor:move;">
+      <span>تصفح YouTube</span>
+      <div>
+        <button id="invidious-open-new" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:16px;margin-right:8px;">فتح جديد ↗</button>
+        <button id="invidious-close" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:18px;">✖</button>
+      </div>
+    </div>
+    <iframe id="invidious-iframe" src="https://invidious.snopyta.org/" frameborder="0" allowfullscreen style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
+  </div>
+</div>
+
+<style>
+.glow-icon {
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:none;
+  background: radial-gradient(circle,#ff4b4b,#c00000);
+  color:#fff;
+  font-size:26px;
+  box-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b, 0 0 30px #ff0000;
+  cursor:pointer;
+  animation: glowPulse 2s infinite alternate;
+  transition: transform 0.3s ease;
+}
+.glow-icon:hover {
+  transform: scale(1.2);
+}
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px #ff4b4b, 0 0 20px #ff4b4b, 0 0 30px #ff0000; }
+  50% { box-shadow: 0 0 20px #ff4b4b, 0 0 30px #ff4b4b, 0 0 40px #ff0000; }
+  100% { box-shadow: 0 0 15px #ff4b4b, 0 0 25px #ff4b4b, 0 0 35px #ff0000; }
+}
+</style>
+
+<script>
+(function(){
+  const openBtn = document.getElementById('invidious-open');
+  const popup = document.getElementById('invidious-popup');
+  const iframe = document.getElementById('invidious-iframe');
+  const closeBtn = document.getElementById('invidious-close');
+  const header = document.getElementById('invidious-header');
+  const openNewBtn = document.getElementById('invidious-open-new');
+
+  // فتح النافذة داخل الصفحة
+  openBtn.addEventListener('click', () => {
+    popup.style.display = 'block';
+  });
+
+  // إغلاق النافذة
+  closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+    iframe.src = iframe.src; // إيقاف أي فيديو
+  });
+
+  // زر فتح في نافذة جديدة
+  openNewBtn.addEventListener('click', () => {
+    window.open('https://invidious.snopyta.org/', '_blank');
+  });
+
+  // جعل النافذة draggable
+  let isDragging = false, offsetX = 0, offsetY = 0;
+  header.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    const rect = popup.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    document.body.style.userSelect = 'auto';
+  });
+  document.addEventListener('mousemove', (e) => {
+    if(isDragging){
+      popup.style.left = `${e.clientX - offsetX}px`;
+      popup.style.top = `${e.clientY - offsetY}px`;
+      popup.style.transform = `translate(0,0)`;
+    }
+  });
 })();
 </script>
