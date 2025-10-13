@@ -1,286 +1,143 @@
-<!-- صوت الخلفية -->
-<audio id="bgAudio" autoplay loop>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مكتبة الفيديو - أبوالقمر زمرد</title>
+<style>
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, #000, #003);
+  font-family: "Tajawal", sans-serif;
+  overflow-x: hidden;
+}
+
+/* الأيقونات الجانبية */
+.icon-btn {
+  position: fixed;
+  top: 20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle, #00ffaa, #007755);
+  box-shadow: 0 0 20px #00ffcc;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.icon-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #00ffee;
+}
+#videoBtn1 { left: 20px; }
+#videoBtn2 { right: 20px; }
+
+/* الفيديو */
+.video-frame {
+  position: fixed;
+  width: 560px;
+  height: 315px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #0ff;
+  border-radius: 15px;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 0 25px #0ff;
+}
+
+/* زر الإغلاق */
+.close-btn {
+  position: fixed;
+  top: 10px;
+  right: 50%;
+  transform: translateX(50%);
+  background: #000;
+  color: #0ff;
+  border: 2px solid #0ff;
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 1001;
+  display: none;
+  font-size: 18px;
+  box-shadow: 0 0 10px #0ff;
+}
+
+/* الصوت */
+audio {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+}
+</style>
+</head>
+<body>
+
+<!-- صوت الطيور -->
+<audio id="birdsSound" autoplay loop controls>
   <source src="birds.mp3" type="audio/mpeg">
-  متصفحك لا يدعم تشغيل الصوت.
 </audio>
 
-<!-- فيديو أقصى اليسار -->
-<div class="video-wrapper-moving video-left">
-  <div class="video-circle-large glow-circle">
-    <iframe 
-      src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=1&loop=1&playlist=LuKwFajn37U"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
-  <button class="video-btn video-restore" onclick="restoreVideo(this, 'LuKwFajn37U')">⟳</button>
-  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
-</div>
+<!-- الأزرار -->
+<button id="videoBtn1" class="icon-btn">🎬</button>
+<button id="videoBtn2" class="icon-btn">🎥</button>
 
-<!-- فيديو أقصى اليمين -->
-<div class="video-wrapper-moving video-right">
-  <div class="video-circle-large glow-circle">
-    <iframe 
-      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
-  <button class="video-btn video-restore" onclick="restoreVideo(this, 'n7eQejkXbnM')">⟳</button>
-  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
-</div>
+<!-- زر الإغلاق -->
+<button id="closeBtn" class="close-btn">إغلاق</button>
 
-<style>
-/* تكبير حجم الفيديو */
-.video-wrapper-moving {
-  position: absolute;
-  top: 10%;
-  width: 160px;   /* كان 80px — الآن مضاعف */
-  height: 90px;   /* كان 45px — الآن مضاعف */
-  z-index: 999;
-}
+<!-- الفيديوهات -->
+<iframe id="video1" class="video-frame"
+src="" title="YouTube video player" frameborder="0"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-.video-left { left: 10px; }
-.video-right { right: 10px; }
-
-/* دائرة الفيديو */
-.video-circle-large {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 0 20px rgba(0,255,255,0.8),
-    0 0 40px rgba(0,255,255,0.6),
-    0 0 60px rgba(0,255,255,0.4);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.video-circle-large iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.video-circle-large:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 0 30px rgba(0,255,255,1),
-    0 0 60px rgba(0,255,255,0.8),
-    0 0 90px rgba(0,255,255,0.6);
-}
-
-/* أزرار التحكم */
-.video-btn {
-  position: absolute;
-  top: 2px;
-  padding: 4px 6px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 13px;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.video-btn:hover {
-  background: rgba(0,0,0,0.9);
-  box-shadow: 0 0 10px rgba(0,255,255,0.8);
-}
-
-.video-close { left: 4px; }
-.video-restore { left: 30px; }
-.video-fullscreen { right: 4px; }
-
-@media (max-width: 768px) {
-  .video-wrapper-moving {
-    width: 120px;
-    height: 68px;
-  }
-}
-</style>
+<iframe id="video2" class="video-frame"
+src="" title="YouTube video player" frameborder="0"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <script>
-// التحكم بالصوت الخلفي (تشغيل تلقائي مع السماح)
-window.addEventListener("click", () => {
-  const audio = document.getElementById("bgAudio");
-  if (audio.paused) audio.play().catch(() => {});
-}, { once: true });
+const v1 = document.getElementById("video1");
+const v2 = document.getElementById("video2");
+const closeBtn = document.getElementById("closeBtn");
+const birdsSound = document.getElementById("birdsSound");
 
-// التحكم في الفيديو
-function closeVideo(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.style.display = 'none';
-  iframe.src = '';
-}
+// روابط الفيديو الأصلية
+const link1 = "https://www.youtube.com/embed/LuKwFajn37U?autoplay=1";
+const link2 = "https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1";
 
-function restoreVideo(btn, videoId) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?mute=1&autoplay=1&loop=1&playlist=${videoId}`;
-  iframe.style.display = 'block';
-}
+document.getElementById("videoBtn1").onclick = () => {
+  v1.src = link1;
+  v1.style.display = "block";
+  v2.style.display = "none";
+  closeBtn.style.display = "block";
+  birdsSound.pause();
+};
 
-function toggleFullscreen(btn) {
-  const iframe = btn.parentElement.querySelector('iframe');
-  if (!document.fullscreenElement) {
-    iframe.requestFullscreen?.();
-  } else {
-    document.exitFullscreen?.();
-  }
-}
+document.getElementById("videoBtn2").onclick = () => {
+  v2.src = link2;
+  v2.style.display = "block";
+  v1.style.display = "none";
+  closeBtn.style.display = "block";
+  birdsSound.pause();
+};
 
-// تحريك الفيديوهات مع التمرير
-const leftVideo = document.querySelector('.video-left');
-const rightVideo = document.querySelector('.video-right');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  leftVideo.style.top = `${10 + scrollY * 0.2}%`;
-  rightVideo.style.top = `${10 + scrollY * 0.2}%`;
-});
-</script>
-<script>
-function closeVideo(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.style.display = 'none';
-  iframe.src = '';
-}
-
-function restoreVideo(btn, videoId) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?mute=1&autoplay=1&loop=1&playlist=${videoId}`;
-  iframe.style.display = 'block';
-}
-
-function toggleFullscreen(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  if (!document.fullscreenElement) {
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
-  } else {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    else if (document.msExitFullscreen) document.msExitFullscreen();
-  }
-}
-
-// تحريك الفيديوهات مع التمرير
-const leftVideo = document.querySelector('.video-left');
-const rightVideo = document.querySelector('.video-right');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  leftVideo.style.top = `${10 + scrollY * 0.2}%`;
-  rightVideo.style.top = `${10 + scrollY * 0.2}%`;
-});
+// عند الإغلاق
+closeBtn.onclick = () => {
+  v1.style.display = "none";
+  v2.style.display = "none";
+  closeBtn.style.display = "none";
+  v1.src = ""; // إيقاف الفيديو فعليًا
+  v2.src = "";
+  birdsSound.play(); // إعادة صوت الطيور
+};
 </script>
 
-<style>
-.video-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.video-wrapper {
-  position: relative;
-  flex: 1 1 45%;
-  max-width: 560px;
-}
-
-.video-circle iframe {
-  width: 100%;
-  height: 315px;
-  border-radius: 15px;
-}
-
-/* إشعاع أقوى */
-.glow-circle {
-  box-shadow: 
-    0 0 20px rgba(0,255,255,0.8),
-    0 0 40px rgba(0,255,255,0.6),
-    0 0 60px rgba(0,255,255,0.4),
-    0 0 80px rgba(0,255,255,0.2);
-  border-radius: 15px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.glow-circle:hover {
-  transform: scale(1.05);
-  box-shadow: 
-    0 0 40px rgba(0,255,255,1),
-    0 0 60px rgba(0,255,255,0.8),
-    0 0 80px rgba(0,255,255,0.6),
-    0 0 100px rgba(0,255,255,0.4);
-}
-
-/* أزرار الإغلاق والاستعادة */
-.video-close, .video-restore {
-  position: absolute;
-  top: 10px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 16px;
-  z-index: 10;
-  transition: background 0.3s;
-}
-
-.video-close:hover, .video-restore:hover {
-  background: rgba(0,0,0,0.8);
-}
-
-.video-close { left: 10px; }
-.video-restore { right: 10px; }
-
-/* تجاوب مع الموبايل */
-@media (max-width: 768px) {
-  .video-wrapper {
-    flex: 1 1 100%;
-  }
-}
-</style>
-
-<script>
-function closeVideo(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.style.display = 'none';
-  iframe.src = ''; // إيقاف التشغيل التلقائي للفيديو عند الإغلاق
-}
-
-function restoreVideo(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  // استعادة src الأصلي للفيديو لإعادة التشغيل
-  if (wrapper.classList.contains('video-left')) {
-    iframe.src = "https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM";
-  } else {
-    iframe.src = "https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY";
-  }
-  iframe.style.display = 'block';
-}
-</script>
-
+</body>
+</html>
 <!-- زر بونج بونج الشفاف -->
 <button id="pongButton" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;font-size:16px;background:rgba(255,255,255,0.2);border:2px solid white;color:white;border-radius:10px;cursor:pointer;z-index:1000;backdrop-filter:blur(5px);">بونج بونج / Pong</button>
 <!-- نافذة اللعبة -->
