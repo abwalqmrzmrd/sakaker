@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مكتبة الفيديو - أبوالقمر زمرد</title>
+<title>فيديو أبوالقمر زمرد</title>
 <style>
 body {
   margin: 0;
-  background: linear-gradient(to bottom, #000, #003);
+  background: linear-gradient(to bottom, #000, #001a1a);
   font-family: "Tajawal", sans-serif;
   overflow-x: hidden;
 }
@@ -16,19 +16,19 @@ body {
 .icon-btn {
   position: fixed;
   top: 20px;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: none;
   background: radial-gradient(circle, #00ffaa, #007755);
-  box-shadow: 0 0 20px #00ffcc;
+  box-shadow: 0 0 25px #00ffee;
   cursor: pointer;
   z-index: 9999;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 .icon-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px #00ffee;
+  transform: scale(1.15);
+  box-shadow: 0 0 40px #00ffee;
 }
 #videoBtn1 { left: 20px; }
 #videoBtn2 { right: 20px; }
@@ -41,7 +41,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 5px solid #0ff;
+  border: 4px solid #0ff;
   border-radius: 15px;
   display: none;
   z-index: 1000;
@@ -51,39 +51,28 @@ body {
 /* زر الإغلاق */
 .close-btn {
   position: fixed;
-  top: 10px;
-  right: 50%;
-  transform: translateX(50%);
-  background: #000;
+  top: calc(50% - 190px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
   color: #0ff;
   border: 2px solid #0ff;
-  padding: 8px 20px;
-  border-radius: 30px;
+  padding: 6px 18px;
+  border-radius: 20px;
   cursor: pointer;
   z-index: 1001;
   display: none;
-  font-size: 18px;
+  font-size: 16px;
   box-shadow: 0 0 10px #0ff;
 }
-
-/* الصوت */
-audio {
-  position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2000;
+.close-btn:hover {
+  background: rgba(0,0,0,0.9);
 }
 </style>
 </head>
 <body>
 
-<!-- صوت الطيور -->
-<audio id="birdsSound" autoplay loop controls>
-  <source src="birds.mp3" type="audio/mpeg">
-</audio>
-
-<!-- الأزرار -->
+<!-- الأيقونات -->
 <button id="videoBtn1" class="icon-btn">🎬</button>
 <button id="videoBtn2" class="icon-btn">🎥</button>
 
@@ -92,20 +81,21 @@ audio {
 
 <!-- الفيديوهات -->
 <iframe id="video1" class="video-frame"
-src="" title="YouTube video player" frameborder="0"
-allow="autoplay; encrypted-media" allowfullscreen></iframe>
+src="" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+allowfullscreen></iframe>
 
 <iframe id="video2" class="video-frame"
-src="" title="YouTube video player" frameborder="0"
-allow="autoplay; encrypted-media" allowfullscreen></iframe>
+src="" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+allowfullscreen></iframe>
 
 <script>
 const v1 = document.getElementById("video1");
 const v2 = document.getElementById("video2");
 const closeBtn = document.getElementById("closeBtn");
-const birdsSound = document.getElementById("birdsSound");
 
-// روابط الفيديو الأصلية
+// روابط الفيديو
 const link1 = "https://www.youtube.com/embed/LuKwFajn37U?autoplay=1";
 const link2 = "https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1";
 
@@ -114,7 +104,6 @@ document.getElementById("videoBtn1").onclick = () => {
   v1.style.display = "block";
   v2.style.display = "none";
   closeBtn.style.display = "block";
-  birdsSound.pause();
 };
 
 document.getElementById("videoBtn2").onclick = () => {
@@ -122,22 +111,20 @@ document.getElementById("videoBtn2").onclick = () => {
   v2.style.display = "block";
   v1.style.display = "none";
   closeBtn.style.display = "block";
-  birdsSound.pause();
 };
 
-// عند الإغلاق
 closeBtn.onclick = () => {
   v1.style.display = "none";
   v2.style.display = "none";
-  closeBtn.style.display = "none";
-  v1.src = ""; // إيقاف الفيديو فعليًا
+  v1.src = "";
   v2.src = "";
-  birdsSound.play(); // إعادة صوت الطيور
+  closeBtn.style.display = "none";
 };
 </script>
 
 </body>
 </html>
+
 <!-- زر بونج بونج الشفاف -->
 <button id="pongButton" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;font-size:16px;background:rgba(255,255,255,0.2);border:2px solid white;color:white;border-radius:10px;cursor:pointer;z-index:1000;backdrop-filter:blur(5px);">بونج بونج / Pong</button>
 <!-- نافذة اللعبة -->
