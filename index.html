@@ -1355,6 +1355,16 @@ body {
     }
   </style>
   
+<!-- مودال الفيديو -->
+<div id="videoModal" class="video-modal">
+  <div class="video-circle glow-circle" onclick="event.stopPropagation()">
+    <iframe id="modalVideo" src="" frameborder="0" allowfullscreen></iframe>
+    <div class="video-controls">
+      <span class="close-video" onclick="closeVideoModal()">×</span>
+      <span class="fullscreen-video" onclick="fullscreenVideo()">⛶</span>
+    </div>
+  </div>
+</div>
 
 <script>
 function openVideoModal(videoId){
@@ -1818,6 +1828,61 @@ function closeVideoModal() {
   </style>
   
 <body>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+  let currentVolume = 50;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: 'YFmV_MRSD7M',
+        controls: 0,
+        showinfo: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: (event) => {
+          player.setVolume(currentVolume);
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  function playPause() {
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+  }
+
+  function muteUnmute() {
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      player.mute();
+    }
+  }
+
+  function volumeUp() {
+    if (currentVolume < 100) {
+      currentVolume += 10;
+      player.setVolume(currentVolume);
+    }
+  }
+
+  function volumeDown() {
+    if (currentVolume > 0) {
+      currentVolume -= 10;
+      player.setVolume(currentVolume);
+    }
+  }
 </script>
 
 <!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
@@ -2619,15 +2684,6 @@ async function initChatConnection(){
        style="cursor:pointer; text-decoration:underline; margin-top:5px;" 
        data-i18n="cvButton">SV أبوالقمر زمرد</div>
 
-  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#fff; text-decoration:underline;">اضغط هنا</a></p>
-  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a></p>
-  <p data-i18n="share">🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a></p>
-
   <div id="cvPage" style="
       display:none; 
       position:fixed; 
@@ -2755,6 +2811,82 @@ mainBtn.onclick = () => {
   });
 };
 </script>
+
+<div id="support-follow" style="text-align:center; margin:40px 0; font-family:'Tajawal',sans-serif;">
+
+  <!-- 💖 الدعم -->
+  <p style="color:#00ffff; font-size:18px;">💖 :</p>
+  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
+  PayPal
+  </a>
+
+  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#fff; text-decoration:underline;">اضغط هنا</a></p>
+  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a></p>
+  <p data-i18n="share">🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+  </p>
+  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a></p>
+
+  </div>
+</div>
+
+<!-- 🌐 شريط النصوص المتحرك السفلي -->
+<div id="dynamic-text-bar">
+  <span id="scrollingText"></span>
+</div>
+
+<style>
+#dynamic-text-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 255, 200, 0.15);
+  border-top: 1px solid rgba(0,255,200,0.4);
+  color: #00ffcc;
+  font-family: "Tajawal", sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 10000;
+  box-shadow: 0 -2px 10px rgba(0,255,255,0.3);
+  text-shadow: 0 0 8px #00ffff;
+}
+#dynamic-text-bar span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 25s linear infinite;
+}
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+
+<script>
+// 🌙 نصوص عربية وإنجليزية بالتناوب
+const messages = [
+  "🌙 مرحبًا بكم في موقع أبوالقمر زمرد — الإبداع في ضوء القمر والزمرد 💎",
+  "✨ استمتع بمكتبة الفيديو والقصص والفكاهة، بروح زمردية ملهمة 🌿",
+  "💬 تفاعل معنا عبر الدردشة واستكشف عالم أبوالقمر المتنوع 🌌",
+  "🌍 Welcome to Abwalqmr Zumurrud — where Moonlight meets Emerald Creativity 💫",
+  "🎬 Explore videos, stories, and humor with elegance and inspiration 🌱",
+  "💎 Connect and enjoy the Emerald world of imagination 🌕"
+];
+
+let textIndex = 0;
+const scrollingText = document.getElementById("scrollingText");
+
+function updateText() {
+  scrollingText.textContent = messages[textIndex];
+  textIndex = (textIndex + 1) % messages.length;
+}
+updateText();
+setInterval(updateText, 25000);
+</script>
+
 <!-- 😂 شريط النكت المتحرك في أسفل الصفحة -->
 <div id="funnyBar">
   <div id="funnyBarBox">
