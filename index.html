@@ -1664,25 +1664,6 @@ function openFunnyModal(id){
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- Footer -->
-<div id="footer" style="text-align:center; margin:20px 0; font-size:14px; color:#fff;">
-  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank">اضغط هنا</a></p>
-  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com">sakaker@outlook.com</a></p>
-  <p data-i18n="share">🔗 شارك: <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank">واتساب</a> | <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank">تويتر</a> | <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank">فيسبوك</a></p>
-  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank">فيسبوك</a></p>
-
-  <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">SV أبوالقمر زمرد</div>
-
-  <div id="cvPage" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index:3000; justify-content:center; align-items:center;">
-    <div class="cv-content" style="background:#000; color:#fff; padding:20px; max-width:700px; margin:50px auto; border-radius:10px; text-align:right;">
-      <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
-      <p data-i18n="cvText">
-<p>الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهومتواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)</p>
-<button class="closeCV" onclick اة.</p>
-      <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
-    </div>
-  </div>
-</div>
 
 <script>
 // Translation maps
@@ -2926,3 +2907,55 @@ async function initChatConnection(){
   });
 })();
 </script>
+<!-- Footer -->
+<div id="footer" style="
+    position: fixed;       /* ليبقى ثابت عند التمرير */
+    bottom: 0;             /* أسفل الشاشة */
+    left: 0;               /* على اليسار */
+    background: rgba(0,0,0,0.8);  /* خلفية شبه شفافة */
+    color: #fff; 
+    padding: 10px 20px; 
+    font-size: 14px;
+    z-index: 1000;         /* ليكون فوق المحتوى */
+    border-top-right-radius: 10px;
+">
+  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#fff; text-decoration:underline;">اضغط هنا</a></p>
+  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a></p>
+  <p data-i18n="share">🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+  </p>
+  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a></p>
+
+  <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" 
+       style="cursor:pointer; text-decoration:underline; margin-top:5px;" 
+       data-i18n="cvButton">SV أبوالقمر زمرد</div>
+
+  <div id="cvPage" style="
+      display:none; 
+      position:fixed; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%; 
+      background: rgba(0,0,0,0.85); 
+      z-index:3000; 
+      justify-content:center; 
+      align-items:center;">
+    <div class="cv-content" style="
+        background:#000; 
+        color:#fff; 
+        padding:20px; 
+        max-width:700px; 
+        margin:50px auto; 
+        border-radius:10px; 
+        text-align:right;">
+      <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
+      <p data-i18n="cvText">
+        الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)
+      </p>
+      <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
+    </div>
+  </div>
+</div>
