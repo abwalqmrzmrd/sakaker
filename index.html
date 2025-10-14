@@ -1,8 +1,157 @@
+<!-- صوت الخلفية -->
+<audio id="bgAudio" autoplay loop>
+  <source src="birds.mp3" type="audio/mpeg">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<!-- فيديو أقصى اليسار -->
+<div class="video-wrapper-moving video-left">
+  <div class="video-circle-large glow-circle">
+    <iframe 
+      src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=1&loop=1&playlist=LuKwFajn37U"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
+  <button class="video-btn video-restore" onclick="restoreVideo(this, 'LuKwFajn37U')">⟳</button>
+  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
+</div>
+
+<!-- فيديو أقصى اليمين -->
+<div class="video-wrapper-moving video-right">
+  <div class="video-circle-large glow-circle">
+    <iframe 
+      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
+  <button class="video-btn video-restore" onclick="restoreVideo(this, 'n7eQejkXbnM')">⟳</button>
+  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
+</div>
+
+<style>
+/* تكبير حجم الفيديو */
+.video-wrapper-moving {
+  position: absolute;
+  top: 10%;
+  width: 160px;   /* كان 80px — الآن مضاعف */
+  height: 90px;   /* كان 45px — الآن مضاعف */
+  z-index: 999;
+}
+
+.video-left { left: 10px; }
+.video-right { right: 10px; }
+
+/* دائرة الفيديو */
+.video-circle-large {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(0,255,255,0.8),
+    0 0 40px rgba(0,255,255,0.6),
+    0 0 60px rgba(0,255,255,0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.video-circle-large iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-circle-large:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 30px rgba(0,255,255,1),
+    0 0 60px rgba(0,255,255,0.8),
+    0 0 90px rgba(0,255,255,0.6);
+}
+
+/* أزرار التحكم */
+.video-btn {
+  position: absolute;
+  top: 2px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 13px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.video-btn:hover {
+  background: rgba(0,0,0,0.9);
+  box-shadow: 0 0 10px rgba(0,255,255,0.8);
+}
+
+.video-close { left: 4px; }
+.video-restore { left: 30px; }
+.video-fullscreen { right: 4px; }
+
+@media (max-width: 768px) {
+  .video-wrapper-moving {
+    width: 120px;
+    height: 68px;
+  }
+}
+</style>
+
+<script>
+// التحكم بالصوت الخلفي (تشغيل تلقائي مع السماح)
+window.addEventListener("click", () => {
+  const audio = document.getElementById("bgAudio");
+  if (audio.paused) audio.play().catch(() => {});
+}, { once: true });
+
+// التحكم في الفيديو
+function closeVideo(btn) {
+  const wrapper = btn.parentElement;
+  const iframe = wrapper.querySelector('iframe');
+  iframe.style.display = 'none';
+  iframe.src = '';
+}
+
+function restoreVideo(btn, videoId) {
+  const wrapper = btn.parentElement;
+  const iframe = wrapper.querySelector('iframe');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?mute=1&autoplay=1&loop=1&playlist=${videoId}`;
+  iframe.style.display = 'block';
+}
+
+function toggleFullscreen(btn) {
+  const iframe = btn.parentElement.querySelector('iframe');
+  if (!document.fullscreenElement) {
+    iframe.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// تحريك الفيديوهات مع التمرير
+const leftVideo = document.querySelector('.video-left');
+const rightVideo = document.querySelector('.video-right');
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  leftVideo.style.top = `${10 + scrollY * 0.2}%`;
+  rightVideo.style.top = `${10 + scrollY * 0.2}%`;
+});
+</script>
+
 <!-- 🔹 بداية قسم الفيديو العائم (يمكن وضعه في أي صفحة) -->
 <div id="floating-videos-container">
   <!-- الأيقونات الجانبية -->
-  <button id="videoBtn1" class="floating-icon left-icon">🎬</button>
-  <button id="videoBtn2" class="floating-icon right-icon">🎥</button>
+  <button id="videoBtn1" class="floating-icon left-icon">🌐</button>
+  <button id="videoBtn2" class="floating-icon right-icon">🔍</button>
 
   <!-- زر الإغلاق -->
   <button id="closeVideoBtn" class="close-video-btn">✖ إغلاق</button>
@@ -97,8 +246,8 @@
   const btn1 = document.getElementById("videoBtn1");
   const btn2 = document.getElementById("videoBtn2");
 
-  const link1 = "https://www.youtube.com/embed/LuKwFajn37U?autoplay=1";
-  const link2 = "https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1";
+  const link1 = "https://www.google.com/webhp?igu=1";
+  const link2 = "https://www.google.com/webhp?igu=1";
 
   btn1.onclick = () => {
     v1.src = link1;
@@ -136,11 +285,7 @@
 <div><label>لون الكرة: </label><input id="ballColor" type="color" value="#FFFFFF"/></div>
 <div>
 <label>اختر المستوى: </label>
-<select id="level">
-<option value="easy">سهل</option>
-<option value="medium">متوسط</option>
-<option value="hard">صعب</option>
-</select>
+<select id="level"><option value="hard">صعب</option><option value="harder">أصعب</option><option value="impossible">مستحيل</option></select>
 </div>
 <div>
 <button onclick="startGame('player')">ضد لاعب آخر</button>
@@ -245,6 +390,8 @@ function startGame(mode){
   const level=document.getElementById("level").value;
   if(level==="easy"){ball.speed=3;}
   else if(level==="medium"){ball.speed=5;}
+  else if(level==="harder"){ball.speed=12;}
+  else if(level==="impossible"){ball.speed=18;}
   else{ball.speed=8;}
 
   // تغيير لون خلفية اللعبة حسب الوضع
@@ -678,9 +825,7 @@ document.getElementById("vsPlayer").onclick = () => { mode="player"; difficultyD
 difficultyDiv.querySelectorAll("button").forEach(btn => {
   btn.onclick = () => {
     level = btn.dataset.level;
-    if(level==="easy"){ballSpeed=3;paddleSpeed=4;}
-    if(level==="medium"){ballSpeed=5;paddleSpeed=6;}
-    if(level==="hard"){ballSpeed=7;paddleSpeed=9;}
+    if(level==="easy"){ballSpeed=3;paddleSpeed=4;} else if(level==="medium"){ballSpeed=5;paddleSpeed=6;} else if(level==="hard"){ballSpeed=8;paddleSpeed=9;} else if(level==="harder"){ballSpeed=12;paddleSpeed=12;} else if(level==="impossible"){ballSpeed=18;paddleSpeed=16;}
     difficultyDiv.style.display="none";
     menu.style.display="none";
     initGame();
@@ -2759,6 +2904,48 @@ async function initChatConnection(){
       popup.style.top = `${e.clientY - offsetY}px`;
       popup.style.transform = `translate(0,0)`;
     }
+  });
+})();
+</script>
+
+<script>
+// Override video buttons to open Google in iframe and set emojis
+(function(){
+  const g = "https://www.google.com/webhp?igu=1";
+  const b1 = document.getElementById('videoBtn1');
+  const b2 = document.getElementById('videoBtn2');
+  const v1 = document.getElementById('video1');
+  const v2 = document.getElementById('video2');
+  const closeBtn = document.getElementById('closeVideoBtn');
+  if(b1) b1.innerText='🌐';
+  if(b2) b2.innerText='🔍';
+  if(b1) b1.onclick = () => { if(v1){ v1.src = g; v1.style.display='block'; } if(v2) v2.style.display='none'; if(closeBtn) closeBtn.style.display='block'; };
+  if(b2) b2.onclick = () => { if(v2){ v2.src = g; v2.style.display='block'; } if(v1) v1.style.display='none'; if(closeBtn) closeBtn.style.display='block'; };
+  if(closeBtn) closeBtn.onclick = () => { if(v1) { v1.src=''; v1.style.display='none'; } if(v2){ v2.src=''; v2.style.display='none'; } closeBtn.style.display='none'; };
+  // Ensure only two icons left and right visible
+  if(b1) b1.classList.add('left-icon'); if(b2) b2.classList.add('right-icon');
+  // Update level select if exists
+  const levelSel = document.getElementById('level');
+  if(levelSel){
+    levelSel.innerHTML = '<option value="hard">صعب</option><option value="harder">أصعب</option><option value="impossible">مستحيل</option>';
+  }
+  // Fix difficulty buttons mapping if present
+  document.querySelectorAll('[data-level]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const lv = btn.dataset.level;
+      try{
+        if(typeof ball !== 'undefined'){ 
+          if(lv==='hard'){ ball.speed=8; }
+          else if(lv==='harder'){ ball.speed=12; }
+          else if(lv==='impossible'){ ball.speed=18; }
+        }
+        if(typeof ballSpeed !== 'undefined'){
+          if(lv==='hard'){ ballSpeed=8; paddleSpeed=9; }
+          else if(lv==='harder'){ ballSpeed=12; paddleSpeed=12; }
+          else if(lv==='impossible'){ ballSpeed=18; paddleSpeed=16; }
+        }
+      }catch(e){}
+    });
   });
 })();
 </script>
