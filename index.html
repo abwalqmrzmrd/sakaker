@@ -1,273 +1,90 @@
 
-<!-- فيديو أقصى اليسار -->
-<div class="video-wrapper-moving video-left">
-  <div class="video-circle-large glow-circle">
-    <iframe 
-      src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=1&loop=1&playlist=LuKwFajn37U"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
-  <button class="video-btn video-restore" onclick="restoreVideo(this, 'LuKwFajn37U')">⟳</button>
-  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
-</div>
+<!-- 🔹 بداية قسم البحث العائم المحسن -->
+<div id="floating-search-container">
+  <!-- الأيقونة العائمة -->
+  <button id="searchBtn" class="floating-icon">🔍</button>
 
-<!-- فيديو أقصى اليمين -->
-<div class="video-wrapper-moving video-right">
-  <div class="video-circle-large glow-circle">
-    <iframe 
-      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen>
+  <!-- الفريم العائم للبحث -->
+  <div id="searchPopup" style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 600px;
+      height: 500px;
+      background: rgba(0,0,0,0.95);
+      border: 4px solid #0ff;
+      border-radius: 15px;
+      z-index: 10000;
+      box-shadow: 0 0 40px #0ff;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      pointer-events: auto;
+  ">
+    <!-- زر الإغلاق -->
+    <button id="closeSearchBtn" style="
+        align-self: flex-end;
+        margin: 10px;
+        background: rgba(0,0,0,0.7);
+        color: #0ff;
+        border: 2px solid #0ff;
+        padding: 5px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    ">✖ إغلاق</button>
+
+    <!-- iframe لمحرك البحث المخصص -->
+    <iframe id="searchFrame" src="https://cse.google.com/cse?cx=YOUR_CSE_ID" 
+        style="flex: 1; border: none;" allowfullscreen>
     </iframe>
   </div>
-  <button class="video-btn video-close" onclick="closeVideo(this)">✖</button>
-  <button class="video-btn video-restore" onclick="restoreVideo(this, 'n7eQejkXbnM')">⟳</button>
-  <button class="video-btn video-fullscreen" onclick="toggleFullscreen(this)">⛶</button>
 </div>
 
 <style>
-/* تكبير حجم الفيديو */
-.video-wrapper-moving {
-  position: absolute;
-  top: 10%;
-  width: 160px;   /* كان 80px — الآن مضاعف */
-  height: 90px;   /* كان 45px — الآن مضاعف */
-  z-index: 999;
-}
-
-.video-left { left: 10px; }
-.video-right { right: 10px; }
-
-/* دائرة الفيديو */
-.video-circle-large {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 0 20px rgba(0,255,255,0.8),
-    0 0 40px rgba(0,255,255,0.6),
-    0 0 60px rgba(0,255,255,0.4);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.video-circle-large iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.video-circle-large:hover {
-  transform: scale(1.05);
-  box-shadow:
-    0 0 30px rgba(0,255,255,1),
-    0 0 60px rgba(0,255,255,0.8),
-    0 0 90px rgba(0,255,255,0.6);
-}
-
-/* أزرار التحكم */
-.video-btn {
-  position: absolute;
-  top: 2px;
-  padding: 4px 6px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 13px;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.video-btn:hover {
-  background: rgba(0,0,0,0.9);
-  box-shadow: 0 0 10px rgba(0,255,255,0.8);
-}
-
-.video-close { left: 4px; }
-.video-restore { left: 30px; }
-.video-fullscreen { right: 4px; }
-
-@media (max-width: 768px) {
-  .video-wrapper-moving {
-    width: 120px;
-    height: 68px;
-  }
-}
-</style>
-
-<script>
-// التحكم بالصوت الخلفي (تشغيل تلقائي مع السماح)
-window.addEventListener("click", () => {
-  const audio = document.getElementById("bgAudio");
-  if (audio.paused) audio.play().catch(() => {});
-}, { once: true });
-
-// التحكم في الفيديو
-function closeVideo(btn) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.style.display = 'none';
-  iframe.src = '';
-}
-
-function restoreVideo(btn, videoId) {
-  const wrapper = btn.parentElement;
-  const iframe = wrapper.querySelector('iframe');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?mute=1&autoplay=1&loop=1&playlist=${videoId}`;
-  iframe.style.display = 'block';
-}
-
-function toggleFullscreen(btn) {
-  const iframe = btn.parentElement.querySelector('iframe');
-  if (!document.fullscreenElement) {
-    iframe.requestFullscreen?.();
-  } else {
-    document.exitFullscreen?.();
-  }
-}
-
-// تحريك الفيديوهات مع التمرير
-const leftVideo = document.querySelector('.video-left');
-const rightVideo = document.querySelector('.video-right');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  leftVideo.style.top = `${10 + scrollY * 0.2}%`;
-  rightVideo.style.top = `${10 + scrollY * 0.2}%`;
-});
-</script>
-
-<!-- 🔹 بداية قسم الفيديو العائم (يمكن وضعه في أي صفحة) -->
-<div id="floating-videos-container">
-  <!-- الأيقونات الجانبية -->
-
-  <button id="videoBtn2" class="floating-icon right-icon">🔍</button>
-
-  <!-- زر الإغلاق -->
-  <button id="closeVideoBtn" class="close-video-btn">✖ إغلاق</button>
-
-  <!-- إطارات الفيديو -->
-  <iframe id="video1" class="floating-video" src="" frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-    allowfullscreen></iframe>
-
-  <iframe id="video2" class="floating-video" src="" frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-    allowfullscreen></iframe>
-</div>
-
-<style>
-/* ✅ القسم مستقل بالكامل ولن يؤثر على الصفحة */
-#floating-videos-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none; /* حتى لا يمنع نقر العناصر الأخرى */
-  z-index: 9999;
-}
-
-/* الأيقونات */
+/* الأيقونة العائمة */
 .floating-icon {
   position: fixed;
-  top: 20px;
-  width: 70px;
-  height: 70px;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: none;
   background: radial-gradient(circle, #00ffaa, #007755);
-  box-shadow: 0 0 25px #00ffee;
+  box-shadow: 0 0 25px #0ffeee;
   font-size: 26px;
   cursor: pointer;
-  pointer-events: auto;
+  z-index: 9999;
   transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 .floating-icon:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 40px #00ffee;
-}
-.left-icon { left: 20px; }
-.right-icon { right: 20px; }
-
-/* الفيديو العائم */
-.floating-video {
-  position: fixed;
-  width: 560px;
-  height: 315px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 4px solid #0ff;
-  border-radius: 15px;
-  display: none;
-  z-index: 10000;
-  box-shadow: 0 0 30px #0ff;
-  background: #000;
-}
-
-/* زر الإغلاق */
-.close-video-btn {
-  position: fixed;
-  top: calc(50% - 190px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.7);
-  color: #0ff;
-  border: 2px solid #0ff;
-  padding: 6px 18px;
-  border-radius: 20px;
-  cursor: pointer;
-  z-index: 10001;
-  display: none;
-  pointer-events: auto;
-  font-size: 16px;
-  box-shadow: 0 0 10px #0ff;
-}
-.close-video-btn:hover {
-  background: rgba(0,0,0,0.9);
+  box-shadow: 0 0 40px #0ffeee;
 }
 </style>
 
 <script>
-(function(){
-  const v1 = document.getElementById("video1");
-  const v2 = document.getElementById("video2");
-  const closeBtn = document.getElementById("closeVideoBtn");
-  const btn1 = document.getElementById("videoBtn1");
-  const btn2 = document.getElementById("videoBtn2");
+// فتح الفريم بالعجلة الانزلاقية
+document.getElementById("searchBtn").onclick = () => {
+  const popup = document.getElementById("searchPopup");
+  popup.style.display = "flex";
+  setTimeout(() => {
+    popup.style.transform = "translate(-50%, -50%) scale(1)";
+  }, 10);
+};
 
-  const link1 = "https://www.google.com/webhp?igu=1";
-  const link2 = "https://www.google.com/webhp?igu=1";
-
-  btn1.onclick = () => {
-    v1.src = link1;
-    v1.style.display = "block";
-    v2.style.display = "none";
-    closeBtn.style.display = "block";
-  };
-
-  btn2.onclick = () => {
-    v2.src = link2;
-    v2.style.display = "block";
-    v1.style.display = "none";
-    closeBtn.style.display = "block";
-  };
-
-  closeBtn.onclick = () => {
-    v1.style.display = "none";
-    v2.style.display = "none";
-    v1.src = "";
-    v2.src = "";
-    closeBtn.style.display = "none";
-  };
-})();
+// إغلاق الفريم
+document.getElementById("closeSearchBtn").onclick = () => {
+  const popup = document.getElementById("searchPopup");
+  popup.style.transform = "translate(-50%, -50%) scale(0)";
+  setTimeout(() => {
+    popup.style.display = "none";
+  }, 300);
+};
 </script>
-<!-- 🔹 نهاية قسم الفيديو العائم -->
+<!-- 🔹 نهاية قسم البحث العائم المحسن -->
 
 <!-- زر بونج بونج الشفاف -->
 <button id="pongButton" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;font-size:16px;background:rgba(255,255,255,0.2);border:2px solid white;color:white;border-radius:10px;cursor:pointer;z-index:1000;backdrop-filter:blur(5px);">بونج بونج / Pong</button>
@@ -1970,6 +1787,15 @@ function closeVideoModal() {
 </style>
 </head>
 
+  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#fff; text-decoration:underline;">اضغط هنا</a></p>
+  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a></p>
+  <p data-i18n="share">🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+  </p>
+  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a></p>
+
 <body>
 <!-- اللعبة -->
 
@@ -2912,22 +2738,13 @@ async function initChatConnection(){
     position: fixed;       /* ليبقى ثابت عند التمرير */
     bottom: 0;             /* أسفل الشاشة */
     left: 0;               /* على اليسار */
-    background: rgba(0,0,0,0.8);  /* خلفية شبه شفافة */
+   ية شبه شف */افة
     color: #fff; 
     padding: 10px 20px; 
     font-size: 14px;
     z-index: 1000;         /* ليكون فوق المحتوى */
     border-top-right-radius: 10px;
 ">
-  <p data-i18n="paypal">💰 دعم عبر PayPal: <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#fff; text-decoration:underline;">اضغط هنا</a></p>
-  <p data-i18n="contact">📧 تواصل: <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a></p>
-  <p data-i18n="share">🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-  <p data-i18n="follow">⭐ تابعنا على <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a></p>
-
   <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" 
        style="cursor:pointer; text-decoration:underline; margin-top:5px;" 
        data-i18n="cvButton">SV أبوالقمر زمرد</div>
@@ -2959,3 +2776,103 @@ async function initChatConnection(){
     </div>
   </div>
 </div>
+<!-- 🔹 بداية الفيديوهات الدائرية العائمة أعلى اليمين -->
+<div id="video-circle-container">
+  <!-- الأيقونة الرئيسية المغلقة -->
+  <div id="video-main-btn" class="video-main-btn">▶</div>
+
+  <!-- الفيديوهات العائمة (مخفية في البداية) -->
+  <div class="video-floating video-left">
+    <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=0&loop=1&playlist=LuKwFajn37U" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <div class="video-floating video-right">
+    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=0&loop=1&playlist=n7eQejkXbnM" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+
+<style>
+/* الحاوية الرئيسية أعلى يمين الصفحة */
+#video-circle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px; /* أعلى يمين */
+  z-index: 9999;
+  width: 60px;
+  height: 60px;
+}
+
+/* الأيقونة الرئيسية */
+.video-main-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00ffaa, #007755);
+  box-shadow: 0 0 25px #0ffeee, 0 0 50px #00ffaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.video-main-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 35px #0ffeee, 0 0 60px #00ffaa;
+}
+
+/* الفيديوهات العائمة */
+.video-floating {
+  position: absolute;
+  top: 0;
+  width: 180px;
+  height: 100px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 30px #0ff;
+  transform: scale(0);
+  transition: transform 0.3s, left 0.3s, right 0.3s;
+}
+.video-floating iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* مواقع الفيديوهات عند الفتح */
+.video-floating.active.video-left {
+  top: 80px;
+  right: 200px; /* متباعد لليسار بالنسبة للأيقونة */
+  transform: scale(1);
+}
+.video-floating.active.video-right {
+  top: 80px;
+  right: 0; /* يظهر مباشرة على يمين الأيقونة */
+  transform: scale(1);
+}
+
+/* تأثير توهج عند hover */
+.video-floating:hover {
+  box-shadow: 0 0 40px #0ff, 0 0 70px #0ffeee;
+}
+</style>
+
+<script>
+// عند الضغط على الأيقونة الرئيسية تفتح الفيديوهات
+const mainBtn = document.getElementById("video-main-btn");
+const floatingVideos = document.querySelectorAll(".video-floating");
+
+let isOpen = false;
+
+mainBtn.onclick = () => {
+  isOpen = !isOpen;
+  floatingVideos.forEach(v => {
+    if(isOpen){
+      v.classList.add("active");
+    } else {
+      v.classList.remove("active");
+    }
+  });
+};
+</script>
