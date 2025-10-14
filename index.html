@@ -1,14 +1,11 @@
-<!-- 🎵 أيقونة بيتهوفن -->
+<!-- 🎵 أيقونة تشغيل صوت -->
 <div id="beethovenContainer" style="
   position: fixed;
-  top: 90px; /* 🔽 تم إنزالها قليلاً تحت أيقونة الطيور */
-  left: 20px; /* يسار الصفحة */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 2000;
+  top: 90px; /* تحت أيقونة الطيور */
+  left: 20px;
+  z-index: 3000;
 ">
-  <div id="beethovenIcon" title="بيتهوفن Beethoven" style="
+  <div id="beethovenIcon" title="Beethoven" style="
     width: 70px;
     height: 70px;
     background: linear-gradient(135deg,#4a148c,#8e24aa);
@@ -24,20 +21,19 @@
     animation: float 2s ease-in-out infinite;
   ">🎵</div>
 
-  <!-- النص يظهر عند التشغيل -->
-  <p id="beethovenLabel" style="
-    margin-top: 8px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 15px;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 0 8px #8e24aa;
-    display: none;
-  ">🎶 تشغيل بيتهوفن – Beethoven</p>
+  <!-- مشغل الصوت (شفاف جداً وصغير) -->
+  <iframe 
+    id="beethovenPlayer"
+    width="1"  
+    height="1"
+    src=""
+    title="Beethoven Music Player"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen
+    style="display:none; opacity:0;">
+  </iframe>
 </div>
-
-<!-- 🎧 مشغل الصوت -->
-<audio id="beethovenAudio" loop></audio>
 
 <style>
 @keyframes float {
@@ -49,25 +45,22 @@
 
 <script>
 const beethovenIcon = document.getElementById('beethovenIcon');
-const beethovenAudio = document.getElementById('beethovenAudio');
-const beethovenLabel = document.getElementById('beethovenLabel');
-
-// 🎼 موسيقى بيتهوفن (Moonlight Sonata)
-beethovenAudio.src = "https://cdn.pixabay.com/download/audio/2021/09/30/audio_1909a6d797.mp3?filename=beethoven-moonlight-sonata-6876.mp3";
-
+const beethovenPlayer = document.getElementById('beethovenPlayer');
 let playing = false;
 
 beethovenIcon.addEventListener('click', () => {
   if (!playing) {
-    beethovenAudio.play();
-    beethovenLabel.style.display = 'block';
+    // تشغيل الصوت من الرابط الجديد
+    beethovenPlayer.src = "https://www.youtube.com/embed/k48x5sfTgYM?autoplay=1&si=pud2IxasvZ6vx1a7";
+    beethovenPlayer.style.display = "block";
     beethovenIcon.style.boxShadow = "0 0 25px #fff";
     beethovenIcon.style.transform = "scale(1.1)";
     beethovenIcon.style.background = "linear-gradient(135deg,#8e24aa,#ce93d8)";
     playing = true;
   } else {
-    beethovenAudio.pause();
-    beethovenLabel.style.display = 'none';
+    // إيقاف التشغيل
+    beethovenPlayer.src = "";
+    beethovenPlayer.style.display = "none";
     beethovenIcon.style.boxShadow = "0 0 15px rgba(142,36,170,0.8)";
     beethovenIcon.style.background = "linear-gradient(135deg,#4a148c,#8e24aa)";
     beethovenIcon.style.transform = "scale(1)";
@@ -75,6 +68,7 @@ beethovenIcon.addEventListener('click', () => {
   }
 });
 </script>
+t>
 
 <!-- 🔹 بداية قسم البحث العائم المحسن -->
 <div id="floating-search-container">
