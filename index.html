@@ -2808,24 +2808,6 @@ async function initChatConnection(){
   }
 })();
 </script>
-<!-- أيقونة Invidious عائمة مع نافذة video-specific draggable & resizable -->
-<div id="invidious-widget" style="position:fixed; top:50%; right:10px; transform:translateY(-50%); z-index:99999; font-family:Tajawal,sans-serif;">
-  <!-- زر الفتح مع تأثير Glow -->
-  <button id="invidious-open" class="glow-icon">📺</button>
-
-  <!-- نافذة Invidious draggable & resizable -->
-  <div id="invidious-popup" style="display:none; position:fixed; top:50%; right:80px; width:520px; height:360px; background:#000; border-radius:10px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.6); border:3px solid #ff3b3b; z-index:99999; cursor:move; resize:both;">
-    <div id="invidious-header" style="height:40px; background:#ff3b3b; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:0 10px; font-weight:700; cursor:move;">
-      <span>تصفح YouTube</span>
-      <div>
-        <button id="invidious-open-new" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:16px;margin-right:8px;">فتح جديد ↗</button>
-        <button id="invidious-close" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:18px;">✖</button>
-      </div>
-    </div>
-    <!-- iframe minimal مع رابط فيديو محدد -->
-    <iframe id="invidious-iframe" src="" frameborder="0" allowfullscreen style="width:100%; height:calc(100% - 40px); border:none;"></iframe>
-  </div>
-</div>
 
 <style>
 .glow-icon {
