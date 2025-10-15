@@ -1,38 +1,29 @@
-<!-- 🎵 أيقونة تشغيل موسيقى -->
-<div id="musicContainer" style="
-  position: fixed;
-  top: 90px; 
-  left: 20px;
-  z-index: 3000;
-">
-  <div id="musicIcon" title="تشغيل الموسيقى" style="
+<!-- 🎬 أيقونة فيديو متحركة -->
+<div id="miniVideoContainer" style="position: fixed; top: 90px; left: 20px; z-index: 3000;">
+  <div id="miniVideoIcon" title="تشغيل الفيديو" style="
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg,#4a148c,#8e24aa);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
-    color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(142,36,170,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
     animation: float 2s ease-in-out infinite;
-  ">🎵</div>
-
-  <!-- مشغل الفيديو الصامت المخفي -->
-  <iframe 
-    id="musicPlayer"
-    width="1"  
-    height="1"
-    src="https://www.youtube.com/embed/Ow4U5PQVUNM?autoplay=0&loop=1&playlist=Ow4U5PQVUNM"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-    referrerpolicy="strict-origin-when-cross-origin"
-    style="display:none; opacity:0; pointer-events:none;">
-  </iframe>
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+  ">
+    <iframe 
+      id="miniVideoPlayer"
+      src="https://www.youtube.com/embed/Ow4U5PQVUNM?autoplay=0&loop=1&playlist=Ow4U5PQVUNM"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      style="width:100%; height:100%; border-radius:50%; pointer-events:none;"
+    ></iframe>
+  </div>
 </div>
 
 <style>
@@ -41,24 +32,42 @@
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0); }
 }
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+#miniVideoIcon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+}
 </style>
 
 <script>
-const icon = document.getElementById('musicIcon');
-const player = document.getElementById('musicPlayer');
-let isPlaying = false;
+const miniVideoIcon = document.getElementById('miniVideoIcon');
+const miniVideoPlayer = document.getElementById('miniVideoPlayer');
+let playing = false;
+let pulseInterval;
 
-icon.addEventListener('click', () => {
-  if(!isPlaying){
-    // تشغيل الفيديو بصوت
-    player.src = "https://www.youtube.com/embed/Ow4U5PQVUNM?autoplay=1&loop=1&playlist=Ow4U5PQVUNM&volume=100";
-    isPlaying = true;
-    icon.style.boxShadow = "0 0 25px #ffee00, 0 0 50px #ffaa00"; // تأثير عند التشغيل
+miniVideoIcon.addEventListener('click', () => {
+  if(!playing){
+    const src = miniVideoPlayer.src.split("&autoplay=")[0];
+    miniVideoPlayer.src = src + "&autoplay=1";
+    playing = true;
+    
+    // إضافة تأثير نبض أثناء التشغيل
+    miniVideoIcon.style.animation = "float 2s ease-in-out infinite, pulse 1s ease-in-out infinite";
+    miniVideoIcon.style.boxShadow = "0 0 25px #ffd700, 0 0 50px #ff8c00";
   } else {
-    // إيقاف الفيديو
-    player.src = "https://www.youtube.com/embed/Ow4U5PQVUNM?autoplay=0&loop=1&playlist=Ow4U5PQVUNM";
-    isPlaying = false;
-    icon.style.boxShadow = "0 0 15px rgba(142,36,170,0.8)"; // إعادة اللون الأصلي
+    const src = miniVideoPlayer.src.split("&autoplay=")[0];
+    miniVideoPlayer.src = src + "&autoplay=0";
+    playing = false;
+    
+    // إيقاف نبض
+    miniVideoIcon.style.animation = "float 2s ease-in-out infinite";
+    miniVideoIcon.style.boxShadow = "0 0 15px rgba(0,0,0,0.5)";
   }
 });
 </script>
