@@ -3068,50 +3068,37 @@ async function initChatConnection(){
       </p>
       <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
     </div>
-  </div>
-</div><!-- 🔹 بداية الفيديوهات الدائرية العائمة أعلى اليمين -->
+  </div><!-- 🔹 بداية الفيديوهات الدائرية العائمة أعلى اليمين -->
 <div id="video-circle-container">
-  <!-- الأيقونة الرئيسية المغلقة -->
+  <!-- الأيقونة الرئيسية -->
   <div id="video-main-btn" class="video-main-btn">▶</div>
 
-  <!-- الفيديوهات العائمة (مخفية في البداية) -->
-  <div class="video-floating video-left">
-    <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=0&loop=1&playlist=LuKwFajn37U" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-floating video-right">
-    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=0&loop=1&playlist=n7eQejkXbnM" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-floating video-extra1">
-    <iframe src="https://www.youtube.com/embed/zi9knajcejY?si=JznDEQvDxUvBogoy" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-floating video-extra2">
-    <iframe src="https://www.youtube.com/embed/9V3Fbb3bCJg?si=ZhgUUA2jvKbGdTmg" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-floating video-extra3">
-    <iframe src="https://www.youtube.com/embed/umCCh6e7eXI?si=W6T_EDrQJCzzQQRy" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-floating video-extra4">
-    <iframe src="https://www.youtube.com/embed/sFVY-LwnSy8?si=yMitr_C9d_v2QHu3" frameborder="0" allowfullscreen></iframe>
+  <!-- الفيديوهات العائمة -->
+  <div id="video-row">
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1&autoplay=0&loop=1&playlist=LuKwFajn37U" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=0&loop=1&playlist=n7eQejkXbnM" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/zi9knajcejY?si=JznDEQvDxUvBogoy" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/9V3Fbb3bCJg?si=ZhgUUA2jvKbGdTmg" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/umCCh6e7eXI?si=W6T_EDrQJCzzQQRy" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/sFVY-LwnSy8?si=yMitr_C9d_v2QHu3" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/daqB3i9WYIY?si=OXqJXJGq8ZRkNuB9" allowfullscreen></iframe></div>
+    <div class="video-floating"><iframe src="https://www.youtube.com/embed/FFkOEautPBs?si=rl-lZLH2aPkvdoHY" allowfullscreen></iframe></div>
   </div>
 </div>
 
 <style>
-/* الحاوية الرئيسية أعلى يمين الصفحة */
+/* 🔹 الحاوية العامة */
 #video-circle-container {
   position: fixed;
   top: 20px;
-  right: 20px; /* أعلى يمين */
+  right: 20px;
   z-index: 9999;
-  width: 60px;
-  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-/* الأيقونة الرئيسية */
+/* 🔹 زر التشغيل */
 .video-main-btn {
   width: 60px;
   height: 60px;
@@ -3124,86 +3111,75 @@ async function initChatConnection(){
   font-size: 24px;
   color: #000;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: 0.3s;
 }
 .video-main-btn:hover {
   transform: scale(1.1);
   box-shadow: 0 0 35px #0ffeee, 0 0 60px #00ffaa;
 }
 
-/* الفيديوهات العائمة */
+/* 🔹 صف الفيديوهات */
+#video-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  max-width: 90vw;
+  margin-top: 10px;
+}
+
+/* 🔹 الفيديوهات نفسها */
 .video-floating {
-  position: absolute;
-  top: 0;
   width: 180px;
   height: 100px;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 0 30px #0ff;
   transform: scale(0);
-  transition: transform 0.4s, left 0.4s, right 0.4s, top 0.4s;
+  transition: transform 0.4s, opacity 0.4s;
+  opacity: 0;
 }
 .video-floating iframe {
   width: 100%;
   height: 100%;
   border: none;
 }
-
-/* مواقع الفيديوهات عند الفتح */
-.video-floating.active.video-left {
-  top: 80px;
-  right: 200px;
+.video-floating.active {
   transform: scale(1);
+  opacity: 1;
 }
-.video-floating.active.video-right {
-  top: 80px;
-  right: 0;
-  transform: scale(1);
-}
-.video-floating.active.video-extra1 {
-  top: 200px;
-  right: 100px;
-  transform: scale(1);
-}
-.video-floating.active.video-extra2 {
-  top: 320px;
-  right: 200px;
-  transform: scale(1);
-}
-.video-floating.active.video-extra3 {
-  top: 440px;
-  right: 100px;
-  transform: scale(1);
-}
-.video-floating.active.video-extra4 {
-  top: 560px;
-  right: 200px;
-  transform: scale(1);
-}
-
-/* تأثير توهج عند hover */
 .video-floating:hover {
   box-shadow: 0 0 40px #0ff, 0 0 70px #0ffeee;
+}
+
+/* 🔹 متجاوب */
+@media (max-width: 768px) {
+  #video-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .video-floating {
+    width: 140px;
+    height: 80px;
+  }
 }
 </style>
 
 <script>
-// عند الضغط على الأيقونة الرئيسية تفتح أو تغلق الفيديوهات
+// فتح وغلق الفيديوهات بالزر
 const mainBtn = document.getElementById("video-main-btn");
-const floatingVideos = document.querySelectorAll(".video-floating");
-
-let isOpen = false;
+const videos = document.querySelectorAll(".video-floating");
+let open = false;
 
 mainBtn.onclick = () => {
-  isOpen = !isOpen;
-  floatingVideos.forEach(v => {
-    if (isOpen) {
-      v.classList.add("active");
-    } else {
-      v.classList.remove("active");
-    }
+  open = !open;
+  videos.forEach(v => {
+    if (open) v.classList.add("active");
+    else v.classList.remove("active");
   });
 };
+</script>
+
 </script>
 
 </script>
