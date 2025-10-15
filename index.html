@@ -1,3 +1,4 @@
+
 <!-- 🎵 أيقونة تشغيل صوت -->
 <div id="beethovenContainer" style="
   position: fixed;
@@ -42,6 +43,234 @@
   100% { transform: translateY(0); }
 }
 </style>
+<!-- أيقونة حياتي مع اختيار اللغة وزر الدخول -->
+<div class="icon-container" style="position:fixed; top:60%; right:10px; transform:translateY(-50%); z-index:999;">
+  <div class="icon" id="icon-life" style="cursor:pointer; padding:10px 15px; border-radius:8px; text-align:center; color:white;">
+    <div style="font-size:14px; margin-bottom:3px;">اختر اللغة / Choose Language</div>
+    <h2 id="icon-title" style="margin:0; font-size:18px;">💭 حياتي</h2>
+  </div>
+  <!-- زر الدخول أسفل الأيقونة -->
+  <button id="enter-btn" style="margin-top:5px; width:100%; cursor:pointer; background:rgba(255,255,255,0.1); color:white; border:none; padding:5px 10px; border-radius:5px;">دخول</button>
+</div>
+
+<!-- قسم النصوص -->
+<section id="life-section" style="display:none; padding:10px; max-width:800px; margin:50px auto; background:rgba(255,255,255,0.9); border-radius:10px; color:black;">
+
+  <!-- قصتي بمراحل العمل -->
+  <div class="story-title" onclick="toggleStory('ps1')">قصتي بمراحل العمل / My Work Journey</div>
+  <div class="story" id="ps1" style="display:none;">
+    <p id="ps1-text"></p>
+  </div>
+
+  <!-- بعض من تجاربي -->
+  <div class="story-title" onclick="toggleStory('ps2')">بعض من تجاربي / Some of My Experiences</div>
+  <div class="story" id="ps2" style="display:none;">
+    <p id="ps2-text"></p>
+  </div>
+
+  <!-- قصتي مع الزمن -->
+  <div class="story-title" onclick="toggleStory('s5')">قصتي مع الزمن / My Story with Time</div>
+  <div class="story" id="s5" style="display:none;">
+    <p id="s5-text"></p>
+  </div>
+</section>
+
+<script>
+  let currentLang = 'ar';
+
+  const arabicText = {
+    ps1: `
+بدأت حياتي العملية بخطوات مترددة بين الدراسة والتجارة، أبحث عن الطريق الذي يثبت قدمي. 
+في بداياتي لم تكن الفرص كثيرة، لكني تعلمت أن العمل يحتاج صبرًا ومثابرة. 
+عملت في مجالات مختلفة، بعضها كان مجرد تجربة، وبعضها الآخر شكل أساسًا لبناء خبرتي.
+
+عندما كنت في السنة الثالثة بالجامعة الفصل الأول، وفي عام 1999 تحديدًا، 
+أوقفت الجامعة المكافأة المالية التي كانت تبلغ 850 ريالًا بسبب نزول معدلي الأكاديمي. 
+عندها شعرت بضرورة أن أجد مصدر دخل يعينني على المصاريف. 
+فبدأت أبحث عن عمل، وكان ذلك التحول أول خطوة فعلية لي في ميدان الحياة العملية.
+
+استمر عملي منذاك الوقت حتى عام 2009 في مستشفى السعودي الألماني، 
+حيث تعلمت الكثير من الانضباط وأهمية تحمل المسؤولية. 
+وبعدها قُبلت للعمل في القطاع الحكومي بإمارة منطقة القصيم، 
+لكن وبسبب ظروف وزارة الصحة ومشورة بعض المعارف وتأييد والدي، 
+قدّمت اعتذاري لمقام الإمارة وتنازلت عن الوظيفة هناك، 
+واخترت الاستمرار مع وزارة الصحة في نفس المنطقة.
+
+استمررت في عملي حتى شهر رمضان عام 1446هـ، 
+حيث انسحبت من العمل رسميًا، 
+ثم قدمت لاحقًا طلب الاستقالة أو الاستغناء عن عملي بتاريخ 20/10/1446هـ 
+لأواكب حياتي الشخصية وأفتح لنفسي طريقًا جديدًا.
+
+مع مرور السنوات تنقلت بين عدة مراحل، أواجه التحديات وأتعلم من الأخطاء. 
+اكتشفت أن كل مرحلة من مراحل العمل ليست مجرد مصدر رزق، بل درس في الحياة. 
+علّمتني التجارب أن النجاح لا يأتي دفعة واحدة، وإنما هو تراكم محاولات صغيرة تصنع إنجازًا كبيرًا.
+
+تعلمت أن زملاء العمل قد يكونون عائلة ثانية، 
+وأن المدير الناصح قد يفتح لك بابًا تتذكره طوال حياتك. 
+كما أدركت أن التحديات المالية والضغوط اليومية تصنع فينا صلابة لا تهتز بسهولة.
+
+اليوم أنظر إلى رحلتي في مراحل العمل كخريطة مليئة بالعقبات والفرص. 
+لم يكن الطريق مستقيمًا، لكني فخور بأنني مشيت فيه خطوة بخطوة، 
+ورغم الصعاب، كانت كل مرحلة سببًا في أن أكون أكثر صلابة وإصرارًا على الاستمرار. 
+وما زلت أؤمن أن رحلة العمل لم تنتهِ بعد، فكل يوم يحمل تجربة جديدة تستحق أن تُروى.
+`,
+    ps2: `
+من أجمل ما أحتفظ به في ذاكرتي هو تنوع التجارب التي مررت بها في حياتي.  
+ففي الرياضة مارست كرة القدم والجري كهواية جعلتني أكثر نشاطًا وانضباطًا.  
+أما الرحلات والسفر فقد أخذتني إلى أماكن جديدة، تعلمت منها عادات الشعوب 
+ورأيت جمال الطبيعة من زوايا مختلفة.  
+وكانت المقابلات الشخصية، سواءً في العمل أو الحياة، محطات مهمة زادت من خبرتي 
+في التعامل مع الناس وفهم شخصياتهم.  
+هذه التجارب شكلت جزءًا من مساري، وأدركت معها أن الحياة ليست فقط دراسة أو عمل، 
+بل أيضًا اكتشاف وتجديد.
+`,
+    s5: `
+عندما كان عام 2000 وهو ذروة شبابي وكان عمري حينها 27عام، صادقت إنسان عزيز وصدوق يحمل من العمل مافيها تجارب قد تحتوي وجود العالم بأكمله. 
+لم يكن تواجدنا طويل ولا كافي، لأن مقابلتنا دامت في مكان عام. 
+ذات مرة جلسنا نسترجع الماضي للبحث عن المستقبل، وكل منا لم يبح بكل أسراره وحتى لو كانت مهمة. 
+ومن ذاك العام أطلقت على نفسي لقب (أبوالقمر زمرد). وفي البدايات كان فقط مجرد اسمي الأول باللغة الإنجليزية كأشكال للمداعبة بالرسم وتجسيد أشخاص أو أماكن ونحوها. 
+ولكن كان كل منا يحمل جعبة من الماضي والحاضر والمستقبل مع محيطنا كما هو سائد بين معلم ومتعلم ومقرب ومنبوذ وبين صديق وعدو.
+
+حينها رأيت أني قد افتقدت جميع محاور الحياة، ليس لأني فقدت الأمل ولكن جميع السبل قد سلكتها. 
+خاصة وإني تعلمت الدين بالمتوسط كتخصص ديني معرفي، ثم لم أرَ طريقًا في تكملة مراحل علوم الدين. 
+فاتجهت إلى التجارة وحين ذاك تخرجت أحمل شهادة تسمى دبلوم ثانوي تجاري. 
+ثم التحقت بالجامعة وأشار كثير أن أكمل نفس المسار كما هو معتاد، لكني رفضت بدون مناقشة. 
+لأني حينها كان سبق لي أن غيرت الدراسة من تخصص إلى تخصص، فاتجهت للجامعة بتخصص الجغرافيا وهو علم يهتم بالكرة الأرضية وما حولها. 
+لكن بعد الانتظام لم يحالفني الحظ باستكمال الدراسة وبدأت النهاية بالجامعة في عام 2001. 
+فبعد مرور ست سنوات بعضها متقطع لنزول المعدل الأكاديمي تم طي قيدي لتعدي سنوات الدراسة حسب أنظمة الجامعة، وكنت في السنة الثالثة الفصل الدراسي الثاني.
+
+وحين تم طي قيدي بدأت أنمي مهاراتي كما تكلمت عنه سابقًا وهو في عام 2000 حيث بدأت بأخذ فكرة عن العوالم مثل الرسم. 
+وتذكرت أن أول قصيدة لي كانت وأنا بسن 13 وكانت مرثية لأخوين لي توفوا إثر حريق وكانت أعمارهم لا تتجاوز السبع سنوات. 
+ولا أتذكرها، ولكن بعد سنين علمت أن والدي كان مفتخر ومعجب بها. 
+فقمت بعام 2000 أو بعده بقليل من السنوات بمراسلة الجريدة، وكانت أيام لم يكن فيها مثل الآن التواصل الإلكتروني. 
+وطلبت من محرر الجريدة إرسال رأيه عن هل عندي فعلًا قريحة الشعر أم أنها مجرد تجربة. 
+وكانت حين ذاك تسمى لا أذكرها في جريدة الجزيرة تقريبًا، صفحات شعبية تتناول كل ما يخص الشعر. 
+فتعلمت الكثير وأريد التعلم أكثر كما أخبر النبي صلى الله عليه وسلم فيما معناه إن صح الحديث: اثنان لا يشبعان: طالب علم وطالب مال.
+
+مرت السنوات وتبدلت طرق الوصول إلى الناس؛ فكانت شبكة الإنترنت والوسائط الاجتماعية نافذةً، وأدركت أن الكلمة الآن تصل أسرع ولكنها تحتاج إلى جهد أكبر لتظل مؤثرة. 
+بدأت أصقل كتاباتي، أنشر أكثر، وأتعلم تقنيات العرض الرقمي والتصميم. وما بدأ كاسمٍ للمداعبة تحول إلى هويةٍ أرغب أن أستثمرها لنشر حكايتي وتجربتي. 
+لم تختفِ الخيبات ولا النجاحات، لكنها باتت دروسًا أمدّتني بصبرٍ ومرونةٍ أمام تقلبات الحياة.
+
+اليوم أرى أن الزمن ليس خصمًا بل شريكًا؛ كل لحظة منه تحفر فينا خبرة أو تفتح بابًا. 
+أما شعري وكتابتي فقد أصبحا مرآةً أصفها يومًا بعد يوم، وإن أخطأت أعيد المحاولة وأتعلم. 
+وإن كانت البداية بسيطة، فالغاية أن تترك أثرًا ولو بسيطًا في قلب قارئٍ واحد. 
+وهذه هي قصتي مع الزمن: رحلةُ فِقدٍ واكتشافٍ، جهدٌ وصبر، وأملٌ لا ينطفئ.
+`
+  };
+
+  const englishText = {
+    ps1: `
+I started my professional life with hesitant steps between study and business. 
+At first, opportunities were few, but I learned that work requires patience and perseverance. 
+I worked in different fields, some were just experiments, and others formed a basis to build my experience.
+
+During my third year at university, in the first semester of 1999, 
+the university stopped the financial scholarship of 850 riyals due to my declining grades. 
+I felt the need to find a source of income to cover expenses. 
+So I started looking for work, and this shift was my first real step in life.
+
+My work continued until 2009 at the Saudi German Hospital, 
+where I learned much about discipline and responsibility. 
+Then I was accepted to work in the government sector at Al-Qassim province, 
+but due to Ministry of Health circumstances and advice from acquaintances and my father, 
+I declined the position and chose to continue with the Ministry of Health in the same region.
+
+I continued until Ramadan 1446H, 
+then formally withdrew from work, 
+and later submitted my resignation on 20/10/1446H 
+to focus on my personal life and open a new path.
+
+Over the years, I moved through several stages, facing challenges and learning from mistakes. 
+I realized that every stage of work is not just a source of income, but a lesson in life. 
+Experiences taught me that success doesn’t come all at once, but accumulates in small attempts.
+
+I learned that colleagues can be a second family, 
+and a wise manager can open doors you remember for life. 
+Financial and daily pressures build resilience in us.
+
+Today I see my work journey as a map full of obstacles and opportunities. 
+The path wasn’t straight, but I am proud of every step I took. 
+Despite the difficulties, each stage made me stronger and more determined to continue. 
+And I still believe the work journey is not over; every day holds a new experience worth telling.
+`,
+    ps2: `
+One of the most beautiful things I keep in my memory is the diversity of experiences I went through in life.  
+In sports, I practiced football and running as hobbies, making me more active and disciplined.  
+Traveling took me to new places where I learned about people’s habits and saw nature’s beauty from different angles.  
+Personal interviews, whether in work or life, were important milestones that increased my experience in dealing with people and understanding personalities.  
+These experiences formed a part of my path, and I realized that life is not only study or work, but also exploration and renewal.
+`,
+    s5: `
+In the year 2000, the peak of my youth, I was 27 years old, I befriended a dear and honest person who carried with him life experiences that could contain the whole world. 
+Our meeting wasn’t long enough; we met in a public place. 
+Once, we sat recalling the past to search for the future, and each of us didn’t reveal all our secrets even if important. 
+From that year, I called myself (Abualqamar Zomorod). At first, it was just my first name in English for playful purposes, drawing, and depicting people or places. 
+But each of us carried a bundle of past, present, and future with our surroundings, as usual between teacher and learner, close and outcast, friend and foe.
+
+I realized that I missed all life axes, not because I lost hope but because I tried all paths. 
+I studied religion at an intermediate level as a religious knowledge specialization, but I didn’t continue further. 
+I turned to business and graduated with a diploma called Secondary Commercial Diploma. 
+Then I joined university, many suggested I continue the usual path, but I refused without discussion. 
+Because I had already changed my study path before, I chose geography at university, a science concerned with the Earth and its surroundings. 
+But after enrollment, luck didn’t favor me to complete, and my university journey ended in 2001. 
+After six years, partly interrupted due to low grades, my registration was terminated per university rules, and I was in the third year, second semester.
+
+Then I began developing my skills, starting in 2000 with ideas about worlds like drawing. 
+I remembered my first poem at age 13, an elegy for two brothers who died in a fire, aged no more than seven. 
+I didn’t remember it, but years later my father was proud and admired it. 
+In 2000 or shortly after, I contacted a newspaper to see if I truly had poetic talent or it was just an experiment. 
+It was in Al-Jazirah newspaper, in popular pages covering poetry. 
+I learned a lot and wanted to learn more, as the Prophet ﷺ said: “Two are never satisfied: the seeker of knowledge and the seeker of wealth.”
+
+Years passed and ways to reach people changed; the internet and social media became windows, and I realized words reach faster but need more effort to remain effective. 
+I refined my writing, published more, and learned digital presentation and design techniques. 
+What began as a playful name became an identity I wanted to use to share my story and experience. 
+Failures and successes didn’t disappear but became lessons giving me patience and flexibility.
+
+Today, I see time not as an adversary but as a partner; every moment leaves an experience or opens a door. 
+My poetry and writing became a mirror I describe day by day; if I err, I retry and learn. 
+Though the beginning was simple, the goal is to leave an impact, even small, on one reader’s heart. 
+This is my story with time: a journey of loss and discovery, effort and patience, and hope that never fades.
+`
+  };
+
+  // تبديل اللغة عند الضغط على الأيقونة
+  document.getElementById('icon-life').addEventListener('click', () => {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    document.getElementById('icon-title').innerText = currentLang === 'ar' ? '💭 حياتي' : '💭 My Life';
+    
+    if(document.getElementById('life-section').style.display === 'block') {
+      Object.keys(arabicText).forEach(id => {
+        document.getElementById(id + '-text').innerText = currentLang === 'ar' ? arabicText[id] : englishText[id];
+      });
+    }
+  });
+
+  // فتح القسم عند الضغط على زر الدخول
+  document.getElementById('enter-btn').addEventListener('click', () => {
+    const section = document.getElementById('life-section');
+    section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    
+    Object.keys(arabicText).forEach(id => {
+      document.getElementById(id + '-text').innerText = currentLang === 'ar' ? arabicText[id] : englishText[id];
+    });
+  });
+
+  function toggleStory(id) {
+    const story = document.getElementById(id);
+    story.style.display = story.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
+<style>
+  .story-title { 
+    font-weight:bold; cursor:pointer; margin:10px 0; 
+    padding:5px; background:rgba(135,206,250,0.2); border-radius:5px;
+  }
+  .story {
+    margin:10px 0; padding:10px; background:rgba(230,242,255,0.2); border-radius:5px;
+  }
+</style>
 
 <script>
 const beethovenIcon = document.getElementById('beethovenIcon');
@@ -70,7 +299,6 @@ beethovenIcon.addEventListener('click', () => {
 </script>
 
 </script>
-t>
 
 <!-- 🔹 بداية قسم البحث العائم المحسن -->
 <div id="floating-search-container">
@@ -983,6 +1211,51 @@ body {
 </style>
 </head>
 <body>
+<style>
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(145deg, #00b894, #00cec9);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 206, 201, 0.6);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.close-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px rgba(0, 255, 220, 0.9);
+  background: linear-gradient(145deg, #00cec9, #00b894);
+}
+
+.close-btn span {
+  font-size: 15px;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 206, 201, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 206, 201, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 206, 201, 0); }
+}
+
+.close-btn:hover {
+  animation: pulse 1.5s infinite;
+}
+
+.section {
+  position: relative;
+  padding-top: 50px; /* لإفساح مكان للزر */
+}
+</style>
 
 <!-- Language toggle -->
 <div id="langToggle">
@@ -1005,7 +1278,8 @@ body {
 
 <!-- Sections -->
 <div id="culture" class="section" style="display:none;">
-  <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+<button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+
   <h2>🌍 <span data-i18n="cultureTitle">ثقافة عامة</span></h2>
   <p data-i18n="cultureContent">قصت >
 
@@ -1136,7 +1410,8 @@ body {
 </div>
 
 <div id="islamic" class="section" style="display:none;">
-  <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+<button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+
   <h2>🕌 <span data-i18n="islamicTitle">التاريخ الإسلامي</span></h2>
   <p data-i18n="islamicContent">المحتوى الإسلامي محفوظ هنا، مسلطًا الضوء عل
     <h3>📜 النبي محمد ﷺ</h3>
@@ -1157,7 +1432,8 @@ body {
 </div>
 
 <div id="thoughts" class="section" style="display:none;">
-  <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+ <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
+
   <h2>💭 <span data-i18n="thoughtsTitle">خواطر</span></h2>
   <div class="thought-entry" data-i18n="thoughtsContent">خواطري الشخصية، كتاباتي، 
   <h3>🐉 أبو القمر زمرد يخاطب التنين الفضي بقصيدة "غدر الزمان"</h3>
