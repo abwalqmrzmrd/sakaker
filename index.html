@@ -1,29 +1,33 @@
-<!-- 🎬 أيقونة فيديو متحركة -->
-<div id="miniVideoContainer" style="position: fixed; top: 90px; left: 20px; z-index: 3000;">
-  <div id="miniVideoIcon" title="تشغيل الفيديو" style="
+<!-- 🎼 أيقونة تشغيل الموسيقى -->
+<div id="musicContainer" style="
+  position: fixed;
+  top: 90px; 
+  left: 20px;
+  z-index: 3000;
+  pointer-events: auto;
+">
+  <div id="musicIcon" title="تشغيل الموسيقى" style="
     width: 70px;
     height: 70px;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 28px;
+    color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 15px rgba(255,255,255,0.6);
     transition: all 0.3s ease;
     animation: float 2s ease-in-out infinite;
-    overflow: hidden;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-  ">
-    <iframe 
-      id="miniVideoPlayer"
-      src="https://www.youtube.com/embed/Ow4U5PQVUNM?autoplay=0&loop=1&playlist=Ow4U5PQVUNM"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      style="width:100%; height:100%; border-radius:50%; pointer-events:none;"
-    ></iframe>
-  </div>
+    backdrop-filter: blur(6px);
+  ">🎼</div>
+
+  <!-- مشغل الصوت -->
+  <audio id="bgMusic" loop>
+    <source src="https://download.4shared.com/mp3/ftXNK_kuR" type="audio/mp3">
+  </audio>
 </div>
 
 <style>
@@ -38,39 +42,29 @@
   50% { transform: scale(1.15); }
   100% { transform: scale(1); }
 }
-
-#miniVideoIcon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
 </style>
 
 <script>
-const miniVideoIcon = document.getElementById('miniVideoIcon');
-const miniVideoPlayer = document.getElementById('miniVideoPlayer');
-let playing = false;
-let pulseInterval;
+const icon = document.getElementById('musicIcon');
+const audio = document.getElementById('bgMusic');
+let isPlaying = false;
 
-miniVideoIcon.addEventListener('click', () => {
-  if(!playing){
-    const src = miniVideoPlayer.src.split("&autoplay=")[0];
-    miniVideoPlayer.src = src + "&autoplay=1";
-    playing = true;
-    
-    // إضافة تأثير نبض أثناء التشغيل
-    miniVideoIcon.style.animation = "float 2s ease-in-out infinite, pulse 1s ease-in-out infinite";
-    miniVideoIcon.style.boxShadow = "0 0 25px #ffd700, 0 0 50px #ff8c00";
+icon.addEventListener('click', () => {
+  if(!isPlaying){
+    audio.volume = 0.4; // صوت معتدل
+    audio.play();
+    isPlaying = true;
+    icon.style.animation = "float 2s ease-in-out infinite, pulse 1s ease-in-out infinite";
+    icon.style.boxShadow = "0 0 25px #ffd700, 0 0 50px #ff8c00"; // توهج عند التشغيل
   } else {
-    const src = miniVideoPlayer.src.split("&autoplay=")[0];
-    miniVideoPlayer.src = src + "&autoplay=0";
-    playing = false;
-    
-    // إيقاف نبض
-    miniVideoIcon.style.animation = "float 2s ease-in-out infinite";
-    miniVideoIcon.style.boxShadow = "0 0 15px rgba(0,0,0,0.5)";
+    audio.pause();
+    isPlaying = false;
+    icon.style.animation = "float 2s ease-in-out infinite";
+    icon.style.boxShadow = "0 0 15px rgba(255,255,255,0.6)";
   }
 });
 </script>
+
 
 <!-- أيقونة حياتي مع اختيار اللغة وزر الدخول -->
 <div class="icon-container" style="position:fixed; top:60%; right:10px; transform:translateY(-50%); z-index:999;">
