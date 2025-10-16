@@ -3501,3 +3501,107 @@ setInterval(updateText, 25000);
   });
 })();
 </script>
+<style>
+/* تحسين عرض الأيقونات والفيديو عند الوضع الأفقي (Landscape) */
+@media (orientation: landscape) and (max-width: 768px) {
+  /* رفع أيقونات الحياة لتصبح مرئية */
+  .icon-container, .icon-container-lite {
+    top: 10% !important;
+    right: 5px !important;
+    transform: translateY(0) !important;
+  }
+  /* نقل أزرار التحكم بالفيديو أعلى الشاشة */
+  .controls, .controls-lite {
+    bottom: auto !important;
+    top: 15px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    gap: 4px;
+  }
+  /* توسيط لعبة Pong أفقيًا */
+  #pongContainer, #pongContainerLite {
+    margin: 20px auto !important;
+  }
+}
+</style>
+
+<script>
+// إعادة ضبط موضع الأيقونات وأزرار التحكم عند تدوير الجهاز
+function adjustLayoutOnOrientation() {
+  if(window.matchMedia("(orientation: landscape)").matches) {
+    // الوضع الأفقي: أزرار وأيقونات أعلى الشاشة
+    document.querySelectorAll('.icon-container, .icon-container-lite').forEach(el=>{
+      el.style.top='10%';
+      el.style.transform='translateY(0)';
+    });
+    document.querySelectorAll('.controls, .controls-lite').forEach(el=>{
+      el.style.top='15px';
+      el.style.bottom='auto';
+      el.style.left='50%';
+      el.style.transform='translateX(-50%)';
+    });
+  } else {
+    // الوضع العمودي: استرجاع القيم الأصلية
+    document.querySelectorAll('.icon-container').forEach(el=>{
+      el.style.top='60%';
+      el.style.transform='translateY(-50%)';
+    });
+    document.querySelectorAll('.icon-container-lite').forEach(el=>{
+      el.style.top='55%';
+      el.style.transform='translateY(-50%)';
+    });
+    document.querySelectorAll('.controls').forEach(el=>{
+      el.style.bottom='10px';
+      el.style.top='auto';
+      el.style.transform='translateX(-50%)';
+    });
+    document.querySelectorAll('.controls-lite').forEach(el=>{
+      el.style.bottom='5px';
+      el.style.top='auto';
+      el.style.transform='translateX(-50%)';
+    });
+  }
+}
+
+// استدعاء عند التحميل وعند تدوير الجهاز
+window.addEventListener('load', adjustLayoutOnOrientation);
+window.addEventListener('orientationchange', adjustLayoutOnOrientation);
+</script>
+<style>
+/* إصلاح مشكلة النقر على الفيديوهات المصغرة في الجوال */
+.video-icon iframe {
+  pointer-events: auto !important; /* السماح بالنقر */
+  z-index: 1000;                  /* أعلى من أي طبقات أخرى */
+  cursor: pointer;
+}
+
+/* تحسين عرض الفيديوهات الصغيرة في الجوال */
+@media (max-width: 480px) {
+  .video-icon iframe {
+    width: 90% !important;
+    height: auto !important;
+    margin: 5px auto;
+    display: block;
+  }
+}
+</style>
+
+<script>
+// تشغيل الفيديو المصغر عند الضغط على أيقونته
+document.querySelectorAll('.video-icon').forEach(icon => {
+  icon.addEventListener('click', function() {
+    const iframe = this.querySelector('iframe');
+    if (!iframe) return;
+    
+    // التأكد من أنه YouTube iframe
+    if (typeof YT !== "undefined" && YT.Player) {
+      const player = new YT.Player(iframe);
+      player.playVideo();
+    } else {
+      // إذا لم يكن YouTube API جاهز، فتح الفيديو في نافذة جديدة
+      const src = iframe.getAttribute('src');
+      window.open(src, '_blank');
+    }
+  });
+});
+</script>
