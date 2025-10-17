@@ -3875,3 +3875,47 @@ document.querySelectorAll('.video-icon').forEach(icon => {
   });
 });
 </script>
+<style>
+  /* === خلفية الفيديو === */
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* === تصغير المحتوى تلقائيًا على الجوال === */
+  @media (max-width: 600px) {
+    body * {
+      font-size: 12px !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body * {
+      font-size: 10px !important;
+    }
+  }
+</style>
+
+<!-- === فيديو الخلفية === -->
+<video autoplay muted loop id="bg-video">
+  <source src="رابط_الفيديو_هنا.mp4" type="video/mp4">
+  متصفحك لا يدعم الفيديو
+</video>
+
+<script>
+  // تحديث ارتفاع الفيديو على الجوال لتغطية كامل الشاشة
+  function resizeVideo() {
+    const vh = window.innerHeight;
+    document.getElementById('bg-video').style.height = vh + 'px';
+  }
+
+  window.addEventListener('resize', resizeVideo);
+  window.addEventListener('orientationchange', resizeVideo);
+  resizeVideo(); // عند التحميل
+</script>
