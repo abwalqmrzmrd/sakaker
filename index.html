@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -519,6 +520,73 @@ iconRow.style.display = "none";
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اهلا بيكم في موقعي الشخصي</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* منع التمرير */
+  }
+
+  /* الفيديو يغطي كامل الشاشة */
+  #bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    object-fit: cover; /* يغطي الشاشة بالكامل بدون تشويه */
+  }
+
+  /* زر التحكم بالصوت */
+  #soundButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 15px;
+    background: rgba(0,0,0,0.6);
+    color: #00ffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  #soundButton:hover {
+    background: rgba(0,0,0,0.85);
+    color: #ff0;
+  }
+</style>
+</head>
+<body>
+<div class="left-panel" style="position:fixed; left:10px; top:60%; transform:translateY(-50%); z-index:999; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;">
+  <p style="color:#00ffff; font-size:18px;">للتبرع للموقع 💖 الدعم:</p>
+  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
+    PayPal
+  </a>
+
+  <p data-i18n="contact">📧 تواصل: 
+    <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a>
+  </p>
+
+  <p data-i18n="share">🔗 شارك: 
+    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
+    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+  </p>
+
+  <p data-i18n="follow">⭐ تابعنا على 
+    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+  </p>
+</div>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1901,6 +1969,11 @@ body {
 }
 </style>
 
+<!-- Language toggle -->
+<div id="langToggle">
+  <button id="btnAR" class="lang-btn">AR</button>
+  <button id="btnEN" class="lang-btn">EN</button>
+</div>
 
 
 <!-- Sections -->
@@ -3110,26 +3183,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 }
 </style>
 </script>
-<div class="left-panel" style="position:fixed; left:10px; top:60%; transform:translateY(-50%); z-index:999; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;">
-  <p style="color:#00ffff; font-size:18px;">للتبرع للموقع 💖 الدعم:</p>
-  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
-    PayPal
-  </a>
-
-  <p data-i18n="contact">📧 تواصل: 
-    <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a>
-  </p>
-
-  <p data-i18n="share">🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-
-  <p data-i18n="follow">⭐ تابعنا على 
-    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-</div>
 
 <script>
   // عناصر اللعبة
