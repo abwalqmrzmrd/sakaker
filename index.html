@@ -722,20 +722,26 @@ closeBtn.addEventListener('click', ()=>{
   50% { box-shadow: inset 0 0 120px 50px rgba(80, 200, 120, 0.35); }
   100% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
 }
-</style>
-<html dir="rtl" lang="ar">
-<head>
-<!-- زر فتح مكتبة الفيديو -->
-<div style="position:fixed; right:0; top:40%; z-index:9500;">
-  <div onclick="toggleEmeraldLibrary()" style="padding:10px 15px; margin:5px; background:rgba(0,0,128,0.85); color:#00ffff; font-weight:bold; border-radius:12px; cursor:pointer;">🎥 مكتبة الفيديو</div>
+</style><!-- زر فتح مكتبة الفيديو الزمردية -->
+<div id="emeraldLibraryButton" 
+     style="position:fixed; right:0; top:40%; z-index:9500; cursor:pointer;
+            padding:10px 15px; background:rgba(0,0,128,0.3); color:#00ffff; 
+            font-weight:bold; border-radius:12px; text-align:center;">
+  🎥 مكتبة الفيديو الزمردية<br>Emerald Video Library
 </div>
 
-<!-- مكتبة الفيديو الزمردية (مغلقة افتراضياً) -->
-<div id="emeraldLibraryContent" style="display:none; position:fixed; right:60px; top:20%; max-height:70%; overflow-y:auto; background:rgba(0,0,0,0.85); padding:10px; border-radius:12px; z-index:9500; flex-direction:column; gap:10px;">
+<!-- محتوى المكتبة (مغلقة افتراضياً) -->
+<div id="emeraldLibraryContent" 
+     style="display:none; position:fixed; right:60px; top:20%; max-height:70%; 
+            overflow-y:auto; background:rgba(0,0,0,0.85); padding:10px; 
+            border-radius:12px; z-index:9500; flex-direction:column; gap:10px;">
 
   <!-- 🎵 موسيقى -->
   <div>
-    <div onclick="toggleSection('musicSection')" style="padding:8px 12px;border-radius:10px;background:rgba(255,105,180,0.85);color:#000;cursor:pointer;font-weight:bold;">🎵 موسيقى</div>
+    <div onclick="toggleSection('musicSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(255,105,180,0.85);color:#000;cursor:pointer;font-weight:bold;">
+      🎵 موسيقى
+    </div>
     <div id="musicSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
@@ -751,7 +757,10 @@ closeBtn.addEventListener('click', ()=>{
 
   <!-- 📼 الوثائقية -->
   <div>
-    <div onclick="toggleSection('docSection')" style="padding:6px 10px; border-radius:8px; background:#FFD700; color:#000; cursor:pointer; font-weight:bold; font-size:14px;">📼 الوثائقية</div>
+    <div onclick="toggleSection('docSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#FFD700; color:#000; cursor:pointer; font-weight:bold; font-size:14px;">
+      📼 وثائقية
+    </div>
     <div id="docSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R62QVvz1Aso')">نيرون صبيا</div>
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/23jGQdwSRJs')">الحرب العالمية الثانية</div>
@@ -768,7 +777,10 @@ closeBtn.addEventListener('click', ()=>{
 
   <!-- 🎨 كرتون -->
   <div>
-    <div onclick="toggleSection('cartoonSection')" style="padding:6px 10px; border-radius:8px; background:#000; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">🎨 كرتون</div>
+    <div onclick="toggleSection('cartoonSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#000; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
+      🎨 كرتون
+    </div>
     <div id="cartoonSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/U5sBC9Fr0fA')">كرتون</div>
     </div>
@@ -776,7 +788,10 @@ closeBtn.addEventListener('click', ()=>{
 
   <!-- 🎬 أفلام -->
   <div>
-    <div onclick="toggleSection('moviesSection')" style="padding:6px 10px; border-radius:8px; background:#333; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">🎬 أفلام</div>
+    <div onclick="toggleSection('moviesSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#333; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
+      🎬 أفلام
+    </div>
     <div id="moviesSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
@@ -794,7 +809,10 @@ closeBtn.addEventListener('click', ()=>{
 
   <!-- ⚽ رياضة -->
   <div>
-    <div onclick="toggleSection('sportsSection')" style="padding:6px 10px;border-radius:8px;background:rgba(165,42,42,0.85);color:#fff;cursor:pointer;font-weight:bold;font-size:14px;">⚽ رياضة</div>
+    <div onclick="toggleSection('sportsSection')" 
+         style="padding:6px 10px;border-radius:8px;background:rgba(165,42,42,0.85);color:#fff;cursor:pointer;font-weight:bold;font-size:14px;">
+      ⚽ رياضة
+    </div>
     <div id="sportsSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
       <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/NYTo6KB7IqQ')">كرة القدم النسائية</div>
@@ -806,38 +824,76 @@ closeBtn.addEventListener('click', ()=>{
 
   <!-- 📘 تعليمية -->
   <div>
-    <div onclick="toggleSection('educationSection')" style="padding:8px 12px;border-radius:10px;background:rgba(0,0,255,0.25);color:#fff;cursor:pointer;font-weight:bold;">📘 تعليمية</div>
+    <div onclick="toggleSection('educationSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(0,0,255,0.25);color:#fff;cursor:pointer;font-weight:bold;">
+      📘 تعليمية
+    </div>
     <div id="educationSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div id="educationSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
     </div>
   </div>
 
   <!-- 📿 دينية -->
   <div>
-    <div onclick="toggleSection('religiousSection')" style="padding:8px 12px;border-radius:10px;background:rgba(0,128,0,0.85);color:#fff;cursor:pointer;font-weight:bold;">📿 دينية</div>
+    <div onclick="toggleSection('religiousSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(0,128,0,0.85);color:#fff;cursor:pointer;font-weight:bold;">
+      📿 دينية
+    </div>
     <div id="religiousSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-           <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
-        <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
     </div>
   </div>
 
   <!-- 🎮 ألعاب -->
   <div>
-    <div onclick="toggleSection('gamesSection')" style="padding:8px 12px;border-radius:10px;background:rgba(255,165,0,0.85);color:#000;cursor:pointer;font-weight:bold;">🎮 ألعاب</div>
+    <div onclick="toggleSection('gamesSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(255,165,0,0.85);color:#000;cursor:pointer;font-weight:bold;">
+      🎮 ألعاب
+    </div>
     <div id="gamesSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div onclick="toggleSection('gamesSection')" style="padding:8px 12px;border-radius:10px;background:rgba(255,165,0,0.85);color:#000;cursor:pointer;font-weight:bold;">🎮 ألعاب</div>
-  <div id="gamesSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-    <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/XhjICiHQD_g')">انا </div>
-    <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ZITpohaq6Ak')">انا2</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/XhjICiHQD_g')">أنا</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ZITpohaq6Ak')">أنا 2</div>
     </div>
   </div>
 
 </div>
+
+<script>
+  // فتح/إغلاق المكتبة
+  document.getElementById('emeraldLibraryButton').addEventListener('click', function() {
+    const content = document.getElementById('emeraldLibraryContent');
+    if(!content) return;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    
+    // عند الفتح، أغلق جميع الأقسام
+    if(content.style.display === 'block') {
+      closeAllSections();
+    }
+  });
+
+  // دالة لغلق جميع الأقسام
+  function closeAllSections() {
+    const sections = document.querySelectorAll('#emeraldLibraryContent div[id$="Section"]');
+    sections.forEach(section => section.style.display = 'none');
+  }
+
+  // دالة فتح/إغلاق أي قسم عند الضغط عليه
+  function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if(!section) return;
+    section.style.display = section.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // دالة فتح الفيديوهات (يمكن تعديل حسب حاجتك)
+  function openEmeraldVideo(url) {
+    window.open(url, '_blank');
+  }
+</script>
 
 <script>
 function toggleEmeraldLibrary() {
