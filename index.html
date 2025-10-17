@@ -1,14 +1,151 @@
-<!-- 🌟 أيقونة حياتي -->
-<div class="icon-container" style="position:fixed; top:60%; right:10px; transform:translateY(-50%); z-index:999; text-align:center; color:white; font-family:'Tajawal', sans-serif;">
-  <div class="icon" id="icon-life" 
-       style="cursor:pointer; padding:12px 18px; border-radius:50%; text-align:center; width:80px; height:80px; 
-              background:linear-gradient(45deg, #4facfe, #00f2fe); 
-              box-shadow:0 0 10px rgba(0,0,0,0.3); 
-              display:flex; flex-direction:column; align-items:center; justify-content:center; 
-              transition:all 0.3s ease;">
-    <div style="font-size:15px; font-weight:bold;">💭 حياتي<br>My Life</div>
+<div id="floating-videos-container">
+  <div id="floating-videos-btn" data-i18n="liveChannels">
+    <span id="liveText">Live Channels</span>
+  </div>
+
+  <div id="floating-videos-row">
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/zi9knajcejY" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/9V3Fbb3bCJg" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/umCCh6e7eXI" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/sFVY-LwnSy8" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/daqB3i9WYIY" allowfullscreen></iframe></div>
+    <div class="floating-video"><iframe src="https://www.youtube.com/embed/FFkOEautPBs" allowfullscreen></iframe></div>
   </div>
 </div>
+
+<style>
+#floating-videos-container {
+  position: fixed;
+  top: 110px; /* lowered slightly (about 3–5 lines) */
+  right: 25px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+
+#floating-videos-btn {
+  width: auto;
+  padding: 12px 22px;
+  border-radius: 35px;
+  background: rgba(0, 255, 170, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.4), 0 0 40px rgba(0, 255, 170, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  pointer-events: auto;
+}
+#floating-videos-btn:hover {
+  transform: scale(1.1);
+  background: rgba(0, 255, 170, 0.35);
+  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 60px rgba(0, 255, 170, 0.3);
+}
+
+#floating-videos-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.floating-video {
+  width: 180px;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 255, 170, 0.12);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.35s, opacity 0.35s, box-shadow 0.35s;
+  pointer-events: auto;
+}
+.floating-video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.floating-video.active {
+  transform: scale(1);
+  opacity: 1;
+}
+.floating-video:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 50px rgba(0, 255, 170, 0.3);
+}
+
+@media (max-width: 768px) {
+  #floating-videos-container { top: 90px; }
+  #floating-videos-row { justify-content: center; }
+  .floating-video { width: 140px; height: 85px; }
+}
+</style>
+
+<script>
+// === Change text automatically based on language ===
+function updateLanguage() {
+  const lang = document.documentElement.lang || "en";
+  const text = document.getElementById("liveText");
+  if (lang.startsWith("ar")) {
+    text.textContent = "قنوات مباشرة";
+  } else {
+    text.textContent = "Live Channels";
+  }
+}
+
+updateLanguage();
+
+// === Toggle video visibility ===
+const btn = document.getElementById("floating-videos-btn");
+const videos = document.querySelectorAll(".floating-video");
+let open = false;
+
+btn.addEventListener("click", () => {
+  open = !open;
+  videos.forEach(v => {
+    v.classList.toggle("active", open);
+  });
+});
+</script>
+
+<!-- 🌟 أيقونة حياتي --><!-- 🌟 أيقونة حياتي أعلى منتصف الصفحة -->
+<div class="icon-container" style="position:fixed; top:10%; left:50%; transform:translateX(-50%); z-index:9999; text-align:center; color:#00ffaa; font-family:'Tajawal', sans-serif;">
+  <div class="icon" id="icon-life" 
+       style="cursor:pointer; padding:12px; border-radius:50%; width:70px; height:70px; 
+              background:rgba(255,255,255,0.1); border:2px solid rgba(0,255,170,0.5);
+              box-shadow:0 0 25px rgba(0,255,170,0.4); display:flex; flex-direction:column; 
+              align-items:center; justify-content:center; transition:all 0.3s ease; backdrop-filter:blur(8px);">
+    <div style="font-size:15px; font-weight:bold; line-height:1.2;">💭<br>حياتي<br>My Life</div>
+  </div>
+</div>
+
+<script>
+/* فتح وإغلاق القسم المرتبط بدون تعارض */
+document.getElementById('icon-life').addEventListener('click', function(e) {
+  e.stopPropagation();
+  const section = document.getElementById('hayati-section');
+  if(!section) return;
+  section.style.display = section.style.display === 'block' ? 'none' : 'block';
+});
+</script>
+
+<!-- القسم المرتبط بالأيقونة -->
+<div id="hayati-section" style="display:none; text-align:center; margin-top:100px; z-index:999; position:relative; background:rgba(255,255,255,0.9); padding:20px; border-radius:10px;">
+  <h2>✨ حياتي</h2>
+  <p>مرحبًا بك في قسم حياتي 💖</p>
+</div>
+
 
 <!-- ✨ قسم النصوص -->
 <section id="life-section" style="display:none; padding:15px; max-width:800px; margin:50px auto; background:rgba(255,255,255,0.95); border-radius:10px; color:black; text-align:center;">
@@ -997,29 +1134,6 @@ closePong.onclick = () => { cancelAnimationFrame(animFrame); pongContainer.style
 endGameBtn.onclick = () => { cancelAnimationFrame(animFrame); initGame(); menu.style.display="flex"; endGameBtn.style.display="none"; };
 </script>
 
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const iconLife = document.getElementById("icon-life");
-  const section = document.getElementById("life-section");
-
-  if (iconLife && section) {
-    iconLife.addEventListener("click", () => {
-      section.style.display = section.style.display === "none" ? "block" : "none";
-      if (typeof updateLanguage === "function") updateLanguage(); // ✅ استدعاء النصوص تلقائيًا
-    });
-  }
-
-  const titles = document.querySelectorAll("#life-section .story-title");
-  titles.forEach(title => {
-    title.addEventListener("click", () => {
-      const story = title.nextElementSibling;
-      story.style.display = story.style.display === "none" ? "block" : "none";
-    });
-  });
-});
-</script>
-
 </body>
 </html>
 
@@ -1961,29 +2075,6 @@ function closeVideoModal(){ document.getElementById('videoModal').style.display=
 function showSection(id){ document.getElementById(id).style.display='block'; }
 function closeSection(btn){ btn.parentElement.style.display='none'; }
 </script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const iconLife = document.getElementById("icon-life");
-  const section = document.getElementById("life-section");
-
-  if (iconLife && section) {
-    iconLife.addEventListener("click", () => {
-      section.style.display = section.style.display === "none" ? "block" : "none";
-      if (typeof updateLanguage === "function") updateLanguage(); // ✅ استدعاء النصوص تلقائيًا
-    });
-  }
-
-  const titles = document.querySelectorAll("#life-section .story-title");
-  titles.forEach(title => {
-    title.addEventListener("click", () => {
-      const story = title.nextElementSibling;
-      story.style.display = story.style.display === "none" ? "block" : "none";
-    });
-  });
-});
-</script>
-
 </body>
 </html>
 <!DOCTYPE html>
@@ -2372,29 +2463,6 @@ function closeVideoModal() {
 .close:hover, .close-btn:hover {
   color: #ff5555;
 }
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const iconLife = document.getElementById("icon-life");
-  const section = document.getElementById("life-section");
-
-  if (iconLife && section) {
-    iconLife.addEventListener("click", () => {
-      section.style.display = section.style.display === "none" ? "block" : "none";
-      if (typeof updateLanguage === "function") updateLanguage(); // ✅ استدعاء النصوص تلقائيًا
-    });
-  }
-
-  const titles = document.querySelectorAll("#life-section .story-title");
-  titles.forEach(title => {
-    title.addEventListener("click", () => {
-      const story = title.nextElementSibling;
-      story.style.display = story.style.display === "none" ? "block" : "none";
-    });
-  });
-});
-</script>
 
 </body>
 </div>
@@ -3530,93 +3598,6 @@ setInterval(updateText, 25000);
   // تتغير كل 15 ثانية
   setInterval(updateJoke, 15000);
 </script>
-<div id="floating-videos-container">
-  <div id="floating-videos-btn">▶</div>
-
-  <div id="floating-videos-row">
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/zi9knajcejY" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/9V3Fbb3bCJg" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/umCCh6e7eXI" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/sFVY-LwnSy8" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/daqB3i9WYIY" allowfullscreen></iframe></div>
-    <div class="floating-video"><iframe src="https://www.youtube.com/embed/FFkOEautPBs" allowfullscreen></iframe></div>
-  </div>
-</div>
-
-<style>
-#floating-videos-container {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  z-index: 999; /* اخفضت z-index لتجنب التداخل */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-  pointer-events: none; /* منع التداخل عند الإغلاق */
-}
-
-#floating-videos-btn {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: rgba(0, 255, 170, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 255, 170, 0.4), 0 0 40px rgba(0, 255, 170, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  color: #000;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s;
-  pointer-events: auto; /* الزر يعمل دائمًا */
-}
-#floating-videos-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 60px rgba(0, 255, 170, 0.3);
-}
-
-#floating-videos-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.floating-video {
-  width: 180px;
-  height: 110px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: rgba(0, 255, 170, 0.12);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.35s, opacity 0.35s, box-shadow 0.35s;
-  pointer-events: auto; /* السماح بالنقر فقط عند الظهور */
-}
-.floating-video iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-.floating-video.active {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.floating-video:hover {
-  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 50px rgba(0, 255, 170, 0.3);
-}
-
-@media (max-width: 768px) {
-  #floating-videos-row { justify-content: center; }
-  .floating-video { width: 140px; height: 85px; }
-}
 </style>
 
 <script>
