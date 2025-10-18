@@ -4409,31 +4409,76 @@ setInterval(updateText, 25000);
 </style>
 
 <script>
-  // ✅ نكت عربية وإنجليزية بالتناوب
-  const funnyTexts = [
-    "😂 مرة واحد راح للدكتور قاله: كل ما أشرب شاي بحس بألم بعيني، قاله: حاول تشيل المعلقة من الكوب!",
-    "🤣 One man went to the doctor: Every time I drink tea, my eye hurts! Doctor said: Remove the spoon!",
-    "😅 واحد نام في الشغل، المدير صحيه وقاله: انت نايم ليه؟ قاله: كنت بحلم إني شغال!",
-    "😆 A guy slept at work. The boss said: Why are you sleeping? He said: I was dreaming about working!",
-    "😂 مرة بخيل فتح التلاجة شاف المراية، قال: الحمد لله لسه في حد في البيت!",
-    "🤣 A stingy man opened the fridge, saw a mirror, and said: Thank God someone is still home!",
-    "😅 قالوا لواحد: ليه بتضحك؟ قالهم: أصل الدكتور قالي لازم أبتسم كل يوم!",
-    "😄 They asked a man: Why do you laugh daily? He said: Doctor told me to smile every day!"
-  ];
+    // ✅ أمثال وحكم عربية وإنجليزية بالتناوب
+const funnyTexts = [
+  "💡 العقل زينة، والحكمة نور. — أفلاطون",
+  "🧠 Wisdom is the reward you get for a lifetime of listening. — Doug Larson",
+  "🌱 من جد وجد، ومن زرع حصد. — مثل عربي",
+  "🌟 He who plants virtue reaps honor. — Latin Proverb",
+  "⏰ لا تؤجل عمل اليوم إلى الغد. — مثل عربي",
+  "📅 Never put off till tomorrow what you can do today. — Benjamin Franklin",
+  "😊 السعادة ليست في المال، بل في الرضا. — مثل عربي",
+  "🌈 Happiness is not in money, but in contentment. — Ancient Wisdom",
+  "⚖️ اتقِ شر من أحسنت إليه. — مثل عربي",
+  "🛡️ Beware the one you help the most. — Ancient Proverb",
+  "📖 الحكمة ضالة المؤمن. — حديث نبوي",
+  "📚 Knowledge is the food of the soul. — Plato",
+  "⌛ الصبر مفتاح الفرج. — مثل عربي",
+  "🕊️ Patience is the key to relief. — Persian Proverb",
+  "🌿 من شب على شيء شاب عليه. — مثل عربي",
+  "⛓️ Habits are the chains we forge. — Seneca",
+  "✌️ العفو عند المقدرة. — مثل عربي",
+  "🕊️ Forgiveness is the attribute of the strong. — Mahatma Gandhi",
+  "📚 الكتاب خير جليس. — مثل عربي",
+  "📖 A book is a friend who never betrays. — Anonymous",
+  "💫 إذا لم تستطع أن تكون نجمًا، كن مصباحًا. — مثل عربي",
+  "🕯️ If you cannot be a shining star, be a guiding lamp. — Ancient Wisdom",
+  "🗡️ الوقت كالسيف إن لم تقطعه قطعك. — مثل عربي",
+  "⌚ Time is like a sword: if you don’t cut it, it will cut you. — Proverb",
+  "🕳️ من حفر حفرة لأخيه وقع فيها. — مثل عربي",
+  "⚠️ He who digs a pit for others falls into it himself. — English Proverb",
+  "👁️ العين بصيرة واليد قصيرة. — مثل عربي",
+  "✋ The eye sees but the hand is short. — Ancient Saying",
+  "🚀 الطموح نصف النجاح. — مثل عربي",
+  "🏆 Ambition is half the success. — Samuel Johnson",
+  "🎓 العلم نور. — مثل عربي",
+  "💡 Knowledge is light. — Plato",
+  "🦅 من لا يعرف الصقر يشويه. — مثل عربي",
+  "🔥 He who doesn’t know the hawk roasts it. — Proverb",
+  "🤝 الصديق وقت الضيق. — مثل عربي",
+  "💞 A friend in need is a friend indeed. — English Proverb",
+  "🌠 الطموح لا حدود له. — مثل عربي",
+  "🏔️ Ambition has no limits. — Anonymous",
+  "👥 من عاشر القوم أربعين يومًا، صار منهم. — مثل عربي",
+  "🌍 He who spends forty days with a people becomes one of them. — Proverb",
+  "🧠 الحكمة ضالة المؤمن. — مثل عربي",
+  "📜 Wisdom is the lost property of the believer. — Hadith",
+  "🗝️ الصدق منجاة. — مثل عربي",
+  "✅ Honesty is the best policy. — Benjamin Franklin",
+  "🤲 اليد الواحدة لا تصفق. — مثل عربي",
+  "👏 One hand cannot clap. — Chinese Proverb",
+  "🚀 الطموح سبيل النجاح. — مثل عربي",
+  "🏆 Ambition is the path to success. — Unknown",
+  "🌟 الحكمة نور والجهل ظلام. — مثل عربي",
+  "🌌 Wisdom is light, ignorance is darkness. — Proverb",
+  "😊 السعادة في القناعة. — مثل عربي",
+  "🌈 Happiness lies in contentment. — Ancient Wisdom"
+];
 
-  let currentJokeIndex = 0;
-  const jokeElement = document.getElementById("scrollingJoke");
+let currentJokeIndex = 0;
+const jokeElement = document.getElementById("scrollingJoke");
 
-  function updateJoke() {
-    jokeElement.textContent = funnyTexts[currentJokeIndex];
-    currentJokeIndex = (currentJokeIndex + 1) % funnyTexts.length;
-  }
+function updateJoke() {
+  jokeElement.textContent = funnyTexts[currentJokeIndex];
+  currentJokeIndex = (currentJokeIndex + 1) % funnyTexts.length;
+}
 
-  // أول نكتة تظهر
-  updateJoke();
+// أول حكمة تظهر
+updateJoke();
 
-  // تتغير كل 15 ثانية
-  setInterval(updateJoke, 15000);
+// تتغير كل 15 ثانية
+setInterval(updateJoke, 15000);
+
 </script>
 </style>
 
