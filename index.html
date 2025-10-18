@@ -3,69 +3,73 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>شطرنج تفاعلي متقدم — abwalqmrzmed</title>
+<title>شطرنج تفاعلي — abwalqmrzmed</title>
 <style>
-  body { margin:0; font-family:'Tajawal',sans-serif; background:#0b0b0e; color:#fff; min-height:100vh; }
-  .iconColumn{ position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:12px; z-index:110000; }
-  .icon{ width:70px; height:70px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:13px; color:#fff; background: radial-gradient(circle,#222 40%,#444 100%); box-shadow:0 0 15px #0ff; text-align:center; flex-direction:column; cursor:pointer; transition:.25s; }
-  .icon:hover{ transform:scale(1.06); box-shadow:0 0 30px #0ff; }
+body { margin:0; font-family:'Tajawal',sans-serif; background:#0b0b0e; color:#fff; min-height:100vh; }
+.iconColumn{ position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:12px; z-index:110000; }
+.icon{ width:140px; height:140px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:26px; color:#fff; background: radial-gradient(circle,#222 40%,#444 100%); box-shadow:0 0 25px #0ff; text-align:center; flex-direction:column; cursor:pointer; transition:.25s; }
+.icon:hover{ transform:scale(1.06); box-shadow:0 0 50px #0ff; }
 
-  #chessContainer{
+#chessContainer{
     display:none;
     position:fixed;
     inset:0;
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat fixed;
+    background: rgba(0,0,0,0.4);
     align-items:center; justify-content:center;
     z-index:999999;
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
-  }
+}
+#boardContainer{ position:relative; display:flex; flex-direction:column; align-items:center; }
 
-  #boardContainer{ position:relative; display:flex; gap:16px; align-items:flex-start; }
-
-  .closeBtn{
+.closeBtn{
     position:absolute; top:10px; right:10px;
-    background:#ff5050; color:#fff; border:none; border-radius:10px; padding:8px 12px; font-weight:700; cursor:pointer; box-shadow:0 0 10px #f00; z-index:100001;
-  }
-  .closeBtn:hover{ background:#ff7777; }
+    background:#ff5050; color:#fff; border:none; border-radius:10px; padding:12px 18px; font-weight:700; cursor:pointer; box-shadow:0 0 15px #f00; z-index:100001;
+}
+.closeBtn:hover{ background:#ff7777; }
 
-  #board {
+#turnIndicator{
+    margin-bottom:10px; font-size:22px; font-weight:700;
+}
+
+#board {
     display:grid;
     grid-template-columns: repeat(8,1fr);
     grid-template-rows: repeat(8,1fr);
     width:78vmin; height:78vmin;
     max-width:78vh; max-height:78vh;
-    border:4px solid rgba(0,255,255,0.12);
-    background: rgba(0,0,0,0.2);
-    box-shadow:0 10px 40px rgba(0,0,0,0.8);
-    position:relative; border-radius:8px; overflow:hidden;
-    transform: none !important; /* منع تصغير المربعات */
-  }
+    background: rgba(0,0,0,0.0);
+    transform: rotateX(20deg);
+    border-radius:8px; overflow:hidden;
+    box-shadow: inset 0 0 0 2px #fff;
+}
 
-  .square{
+.square{
     display:flex; align-items:center; justify-content:center;
-    user-select:none; cursor:pointer; position:relative; font-size:6.2vmin; transition:background .12s, transform .08s;
-    background: rgba(255,255,255,0.1);
-    width:100%; height:100%; /* تأكيد ثبات المربعات */
-  }
-  .sq-light{ background: rgba(255,255,255,0.25); }
-  .sq-dark{ background: rgba(0,0,0,0.25); }
+    user-select:none; cursor:pointer; position:relative; font-size:12.4vmin; transition:background .08s, transform .04s;
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 0 6px rgba(255,255,255,0.15);
+}
 
-  .square.highlight { outline: 4px solid rgba(0,255,255,0.14); box-shadow:0 6px 18px rgba(0,0,0,0.4) inset; }
-  .square.canMove { box-shadow: 0 0 18px rgba(0,255,255,0.08); }
-  .square.captureHint::after {
-    content: ''; position:absolute; width:14px; height:14px; border-radius:50%; background:rgba(255,0,0,0.4);
-  }
+.sq-light{ background: rgba(0,255,128,0.15); }
+.sq-dark{ background: rgba(0,150,80,0.25); }
 
-  .piece { pointer-events:none; transition: transform .08s ease; font-size:8vmin; }
-  .piece.white { color:#00ffb3; text-shadow: 0 0 8px #00ffa8, 0 0 18px #00e6a0, 0 0 30px rgba(0,255,170,0.12); transform: scale(1.05); }
-  .piece.black { color:#ff4e4e; text-shadow: 0 0 8px #ff4e4e, 0 0 18px #ff2b2b, 0 0 30px rgba(255,60,60,0.12); transform: scale(1.05); }
+.square.highlight { outline: 4px solid rgba(0,255,255,0.14); box-shadow:0 6px 18px rgba(0,0,0,0.4) inset; }
+.square.canMove { box-shadow: 0 0 18px rgba(0,255,255,0.08); }
+.square.captureHint::after {
+    content: ''; position:absolute; width:18px; height:18px; border-radius:50%; background:rgba(255,0,0,0.4);
+}
 
-  .selected { outline:3px solid rgba(0,255,255,0.8); box-shadow:0 0 28px rgba(0,255,255,0.12); border-radius:6px; }
+.piece { pointer-events:none; transition: transform .04s ease; font-size:16vmin; }
+.piece.white { color:#00ffb3; text-shadow: 0 0 8px #00ffa8, 0 0 18px #00e6a0, 0 0 30px rgba(0,255,170,0.12); transform: scale(1.05); }
+.piece.black { color:#ff4e4e; text-shadow: 0 0 8px #ff4e4e, 0 0 18px #ff2b2b, 0 0 30px rgba(255,60,60,0.12); transform: scale(1.05); }
 
-  @media(max-width:720px){
+.selected { outline:3px solid rgba(0,255,255,0.8); box-shadow:0 0 28px rgba(0,255,255,0.12); border-radius:6px; }
+
+@media(max-width:720px){
     #board { width:92vmin; height:92vmin; }
-  }
+    .icon{ width:100px; height:100px; font-size:20px; }
+}
 </style>
 </head>
 <body>
@@ -78,116 +82,119 @@
 
 <div id="chessContainer" aria-hidden="true">
   <div id="boardContainer">
-    <div style="position:relative;">
-      <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
-      <div id="board" role="grid" aria-label="لوحة الشطرنج"></div>
-    </div>
+    <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
+    <div id="turnIndicator">دور: الأبيض</div>
+    <div id="board" role="grid" aria-label="لوحة الشطرنج"></div>
   </div>
 </div>
 
 <script>
-const symbols = {
-  w: { p:'♙', r:'♖', n:'♘', b:'♗', q:'♕', k:'♔' },
-  b: { p:'♟', r:'♜', n:'♞', b:'♝', q:'♛', k:'♚' }
-};
-
+const symbols = { w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'}, b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'} };
 let board=[], turn='w', selected=null;
+const boardEl=document.getElementById('board');
+const turnIndicator=document.getElementById('turnIndicator');
 
 function openChess(){ document.getElementById('chessContainer').style.display='flex'; resetGame(); }
 function closeChess(){ document.getElementById('chessContainer').style.display='none'; }
 
 function resetGame(){
-  board = Array.from({length:8},()=>Array(8).fill(null));
-  for(let c=0;c<8;c++){ board[1][c]={type:'p',color:'b'}; board[6][c]={type:'p',color:'w'}; }
-  const order=['r','n','b','q','k','b','n','r'];
-  for(let c=0;c<8;c++){ board[0][c]={type:order[c],color:'b'}; board[7][c]={type:order[c],color:'w'}; }
-  turn='w'; selected=null;
-  renderBoard();
+    board=Array.from({length:8},()=>Array(8).fill(null));
+    for(let c=0;c<8;c++){ board[1][c]={type:'p',color:'b'}; board[6][c]={type:'p',color:'w'}; }
+    const order=['r','n','b','q','k','b','n','r'];
+    for(let c=0;c<8;c++){ board[0][c]={type:order[c],color:'b'}; board[7][c]={type:order[c],color:'w'}; }
+    turn='w'; selected=null; renderBoard(); updateTurnIndicator();
 }
 
 function renderBoard(){
-  const boardEl=document.getElementById('board');
-  boardEl.innerHTML='';
-  for(let r=0;r<8;r++){
-    for(let c=0;c<8;c++){
-      const sq=document.createElement('div');
-      sq.className='square '+((r+c)%2===0?'sq-light':'sq-dark');
-      sq.dataset.row=r; sq.dataset.col=c;
-      const p=board[r][c];
-      if(p){ const pEl=document.createElement('div'); pEl.className='piece '+(p.color==='w'?'white':'black'); pEl.textContent=symbols[p.color][p.type]; sq.appendChild(pEl); }
-      sq.addEventListener('mousedown',()=>onSquareClick(r,c));
-      sq.addEventListener('touchstart',()=>onSquareClick(r,c));
-      boardEl.appendChild(sq);
+    boardEl.innerHTML='';
+    for(let r=0;r<8;r++){
+        for(let c=0;c<8;c++){
+            const sq=document.createElement('div');
+            sq.className='square '+(((r+c)%2===0)?'sq-light':'sq-dark');
+            sq.dataset.row=r; sq.dataset.col=c;
+            const p=board[r][c];
+            if(p){ const pEl=document.createElement('div'); pEl.className='piece '+(p.color==='w'?'white':'black'); pEl.textContent=symbols[p.color][p.type]; sq.appendChild(pEl); }
+            sq.addEventListener('mousedown',()=>onSquareClick(r,c));
+            sq.addEventListener('touchstart',()=>onSquareClick(r,c));
+            boardEl.appendChild(sq);
+        }
     }
-  }
-  if(selected){ highlightSelected(); }
+    if(selected){
+        highlightSquare(selected.row,selected.col,'selected');
+        const moves=generateLegalMovesFor(selected.row,selected.col);
+        moves.forEach(m=>{
+            const el=getSquareEl(m.to.row,m.to.col);
+            if(el){ if(m.capture) el.classList.add('captureHint'); else el.classList.add('canMove'); }
+        });
+    }
 }
 
-function highlightSelected(){
-  const el=document.querySelector(`.square[data-row="${selected.row}"][data-col="${selected.col}"]`);
-  if(el) el.classList.add('selected');
+function getSquareEl(r,c){ return boardEl.querySelector(`.square[data-row="${r}"][data-col="${c}"]`); }
+function highlightSquare(r,c,cls){ const el=getSquareEl(r,c); if(el) el.classList.add(cls); }
+function clearHighlights(){ boardEl.querySelectorAll('.square').forEach(s=>s.classList.remove('selected','canMove','captureHint')); }
+
+function updateTurnIndicator(){ turnIndicator.textContent='دور: '+(turn==='w'?'الأبيض':'الأسود'); }
+
+/* قوانين اللعب لكل القطع */
+function generateLegalMovesFor(r,c){
+    const p=board[r][c]; if(!p) return [];
+    let moves=[];
+    if(p.type==='p'){ let dir=p.color==='w'?-1:1; let r1=r+dir;
+        if(r1>=0 && r1<8 && !board[r1][c]) moves.push({to:{row:r1,col:c}});
+        if(r1>=0 && r1<8 && c-1>=0 && board[r1][c-1] && board[r1][c-1].color!==p.color) moves.push({to:{row:r1,col:c-1},capture:true});
+        if(r1>=0 && r1<8 && c+1<8 && board[r1][c+1] && board[r1][c+1].color!==p.color) moves.push({to:{row:r1,col:c+1},capture:true});
+    }
+    else if(p.type==='r'){ [[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{
+        let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break; } rr+=d[0]; cc+=d[1]; } });
+    }
+    else if(p.type==='n'){ const dirs=[[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]];
+        dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; if(rr>=0&&rr<8&&cc>=0&&cc<8) if(!board[rr][cc]||board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:board[rr][cc]?true:false}); });
+    }
+    else if(p.type==='b'){ const dirs=[[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break;} rr+=d[0]; cc+=d[1]; } }); }
+    else if(p.type==='q'){ const dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break;} rr+=d[0]; cc+=d[1]; } }); }
+    else if(p.type==='k'){ const dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; if(rr>=0&&rr<8&&cc>=0&&cc<8) if(!board[rr][cc]||board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:board[rr][cc]?true:false}); }); }
+    return moves;
+}
+
+function makeMove(r1,c1,r2,c2,meta){
+    let p=board[r1][c1]; board[r2][c2]=p; board[r1][c1]=null;
+    if(p.type==='p' && (r2===0||r2===7)){ p.type='q'; }
+}
+
+function checkEndAndSwitch(){
+    renderBoard(); updateTurnIndicator();
+    turn=turn==='w'?'b':'w';
+    if(turn==='b'){ setTimeout(aiMove,150); }
 }
 
 function onSquareClick(r,c){
-  const piece=board[r][c];
-  if(selected){
-    if(isLegalMove(selected.row,selected.col,r,c)){
-      movePiece(selected.row,selected.col,r,c);
-      selected=null; renderBoard();
-      turn='b';
-      if(turn==='b'){ setTimeout(()=>{ aiMoveOnce(); turn='w'; renderBoard(); }, 200); }
-      return;
+    clearHighlights();
+    const piece=board[r][c];
+    if(selected){
+        const legal=generateLegalMovesFor(selected.row,selected.col);
+        const chosen=legal.find(m=>m.to.row===r && m.to.col===c);
+        if(chosen){ makeMove(selected.row,selected.col,r,c,chosen); selected=null; checkEndAndSwitch(); return; }
     }
-  }
-  if(piece && piece.color===turn){ selected={row:r,col:c}; renderBoard(); } else{ selected=null; renderBoard(); }
+    if(piece && piece.color===turn){ selected={row:r,col:c,piece:piece}; renderBoard(); } else{ selected=null; renderBoard(); }
 }
 
-function isLegalMove(sr,sc,tr,tc){
-  const p=board[sr][sc]; if(!p) return false;
-  const target=board[tr][tc];
-  const dr=tr-sr, dc=tc-sc;
-  if(p.type==='p'){
-    const dir=p.color==='w'?-1:1;
-    if(dc===0 && !target && (dr===dir || (dr===2*dir && ((p.color==='w'?sr===6:sr===1) && !board[sr+dir][sc])))) return true;
-    if(Math.abs(dc)===1 && dr===dir && target && target.color!==p.color) return true;
-  }
-  else if(p.type==='r'){ if(dr===0||dc===0) return pathClear(sr,sc,tr,tc)&&(!target||target.color!==p.color); }
-  else if(p.type==='n'){ if((Math.abs(dr)===2&&Math.abs(dc)===1)||(Math.abs(dr)===1&&Math.abs(dc)===2)) return !target||target.color!==p.color; }
-  else if(p.type==='b'){ if(Math.abs(dr)===Math.abs(dc)) return pathClear(sr,sc,tr,tc)&&(!target||target.color!==p.color); }
-  else if(p.type==='q'){ if(dr===0||dc===0||Math.abs(dr)===Math.abs(dc)) return pathClear(sr,sc,tr,tc)&&(!target||target.color!==p.color); }
-  else if(p.type==='k'){ if(Math.abs(dr)<=1&&Math.abs(dc)<=1) return !target||target.color!==p.color; }
-  return false;
-}
-
-function pathClear(sr,sc,tr,tc){
-  const dr=Math.sign(tr-sr), dc=Math.sign(tc-sc);
-  let r=sr+dr, c=sc+dc;
-  while(r!==tr || c!==tc){ if(board[r][c]) return false; r+=dr; c+=dc; } return true;
-}
-
-function movePiece(sr,sc,tr,tc){
-  const p=board[sr][sc];
-  board[tr][tc]=p; board[sr][sc]=null;
-  if(p.type==='p' && (tr===0||tr===7)) p.type='q';
-}
-
-function aiMoveOnce(){
-  const moves=[];
-  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
-    const p=board[r][c]; if(!p||p.color!=='b') continue;
-    for(let tr=0;tr<8;tr++) for(let tc=0;tc<8;tc++){
-      if(isLegalMove(r,c,tr,tc)) moves.push({from:[r,c],to:[tr,tc]});
-    }
-  }
-  if(moves.length===0) return;
-  const choice=moves[Math.floor(Math.random()*moves.length)];
-  movePiece(choice.from[0],choice.from[1],choice.to[0],choice.to[1]);
+function aiMove(){
+    const moves=[];
+    for(let r=0;r<8;r++) for(let c=0;c<8;c++){ if(board[r][c]&&board[r][c].color==='b'){ const legal=generateLegalMovesFor(r,c); legal.forEach(m=>moves.push({from:{r,c},to:m.to,meta:m})); } }
+    if(moves.length===0) return;
+    const pick=moves[Math.floor(Math.random()*moves.length)];
+    makeMove(pick.from.r,pick.from.c,pick.to.row,pick.to.col,pick.meta);
+    checkEndAndSwitch();
 }
 
 resetGame();
 </script>
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
