@@ -5,66 +5,42 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>شطرنج تفاعلي — abwalqmrzmed</title>
 <style>
-body {
-    margin:0; font-family:'Tajawal',sans-serif; min-height:100vh;
-    background:#0b0b0e;
-}
+body { margin:0; font-family:'Tajawal',sans-serif; min-height:100vh; background:#0b0b0e; }
 
-/* أيقونة الشطرنج */
+/* أيقونة الشطرنج شفافة */
 .iconColumn{
     position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:12px; z-index:1100;
     transition: all 0.3s ease;
 }
 .icon{
     width:140px; height:140px; border-radius:50%; display:flex; justify-content:center; align-items:center;
-    font-size:26px; color:#fff; background: rgba(0,0,0,0);
+    font-size:26px; color:#fff; background: rgba(0,0,0,0.0);
     text-align:center; flex-direction:column; cursor:pointer; transition:.25s;
 }
 .icon:hover{ transform:scale(1.06); }
 
 /* نافذة الشطرنج فوق كل شيء */
-#chessContainer {
-    display: none;
-    position: fixed;
-    inset: 0;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    background: rgba(0,0,0,0.6); /* تراكب شبه شفاف */
+#chessContainer{
+    display:none;
+    position:fixed; inset:0;
+    align-items:center;
+    justify-content:center;
+    background: rgba(0,0,50,0.4); /* خلفية بحرية */
+    z-index:9999;
 }
 
-/* عند ظهور الشطرنج نخفي أيقونات الصفحة */
-body.chess-open .iconColumn { opacity: 0; pointer-events: none; }
-
-#wrap {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+/* لوحة الشطرنج */
+#chess-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+    border-radius:12px;
     background: rgba(0,0,0,0.0);
-    padding: 20px;
-    border-radius: 12px;
-    position: relative;
 }
 
-/* زر الإغلاق فوق الإطار مباشرة */
-.closeBtn{
-    position:absolute;
-    top:-20px; 
-    right:0;
-    background:#ff5050; color:#fff; border:none; border-radius:10px;
-    padding:10px 16px; font-weight:700; cursor:pointer;
-    z-index:10000;
-}
-.closeBtn:hover{ background:#ff7777; }
-
-.chess-panel{
-    display:flex; flex-direction:column; align-items:center; margin:0 10px;
-    min-width:80px; color:#fff;
-}
-.chess-panel-header h2{ margin:0 0 10px 0; }
-.taken-pieces{ min-height:50px; display:flex; flex-wrap:wrap; justify-content:center; }
-
-/* رقعة الشطرنج ثابتة */
+/* رقعة الشطرنج */
 #chess-board{
     display:grid;
     grid-template-columns: repeat(8,60px);
@@ -73,22 +49,18 @@ body.chess-open .iconColumn { opacity: 0; pointer-events: none; }
     border:3px solid #FFD700;
     border-radius:10px;
     box-shadow: 0 0 20px #FFD700, 0 0 60px #FFD700 inset;
-    z-index:1000;
 }
 
+/* المربعات */
 .square{
     display:flex; align-items:center; justify-content:center;
     font-size:32px; cursor:pointer;
     border:1px solid rgba(255, 255, 0, 0.4);
-    box-shadow: 0 0 8px #FFD700;
 }
-.sq-light { 
-    background: rgba(0, 128, 255, 0.3); /* أزرق شفاف */
-}
-.sq-dark { 
-    background: rgba(0,0,0,0); /* شفاف بالكامل */
-}
+.sq-light{ background: rgba(0, 128, 255, 0.3); }
+.sq-dark{ background: rgba(0,0,0,0); }
 
+/* القطع */
 .piece{ pointer-events:none; font-size:32px; text-shadow: 0 0 8px #FFD700, 0 0 16px #FFD700; transition: all 0.3s ease; }
 .piece.white{ color:#50C878; text-shadow:0 0 10px #50C878, 0 0 20px #50C878; } 
 .piece.black{ color:#FFD700; text-shadow:0 0 10px #FFD700,0 0 20px #FFD700; } 
@@ -97,6 +69,19 @@ body.chess-open .iconColumn { opacity: 0; pointer-events: none; }
 .canMove { box-shadow:0 0 15px rgba(255,255,0,0.7); }
 .captureHint::after{ content:''; position:absolute; width:15px; height:15px; border-radius:50%; background:yellow; box-shadow:0 0 8px yellow; }
 
+/* زر الإغلاق ملاصق للرقعة */
+.closeBtn{
+    position:absolute; top:-10px; right:-10px;
+    background:#ff5050; color:#fff; border:none; border-radius:10px;
+    padding:10px 16px; font-weight:700; cursor:pointer;
+}
+.closeBtn:hover{ background:#ff7777; }
+
+@media(max-width:720px){
+    .icon{ width:100px; height:100px; font-size:20px; }
+    #chess-board{ width:360px; height:360px; grid-template-columns: repeat(8,1fr); grid-template-rows: repeat(8,1fr); }
+    .square{ font-size:24px; }
+}
 </style>
 </head>
 <body>
@@ -108,38 +93,23 @@ body.chess-open .iconColumn { opacity: 0; pointer-events: none; }
 </div>
 
 <div id="chessContainer">
-    <div id="wrap">
-        <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
-        <!-- لوحة اللاعب الأبيض -->
-        <div id="white-panel" class="chess-panel white">
-            <div class="chess-panel-header"><h2>زمرد</h2></div>
-            <div class="taken-pieces" id="taken-white"></div>
-        </div>
-
-        <!-- رقعة الشطرنج -->
+    <div id="chess-wrap">
         <div id="chess-board"></div>
-
-        <!-- لوحة اللاعب الأسود -->
-        <div id="black-panel" class="chess-panel black">
-            <div class="chess-panel-header"><h2>أصفر</h2></div>
-            <div class="taken-pieces" id="taken-black"></div>
-        </div>
+        <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
     </div>
 </div>
 
 <script>
-// نفس سكربت الشطرنج مع ذكاء محسّن
+// الرموز
 const symbols = { w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'}, b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'} };
 let board=[], turn='w', selected=null;
 const boardEl=document.getElementById('chess-board');
 
 function openChess(){ 
-    document.body.classList.add('chess-open'); 
     document.getElementById('chessContainer').style.display='flex'; 
     resetGame(); 
 }
 function closeChess(){ 
-    document.body.classList.remove('chess-open'); 
     document.getElementById('chessContainer').style.display='none'; 
 }
 
@@ -185,13 +155,11 @@ function generateLegalMovesFor(r,c){
         if(r1>=0 && r1<8 && !board[r1][c]) moves.push({to:{row:r1,col:c}});
         if(r1>=0 && r1<8 && c-1>=0 && board[r1][c-1] && board[r1][c-1].color!==p.color) moves.push({to:{row:r1,col:c-1},capture:true});
         if(r1>=0 && r1<8 && c+1<8 && board[r1][c+1] && board[r1][c+1].color!==p.color) moves.push({to:{row:r1,col:c+1},capture:true});
-    }
-    else if(p.type==='r'){ [[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+    } else if(p.type==='r'){ [[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
         else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break; } rr+=d[0]; cc+=d[1]; } }); }
     else if(p.type==='n'){ const dirs=[[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]];
         dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; if(rr>=0&&rr<8&&cc>=0&&cc<8) if(!board[rr][cc]||board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:board[rr][cc]?true:false}); });
-    }
-    else if(p.type==='b'){ const dirs=[[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+    } else if(p.type==='b'){ const dirs=[[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
         else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break;} rr+=d[0]; cc+=d[1]; } }); }
     else if(p.type==='q'){ const dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]; dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
         else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break;} rr+=d[0]; cc+=d[1]; } }); }
@@ -221,31 +189,48 @@ function onSquareClick(r,c){
     if(piece && piece.color===turn){ selected={row:r,col:c,piece:piece}; renderBoard(); } else{ selected=null; renderBoard(); }
 }
 
-// ذكاء اصطناعي محسّن خطوة واحدة
-const pieceValue = {p:1, n:3, b:3, r:5, q:9, k:1000};
-function aiMove(){
-    const moves=[];
+// الذكاء الاصطناعي الكامل
+const pieceValue = {p:1,n:3,b:3,r:5,q:9,k:1000};
+function evaluateBoard(b){
+    let score=0;
     for(let r=0;r<8;r++){
         for(let c=0;c<8;c++){
-            if(board[r][c] && board[r][c].color==='b'){
+            const p=b[r][c];
+            if(p){ let val = pieceValue[p.type] || 0; score += p.color==='b'?val:-val; }
+        }
+    }
+    return score;
+}
+function generateAllMoves(color){
+    const allMoves=[];
+    for(let r=0;r<8;r++){
+        for(let c=0;c<8;c++){
+            const p=board[r][c];
+            if(p && p.color===color){
                 const legal=generateLegalMovesFor(r,c);
-                legal.forEach(m=>{
-                    let score = 0;
-                    if(m.capture){
-                        const target = board[m.to.row][m.to.col];
-                        score += pieceValue[target.type] || 0;
-                    }
-                    score += (7 - m.to.row) * 0.1;
-                    moves.push({from:{r,c},to:m.to,meta:m, score});
-                });
+                legal.forEach(m=>allMoves.push({from:{r,c},to:m.to,meta:m}));
             }
         }
     }
+    return allMoves;
+}
+function aiMove(){
+    const moves = generateAllMoves('b');
     if(moves.length===0) return;
-    moves.sort((a,b)=>b.score - a.score);
-    const pick = moves[0];
-    makeMove(pick.from.r,pick.from.c,pick.to.row,pick.to.col,pick.meta);
-    checkEndAndSwitch();
+    let bestScore=-Infinity, bestMove=null;
+    moves.forEach(m=>{
+        const boardCopy = board.map(row => row.map(cell => cell ? {...cell} : null));
+        const from = m.from; const to = m.to;
+        const piece = boardCopy[from.r][from.c];
+        boardCopy[to.row][to.col] = piece; boardCopy[from.r][from.c] = null;
+        if(piece.type==='p' && (to.row===0||to.row===7)) piece.type='q';
+        const score = evaluateBoard(boardCopy);
+        if(score>bestScore){ bestScore=score; bestMove=m; }
+    });
+    if(bestMove){
+        makeMove(bestMove.from.r,bestMove.from.c,bestMove.to.row,bestMove.to.col,bestMove.meta);
+        checkEndAndSwitch();
+    }
 }
 
 resetGame();
