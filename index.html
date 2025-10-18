@@ -7,13 +7,13 @@
 <style>
 body {
     margin:0; font-family:'Tajawal',sans-serif; min-height:100vh;
-    display:flex; align-items:center; justify-content:center;
     background:#0b0b0e;
 }
 
 /* أيقونة الشطرنج */
 .iconColumn{
     position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:12px; z-index:1100;
+    transition: all 0.3s ease;
 }
 .icon{
     width:140px; height:140px; border-radius:50%; display:flex; justify-content:center; align-items:center;
@@ -22,29 +22,38 @@ body {
 }
 .icon:hover{ transform:scale(1.06); }
 
-/* نافذة الشطرنج */
-#chessContainer{
-    display:none;
-    position:fixed;
-    inset:0;
-    align-items:center; justify-content:center;
-    z-index:999;
-}
-#wrap{
-    position:relative;
-    display:flex; flex-direction:row; align-items:center;
-    background: rgba(0,0,0,0.0);
-    padding:20px; border-radius:12px;
+/* نافذة الشطرنج فوق كل شيء */
+#chessContainer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: rgba(0,0,0,0.6); /* تراكب شبه شفاف */
 }
 
-/* زر الإغلاق فوق الإطار */
+/* عند ظهور الشطرنج نخفي أيقونات الصفحة */
+body.chess-open .iconColumn { opacity: 0; pointer-events: none; }
+
+#wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: rgba(0,0,0,0.0);
+    padding: 20px;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* زر الإغلاق فوق الإطار مباشرة */
 .closeBtn{
     position:absolute;
-    top:-20px; /* فوق الإطار مباشرة */
+    top:-20px; 
     right:0;
     background:#ff5050; color:#fff; border:none; border-radius:10px;
     padding:10px 16px; font-weight:700; cursor:pointer;
-    z-index:1000;
+    z-index:10000;
 }
 .closeBtn:hover{ background:#ff7777; }
 
@@ -64,6 +73,7 @@ body {
     border:3px solid #FFD700;
     border-radius:10px;
     box-shadow: 0 0 20px #FFD700, 0 0 60px #FFD700 inset;
+    z-index:1000;
 }
 
 .square{
@@ -75,7 +85,6 @@ body {
 .sq-light { 
     background: rgba(0, 128, 255, 0.3); /* أزرق شفاف */
 }
-
 .sq-dark { 
     background: rgba(0,0,0,0); /* شفاف بالكامل */
 }
@@ -119,13 +128,20 @@ body {
 </div>
 
 <script>
-// نفس السكربت السابق
+// نفس سكربت الشطرنج مع ذكاء محسّن
 const symbols = { w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'}, b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'} };
 let board=[], turn='w', selected=null;
 const boardEl=document.getElementById('chess-board');
 
-function openChess(){ document.getElementById('chessContainer').style.display='flex'; resetGame(); }
-function closeChess(){ document.getElementById('chessContainer').style.display='none'; }
+function openChess(){ 
+    document.body.classList.add('chess-open'); 
+    document.getElementById('chessContainer').style.display='flex'; 
+    resetGame(); 
+}
+function closeChess(){ 
+    document.body.classList.remove('chess-open'); 
+    document.getElementById('chessContainer').style.display='none'; 
+}
 
 function resetGame(){
     board=Array.from({length:8},()=>Array(8).fill(null));
@@ -170,10 +186,8 @@ function generateLegalMovesFor(r,c){
         if(r1>=0 && r1<8 && c-1>=0 && board[r1][c-1] && board[r1][c-1].color!==p.color) moves.push({to:{row:r1,col:c-1},capture:true});
         if(r1>=0 && r1<8 && c+1<8 && board[r1][c+1] && board[r1][c+1].color!==p.color) moves.push({to:{row:r1,col:c+1},capture:true});
     }
-    else if(p.type==='r'){ [[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{
-        let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
-        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break; } rr+=d[0]; cc+=d[1]; } });
-    }
+    else if(p.type==='r'){ [[1,0],[-1,0],[0,1],[0,-1]].forEach(d=>{ let rr=r+d[0],cc=c+d[1]; while(rr>=0&&rr<8&&cc>=0&&cc<8){ if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
+        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break; } rr+=d[0]; cc+=d[1]; } }); }
     else if(p.type==='n'){ const dirs=[[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]];
         dirs.forEach(d=>{ let rr=r+d[0],cc=c+d[1]; if(rr>=0&&rr<8&&cc>=0&&cc<8) if(!board[rr][cc]||board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:board[rr][cc]?true:false}); });
     }
@@ -207,11 +221,29 @@ function onSquareClick(r,c){
     if(piece && piece.color===turn){ selected={row:r,col:c,piece:piece}; renderBoard(); } else{ selected=null; renderBoard(); }
 }
 
+// ذكاء اصطناعي محسّن خطوة واحدة
+const pieceValue = {p:1, n:3, b:3, r:5, q:9, k:1000};
 function aiMove(){
     const moves=[];
-    for(let r=0;r<8;r++) for(let c=0;c<8;c++){ if(board[r][c]&&board[r][c].color==='b'){ const legal=generateLegalMovesFor(r,c); legal.forEach(m=>moves.push({from:{r,c},to:m.to,meta:m})); } }
+    for(let r=0;r<8;r++){
+        for(let c=0;c<8;c++){
+            if(board[r][c] && board[r][c].color==='b'){
+                const legal=generateLegalMovesFor(r,c);
+                legal.forEach(m=>{
+                    let score = 0;
+                    if(m.capture){
+                        const target = board[m.to.row][m.to.col];
+                        score += pieceValue[target.type] || 0;
+                    }
+                    score += (7 - m.to.row) * 0.1;
+                    moves.push({from:{r,c},to:m.to,meta:m, score});
+                });
+            }
+        }
+    }
     if(moves.length===0) return;
-    const pick=moves[Math.floor(Math.random()*moves.length)];
+    moves.sort((a,b)=>b.score - a.score);
+    const pick = moves[0];
     makeMove(pick.from.r,pick.from.c,pick.to.row,pick.to.col,pick.meta);
     checkEndAndSwitch();
 }
@@ -4667,7 +4699,7 @@ document.querySelectorAll('.video-icon').forEach(icon => {
     <select id="life-lang">
       <option value="ar">العربية</option>
       <option value="en">English</option>
-    </select>
+    </select> 
   </div>
 
   <div class="story-title" data-target="ps1">مراحلي التعليمية</div>
