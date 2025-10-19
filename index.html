@@ -1,3 +1,79 @@
+<!-- ✅ خلفية عامة تغطي الصفحة بالكامل -->
+<div id="globalVideoBg">
+  <iframe id="mainVideo"
+    src="https://www.youtube.com/embed/HSzkl4wh6MY?autoplay=1&mute=1&loop=1&playlist=HSzkl4wh6MY&controls=0&showinfo=0&modestbranding=1"
+    frameborder="0"
+    allow="autoplay; fullscreen"
+    allowfullscreen></iframe>
+</div>
+
+<!-- 🔊 زر تشغيل الصوت -->
+<button id="soundToggle">🔈 تشغيل الصوت</button>
+
+<style>
+  /* الخلفية العامة */
+  #globalVideoBg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -9999;
+    overflow: hidden;
+  }
+
+  #globalVideoBg iframe {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 120vw; height: 120vh;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* زر الصوت */
+  #soundToggle {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    padding: 12px 24px;
+    border: 2px solid #00ffff;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 99999;
+    transition: 0.3s;
+  }
+  #soundToggle:hover {
+    background: rgba(0,255,255,0.3);
+    color: #000;
+  }
+
+  /* إخفاء أي فيديوهات خلفية أخرى لتجنب التضارب */
+  iframe[id*="chessVideo"],
+  iframe[id*="bgVideo"]:not(#mainVideo) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* استجابة للجوال */
+  @media (max-width: 768px) {
+    #globalVideoBg iframe { width: 140vw; height: 140vh; }
+  }
+</style>
+
+<script>
+const soundBtn = document.getElementById("soundToggle");
+const mainVideo = document.getElementById("mainVideo");
+let soundOn = false;
+
+soundBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  mainVideo.src = `https://www.youtube.com/embed/HSzkl4wh6MY?autoplay=1&mute=${soundOn ? 0 : 1}&loop=1&playlist=HSzkl4wh6MY&controls=0&showinfo=0&modestbranding=1`;
+  soundBtn.textContent = soundOn ? "🔇 كتم الصوت" : "🔈 تشغيل الصوت";
+});
+</script>
+
 <!-- زر فتح اللعبة (أيقونة) يسار الصفحة منخفض سطرين -->
 <button id="pongButton" style="position:fixed;top:35%;left:10px;transform:translateY(-50%);padding:10px 20px;font-size:18px;cursor:pointer;z-index:10000;">
   🏓 Play Bong Bong
