@@ -7,103 +7,71 @@
 <style>
 body {
   margin:0; font-family:'Tajawal',sans-serif;
-  min-height:100vh;
-  background:url('https://cdn.pixabay.com/photo/2015/09/18/19/03/ocean-946336_1280.jpg') center/cover no-repeat;
-  overflow:hidden;
+  min-height:100vh; background:#000; overflow:hidden;
 }
-
-/* أيقونة الدخول */
-.iconColumn{
-  position: fixed; top:20px; left:20px;
-  display:flex; flex-direction:column; gap:12px; z-index:1100;
+.iconColumn {
+  position: fixed; top: 20px; left: 20px;
+  display: flex; flex-direction: column; gap: 12px; z-index: 1100;
 }
-.icon{
-  width:120px; height:120px; border-radius:50%;
-  display:flex; justify-content:center; align-items:center; flex-direction:column;
-  font-size:24px; color:#fff; background:rgba(0,0,0,0.3);
-  cursor:pointer; transition:.3s;
+.icon {
+  width: 120px; height: 120px; border-radius: 50%;
+  display: flex; justify-content: center; align-items: center; flex-direction: column;
+  font-size: 24px; color: #fff;
+  background: rgba(0,0,0,0.3); cursor:pointer; transition: .3s;
   box-shadow:0 0 15px #00ffff;
 }
-.icon:hover{ transform:scale(1.08); }
-
-/* نافذة اللعبة */
-#chessContainer{
+.icon:hover { transform: scale(1.08); }
+#chessContainer {
   display:none; position:fixed; inset:0;
   align-items:center; justify-content:center;
-  background:rgba(0,0,30,0.6);
-  z-index:9999;
+  background:rgba(0,0,30,0.6); z-index:9999;
 }
-
-/* حاوية الرقعة */
-#chess-wrap{
-  position:relative;
-  display:flex; justify-content:center; align-items:center;
-  padding:15px; border-radius:16px;
-  background:rgba(0,0,0,0.4);
-  box-shadow:0 0 40px #00ffff;
-  overflow:hidden;
+#chess-wrap {
+  position: relative; display: flex; justify-content: center; align-items: center;
+  padding: 15px; border-radius: 16px;
+  background: rgba(0,0,0,0.4); box-shadow: 0 0 40px #00ffff;
+  overflow: hidden;
 }
-
-/* الفيديو خلف الرقعة */
-#chessVideo{
-  position:absolute; top:0; left:0;
+#chessVideo {
+  position: absolute; top:0; left:0;
   width:100%; height:100%; object-fit:cover;
-  z-index:0; border-radius:10px;
-  pointer-events:none;
+  z-index:0; pointer-events:none;
+  border-radius:12px;
 }
-
-/* الرقعة */
-#chess-board{
+#chess-board {
   display:grid; grid-template-columns:repeat(8,60px); grid-template-rows:repeat(8,60px);
-  width:480px; height:480px;
-  position:relative; z-index:1;
+  width:480px; height:480px; position: relative; z-index:1;
   border:4px solid #FFD700; border-radius:12px;
   box-shadow:0 0 25px #FFD700, inset 0 0 40px #FFD700;
 }
-
-/* المربعات */
-.square{
-  display:flex; align-items:center; justify-content:center;
-  font-size:32px; cursor:pointer;
+.square {
+  display:flex; align-items:center; justify-content:center; font-size:32px; cursor:pointer;
 }
-.sq-light{ background:rgba(0,180,255,0.3); }
-.sq-dark{ background:rgba(0,50,100,0.3); }
-
-/* القطع */
-.piece{ pointer-events:none; transition:all 0.3s ease; font-size:34px; }
-.piece.white{ color:#50C878; text-shadow:0 0 12px #50C878, 0 0 20px #50C878; }
-.piece.black{ color:#FFD700; text-shadow:0 0 12px #FFD700,0 0 20px #FFD700; }
-
-.selected{ outline:3px solid cyan; }
-.canMove{ box-shadow:0 0 12px yellow inset; }
-.captureHint::after{
+.sq-light { background: rgba(0,180,255,0.3); }
+.sq-dark { background: rgba(0,50,100,0.3); }
+.piece { pointer-events:none; transition:all 0.3s ease; font-size:34px; }
+.piece.white { color:#50C878; text-shadow:0 0 12px #50C878,0 0 20px #50C878; }
+.piece.black { color:#FFD700; text-shadow:0 0 12px #FFD700,0 0 20px #FFD700; }
+.selected { outline:3px solid cyan; }
+.canMove { box-shadow:0 0 12px yellow inset; }
+.captureHint::after {
   content:''; position:absolute; width:14px; height:14px; border-radius:50%;
   background:yellow; box-shadow:0 0 10px yellow;
 }
-
-/* زر الإغلاق وأزرار التحكم */
-.closeBtn{
-  position:absolute; top:-10px; right:0;
-  background:#ff5050; color:#fff;
-  border:none; border-radius:10px;
-  padding:10px 16px; font-weight:700; cursor:pointer;
-  z-index:2;
+.closeBtn {
+  position:absolute; top:-10px; left:-10px;
+  background:#ff5050; color:#fff; border:none; border-radius:10px;
+  padding:10px 16px; font-weight:700; cursor:pointer; z-index:2;
 }
-.closeBtn:hover{ background:#ff7777; }
-
-.controlBtn{
-  position:absolute; top:-10px; right:80px; /* بجانب زر الإغلاق */
-  background:#00ccff; color:#fff;
-  border:none; border-radius:10px;
-  padding:10px 16px; font-weight:700; cursor:pointer;
-  z-index:2;
-  margin-left:5px;
+.closeBtn:hover { background:#ff7777; }
+.playVideoBtn, .muteAudioBtn {
+  position:absolute; top:0; left:70px; background:#00ffff; color:#000;
+  border:none; border-radius:10px; padding:8px 12px; margin-left:5px; cursor:pointer; z-index:2;
 }
-.controlBtn:hover{ background:#33ddff; }
-
+.playVideoBtn:hover, .muteAudioBtn:hover { background:#33ffff; }
 @media(max-width:720px){
   .icon{ width:100px; height:100px; font-size:20px; }
-  #chess-board{ width:360px; height:360px; grid-template-columns:repeat(8,1fr); grid-template-rows:repeat(8,1fr); }
+  #chess-board{ width:360px; height:360px; }
   .square{ font-size:24px; }
 }
 </style>
@@ -116,53 +84,38 @@ body {
 
 <div id="chessContainer">
   <div id="chess-wrap">
-    <!-- الفيديو -->
     <iframe id="chessVideo"
-      src="https://www.youtube.com/embed/_2A12E8Tk0g?autoplay=1&mute=1&loop=1&playlist=_2A12E8Tk0g&controls=0&modestbranding=1&rel=0"
-      allow="autoplay; fullscreen" frameborder="0">
-    </iframe>
+      src="https://www.youtube.com/embed/_2A12E8Tk0g?autoplay=1&mute=1&loop=1&playlist=_2A12E8Tk0g&controls=0&showinfo=0&modestbranding=1&rel=0"
+      allow="autoplay; fullscreen" frameborder="0"></iframe>
 
-    <!-- رقعة الشطرنج -->
     <div id="chess-board"></div>
 
-    <!-- أزرار التحكم -->
-    <button class="controlBtn" onclick="toggleVideo()">▶️/⏸️</button>
-    <button class="controlBtn" style="right:150px;" onclick="toggleSound()">🔊</button>
-
-    <!-- زر الإغلاق -->
     <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
+    <button class="playVideoBtn" onclick="toggleVideo()">▶️ تشغيل/إيقاف الفيديو</button>
+    <button class="muteAudioBtn" onclick="toggleAudio()">🔊 تشغيل/إيقاف الصوت</button>
   </div>
 </div>
 
 <script>
-// رموز القطع
 const symbols={w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'},b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'}};
 let board=[],turn='w',selected=null;
 const boardEl=document.getElementById('chess-board');
+const video=document.getElementById('chessVideo');
+let audioMuted=true;
 
-// تحكم الفيديو
-let videoIframe=document.getElementById('chessVideo');
-let videoPlaying=true, videoMuted=true;
-function toggleVideo(){ videoPlaying=!videoPlaying; videoIframe.contentWindow.postMessage('{"event":"command","func":"'+(videoPlaying?'playVideo':'pauseVideo')+'","args":""}','*'); }
-function toggleSound(){ videoMuted=!videoMuted; videoIframe.contentWindow.postMessage('{"event":"command","func":"'+(videoMuted?'mute':'unMute')+'","args":""}','*'); }
-
-// فتح/إغلاق اللعبة
-function openChess(){ document.getElementById('chessContainer').style.display='flex'; resetGame(); }
+function openChess(){ document.getElementById('chessContainer').style.display='flex'; resetGame(); aiAutoPlay(); }
 function closeChess(){ document.getElementById('chessContainer').style.display='none'; }
+function toggleVideo(){ const src = video.src; video.src = src.includes('autoplay=1') ? src.replace('autoplay=1','autoplay=0') : src.replace('autoplay=0','autoplay=1'); }
+function toggleAudio(){ audioMuted = !audioMuted; video.src = video.src.replace(/&mute=\d/,'&mute='+(audioMuted?1:0)); }
 
-// تهيئة الرقعة
 function resetGame(){
   board=Array.from({length:8},()=>Array(8).fill(null));
   for(let c=0;c<8;c++){ board[1][c]={type:'p',color:'b'}; board[6][c]={type:'p',color:'w'}; }
   const order=['r','n','b','q','k','b','n','r'];
   for(let c=0;c<8;c++){ board[0][c]={type:order[c],color:'b'}; board[7][c]={type:order[c],color:'w'}; }
-  turn='w'; selected=null;
-  renderBoard();
-  // تحريك جنود الكمبيوتر أولاً
-  autoPawnMove();
+  turn='w'; selected=null; renderBoard();
 }
 
-// عرض الرقعة
 function renderBoard(){
   boardEl.innerHTML='';
   for(let r=0;r<8;r++){
@@ -181,44 +134,14 @@ function renderBoard(){
   }
 }
 
-// حركة الجنود للكمبيوتر أولاً
-function autoPawnMove(){
-  for(let c=0;c<8;c++){
-    if(board[1][c] && board[1][c].type==='p'){
-      makeMove(1,c,3,c);
-    }
-  }
-  renderBoard();
-}
-
-// حركة القطع
-function makeMove(r1,c1,r2,c2){
-  const p=board[r1][c1]; board[r1][c1]=null; board[r2][c2]=p;
-  if(p.type==='p'&&(r2===0||r2===7)) p.type='q';
-}
-
-// اختيار المربع
-function onSquareClick(r,c){
-  const p=board[r][c];
-  if(selected){
-    const legal=legalMoves(selected.row,selected.col);
-    const mv=legal.find(m=>m.to.row===r&&m.to.col===c);
-    if(mv){ makeMove(selected.row,selected.col,r,c); selected=null; turn=turn==='w'?'b':'w'; renderBoard(); setTimeout(aiMove,400); return; }
-  }
-  if(p&&p.color===turn){ selected={row:r,col:c}; renderBoard(); }
-  else{ selected=null; renderBoard(); }
-}
-
-// حساب التحركات القانونية
 function legalMoves(r,c){
   const p=board[r][c]; if(!p) return [];
-  let moves=[]; 
-  const dirs={r:[[1,0],[-1,0],[0,1],[0,-1]],b:[[1,1],[1,-1],[-1,1],[-1,-1]],q:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]],k:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]};
+  let moves=[]; const dirs={r:[[1,0],[-1,0],[0,1],[0,-1]],b:[[1,1],[1,-1],[-1,1],[-1,-1]],q:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]],k:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]};
   if(p.type==='p'){
     const d=p.color==='w'?-1:1; const r1=r+d;
     if(r1>=0&&r1<8&&!board[r1][c]) moves.push({to:{row:r1,col:c}});
     for(const dc of[-1,1]){ const c1=c+dc;
-      if(c1>=0&&c1<8&&board[r1]&&board[r1][c1]&&board[r1][c1].color!==p.color)
+      if(c1>=0&&c1<8&&board[r1][c1]&&board[r1][c1].color!==p.color)
         moves.push({to:{row:r1,col:c1},capture:true});
     }
   } else if(['r','b','q'].includes(p.type)){
@@ -251,27 +174,61 @@ function legalMoves(r,c){
   return moves;
 }
 
-// ذكاء الكمبيوتر (أساسي)
-const pieceVal={p:1,n:3,b:3,r:5,q:9,k:1000};
-function evalBoard(b){ let s=0; for(let r=0;r<8;r++) for(let c=0;c<8;c++){ const p=b[r][c]; if(p) s+= (p.color==='b'?1:-1)*pieceVal[p.type]; } return s; }
-function cloneBoard(b){ return b.map(r=>r.map(c=>c?{...c}:null)); }
-function allMoves(b,color){ const m=[]; for(let r=0;r<8;r++) for(let c=0;c<8;c++){ const p=b[r][c]; if(p&&p.color===color){ const leg=legalMoves.bind({board:b})(r,c); leg.forEach(x=>m.push({from:{r,c},to:x.to})); } } return m; }
-function miniMax(b,depth,isMax){ if(depth===0) return evalBoard(b); const color=isMax?'b':'w'; const moves=allMoves(b,color); if(moves.length===0) return evalBoard(b); let best=isMax?-Infinity:Infinity; for(const m of moves){ const copy=cloneBoard(b); const p=copy[m.from.r][m.from.c]; copy[m.from.r][m.from.c]=null; copy[m.to.row][m.to.col]=p; const val=miniMax(copy,depth-1,!isMax); best=isMax?Math.max(best,val):Math.min(best,val); } return best; }
-
-function aiMove(){
-  let bestScore=-Infinity,best=null;
-  const moves=allMoves(board,'b');
-  for(const m of moves){
-    const copy=cloneBoard(board);
-    const p=copy[m.from.r][m.from.c];
-    copy[m.from.r][m.from.c]=null;
-    copy[m.to.row][m.to.col]=p;
-    const score=-miniMax(copy,2,false);
-    if(score>bestScore){ bestScore=score; best=m; }
-  }
-  if(best){ makeMove(best.from.r,best.from.c,best.to.row,best.to.col); turn='w'; renderBoard(); }
+function makeMove(r1,c1,r2,c2){
+  const p=board[r1][c1]; board[r1][c1]=null; board[r2][c2]=p;
+  if(p.type==='p'&&(r2===0||r2===7)) p.type='q';
+  renderBoard();
 }
 
+function onSquareClick(r,c){
+  const p=board[r][c];
+  if(selected){
+    const legal=legalMoves(selected.row,selected.col);
+    const mv=legal.find(m=>m.to.row===r&&m.to.col===c);
+    if(mv){ makeMove(selected.row,selected.col,r,c); selected=null; turn='b'; setTimeout(aiSmartPlay,400); return; }
+  }
+  if(p&&p.color===turn){ selected={row:r,col:c}; renderBoard(); }
+  else{ selected=null; renderBoard(); }
+}
+
+// الذكاء الاصطناعي: تحريك الجنود أولًا ثم باقي القطع بشكل ذكي
+function aiAutoPlay(){
+  if(turn!=='b') return;
+  const pawns=[];
+  for(let c=0;c<8;c++) pawns.push({r:1,c});
+  let index=0;
+  function moveNextPawn(){
+    if(index<pawns.length){
+      const p=pawns[index]; const r1=p.r, c1=p.c;
+      const r2=r1+1;
+      if(!board[r2][c1]) makeMove(r1,c1,r2,c1);
+      index++; setTimeout(moveNextPawn,400);
+    } else {
+      turn='w'; renderBoard();
+    }
+  }
+  moveNextPawn();
+}
+
+function aiSmartPlay(){
+  if(turn!=='b') return;
+  let moves=[];
+  for(let r=0;r<8;r++){
+    for(let c=0;c<8;c++){
+      if(board[r][c]&&board[r][c].color==='b'){
+        const legal=legalMoves(r,c);
+        legal.forEach(m=>moves.push({from:{r,c},to:m.to}));
+      }
+    }
+  }
+  if(moves.length>0){
+    const choice=moves[Math.floor(Math.random()*moves.length)];
+    makeMove(choice.from.r,choice.from.c,choice.to.row,choice.to.col);
+    turn='w';
+  }
+}
+
+resetGame();
 </script>
 </body>
 </html>
