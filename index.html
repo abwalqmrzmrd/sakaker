@@ -1,230 +1,414 @@
-<!-- ✅ خلفية عامة تغطي الصفحة بالكامل -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خلفية فيديو مع زر صوت بين المنتصف واليمين</title>
+<style>
+/* 🔹 إزالة هوامش الصفحة */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+/* 🔹 الفيديو يغطي الصفحة كاملة */
+#globalVideoBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+#globalVideoBg iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120vw;
+  height: 120vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* منع النقر */
+}
+
+/* 🔊 زر الصوت بين المنتصف واليمين */
+#soundToggle {
+  position: fixed;
+  top: 20px;
+  left: 65%; /* تقريبًا بين المنتصف واليمين */
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(255,255,255,0.15);
+  color: #000;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+#soundToggle:hover {
+  background: rgba(255,255,255,0.3);
+}
+</style>
+</head>
+<body>
+
+<!-- 🎬 فيديو الخلفية -->
 <div id="globalVideoBg">
   <iframe id="mainVideo"
-    src="https://www.youtube.com/embed/HSzkl4wh6MY?autoplay=1&mute=1&loop=1&playlist=HSzkl4wh6MY&controls=0&showinfo=0&modestbranding=1"
+    src="https://www.youtube.com/embed/g9Ieacu9AEE?autoplay=1&mute=1&loop=1&playlist=g9Ieacu9AEE&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
     frameborder="0"
     allow="autoplay; fullscreen"
     allowfullscreen></iframe>
 </div>
 
-<!-- 🔊 زر تشغيل الصوت -->
+<!-- 🔊 زر الصوت -->
 <button id="soundToggle">🔈 تشغيل الصوت</button>
 
-<style>
-  /* الخلفية العامة */
-  #globalVideoBg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -9999;
-    overflow: hidden;
-  }
-
-  #globalVideoBg iframe {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 120vw; height: 120vh;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  /* زر الصوت */
-  #soundToggle {
-    position: fixed;
-    top: 18px;
-    right: 20px;
-    padding: 12px 24px;
-    border: 2px solid #00ffff;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-size: 17px;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 99999;
-    transition: 0.3s;
-  }
-  #soundToggle:hover {
-    background: rgba(0,255,255,0.3);
-    color: #000;
-  }
-
-  /* إخفاء أي فيديوهات خلفية أخرى لتجنب التضارب */
-  iframe[id*="chessVideo"],
-  iframe[id*="bgVideo"]:not(#mainVideo) {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* استجابة للجوال */
-  @media (max-width: 768px) {
-    #globalVideoBg iframe { width: 140vw; height: 140vh; }
-  }
-</style>
-
+<!-- 🎵 كود التحكم في الصوت -->
 <script>
-const soundBtn = document.getElementById("soundToggle");
-const mainVideo = document.getElementById("mainVideo");
-let soundOn = false;
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
 
-soundBtn.addEventListener("click", () => {
-  soundOn = !soundOn;
-  mainVideo.src = `https://www.youtube.com/embed/HSzkl4wh6MY?autoplay=1&mute=${soundOn ? 0 : 1}&loop=1&playlist=HSzkl4wh6MY&controls=0&showinfo=0&modestbranding=1`;
-  soundBtn.textContent = soundOn ? "🔇 كتم الصوت" : "🔈 تشغيل الصوت";
-});
+let player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('mainVideo', {
+    events: { 'onReady': onPlayerReady }
+  });
+}
+
+function onPlayerReady(event) {
+  const btn = document.getElementById("soundToggle");
+  let muted = true; // يبدأ بدون صوت
+
+  btn.addEventListener("click", () => {
+    if (muted) {
+      player.unMute();
+      player.setVolume(100);
+      btn.textContent = "🔇 إيقاف الصوت";
+      muted = false;
+    } else {
+      player.mute();
+      btn.textContent = "🔈 تشغيل الصوت";
+      muted = true;
+    }
+  });
+}
 </script>
 
-<!-- زر فتح اللعبة (أيقونة) يسار الصفحة منخفض سطرين -->
-<button id="pongButton" style="position:fixed;top:35%;left:10px;transform:translateY(-50%);padding:10px 20px;font-size:18px;cursor:pointer;z-index:10000;">
-  🏓 Play Bong Bong
-</button>
+</body>
+</html>
 
-<!-- نافذة اللعبة في الوسط -->
-<div id="pongContainer" 
-style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;aspect-ratio:16/10;z-index:9999;border:2px solid white;border-radius:10px;box-shadow:0 0 25px rgba(0,255,255,0.4);overflow:hidden;background:rgba(0,255,0,0.05);">
+</script>
 
-  <!-- زر الإغلاق -->
-  <button id="closeBtn" style="position:absolute;top:8px;right:8px;background:rgba(255,0,0,0.8);color:white;border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:bold;z-index:10001;">✖</button>
+</body>
+</html>
+
+</script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لعبة Pong مع فيديو خلفية</title>
+<style>
+body, html {
+  margin:0; padding:0; height:100%; background:black; overflow:hidden;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* زر فتح اللعبة شفاف ودائري */
+#pongButtonFixed {
+  position: fixed;
+  top: 50%;
+  right: 10px;           /* على يمين الصفحة */
+  transform: translateY(-50%);
+  z-index: 10000;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  cursor: pointer;
+  border:none;
+  border-radius:50%;
+  background: rgba(0,0,0,0.0); /* شفاف */
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* نافذة اللعبة */
+#pongContainerFixed {
+  display:none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 800px;
+  aspect-ratio:16/10;
+  max-height: 90vh;
+  z-index: 9999;
+  border: 2px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,255,0,0.05);
+}
+
+/* زر الإغلاق */
+#closeBtnFixed {
+  position:absolute; top:8px; right:8px;
+  z-index:10001;
+  background: rgba(255,0,0,0.8);
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* خلفية الفيديو */
+#bgVideoFixed {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* أزرار التحكم */
+.controlBtn {
+  width:50px; height:50px; border:none; border-radius:50%;
+  cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center;
+}
+#playVideoBtnFixed { background:#00BFFF; color:white; }
+#muteVideoBtnFixed { background:#FFD700; color:black; }
+#hideVideoBtnFixed { background:rgba(255,255,255,0.3); color:black; }
+
+/* قائمة الخيارات */
+#menuFixed {
+  position:absolute; top:60px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; gap:8px; align-items:center;
+  background:rgba(255,255,255,0.15); padding:15px; border-radius:12px;
+  color:#fff; z-index:10002; text-align:center;
+}
+#menuFixed label { font-size:14px; }
+#menuFixed input, #menuFixed select { margin-left:6px; }
+
+/* Canvas اللعبة */
+#pongFixed { width:100%; height:100%; display:block; position:relative; z-index:1; }
+
+</style>
+</head>
+<body>
+
+<!-- زر فتح اللعبة -->
+<button id="pongButtonFixed">🏓</button>
+
+<!-- نافذة اللعبة -->
+<div id="pongContainerFixed">
+  <button id="closeBtnFixed">✖</button>
 
   <!-- خلفية الفيديو -->
-  <iframe id="bgVideo" src="https://www.youtube.com/embed/sjVNap2Jo5k?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=sjVNap2Jo5k"
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
-          style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;">
+  <iframe id="bgVideoFixed" 
+      src="https://www.youtube.com/embed/sjVNap2Jo5k?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=sjVNap2Jo5k"
+      frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
   </iframe>
 
-  <!-- أزرار تشغيل الفيديو والصوت أعلى إطار الملعب -->
-  <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10002;">
-    <button id="playVideoBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#00BFFF;color:white;cursor:pointer;font-size:16px;">▶ تشغيل الفيديو</button>
-    <button id="muteVideoBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#FFD700;color:black;cursor:pointer;font-size:16px;">🔊 كتم/تشغيل الصوت</button>
+  <!-- أزرار التحكم بالفيديو -->
+  <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10003;">
+    <button id="playVideoBtnFixed" class="controlBtn">▶</button>
+    <button id="muteVideoBtnFixed" class="controlBtn">🔊</button>
+    <button id="hideVideoBtnFixed" class="controlBtn">🖤</button>
   </div>
 
-  <!-- قائمة خيارات اللعبة -->
-  <div id="menu" style="position:absolute;top:60px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;background:rgba(255,255,255,0.15);padding:15px;border-radius:12px;color:#fff;z-index:10000;text-align:center;font-family:'Tajawal',sans-serif;">
-    <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
-    <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
-    <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
+  <!-- قائمة الخيارات -->
+  <div id="menuFixed">
+    <label>🎨 لون المضرب 1: <input id="p1ColorFixed" type="color" value="#FFD700"/></label>
+    <label>🎨 لون المضرب 2: <input id="p2ColorFixed" type="color" value="#00BFFF"/></label>
+    <label>⚪ لون الكرة: <input id="ballColorFixed" type="color" value="#FFFFFF"/></label>
     <label>🎯 المستوى:
-      <select id="level" style="padding:4px;">
+      <select id="levelFixed">
         <option value="easy">سهل</option>
         <option value="hard">صعب</option>
         <option value="harder">أصعب</option>
         <option value="impossible">مستحيل</option>
       </select>
     </label>
+    <label>⬆⬇ حجم المضرب:
+      <button id="paddleSmallerFixed">➖</button>
+      <button id="paddleBiggerFixed">➕</button>
+    </label>
     <div style="margin-top:8px;">
-      <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
-      <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
+      <button onclick="startGameFixed('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
+      <button onclick="startGameFixed('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
     </div>
   </div>
 
-  <!-- اللوحة -->
-  <canvas id="pong" style="width:100%;height:100%;display:block;position:relative;z-index:1;"></canvas>
+  <!-- Canvas -->
+  <canvas id="pongFixed"></canvas>
 </div>
 
 <script>
 // عناصر اللعبة
-const pongButton = document.getElementById('pongButton');
-const pongContainer = document.getElementById('pongContainer');
-const closeBtn = document.getElementById('closeBtn');
-const canvas = document.getElementById('pong');
-const ctx = canvas.getContext('2d');
-const menu = document.getElementById('menu');
+const pongButtonFixed = document.getElementById('pongButtonFixed');
+const pongContainerFixed = document.getElementById('pongContainerFixed');
+const closeBtnFixed = document.getElementById('closeBtnFixed');
+const canvasFixed = document.getElementById('pongFixed');
+const ctxFixed = canvasFixed.getContext('2d');
+const menuFixed = document.getElementById('menuFixed');
 
-const bgVideo = document.getElementById('bgVideo');
-const playVideoBtn = document.getElementById('playVideoBtn');
-const muteVideoBtn = document.getElementById('muteVideoBtn');
+const bgVideoFixed = document.getElementById('bgVideoFixed');
+const playVideoBtnFixed = document.getElementById('playVideoBtnFixed');
+const muteVideoBtnFixed = document.getElementById('muteVideoBtnFixed');
+const hideVideoBtnFixed = document.getElementById('hideVideoBtnFixed');
 
-let paddleWidth=15, paddleHeight=100;
+const paddleSmallerFixed = document.getElementById('paddleSmallerFixed');
+const paddleBiggerFixed = document.getElementById('paddleBiggerFixed');
+
+let paddleWidth = 15, paddleHeight = 100;
 let player1, player2, ball;
 let gameMode='player', animFrame;
-
-// حركة المضارب
 let wPressed=false, sPressed=false, upPressed=false, downPressed=false;
 
+// فتح/اغلاق اللعبة
+pongButtonFixed.addEventListener('click', ()=>{
+  pongContainerFixed.style.display='block';
+  menuFixed.style.display='flex';
+  document.body.style.overflow='hidden';
+  bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+});
+
+closeBtnFixed.addEventListener('click', ()=>{
+  pongContainerFixed.style.display='none';
+  document.body.style.overflow='auto';
+  cancelAnimationFrame(animFrame);
+});
+
+// التحكم بالفيديو
+let isMuted = true, isPlaying = true, videoHidden = false;
+
+playVideoBtnFixed.addEventListener('click', ()=>{
+  if(isPlaying){
+    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    playVideoBtnFixed.textContent = '▶';
+    isPlaying=false;
+  } else {
+    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    playVideoBtnFixed.textContent = '⏸';
+    isPlaying=true;
+  }
+});
+
+muteVideoBtnFixed.addEventListener('click', ()=>{
+  if(isMuted){
+    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+    muteVideoBtnFixed.textContent = '🔇';
+    isMuted=false;
+  } else {
+    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+    muteVideoBtnFixed.textContent = '🔊';
+    isMuted=true;
+  }
+});
+
+hideVideoBtnFixed.addEventListener('click', ()=>{
+  if(!videoHidden){
+    bgVideoFixed.style.display='none';
+    hideVideoBtnFixed.textContent = '💚';
+    videoHidden=true;
+  } else {
+    bgVideoFixed.style.display='block';
+    hideVideoBtnFixed.textContent = '🖤';
+    videoHidden=false;
+  }
+});
+
+// تكبير وتصغير المضرب
+paddleSmallerFixed.addEventListener('click', ()=>{ paddleHeight = Math.max(20, paddleHeight-10); });
+paddleBiggerFixed.addEventListener('click', ()=>{ paddleHeight = Math.min(canvasFixed.height/2, paddleHeight+10); });
+
 // إعداد اللعبة
-function initGame(){
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
-  player1 = {x:10, y:canvas.height/2-paddleHeight/2, color:'#FFD700', score:0};
-  player2 = {x:canvas.width-paddleWidth-10, y:canvas.height/2-paddleHeight/2, color:'#00BFFF', score:0};
-  ball = {x:canvas.width/2, y:canvas.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
+function initGameFixed(){
+  canvasFixed.width = canvasFixed.clientWidth;
+  canvasFixed.height = canvasFixed.clientHeight;
+  player1 = {x:10, y:canvasFixed.height/2-paddleHeight/2, color:'#FFD700', score:0};
+  player2 = {x:canvasFixed.width-paddleWidth-10, y:canvasFixed.height/2-paddleHeight/2, color:'#00BFFF', score:0};
+  ball = {x:canvasFixed.width/2, y:canvasFixed.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
 }
 
-// إعادة الكرة
-function resetBall(){
-  ball.x = canvas.width/2;
-  ball.y = canvas.height/2;
+// حركة المضارب
+function movePaddlesFixed(){
+  if(wPressed) player1.y = Math.max(player1.y-7,0);
+  if(sPressed) player1.y = Math.min(player1.y+7,canvasFixed.height-paddleHeight);
+  if(gameMode==='player'){
+    if(upPressed) player2.y = Math.max(player2.y-7,0);
+    if(downPressed) player2.y = Math.min(player2.y+7,canvasFixed.height-paddleHeight);
+  } else {
+    let speed = getComputerSpeedFixed(document.getElementById('levelFixed').value);
+    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvasFixed.height-player2.y-paddleHeight);
+    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
+    player2.y = Math.max(0, Math.min(canvasFixed.height-paddleHeight, player2.y));
+  }
+}
+
+function getComputerSpeedFixed(level){
+  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
+}
+
+function collisionFixed(b,p){
+  return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;
+}
+
+function updateBallFixed(){
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+  if(ball.y+ball.radius>canvasFixed.height || ball.y-ball.radius<0) ball.dy*=-1;
+  if(collisionFixed(ball,player1)){ ball.dx=Math.abs(ball.dx); ball.dy=(ball.y-(player1.y+paddleHeight/2))/2; }
+  if(collisionFixed(ball,player2)){ ball.dx=-Math.abs(ball.dx); ball.dy=(ball.y-(player2.y+paddleHeight/2))/2; }
+  if(ball.x-ball.radius<0){player2.score++; resetBallFixed();}
+  if(ball.x+ball.radius>canvasFixed.width){player1.score++; resetBallFixed();}
+}
+
+function resetBallFixed(){
+  ball.x = canvasFixed.width/2;
+  ball.y = canvasFixed.height/2;
   ball.dx = Math.random()<0.5?ball.speed:-ball.speed;
   ball.dy = Math.random()<0.5?ball.speed:-ball.speed;
 }
 
-// تحريك المضارب
-function movePaddles(){
-  if(wPressed) player1.y = Math.max(player1.y-7,0);
-  if(sPressed) player1.y = Math.min(player1.y+7,canvas.height-paddleHeight);
-
-  if(gameMode==='player'){
-    if(upPressed) player2.y = Math.max(player2.y-7,0);
-    if(downPressed) player2.y = Math.min(player2.y+7,canvas.height-paddleHeight);
-  } else if(gameMode==='computer'){
-    let speed = getComputerSpeed(document.getElementById('level').value);
-    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvas.height-player2.y-paddleHeight);
-    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
-    player2.y = Math.max(0, Math.min(canvas.height-paddleHeight, player2.y));
-  }
+function drawGameFixed(){
+  ctxFixed.clearRect(0,0,canvasFixed.width,canvasFixed.height);
+  ctxFixed.fillStyle = 'rgba(0,255,0,0.05)';
+  ctxFixed.fillRect(0,0,canvasFixed.width,canvasFixed.height);
+  ctxFixed.fillStyle = player1.color; ctxFixed.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
+  ctxFixed.fillStyle = player2.color; ctxFixed.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
+  ctxFixed.fillStyle = ball.color; ctxFixed.beginPath(); ctxFixed.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctxFixed.fill();
+  ctxFixed.fillStyle='white'; ctxFixed.font='28px Tajawal';
+  ctxFixed.fillText(player1.score, canvasFixed.width/4, 40);
+  ctxFixed.fillText(player2.score, 3*canvasFixed.width/4, 40);
 }
 
-function getComputerSpeed(level){
-  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
+function gameLoopFixed(){
+  movePaddlesFixed();
+  updateBallFixed();
+  drawGameFixed();
+  animFrame = requestAnimationFrame(gameLoopFixed);
 }
 
-// الاصطدام
-function collision(b,p){
-  return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;
-}
-
-// تحديث الكرة
-function updateBall(){
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-
-  if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0) ball.dy*=-1;
-  if(collision(ball,player1)){ ball.dx = Math.abs(ball.dx); ball.dy = (ball.y-(player1.y+paddleHeight/2))/2; }
-  if(collision(ball,player2)){ ball.dx = -Math.abs(ball.dx); ball.dy = (ball.y-(player2.y+paddleHeight/2))/2; }
-
-  if(ball.x-ball.radius<0){player2.score++; resetBall();}
-  if(ball.x+ball.radius>canvas.width){player1.score++; resetBall();}
-}
-
-// رسم اللعبة
-function drawGame(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = 'rgba(0,255,0,0.05)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  ctx.fillStyle = player1.color; ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
-  ctx.fillStyle = player2.color; ctx.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
-  ctx.fillStyle = ball.color; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctx.fill();
-
-  ctx.fillStyle='white'; ctx.font='28px Tajawal';
-  ctx.fillText(player1.score, canvas.width/4, 40);
-  ctx.fillText(player2.score, 3*canvas.width/4, 40);
-}
-
-// حلقة اللعبة
-function gameLoop(){
-  movePaddles();
-  updateBall();
-  drawGame();
-  animFrame = requestAnimationFrame(gameLoop);
-}
-
-// البدء
-function startGame(mode){
+function startGameFixed(mode){
   gameMode = mode;
-  initGame();
-  menu.style.display='none';
-  gameLoop();
+  initGameFixed();
+  menuFixed.style.display='flex';
+  gameLoopFixed();
 }
 
 // مفاتيح
@@ -242,49 +426,18 @@ document.addEventListener('keyup', e=>{
 });
 
 // موس ولمس
-canvas.addEventListener('mousemove', e=>{
-  const rect = canvas.getBoundingClientRect();
+canvasFixed.addEventListener('mousemove', e=>{
+  const rect = canvasFixed.getBoundingClientRect();
   player1.y = e.clientY-rect.top-paddleHeight/2;
 });
-canvas.addEventListener('touchmove', e=>{
+canvasFixed.addEventListener('touchmove', e=>{
   e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
+  const rect = canvasFixed.getBoundingClientRect();
   player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
 },{passive:false});
-
-// فتح اللعبة مع تشغيل الفيديو تلقائياً
-pongButton.addEventListener('click', ()=>{
-  initGame();
-  menu.style.display='flex';
-  pongContainer.style.display='block';
-  document.body.style.overflow='hidden';
-  bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-});
-
-// إغلاق اللعبة
-closeBtn.addEventListener('click', ()=>{
-  pongContainer.style.display='none';
-  document.body.style.overflow='auto';
-  cancelAnimationFrame(animFrame);
-});
-
-// أزرار التحكم بالفيديو والصوت
-let isMuted = true;
-
-playVideoBtn.addEventListener('click', ()=>{
-  bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-});
-
-muteVideoBtn.addEventListener('click', ()=>{
-  isMuted = !isMuted;
-  if(isMuted){
-    bgVideo.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-  } else {
-    bgVideo.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-  }
-});
-
 </script>
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -1089,26 +1242,6 @@ iconRow.style.display = "none";
 </style>
 </head>
 <body>
-<div class="left-panel" style="position:fixed; left:10px; top:60%; transform:translateY(-50%); z-index:999; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;">
-  <p style="color:#00ffff; font-size:18px;">للتبرع للموقع 💖 الدعم:</p>
-  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
-    PayPal
-  </a>
-
-  <p data-i18n="contact">📧 تواصل: 
-    <a href="mailto:sakaker@outlook.com" style="color:#fff; text-decoration:underline;">sakaker@outlook.com</a>
-  </p>
-
-  <p data-i18n="share">🔗 شارك: 
-    <a href="https://wa.me/?text=شاهد+هذا+الموقع+https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">واتساب</a> | 
-    <a href="https://twitter.com/intent/tweet?url=https://sakakera-a11y.github.io/sakaker/&text=شاهد+هذا+الموقع" target="_blank" style="color:#fff; text-decoration:underline;">تويتر</a> | 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-
-  <p data-i18n="follow">⭐ تابعنا على 
-    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-  </p>
-</div>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1156,9 +1289,6 @@ iconRow.style.display = "none";
 </style>
 </head>
 <body>
-
-<button id="soundButton">🔈 تشغيل الصوت</button>
-<div id="bgVideo"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
@@ -4376,6 +4506,37 @@ jokeIcon.addEventListener('click', () => {
 });
 </script>
 
+  <!-- 💖 الدعم -->
+  <p style="color:#00ffff; font-size:18px;">لدعم:</p>
+  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
+    اضغط هنا للدعم عبر PayPal
+  </a>
+
+  <!-- 📧 البريد -->
+  <p style="margin-top:12px; color:#00ffcc;">📧 البريد:
+    <a href="mailto:sakakera@gmail.com" style="color:#fff; text-decoration:none;">sakakera@gmail.com</a>
+  </p>
+
+  <!-- 🌐 تابعنا -->
+  <p style="margin-top:15px; color:#00ffff;">🌐 تابعنا على فيسبوك:</p>
+  <a href="https://www.facebook.com/SakakerGame" target="_blank" style="color:#FFD700; text-decoration:none; font-size:16px;">
+
+  </a>
+
+  <p data-i18n="follow">⭐ تابعنا على 
+    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+    <!-- واتساب -->
+    <a href="https://wa.me/?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
+       target="_blank" title="شارك عبر واتساب"
+       style="font-size:26px; text-decoration:none;">🟩</a>
+
+    <!-- تويتر -->
+    <a href="https://twitter.com/intent/tweet?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
+       target="_blank" title="شارك عبر تويتر"
+       style="font-size:26px; text-decoration:none;">🩵</a>
+
+  </p>
+</div>
 <script>
 const jokeIcon = document.getElementById('jokeVideoIcon');
 const jokeContainer = document.getElementById('jokeVideoContainer');
@@ -4935,6 +5096,144 @@ I didn’t stay long in one company or sector, moving between several companies 
 
   updateTexts();
 })();
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>أيقونة حكم ونكت متحركة</title>
+<style>
+body {
+  margin: 0;
+  height: 200vh;
+  background: #ffffff;
+  font-family: "Tahoma", sans-serif;
+}
+
+/* الحاوية العامة */
+.widget {
+  position: fixed;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  font-size: 13px;
+  overflow: hidden;
+  user-select: none;
+  perspective: 800px;
+  cursor: default;
+}
+
+/* الكرتين (وجهان) */
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: flipLang 6s infinite ease-in-out;
+  transition: transform 1s ease;
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* العربي */
+.front {
+  direction: rtl;
+  transform: rotateY(0deg);
+}
+
+/* الإنجليزي */
+.back {
+  transform: rotateY(180deg);
+  direction: ltr;
+  font-size: 12px;
+}
+
+/* الحركة */
+@keyframes flipLang {
+  0%, 45% { transform: rotateY(0deg); }
+  55%, 100% { transform: rotateY(180deg); }
+}
+
+/* التأثير عند مرور المؤشر */
+.widget:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+</style>
+</head>
+<body>
+
+<div class="widget">
+  <div class="flip-card" id="flip">
+    <div class="front" id="textAr">من جدّ وجد</div>
+    <div class="back" id="textEn">He who strives, finds.</div>
+  </div>
+</div>
+
+<script>
+const quotes = [
+  // حكم
+  {ar: 'من جدّ وجد.', en: 'He who strives, finds.'},
+  {ar: 'العلم نور.', en: 'Knowledge is light.'},
+  {ar: 'الوقت كالسيف إن لم تقطعه قطعك.', en: 'Time is like a sword; if you don’t cut it, it cuts you.'},
+  {ar: 'ليس كل ما يلمع ذهباً.', en: 'Not all that glitters is gold.'},
+  {ar: 'من سار على الدرب وصل.', en: 'He who walks the path will arrive.'},
+  {ar: 'رحلة الألف ميل تبدأ بخطوة.', en: 'A journey of a thousand miles begins with a single step.'},
+  {ar: 'الأمل مفتاح النجاح.', en: 'Hope is the key to success.'},
+  {ar: 'القناعة كنز لا يفنى.', en: 'Contentment is an endless treasure.'},
+  {ar: 'الصبر مفتاح الفرج.', en: 'Patience is the key to relief.'},
+  {ar: 'الابتسامة في وجه أخيك صدقة.', en: 'A smile to your brother is charity.'},
+  // نكت
+  {ar: 'مرة واحد ذهب إلى الطبيب، الطبيب قال له: هل تدخن؟ قال: لا، أنا غنم.', en: 'A man went to the doctor. The doctor asked: Do you smoke? He said: No, I’m a sheep.'},
+  {ar: 'قالوا لمعلم الرياضيات: ليش زعلان؟ قال: عندي مشاكل كثيرة.', en: 'They asked the math teacher: Why are you sad? He said: I have too many problems.'},
+  {ar: 'واحد دخل محل نظارات، طلع يشوف الأسعار!', en: 'A man entered an eyeglass shop—came out just to look around!'},
+  {ar: 'مرة واحد راح ينام بدري، لقى النوم متأخر.', en: 'A guy went to sleep early—found that sleep was running late!'},
+  {ar: 'واحد بخيل فتح مطعم، سماه “خذ وارجع”.', en: 'A stingy man opened a restaurant and named it “Take and Return.”'},
+  {ar: 'طالب سأل أستاذه: هل يمكن أن تُعاقبني على شيء لم أفعله؟ قال لا، قال: الحمد لله، لأني ما حليت الواجب!', en: 'A student asked: Can you punish me for something I didn’t do? The teacher said no. The student replied: Great! I didn’t do the homework!'},
+  {ar: 'مرة نملة طاحت في كوب شاي وقالت: أحسنتم الاستقبال!', en: 'An ant fell into a cup of tea and said: What a warm welcome!'},
+  {ar: 'واحد غبي راح يشتري موس، قال للبائع: عندك موس ضد الماي؟', en: 'A man went to buy a razor and asked: Do you have one that works underwater?'},
+  {ar: 'في واحد راح للدكتور قال له عندي برد، قاله الدكتور: خذه وروح نام.', en: 'A man told the doctor: I caught a cold. The doctor said: Keep it and go to bed!'},
+  {ar: 'واحد نام في الشارع، كتبوا عليه “قيد الإنشاء”.', en: 'A man slept in the street, and they wrote on him “Under Construction.”'}
+];
+
+let index = 0;
+const textAr = document.getElementById('textAr');
+const textEn = document.getElementById('textEn');
+const flip = document.getElementById('flip');
+
+function changeQuote() {
+  index = (index + 1) % quotes.length;
+  textAr.textContent = quotes[index].ar;
+  textEn.textContent = quotes[index].en;
+}
+setInterval(changeQuote, 6000);
 </script>
 
 </body>
