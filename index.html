@@ -209,34 +209,126 @@ body, html {
 </style>
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong Bong Bong</title>
+<style>
+body, html {
+  margin:0; padding:0; height:100%; background:black; overflow:hidden;
+  font-family: 'Tajawal', sans-serif;
+}
 
-<!-- زر فتح اللعبة -->
-<button id="pongButtonFixed">🏓</button>
+/* أيقونة فتح اللعبة */
+#pongButton {
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  z-index: 10000;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border:none;
+  border-radius:50%;
+  background: rgba(0,0,0,0); /* شفاف */
+  color:white;
+  text-align:center;
+}
+
+/* نافذة اللعبة - تعديل الموقع للأعلى */
+#pongContainer {
+  display: none;
+  position: fixed;
+  top: 10%;       /* قرب أعلى الصفحة */
+  left: 50%;      /* منتصف العرض */
+  transform: translateX(-50%); /* نحافظ على الوسط أفقيًا فقط */
+  width: 90%;
+  max-width: 800px;
+  aspect-ratio:16/10;
+  max-height: 90vh;
+  z-index: 9999;
+  border: 2px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,255,0,0.05);
+}
+
+/* خلفية الفيديو */
+#bgVideo {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* زر الإغلاق */
+#closeBtn {
+  position:absolute; top:8px; right:8px;
+  z-index:10001;
+  background: rgba(255,0,0,0.8);
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* أزرار التحكم بالفيديو */
+.controlBtn {
+  width:50px; height:50px; border:none; border-radius:50%;
+  cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center;
+  margin:0 5px;
+}
+#playVideoBtn { background:#00BFFF; color:white; }
+#muteVideoBtn { background:#FFD700; color:black; }
+#hideVideoBtn { background:rgba(255,255,255,0.3); color:black; }
+
+/* قائمة الخيارات */
+#menu {
+  position:absolute; top:60px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; gap:8px; align-items:center;
+  background:rgba(255,255,255,0.15); padding:15px; border-radius:12px;
+  color:#fff; z-index:10000; text-align:center;
+}
+#menu label { font-size:14px; }
+#menu input, #menu select { margin-left:6px; }
+
+/* Canvas اللعبة */
+#pong { width:100%; height:100%; display:block; position:relative; z-index:1; }
+</style>
+</head>
+<body>
+
+<!-- أيقونة فتح اللعبة -->
+<button id="pongButton">🏓 Bong Bong</button>
 
 <!-- نافذة اللعبة -->
-<div id="pongContainerFixed">
-  <button id="closeBtnFixed">✖</button>
-
-  <!-- خلفية الفيديو -->
-  <iframe id="bgVideoFixed" 
+<div id="pongContainer">
+  <button id="closeBtn">✖</button>
+  <iframe id="bgVideo" 
       src="https://www.youtube.com/embed/sjVNap2Jo5k?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=sjVNap2Jo5k"
       frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
   </iframe>
 
-  <!-- أزرار التحكم بالفيديو -->
-  <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10003;">
-    <button id="playVideoBtnFixed" class="controlBtn">▶</button>
-    <button id="muteVideoBtnFixed" class="controlBtn">🔊</button>
-    <button id="hideVideoBtnFixed" class="controlBtn">🖤</button>
+  <!-- أزرار التحكم -->
+  <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;z-index:10002;">
+    <button id="playVideoBtn" class="controlBtn">▶</button>
+    <button id="muteVideoBtn" class="controlBtn">🔊</button>
+    <button id="hideVideoBtn" class="controlBtn">🖤</button>
   </div>
 
   <!-- قائمة الخيارات -->
-  <div id="menuFixed">
-    <label>🎨 لون المضرب 1: <input id="p1ColorFixed" type="color" value="#FFD700"/></label>
-    <label>🎨 لون المضرب 2: <input id="p2ColorFixed" type="color" value="#00BFFF"/></label>
-    <label>⚪ لون الكرة: <input id="ballColorFixed" type="color" value="#FFFFFF"/></label>
+  <div id="menu">
+    <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
+    <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
+    <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
     <label>🎯 المستوى:
-      <select id="levelFixed">
+      <select id="level" style="padding:4px;">
         <option value="easy">سهل</option>
         <option value="hard">صعب</option>
         <option value="harder">أصعب</option>
@@ -244,174 +336,112 @@ body, html {
       </select>
     </label>
     <label>⬆⬇ حجم المضرب:
-      <button id="paddleSmallerFixed">➖</button>
-      <button id="paddleBiggerFixed">➕</button>
+      <button id="paddleSmaller">➖</button>
+      <button id="paddleBigger">➕</button>
     </label>
     <div style="margin-top:8px;">
-      <button onclick="startGameFixed('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
-      <button onclick="startGameFixed('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
+      <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
+      <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
     </div>
   </div>
 
-  <!-- Canvas -->
-  <canvas id="pongFixed"></canvas>
+  <!-- لوحة اللعبة -->
+  <canvas id="pong"></canvas>
 </div>
 
 <script>
-// عناصر اللعبة
-const pongButtonFixed = document.getElementById('pongButtonFixed');
-const pongContainerFixed = document.getElementById('pongContainerFixed');
-const closeBtnFixed = document.getElementById('closeBtnFixed');
-const canvasFixed = document.getElementById('pongFixed');
-const ctxFixed = canvasFixed.getContext('2d');
-const menuFixed = document.getElementById('menuFixed');
+const pongButton = document.getElementById('pongButton');
+const pongContainer = document.getElementById('pongContainer');
+const closeBtn = document.getElementById('closeBtn');
+const canvas = document.getElementById('pong');
+const ctx = canvas.getContext('2d');
+const menu = document.getElementById('menu');
 
-const bgVideoFixed = document.getElementById('bgVideoFixed');
-const playVideoBtnFixed = document.getElementById('playVideoBtnFixed');
-const muteVideoBtnFixed = document.getElementById('muteVideoBtnFixed');
-const hideVideoBtnFixed = document.getElementById('hideVideoBtnFixed');
+const bgVideo = document.getElementById('bgVideo');
+const playVideoBtn = document.getElementById('playVideoBtn');
+const muteVideoBtn = document.getElementById('muteVideoBtn');
+const hideVideoBtn = document.getElementById('hideVideoBtn');
+const paddleSmaller = document.getElementById('paddleSmaller');
+const paddleBigger = document.getElementById('paddleBigger');
 
-const paddleSmallerFixed = document.getElementById('paddleSmallerFixed');
-const paddleBiggerFixed = document.getElementById('paddleBiggerFixed');
-
-let paddleWidth = 15, paddleHeight = 100;
+let paddleWidth=15, paddleHeight=100;
 let player1, player2, ball;
 let gameMode='player', animFrame;
 let wPressed=false, sPressed=false, upPressed=false, downPressed=false;
 
-// فتح/اغلاق اللعبة
-pongButtonFixed.addEventListener('click', ()=>{
-  pongContainerFixed.style.display='block';
-  menuFixed.style.display='flex';
-  document.body.style.overflow='hidden';
-  bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-});
-
-closeBtnFixed.addEventListener('click', ()=>{
-  pongContainerFixed.style.display='none';
-  document.body.style.overflow='auto';
-  cancelAnimationFrame(animFrame);
-});
-
-// التحكم بالفيديو
-let isMuted = true, isPlaying = true, videoHidden = false;
-
-playVideoBtnFixed.addEventListener('click', ()=>{
-  if(isPlaying){
-    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-    playVideoBtnFixed.textContent = '▶';
-    isPlaying=false;
-  } else {
-    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    playVideoBtnFixed.textContent = '⏸';
-    isPlaying=true;
-  }
-});
-
-muteVideoBtnFixed.addEventListener('click', ()=>{
-  if(isMuted){
-    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    muteVideoBtnFixed.textContent = '🔇';
-    isMuted=false;
-  } else {
-    bgVideoFixed.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    muteVideoBtnFixed.textContent = '🔊';
-    isMuted=true;
-  }
-});
-
-hideVideoBtnFixed.addEventListener('click', ()=>{
-  if(!videoHidden){
-    bgVideoFixed.style.display='none';
-    hideVideoBtnFixed.textContent = '💚';
-    videoHidden=true;
-  } else {
-    bgVideoFixed.style.display='block';
-    hideVideoBtnFixed.textContent = '🖤';
-    videoHidden=false;
-  }
-});
-
-// تكبير وتصغير المضرب
-paddleSmallerFixed.addEventListener('click', ()=>{ paddleHeight = Math.max(20, paddleHeight-10); });
-paddleBiggerFixed.addEventListener('click', ()=>{ paddleHeight = Math.min(canvasFixed.height/2, paddleHeight+10); });
-
-// إعداد اللعبة
-function initGameFixed(){
-  canvasFixed.width = canvasFixed.clientWidth;
-  canvasFixed.height = canvasFixed.clientHeight;
-  player1 = {x:10, y:canvasFixed.height/2-paddleHeight/2, color:'#FFD700', score:0};
-  player2 = {x:canvasFixed.width-paddleWidth-10, y:canvasFixed.height/2-paddleHeight/2, color:'#00BFFF', score:0};
-  ball = {x:canvasFixed.width/2, y:canvasFixed.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
+function initGame(){
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+  player1 = {x:10, y:canvas.height/2-paddleHeight/2, color:'#FFD700', score:0};
+  player2 = {x:canvas.width-paddleWidth-10, y:canvas.height/2-paddleHeight/2, color:'#00BFFF', score:0};
+  ball = {x:canvas.width/2, y:canvas.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
 }
 
-// حركة المضارب
-function movePaddlesFixed(){
-  if(wPressed) player1.y = Math.max(player1.y-7,0);
-  if(sPressed) player1.y = Math.min(player1.y+7,canvasFixed.height-paddleHeight);
-  if(gameMode==='player'){
-    if(upPressed) player2.y = Math.max(player2.y-7,0);
-    if(downPressed) player2.y = Math.min(player2.y+7,canvasFixed.height-paddleHeight);
-  } else {
-    let speed = getComputerSpeedFixed(document.getElementById('levelFixed').value);
-    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvasFixed.height-player2.y-paddleHeight);
-    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
-    player2.y = Math.max(0, Math.min(canvasFixed.height-paddleHeight, player2.y));
-  }
-}
-
-function getComputerSpeedFixed(level){
-  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
-}
-
-function collisionFixed(b,p){
-  return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;
-}
-
-function updateBallFixed(){
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-  if(ball.y+ball.radius>canvasFixed.height || ball.y-ball.radius<0) ball.dy*=-1;
-  if(collisionFixed(ball,player1)){ ball.dx=Math.abs(ball.dx); ball.dy=(ball.y-(player1.y+paddleHeight/2))/2; }
-  if(collisionFixed(ball,player2)){ ball.dx=-Math.abs(ball.dx); ball.dy=(ball.y-(player2.y+paddleHeight/2))/2; }
-  if(ball.x-ball.radius<0){player2.score++; resetBallFixed();}
-  if(ball.x+ball.radius>canvasFixed.width){player1.score++; resetBallFixed();}
-}
-
-function resetBallFixed(){
-  ball.x = canvasFixed.width/2;
-  ball.y = canvasFixed.height/2;
+function resetBall(){
+  ball.x = canvas.width/2;
+  ball.y = canvas.height/2;
   ball.dx = Math.random()<0.5?ball.speed:-ball.speed;
   ball.dy = Math.random()<0.5?ball.speed:-ball.speed;
 }
 
-function drawGameFixed(){
-  ctxFixed.clearRect(0,0,canvasFixed.width,canvasFixed.height);
-  ctxFixed.fillStyle = 'rgba(0,255,0,0.05)';
-  ctxFixed.fillRect(0,0,canvasFixed.width,canvasFixed.height);
-  ctxFixed.fillStyle = player1.color; ctxFixed.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
-  ctxFixed.fillStyle = player2.color; ctxFixed.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
-  ctxFixed.fillStyle = ball.color; ctxFixed.beginPath(); ctxFixed.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctxFixed.fill();
-  ctxFixed.fillStyle='white'; ctxFixed.font='28px Tajawal';
-  ctxFixed.fillText(player1.score, canvasFixed.width/4, 40);
-  ctxFixed.fillText(player2.score, 3*canvasFixed.width/4, 40);
+function movePaddles(){
+  if(wPressed) player1.y = Math.max(player1.y-7,0);
+  if(sPressed) player1.y = Math.min(player1.y+7,canvas.height-paddleHeight);
+  if(gameMode==='player'){
+    if(upPressed) player2.y = Math.max(player2.y-7,0);
+    if(downPressed) player2.y = Math.min(player2.y+7,canvas.height-paddleHeight);
+  } else {
+    let speed = getComputerSpeed(document.getElementById('level').value);
+    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvas.height-player2.y-paddleHeight);
+    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
+    player2.y = Math.max(0, Math.min(canvas.height-paddleHeight, player2.y));
+  }
 }
 
-function gameLoopFixed(){
-  movePaddlesFixed();
-  updateBallFixed();
-  drawGameFixed();
-  animFrame = requestAnimationFrame(gameLoopFixed);
+function getComputerSpeed(level){
+  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
 }
 
-function startGameFixed(mode){
+function collision(b,p){
+  return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;
+}
+
+function updateBall(){
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+  if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0) ball.dy*=-1;
+  if(collision(ball,player1)){ ball.dx = Math.abs(ball.dx); ball.dy = (ball.y-(player1.y+paddleHeight/2))/2; }
+  if(collision(ball,player2)){ ball.dx = -Math.abs(ball.dx); ball.dy = (ball.y-(player2.y+paddleHeight/2))/2; }
+  if(ball.x-ball.radius<0){player2.score++; resetBall();}
+  if(ball.x+ball.radius>canvas.width){player1.score++; resetBall();}
+}
+
+function drawGame(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'rgba(0,255,0,0.05)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = player1.color; ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
+  ctx.fillStyle = player2.color; ctx.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
+  ctx.fillStyle = ball.color; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='white'; ctx.font='28px Tajawal';
+  ctx.fillText(player1.score, canvas.width/4, 40);
+  ctx.fillText(player2.score, 3*canvas.width/4, 40);
+}
+
+function gameLoop(){
+  movePaddles();
+  updateBall();
+  drawGame();
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+function startGame(mode){
   gameMode = mode;
-  initGameFixed();
-  menuFixed.style.display='flex';
-  gameLoopFixed();
+  initGame();
+  menu.style.display='none'; // تختفي عند تشغيل اللعبة
+  gameLoop();
 }
 
-// مفاتيح
 document.addEventListener('keydown', e=>{
   if(e.key==='w'||e.key==='W') wPressed=true;
   if(e.key==='s'||e.key==='S') sPressed=true;
@@ -425,19 +455,81 @@ document.addEventListener('keyup', e=>{
   if(e.key==='ArrowDown') downPressed=false;
 });
 
-// موس ولمس
-canvasFixed.addEventListener('mousemove', e=>{
-  const rect = canvasFixed.getBoundingClientRect();
+canvas.addEventListener('mousemove', e=>{
+  const rect = canvas.getBoundingClientRect();
   player1.y = e.clientY-rect.top-paddleHeight/2;
 });
-canvasFixed.addEventListener('touchmove', e=>{
+canvas.addEventListener('touchmove', e=>{
   e.preventDefault();
-  const rect = canvasFixed.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect();
   player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
 },{passive:false});
+
+// فتح اللعبة
+pongButton.addEventListener('click', ()=>{
+  pongContainer.style.display='block';
+  document.body.style.overflow='hidden';
+  initGame();
+});
+
+// إغلاق اللعبة
+closeBtn.addEventListener('click', ()=>{
+  pongContainer.style.display='none';
+  document.body.style.overflow='auto';
+  cancelAnimationFrame(animFrame);
+});
+
+// أزرار التحكم بالفيديو
+let isMuted = true, isPlaying = true, videoHidden = false;
+
+playVideoBtn.addEventListener('click', ()=>{
+  if(isPlaying){
+    bgVideo.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    playVideoBtn.textContent = '▶';
+    isPlaying = false;
+  } else {
+    bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    playVideoBtn.textContent = '⏸';
+    isPlaying = true;
+  }
+});
+
+muteVideoBtn.addEventListener('click', ()=>{
+  if(isMuted){
+    bgVideo.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+    muteVideoBtn.textContent = '🔇';
+    isMuted = false;
+  } else {
+    bgVideo.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+    muteVideoBtn.textContent = '🔊';
+    isMuted = true;
+  }
+});
+
+hideVideoBtn.addEventListener('click', ()=>{
+  if(!videoHidden){
+    bgVideo.style.display = 'none';
+    hideVideoBtn.textContent = '💚';
+    videoHidden = true;
+  } else {
+    bgVideo.style.display = 'block';
+    hideVideoBtn.textContent = '🖤';
+    videoHidden = false;
+  }
+});
+
+// تكبير وتصغير المضرب
+paddleSmaller.addEventListener('click', ()=>{
+  paddleHeight = Math.max(20, paddleHeight-10);
+});
+paddleBigger.addEventListener('click', ()=>{
+  paddleHeight = Math.min(canvas.height/2, paddleHeight+10);
+});
 </script>
+
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -3092,7 +3184,7 @@ const translations = {
     thoughtsTitle:"خواطر",
     cultureContent:"قصت ابوالقمر عندما استطاع مزج أنوار القمر بأحجار الزمرد الكريمة من شعب المرجان، وهو ينظر إلى الزمرد في البحر، سطع نور القمر ثم مشى أبو القمر على انعكاس ضوء القمر من الزمرد حتى وصل سطح القمر ووضعها. فلما وضع الأحجار على القمر أصبح له طريق خاص ممزوج بضوء القمر مع إشعاع الزمرد وسوف يحقق كل الأحلام إلى حقيقة بعد توفيق الرب.",
     islamicContent:"المحتوى الإسلامي محفوظ هنا، مسلطًا الضوء على الأحداث الرئيسة والتعليمات والشخصيات الهامة في التراث الإسلامي.",
-    thoughtsContent:"خواطري الشخصية، كتاباتي، أشعاري، وتأملاتي محفوظة هنا لإلهام الزوار.",
+    thoughtsContent:"خواطري الشخصية، كتاباتي، أشعاري، وتأملاتي محفوظة هنا لإلهام الزوار.",ب
     chat_open:"فتح الدردشة",
     username_placeholder:"اسمك",
     message_placeholder:"اكتب رسالتك...",
@@ -3659,100 +3751,6 @@ border:2px solid #fff; border-radius:15px; display:flex; justify-content:center;
 </style>
 </script>
 
-<script>
-  // عناصر اللعبة
-  const yellowPongIcon = document.getElementById('yellowPongIcon');
-  const yellowPongWindow = document.getElementById('yellowPongWindow');
-  const closeYellowPong = document.getElementById('closeYellowPong');
-  const yellowPongCanvas = document.getElementById('yellowPongCanvas');
-  const ctx = yellowPongCanvas.getContext('2d');
-
-  // فتح وغلق اللعبة
-  yellowPongIcon.addEventListener('click', () => {
-    yellowPongWindow.style.display = 'flex';
-  });
-  closeYellowPong.addEventListener('click', () => {
-    yellowPongWindow.style.display = 'none';
-  });
-
-  // متغيرات اللعبة
-  let paddleWidth = 60, paddleHeight = 10;
-  let playerX = (yellowPongCanvas.width - paddleWidth)/2;
-  let ballRadius = 8;
-  let ballX = yellowPongCanvas.width/2;
-  let ballY = yellowPongCanvas.height/2;
-  let ballSpeedX = 2, ballSpeedY = -2;
-
-  // تحريك المضرب
-  document.addEventListener('mousemove', (e) => {
-    let rect = yellowPongCanvas.getBoundingClientRect();
-    playerX = e.clientX - rect.left - paddleWidth/2;
-    if(playerX < 0) playerX = 0;
-    if(playerX + paddleWidth > yellowPongCanvas.width) playerX = yellowPongCanvas.width - paddleWidth;
-  });
-
-  function draw() {
-    // مسح الشاشة
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, yellowPongCanvas.width, yellowPongCanvas.height);
-
-    // الكرة
-    ctx.beginPath();
-    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = 'yellow';
-    ctx.fill();
-    ctx.closePath();
-
-    // المضرب
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(playerX, yellowPongCanvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
-
-    // تحريك الكرة
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
-
-    // اصطدام الجدران
-    if(ballX + ballRadius > yellowPongCanvas.width || ballX - ballRadius < 0) ballSpeedX = -ballSpeedX;
-    if(ballY - ballRadius < 0) ballSpeedY = -ballSpeedY;
-
-    // اصطدام المضرب
-    if(ballY + ballRadius > yellowPongCanvas.height - paddleHeight - 10 &&
-       ballX > playerX && ballX < playerX + paddleWidth) {
-      ballSpeedY = -ballSpeedY;
-    }
-
-    // سقوط الكرة
-    if(ballY + ballRadius > yellowPongCanvas.height) {
-      // إعادة الكرة للنصف
-      ballX = yellowPongCanvas.width/2;
-      ballY = yellowPongCanvas.height/2;
-      ballSpeedY = -2;
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-</script>
-
-<script>
-function openVideo(videoId) {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'flex';
-    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  }
-}
-
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'none';
-    frame.src = "";
-  }
-}
 </script>
 
 <style>
