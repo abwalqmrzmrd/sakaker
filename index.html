@@ -1,3 +1,110 @@
+<!-- 🎵 أيقونة تشغيل الصوت والفيديو المصغر -->
+<div id="beethovenContainer" style="
+  position: fixed;
+  bottom: 180px; /* مرتفعة 10 أسطر عن أسفل الصفحة */
+  right: 20px; 
+  z-index: 1000; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+">
+
+  <!-- أيقونة التحكم -->
+  <div id="beethovenIcon" title="تشغيل الموسيقى" style="
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg,#4a148c,#8e24aa);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(142,36,170,0.8);
+    transition: all 0.3s ease;
+    animation: float 2s ease-in-out infinite;
+    pointer-events: auto; 
+  ">🎵</div>
+
+  <!-- الفيديو المصغر -->
+  <div id="videoWrapper" style="
+    display:none; 
+    position: relative; 
+    width: 180px; 
+    height: 101px; 
+    border-radius:10px; 
+    overflow:hidden; 
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
+    pointer-events: auto; 
+  ">
+    <iframe 
+      id="beethovenPlayer"
+      width="180"  
+      height="101"
+      src=""
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+      style="pointer-events: auto;"
+    ></iframe>
+    <button id="toggleVideoBtn" style="
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      padding: 4px 8px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      pointer-events: auto; 
+    ">إيقاف</button>
+  </div>
+</div>
+
+<style>
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+</style>
+
+<script>
+const beethovenIcon = document.getElementById('beethovenIcon');
+const videoWrapper = document.getElementById('videoWrapper');
+const beethovenPlayer = document.getElementById('beethovenPlayer');
+const toggleVideoBtn = document.getElementById('toggleVideoBtn');
+
+// عند الضغط على أيقونة الموسيقى لعرض/إخفاء الفيديو
+beethovenIcon.addEventListener('click', () => {
+  if(videoWrapper.style.display === 'none' || videoWrapper.style.display === '') {
+    videoWrapper.style.display = 'block';
+    // ضع رابط الفيديو هنا (استبدل VIDEO_ID بالمعرف الصحيح)
+    beethovenPlayer.src = "https://www.youtube.com/embed/VIDEO_ID?autoplay=1";
+    toggleVideoBtn.textContent = "إيقاف";
+  } else {
+    videoWrapper.style.display = 'none';
+    beethovenPlayer.src = "";
+  }
+});
+
+// زر تشغيل/إيقاف الفيديو داخل الإطار
+toggleVideoBtn.addEventListener('click', () => {
+  if(beethovenPlayer.src !== "") {
+    beethovenPlayer.src = "";
+    toggleVideoBtn.textContent = "تشغيل";
+  } else {
+    beethovenPlayer.src = "https://www.youtube.com/embed/VIDEO_ID?autoplay=1";
+    toggleVideoBtn.textContent = "إيقاف";
+  }
+});
+</script>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -3085,12 +3192,78 @@ function openFunnyModal(id){
   100% { box-shadow: 0 0 10px #50C878, 0 0 20px #50C878; }
 }
 </style>
+<!-- حاوية الأيقونات -->
+<div style="
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* المسافة بين الأيقونات */
+  z-index: 1000;
+">
 
-<!-- Bird sound -->
-<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور">🐦</div>
-<audio id="bird-sound" loop>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+  <!-- أيقونة الشطرنج -->
+  <div id="chess-icon" title="شطرنج" style="
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg,#4a148c,#8e24aa);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(142,36,170,0.8);
+    transition: all 0.3s ease;
+  ">♟️</div>
+
+  <!-- أيقونة صوت الديك والدجاج -->
+  <div id="chicken-sound-btn" title="تشغيل/إيقاف صوت الديك والدجاج" style="
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg,#ff8c00,#ffcc00);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,204,0,0.8);
+    transition: all 0.3s ease;
+  ">🐓</div>
+
+</div>
+
+<!-- صوت الديك والدجاج -->
+<audio id="chicken-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2022/03/Rooster-crow-and-chicken-sounds.mp3" type="audio/mp3">
+  متصفحك لا يدعم الصوت.
 </audio>
+
+<script>
+const chickenBtn = document.getElementById('chicken-sound-btn');
+const chickenAudio = document.getElementById('chicken-sound');
+
+chickenBtn.addEventListener('click', () => {
+  if(chickenAudio.paused) {
+    chickenAudio.play();
+    chickenBtn.textContent = "🔊"; // أيقونة عند التشغيل
+  } else {
+    chickenAudio.pause();
+    chickenBtn.textContent = "🐓"; // أيقونة عند الإيقاف
+  }
+});
+
+// مثال على عمل أيقونة الشطرنج (يمكن إضافة وظيفتها لاحقًا)
+const chessIcon = document.getElementById('chess-icon');
+chessIcon.addEventListener('click', () => {
+  alert("تم الضغط على أيقونة الشطرنج!");
+});
+</script>
+
 <!-- أيقونة مكتبة الفيديو والفكاهة -->
 <div class="library-col">
 <!DOCTYPE html>
