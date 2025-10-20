@@ -1,106 +1,4 @@
-<!-- 🎵 أيقونة الفيديو المصغر داخل دائرة قابلة للسحب -->
-<div id="beethovenContainer" style="
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: grab;
-">
 
-  <!-- الدائرة التي تحتوي الفيديو -->
-  <div id="videoCircle" style="
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: float 2s ease-in-out infinite;
-  ">
-    <!-- iframe الفيديو -->
-    <iframe id="player" 
-      width="100%" 
-      height="100%" 
-      src="https://www.youtube.com/embed/Ow4U5PQVUNM?controls=0&autoplay=0&mute=1&enablejsapi=1&rel=0" 
-      frameborder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-      allowfullscreen>
-    </iframe>
-
-    <!-- أزرار داخلية فوق الفيديو -->
-    <div style="position:absolute; bottom:10px; display:flex; gap:5px;">
-      <button id="playBtn" style="padding:3px 6px; font-size:14px;">▶️</button>
-      <button id="pauseBtn" style="padding:3px 6px; font-size:14px;">⏸️</button>
-      <button id="muteBtn" style="padding:3px 6px; font-size:14px;">🔇</button>
-      <button id="stopBtn" style="padding:3px 6px; font-size:14px;">✖</button>
-    </div>
-  </div>
-</div>
-
-<style>
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
-}
-</style>
-
-<script>
-const player = document.getElementById('player');
-let soundOn = false;
-
-// التحكم بالأزرار
-document.getElementById('playBtn').addEventListener('click', ()=>{ 
-  player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-});
-document.getElementById('pauseBtn').addEventListener('click', ()=>{ 
-  player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-});
-document.getElementById('stopBtn').addEventListener('click', ()=>{ 
-  player.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-});
-document.getElementById('muteBtn').addEventListener('click', ()=>{
-  soundOn = !soundOn;
-  if(soundOn){
-    player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-    document.getElementById('muteBtn').textContent = "🔊";
-  } else {
-    player.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-    document.getElementById('muteBtn').textContent = "🔇";
-  }
-});
-
-// وظيفة السحب
-const container = document.getElementById('beethovenContainer');
-let isDragging = false;
-let offsetX, offsetY;
-
-container.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  offsetX = e.clientX - container.getBoundingClientRect().left;
-  offsetY = e.clientY - container.getBoundingClientRect().top;
-  container.style.cursor = 'grabbing';
-});
-
-document.addEventListener('mousemove', (e) => {
-  if(isDragging){
-    container.style.left = (e.clientX - offsetX) + 'px';
-    container.style.top = (e.clientY - offsetY) + 'px';
-    container.style.right = 'auto'; // لإزالة right أثناء السحب
-  }
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-  container.style.cursor = 'grab';
-});
-</script>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -2237,7 +2135,109 @@ function fullscreenVideo(id){
   }
 }
 </script>
+<!-- 🎵 أيقونة الفيديو المصغر داخل دائرة قابلة للسحب -->
+<div id="beethovenContainer" style="
+  position: fixed;
+  top:300px;
+  right: 200px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+">
 
+  <!-- الدائرة التي تحتوي الفيديو -->
+  <div id="videoCircle" style="
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: float 2s ease-in-out infinite;
+  ">
+    <!-- iframe الفيديو -->
+    <iframe id="player" 
+      width="100%" 
+      height="100%" 
+      src="https://www.youtube.com/embed/Ow4U5PQVUNM?controls=0&autoplay=0&mute=1&enablejsapi=1&rel=0" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      allowfullscreen>
+    </iframe>
+
+    <!-- أزرار داخلية فوق الفيديو -->
+    <div style="position:absolute; bottom:10px; display:flex; gap:5px;">
+      <button id="playBtn" style="padding:3px 6px; font-size:14px;">▶️</button>
+      <button id="pauseBtn" style="padding:3px 6px; font-size:14px;">⏸️</button>
+      <button id="muteBtn" style="padding:3px 6px; font-size:14px;">🔇</button>
+      <button id="stopBtn" style="padding:3px 6px; font-size:14px;">✖</button>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+</style>
+
+<script>
+const player = document.getElementById('player');
+let soundOn = false;
+
+// التحكم بالأزرار
+document.getElementById('playBtn').addEventListener('click', ()=>{ 
+  player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+});
+document.getElementById('pauseBtn').addEventListener('click', ()=>{ 
+  player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+});
+document.getElementById('stopBtn').addEventListener('click', ()=>{ 
+  player.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+});
+document.getElementById('muteBtn').addEventListener('click', ()=>{
+  soundOn = !soundOn;
+  if(soundOn){
+    player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+    document.getElementById('muteBtn').textContent = "🔊";
+  } else {
+    player.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+    document.getElementById('muteBtn').textContent = "🔇";
+  }
+});
+
+// وظيفة السحب
+const container = document.getElementById('beethovenContainer');
+let isDragging = false;
+let offsetX, offsetY;
+
+container.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  offsetX = e.clientX - container.getBoundingClientRect().left;
+  offsetY = e.clientY - container.getBoundingClientRect().top;
+  container.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if(isDragging){
+    container.style.left = (e.clientX - offsetX) + 'px';
+    container.style.top = (e.clientY - offsetY) + 'px';
+    container.style.right = 'auto'; // لإزالة right أثناء السحب
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  container.style.cursor = 'grab';
+});
+</script>
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
