@@ -104,7 +104,6 @@ toggleVideoBtn.addEventListener('click', () => {
   }
 });
 </script>
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -169,7 +168,7 @@ html, body {
 <!-- 🎬 فيديو الخلفية -->
 <div id="globalVideoBg">
   <iframe id="mainVideo"
-    src="https://www.youtube.com/embed/g9Ieacu9AEE?autoplay=1&mute=1&loop=1&playlist=g9Ieacu9AEE&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
+    src="https://www.youtube.com/embed/rrNaH9CpNNk?autoplay=1&mute=1&loop=1&playlist=rrNaH9CpNNk&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
     frameborder="0"
     allow="autoplay; fullscreen"
     allowfullscreen></iframe>
@@ -209,6 +208,9 @@ function onPlayerReady(event) {
   });
 }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
@@ -5444,44 +5446,49 @@ supportBtn.addEventListener('click', () => {
   }
 });
 </script>
-<!-- أيقونة صوت الحمام -->
-<div id="pigeon-sound-btn" title="تشغيل/إيقاف صوت الحمام" style="
+<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
-  top: calc(200px - 80px - 80px); /* رفع 5 أسطر إضافية */
-  right: 20px; 
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg,#a0e0ff,#70c0ff);
+  top: -10px; /* مرفوعة حوالي خمس أسطر */
+  right: 25px;
+  width: 75px;
+  height: 75px;
+  background: radial-gradient(circle at 30% 30%, #00ffcc, #006666);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 28px;
-  color: #fff;
+  font-size: 34px;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(112,192,255,0.8);
+  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
   z-index: 1001;
-">🕊️</div>
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+🐦
+</div>
 
-<!-- صوت الحمام -->
-<audio id="pigeon-sound" loop>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2021/02/Pigeon-coo-sound.mp3" type="audio/mp3">
+<!-- 🎵 صوت تغريد الطيور -->
+<audio id="bird-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2021/06/Birds-chirping-sound.mp3" type="audio/mp3">
   متصفحك لا يدعم الصوت.
 </audio>
 
 <script>
-const pigeonBtn = document.getElementById('pigeon-sound-btn');
-const pigeonAudio = document.getElementById('pigeon-sound');
+const birdBtn = document.getElementById('bird-sound-btn');
+const birdAudio = document.getElementById('bird-sound');
 
-pigeonBtn.addEventListener('click', () => {
-  if(pigeonAudio.paused){
-    pigeonAudio.play().catch(err => {
-      console.log("اضغط على الأيقونة لتشغيل الصوت.");
-    });
-    pigeonBtn.textContent = "🔊";
+birdBtn.addEventListener('click', () => {
+  if (birdAudio.paused) {
+    birdAudio.play();
+    birdBtn.textContent = "🔊";
+    birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
+    birdBtn.style.transform = "scale(1.1)";
   } else {
-    pigeonAudio.pause();
-    pigeonBtn.textContent = "🕊️";
+    birdAudio.pause();
+    birdBtn.textContent = "🐦";
+    birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
+    birdBtn.style.transform = "scale(1)";
   }
 });
 </script>
