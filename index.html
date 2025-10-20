@@ -304,32 +304,18 @@ body, html {
 </head>
 <body>
 
-<!-- زر فتح اللعبة (أيقونة) يسار الصفحة منخفض سطرين -->
-<button id="pongButton" style="position:fixed;top:35%;left:10px;transform:translateY(-50%);padding:10px 20px;font-size:18px;cursor:pointer;z-index:10000;">
-  🏓 Play Bong Bong
-</button>
+<!-- 🏓 زر بونج بونج -->
+<button id="pongButton" 
+style="position:fixed;top:50%;left:10px;transform:translateY(-50%);padding:12px 18px;font-size:15px;background:rgba(255,255,255,0.15);border:2px solid #fff;color:#fff;border-radius:12px;cursor:pointer;z-index:1000;backdrop-filter:blur(6px);">play bong bong🏓 بونج بونج</button>
 
-<!-- نافذة اللعبة في الوسط -->
+<!-- نافذة اللعبة -->
 <div id="pongContainer" 
 style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:800px;aspect-ratio:16/10;z-index:9999;border:2px solid white;border-radius:10px;box-shadow:0 0 25px rgba(0,255,255,0.4);overflow:hidden;background:rgba(0,255,0,0.05);">
 
-  <!-- زر الإغلاق -->
   <button id="closeBtn" style="position:absolute;top:8px;right:8px;background:rgba(255,0,0,0.8);color:white;border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:bold;z-index:10001;">✖</button>
 
-  <!-- خلفية الفيديو -->
-  <iframe id="bgVideo" src="https://www.youtube.com/embed/sjVNap2Jo5k?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=sjVNap2Jo5k"
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
-          style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;">
-  </iframe>
-
-  <!-- أزرار تشغيل الفيديو والصوت أعلى إطار الملعب -->
-  <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10002;">
-    <button id="playVideoBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#00BFFF;color:white;cursor:pointer;font-size:16px;">▶ تشغيل الفيديو</button>
-    <button id="muteVideoBtn" style="padding:8px 14px;border:none;border-radius:8px;background:#FFD700;color:black;cursor:pointer;font-size:16px;">🔊 كتم/تشغيل الصوت</button>
-  </div>
-
-  <!-- قائمة خيارات اللعبة -->
-  <div id="menu" style="position:absolute;top:60px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;background:rgba(255,255,255,0.15);padding:15px;border-radius:12px;color:#fff;z-index:10000;text-align:center;font-family:'Tajawal',sans-serif;">
+  <!-- قائمة الخيارات -->
+  <div id="menu" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;background:rgba(255,255,255,0.15);padding:15px;border-radius:12px;color:#fff;z-index:10000;text-align:center;font-family:'Tajawal',sans-serif;">
     <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
     <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
     <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
@@ -343,26 +329,22 @@ style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50
     </label>
     <div style="margin-top:8px;">
       <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
+      
+  🎮on line ضد لاعب</button>
       <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
     </div>
   </div>
 
-  <!-- اللوحة -->
-  <canvas id="pong" style="width:100%;height:100%;display:block;position:relative;z-index:1;"></canvas>
+  <canvas id="pong" style="width:100%;height:100%;display:block;"></canvas>
 </div>
 
 <script>
-// عناصر اللعبة
 const pongButton = document.getElementById('pongButton');
 const pongContainer = document.getElementById('pongContainer');
 const closeBtn = document.getElementById('closeBtn');
 const canvas = document.getElementById('pong');
 const ctx = canvas.getContext('2d');
 const menu = document.getElementById('menu');
-
-const bgVideo = document.getElementById('bgVideo');
-const playVideoBtn = document.getElementById('playVideoBtn');
-const muteVideoBtn = document.getElementById('muteVideoBtn');
 
 let paddleWidth=15, paddleHeight=100;
 let player1, player2, ball;
@@ -429,7 +411,12 @@ function updateBall(){
 // رسم اللعبة
 function drawGame(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = 'rgba(0,255,0,0.05)';
+
+  // خلفية أرضية عشبية شفافة
+  let grass = ctx.createLinearGradient(0,0,0,canvas.height);
+  grass.addColorStop(0,'rgba(0,255,0,0.05)');
+  grass.addColorStop(1,'rgba(0,128,0,0.05)');
+  ctx.fillStyle = grass;
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   ctx.fillStyle = player1.color; ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
@@ -482,13 +469,12 @@ canvas.addEventListener('touchmove', e=>{
   player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
 },{passive:false});
 
-// فتح اللعبة مع تشغيل الفيديو تلقائياً
+// فتح اللعبة مع إعادة تهيئة كاملة
 pongButton.addEventListener('click', ()=>{
   initGame();
   menu.style.display='flex';
   pongContainer.style.display='block';
   document.body.style.overflow='hidden';
-  bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 });
 
 // إغلاق اللعبة
@@ -497,23 +483,6 @@ closeBtn.addEventListener('click', ()=>{
   document.body.style.overflow='auto';
   cancelAnimationFrame(animFrame);
 });
-
-// أزرار التحكم بالفيديو والصوت
-let isMuted = true;
-
-playVideoBtn.addEventListener('click', ()=>{
-  bgVideo.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-});
-
-muteVideoBtn.addEventListener('click', ()=>{
-  isMuted = !isMuted;
-  if(isMuted){
-    bgVideo.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-  } else {
-    bgVideo.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-  }
-});
-
 </script>
 
 
