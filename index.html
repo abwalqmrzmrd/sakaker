@@ -3219,50 +3219,6 @@ function openFunnyModal(id){
     transition: all 0.3s ease;
   ">♟️</div>
 
-  <!-- أيقونة صوت الديك والدجاج -->
-  <div id="chicken-sound-btn" title="تشغيل/إيقاف صوت الديك والدجاج" style="
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg,#ff8c00,#ffcc00);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 36px;
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255,204,0,0.8);
-    transition: all 0.3s ease;
-  ">🐓</div>
-
-</div>
-
-<!-- صوت الديك والدجاج -->
-<audio id="chicken-sound" loop>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2022/03/Rooster-crow-and-chicken-sounds.mp3" type="audio/mp3">
-  متصفحك لا يدعم الصوت.
-</audio>
-
-<script>
-const chickenBtn = document.getElementById('chicken-sound-btn');
-const chickenAudio = document.getElementById('chicken-sound');
-
-chickenBtn.addEventListener('click', () => {
-  if(chickenAudio.paused) {
-    chickenAudio.play();
-    chickenBtn.textContent = "🔊"; // أيقونة عند التشغيل
-  } else {
-    chickenAudio.pause();
-    chickenBtn.textContent = "🐓"; // أيقونة عند الإيقاف
-  }
-});
-
-// مثال على عمل أيقونة الشطرنج (يمكن إضافة وظيفتها لاحقًا)
-const chessIcon = document.getElementById('chess-icon');
-chessIcon.addEventListener('click', () => {
-  alert("تم الضغط على أيقونة الشطرنج!");
-});
-</script>
 
 <!-- أيقونة مكتبة الفيديو والفكاهة -->
 <div class="library-col">
@@ -4632,53 +4588,6 @@ jokeIcon.addEventListener('click', () => {
 });
 </script>
 
-  <!-- 💖 الدعم -->
-  <p style="color:#00ffff; font-size:18px;">لدعم:</p>
-  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
-    اضغط هنا للدعم عبر PayPal
-  </a>
-
-  <!-- 📧 البريد -->
-  <p style="margin-top:12px; color:#00ffcc;">📧 البريد:
-    <a href="mailto:sakakera@gmail.com" style="color:#fff; text-decoration:none;">sakakera@gmail.com</a>
-  </p>
-
-  <!-- 🌐 تابعنا -->
-  <p style="margin-top:15px; color:#00ffff;">🌐 تابعنا على فيسبوك:</p>
-  <a href="https://www.facebook.com/SakakerGame" target="_blank" style="color:#FFD700; text-decoration:none; font-size:16px;">
-
-  </a>
-
-  <p data-i18n="follow">⭐ تابعنا على 
-    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
-    <!-- واتساب -->
-    <a href="https://wa.me/?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
-       target="_blank" title="شارك عبر واتساب"
-       style="font-size:26px; text-decoration:none;">🟩</a>
-
-    <!-- تويتر -->
-    <a href="https://twitter.com/intent/tweet?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
-       target="_blank" title="شارك عبر تويتر"
-       style="font-size:26px; text-decoration:none;">🩵</a>
-
-  </p>
-</div>
-<script>
-const jokeIcon = document.getElementById('jokeVideoIcon');
-const jokeContainer = document.getElementById('jokeVideoContainer');
-
-jokeIcon.addEventListener('click', () => {
-    if(jokeContainer.style.display === 'none') {
-        jokeContainer.style.display = 'block';
-    } else {
-        jokeContainer.style.display = 'none';
-        // لإيقاف الفيديو عند الإغلاق، نعيد src لإعادة التحميل
-        const iframe = jokeContainer.querySelector('iframe');
-        iframe.src = iframe.src;
-    }
-});
-</script>
-
 <!-- 🌐 شريط النصوص المتحرك السفلي -->
 <div id="dynamic-text-bar">
   <span id="scrollingText"></span>
@@ -5124,7 +5033,7 @@ document.querySelectorAll('.video-icon').forEach(icon => {
   /* الأيقونة الرئيسية */
   #my-life-icon {
     position:fixed; 
-    top:160px;  /* نزول عن أعلى الصفحة تقريباً 10 أسطر */
+    top:480px;  /* نزول عن أعلى الصفحة تقريباً 10 أسطر */
     left:10px;  /* يسار الصفحة */
     z-index:9999; 
     text-align:center;
@@ -5451,3 +5360,128 @@ setInterval(changeQuote, 6000);
 
 </body>
 </html>
+<!-- أيقونة فتح/إغلاق الدعم -->
+<div id="support-toggle-btn" style="
+  position: fixed;
+  top: 55%; /* فوق المنتصف بقليل */
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg,#ff69b4,#ff1493);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,20,147,0.8);
+  z-index: 1001;
+  transition: transform 0.3s ease;
+">💖</div>
+
+<!-- قسم الدعم والمتابعة -->
+<div id="support-section" style="
+  position: fixed;
+  top: 42%; /* فوق المنتصف بقليل بالنسبة للقسم */
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  padding: 15px;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Tajawal', sans-serif;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  max-width: 250px;
+">
+
+  <!-- 💖 الدعم -->
+  <p style="color:#00ffff; font-size:18px;">لدعم:</p>
+  <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; font-size:17px; text-decoration:none;">
+    اضغط هنا للدعم عبر PayPal
+  </a>
+
+  <!-- 📧 البريد -->
+  <p style="margin-top:12px; color:#00ffcc;">📧 البريد:
+    <a href="mailto:sakakera@gmail.com" style="color:#fff; text-decoration:none;">sakakera@gmail.com</a>
+  </p>
+
+  <!-- 🌐 تابعنا -->
+  <p style="margin-top:15px; color:#00ffff;">🌐 تابعنا على فيسبوك:</p>
+  <a href="https://www.facebook.com/SakakerGame" target="_blank" style="color:#FFD700; text-decoration:none; font-size:16px;">
+    Sakaker Game
+  </a>
+
+  <p data-i18n="follow">⭐ تابعنا على 
+    <a href="https://www.facebook.com/AbwAlqmrZmrd/" target="_blank" style="color:#fff; text-decoration:underline;">فيسبوك</a>
+    <!-- واتساب -->
+    <a href="https://wa.me/?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
+       target="_blank" title="شارك عبر واتساب"
+       style="font-size:26px; text-decoration:none;">🟩</a>
+
+    <!-- تويتر -->
+    <a href="https://twitter.com/intent/tweet?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/"
+       target="_blank" title="شارك عبر تويتر"
+       style="font-size:26px; text-decoration:none;">🩵</a>
+  </p>
+</div>
+
+<script>
+// اختيار العناصر
+const supportBtn = document.getElementById('support-toggle-btn');
+const supportSection = document.getElementById('support-section');
+
+// وظيفة فتح/إغلاق القسم مع تأثير Fade
+supportBtn.addEventListener('click', () => {
+  if(supportSection.style.display === 'none' || supportSection.style.display === '') {
+    supportSection.style.display = 'block';
+    setTimeout(()=>{ supportSection.style.opacity = 1; }, 10);
+  } else {
+    supportSection.style.opacity = 0;
+    setTimeout(()=>{ supportSection.style.display = 'none'; }, 300);
+  }
+});
+</script>
+<!-- أيقونة صوت الحمام -->
+<div id="pigeon-sound-btn" title="تشغيل/إيقاف صوت الحمام" style="
+  position: fixed;
+  top: calc(200px - 80px - 80px); /* رفع 5 أسطر إضافية */
+  right: 20px; 
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg,#a0e0ff,#70c0ff);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(112,192,255,0.8);
+  z-index: 1001;
+">🕊️</div>
+
+<!-- صوت الحمام -->
+<audio id="pigeon-sound" loop>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2021/02/Pigeon-coo-sound.mp3" type="audio/mp3">
+  متصفحك لا يدعم الصوت.
+</audio>
+
+<script>
+const pigeonBtn = document.getElementById('pigeon-sound-btn');
+const pigeonAudio = document.getElementById('pigeon-sound');
+
+pigeonBtn.addEventListener('click', () => {
+  if(pigeonAudio.paused){
+    pigeonAudio.play().catch(err => {
+      console.log("اضغط على الأيقونة لتشغيل الصوت.");
+    });
+    pigeonBtn.textContent = "🔊";
+  } else {
+    pigeonAudio.pause();
+    pigeonBtn.textContent = "🕊️";
+  }
+});
+</script>
