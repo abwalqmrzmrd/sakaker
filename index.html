@@ -5696,10 +5696,8 @@ body {
 <!-- 📖 محتوى الكتاب -->
 <div class="book" id="book">
   <div class="page-left">
-    <iframe id="videoFrame" 
-      src="https://www.youtube.com/embed/hFX_mSTXwAg?autoplay=1&mute=1&loop=1&playlist=hFX_mSTXwAg&vq=hd1080"
-      title="معزوفة أبو القمر زمرد" allow="autoplay; encrypted-media" allowfullscreen>
-    </iframe>
+    <iframe id="videoFrame" src="https://www.youtube.com/embed/hFX_mSTXwAg?autoplay=1&mute=0&loop=1&playlist=hFX_mSTXwAg&vq=hd1080"
+    title="معزوفة أبو القمر زمرد" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ ملء الشاشة</button>
   </div>
 
@@ -5771,3 +5769,90 @@ icon.addEventListener("click", () => {
 
 </body>
 </html>
+<!-- 🌍 أيقونة تعلم الإنجليزية -->
+<div id="learnEnglishIcon" style="
+  position: fixed;
+  bottom: 100px;
+  left: 200px; /* 🔹 تحريك الأيقونة أكثر لليمين */
+  z-index: 1000;
+  text-align: center;
+">
+  <div onclick="toggleEnglishVideo()" style="
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00ffcc, #007777);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #00ffcc;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  ">
+    <span style="font-size: 28px;">📘</span>
+  </div>
+  <span style="
+    margin-top: 8px;
+    color: #00ffcc;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 8px #00ffcc;
+    display: block;
+  ">تعلم الإنجليزية<br>Learn English</span>
+</div>
+
+<!-- 📺 نافذة الفيديو المنبثقة -->
+<div id="englishVideoBox" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 3px solid #00ffcc;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 30px #00ffee;
+  z-index: 2000;
+">
+  <div style="text-align: right;">
+    <button onclick="toggleEnglishVideo()" style="
+      background: #00ffcc;
+      border: none;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    ">✖ إغلاق</button>
+  </div>
+  
+  <!-- ✅ تضمين مشاركة فيسبوك -->
+  <iframe 
+    src="https://www.facebook.com/share/r/16tiDdryJA/"
+    frameborder="0"
+    allowfullscreen
+    style="width: 100%; height: 350px; border-radius: 15px; margin-top: 10px;">
+  </iframe>
+</div>
+
+<script>
+  // ✨ تأثير الإضاءة عند المرور على الأيقونة
+  const learnIcon = document.querySelector('#learnEnglishIcon div');
+  learnIcon.addEventListener('mouseenter', () => {
+    learnIcon.style.transform = 'scale(1.1)';
+    learnIcon.style.boxShadow = '0 0 30px #00ffee';
+  });
+  learnIcon.addEventListener('mouseleave', () => {
+    learnIcon.style.transform = 'scale(1)';
+    learnIcon.style.boxShadow = '0 0 20px #00ffcc';
+  });
+
+  // 📺 فتح / إغلاق نافذة الفيديو
+  function toggleEnglishVideo() {
+    const box = document.getElementById('englishVideoBox');
+    box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+  }
+</script>
