@@ -1,5 +1,5 @@
-<!-- 🌸 أيقونة وردة الجزائرية مع الفيديو -->
-<div id="flowerAlgeriaBtn" title="وردة الجزائرية 🌸">
+<!-- 🌸  -->
+<div id="flowerAlgeriaBtn" title="came bake 🌸">
   <span class="flowerText">وردة الجزائرية</span>
 </div>
 
@@ -5603,12 +5603,99 @@ body {
 </style>
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معزوفة أبو القمر زمرد</title>
+<style>
+body {
+  background: radial-gradient(circle at center, #0a0a0a, #111);
+  color: #eee;
+  font-family: 'Cairo', sans-serif;
+}
 
-<div class="title">🎵 معزوفة أبو القمر زمرد 🎵</div>
+/* 🎵 تصميم الكتاب */
+.book {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 400px;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid #00ffee;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  display: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  box-shadow: 0 0 25px rgba(0,255,255,0.4);
+  backdrop-filter: blur(10px);
+  z-index: 9998;
+}
 
+.page-left, .page-right {
+  width: 50%;
+  float: right;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.page-left iframe {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+}
+
+.fullscreen-btn {
+  margin-top: 10px;
+  background: #00bfff;
+  border: none;
+  padding: 8px 14px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.fullscreen-btn:hover {
+  background: #0099cc;
+}
+
+/* 🌹 الأيقونة الزرقاء */
+#zamrudIcon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: radial-gradient(circle, #007bff, #003366);
+  color: white;
+  border-radius: 50px;
+  padding: 12px 22px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(0, 128, 255, 0.9);
+  cursor: pointer;
+  z-index: 9999;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+#zamrudIcon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0, 200, 255, 1);
+}
+</style>
+</head>
+<body>
+
+<!-- 🌹 أيقونة الزاوية العليا -->
+<div id="zamrudIcon">
+  أبوالقمر زمرد<br><span style="font-size: 12px;">abwalqmrzmrd</span>
+</div>
+
+<!-- 📖 محتوى الكتاب -->
 <div class="book" id="book">
   <div class="page-left">
-    <!-- الفيديو -->
     <iframe id="videoFrame" src="https://www.youtube.com/embed/hFX_mSTXwAg?autoplay=1&mute=0&loop=1&playlist=hFX_mSTXwAg&vq=hd1080"
     title="معزوفة أبو القمر زمرد" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ ملء الشاشة</button>
@@ -5624,7 +5711,7 @@ body {
     ومن هناك، وُلد لحنٌ لم يسمع به بشر من قبل — لحن الزمرد القمري.
     </p>
 
-    <p style="direction:ltr; font-size:10px; color:#555;">
+    <p style="direction:ltr; font-size:10px; color:#bbb;">
     When Abu Al-Qamar Zamrud began playing on the ancient instruments during his quiet hours,  
     his imagination drifted into the depths of the oceans — where there were no stars and no air.  
     He held his breath and listened to the whispers of the sea,  
@@ -5636,7 +5723,7 @@ body {
 </div>
 
 <script>
-// 🔹 كود السحب والتحريك
+// 🔹 كود السحب والتحريك للكتاب
 const book = document.getElementById("book");
 let isDragging = false, offsetX, offsetY;
 
@@ -5660,15 +5747,24 @@ document.addEventListener("mousemove", (e) => {
   book.style.right = "auto";
 });
 
-// ⛶ وظيفة ملء الشاشة للفيديو
+// ⛶ ملء الشاشة
 function toggleFullScreen() {
   const iframe = document.getElementById("videoFrame");
-  if (!document.fullscreenElement) {
-    iframe.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
+  if (!document.fullscreenElement) iframe.requestFullscreen();
+  else document.exitFullscreen();
 }
+
+// 🎵 عند الضغط على الأيقونة تظهر أو تختفي النافذة
+const icon = document.getElementById("zamrudIcon");
+icon.addEventListener("click", () => {
+  if (book.style.display === "none" || book.style.display === "") {
+    book.style.display = "block";
+    setTimeout(() => book.style.opacity = "1", 50);
+  } else {
+    book.style.opacity = "0";
+    setTimeout(() => book.style.display = "none", 600);
+  }
+});
 </script>
 
 </body>
