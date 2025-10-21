@@ -5494,3 +5494,167 @@ birdBtn.addEventListener('click', () => {
   }
 });
 </script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معزوفة أبو القمر زمرد</title>
+<style>
+body {
+  background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
+  color: #eee;
+  font-family: 'Scheherazade', serif;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* الدفتر القابل للسحب */
+.book {
+  width: 300px;   /* كبر الحجم قليلاً */
+  height: 180px;
+  background: #fefcf8;
+  position: fixed;
+  bottom: 360px;
+  right: 50px;
+  display: flex;
+  box-shadow: 0 0 25px rgba(0, 255, 150, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+  z-index: 1000;
+}
+
+/* الصفحة اليمنى (القصة) */
+.page-right {
+  flex: 1;
+  background: #faf5e4;
+  padding: 10px;
+  text-align: right;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #333;
+  direction: rtl;
+  border-left: 2px solid #d9c7a1;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.08);
+  overflow-y: auto;
+}
+
+/* الصفحة اليسرى (الفيديو) */
+.page-left {
+  flex: 1;
+  background: #000;
+  border-right: 2px solid #d9c7a1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.08);
+}
+
+.page-left iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+/* زر ملء الشاشة */
+.fullscreen-btn {
+  margin-top: 4px;
+  background-color: rgba(0,255,180,0.8);
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px;
+  box-shadow: 0 0 8px rgba(0,255,180,0.8);
+}
+
+/* عنوان المعزوفة */
+.title {
+  position: fixed;
+  bottom: 550px;
+  right: 120px;
+  font-size: 16px;
+  color: #00ffaa;
+  text-shadow: 0 0 10px #00ffaa;
+  font-family: "Amiri", serif;
+  z-index: 1001;
+}
+</style>
+</head>
+<body>
+
+<div class="title">🎵 معزوفة أبو القمر زمرد 🎵</div>
+
+<div class="book" id="book">
+  <div class="page-left">
+    <!-- الفيديو -->
+    <iframe id="videoFrame" src="https://www.youtube.com/embed/hFX_mSTXwAg?autoplay=1&mute=0&loop=1&playlist=hFX_mSTXwAg&vq=hd1080"
+    title="معزوفة أبو القمر زمرد" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ ملء الشاشة</button>
+  </div>
+
+  <div class="page-right">
+    <p>
+    عندما بدأ أبو القمر زمرد في أوقات فراغه بالعزف على الته القديمة،  
+    حمله خياله إلى أعماق المحيطات، حيث لا نجوم ولا هواء،  
+    هناك أمسك أنفاسه وأغمض عينيه، فسمع همس البحر يتحدث إليه،  
+    يخبره أن الموسيقى يمكن أن تفتح أبواب العوالم المخفية،  
+    وأن النغمة التي تخرج من قلب صادق قادرة على تحريك المد والجزر.  
+    ومن هناك، وُلد لحنٌ لم يسمع به بشر من قبل — لحن الزمرد القمري.
+    </p>
+
+    <p style="direction:ltr; font-size:10px; color:#555;">
+    When Abu Al-Qamar Zamrud began playing on the ancient instruments during his quiet hours,  
+    his imagination drifted into the depths of the oceans — where there were no stars and no air.  
+    He held his breath and listened to the whispers of the sea,  
+    telling him that true melodies could open hidden worlds,  
+    and that a sound born from a pure heart could move the tides.  
+    From that silence emerged a melody unknown to humankind — the Emerald Moon Symphony.
+    </p>
+  </div>
+</div>
+
+<script>
+// 🔹 كود السحب والتحريك
+const book = document.getElementById("book");
+let isDragging = false, offsetX, offsetY;
+
+book.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - book.offsetLeft;
+  offsetY = e.clientY - book.offsetTop;
+  book.style.cursor = "grabbing";
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+  book.style.cursor = "grab";
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  book.style.left = e.clientX - offsetX + "px";
+  book.style.top = e.clientY - offsetY + "px";
+  book.style.bottom = "auto";
+  book.style.right = "auto";
+});
+
+// ⛶ وظيفة ملء الشاشة للفيديو
+function toggleFullScreen() {
+  const iframe = document.getElementById("videoFrame");
+  if (!document.fullscreenElement) {
+    iframe.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+</script>
+
+</body>
+</html>
