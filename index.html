@@ -5985,3 +5985,88 @@ function toggleFullScreen() {
     }
   }
 </script>
+<!-- 🎓 أيقونة Study and Work with SATC -->
+<div id="studySatcIcon" style="
+  position: fixed;
+  top: 50px;
+  left: 30%; /* بين منتصف الصفحة واليسار */
+  z-index: 1000;
+  text-align: center;
+">
+  <div id="satcBtn" style="
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff66cc, #a60073);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #ff66cc;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  ">
+    <span style="font-size: 28px;">🎓</span>
+  </div>
+  <span style="
+    margin-top: 8px;
+    color: #ff66cc;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 8px #ff66cc;
+    display: block;
+  ">Study and Work<br>with SATC</span>
+</div>
+
+<!-- 📺 نافذة فيديو SATC -->
+<div id="satcVideoBox" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  background: rgba(0,0,0,0.9);
+  border: 3px solid #ff66cc;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 30px #ff66cc;
+  z-index: 2000;
+  text-align: center;
+">
+  <div style="text-align: right;">
+    <button id="satcCloseBtn" style="
+      background: #ff66cc;
+      border: none;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    ">✖ إغلاق</button>
+  </div>
+  <iframe id="satcVideo" width="100%" height="350" src="" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 15px; margin-top: 10px;"></iframe>
+</div>
+
+<script>
+  const satcBtn = document.getElementById('satcBtn');
+  const satcBox = document.getElementById('satcVideoBox');
+  const satcVideo = document.getElementById('satcVideo');
+  const satcClose = document.getElementById('satcCloseBtn');
+
+  // تأثير التوهج
+  satcBtn.addEventListener('mouseenter', () => { satcBtn.style.transform = 'scale(1.1)'; satcBtn.style.boxShadow = '0 0 30px #ff66cc'; });
+  satcBtn.addEventListener('mouseleave', () => { satcBtn.style.transform = 'scale(1)'; satcBtn.style.boxShadow = '0 0 20px #ff66cc'; });
+
+  // فتح الفيديو عند الضغط
+  satcBtn.addEventListener('click', () => {
+    satcVideo.src = "https://www.youtube.com/embed/uEWJkk6X8fg?si=PW2Dh_O9fE9bzCxF&mute=1";
+    satcBox.style.display = 'block';
+  });
+
+  // إغلاق الفيديو وإيقافه
+  satcClose.addEventListener('click', () => {
+    satcVideo.src = "";
+    satcBox.style.display = 'none';
+  });
+</script>
