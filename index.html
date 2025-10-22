@@ -5888,3 +5888,100 @@ function toggleFullScreen() {
     }
   }
 </script>
+<!-- 🎵 أيقونة تعلم العزف على العود -->
+<div id="learnOudIcon" style="
+  position: fixed;
+  bottom: 100px;
+  left: 70%; /* تقريبًا بين منتصف الصفحة واليمين */
+  z-index: 1000;
+  text-align: center;
+">
+  <div onclick="toggleOudVideo()" style="
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffcc00, #a67800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #ffcc00;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  ">
+    <span style="font-size: 28px;">🎵</span>
+  </div>
+  <span style="
+    margin-top: 8px;
+    color: #ffcc00;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 8px #ffcc00;
+    display: block;
+  ">تعلم العزف على العود<br>Learn Oud Playing</span>
+</div>
+
+<!-- 📺 نافذة فيديو العود -->
+<div id="oudVideoBox" style="
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 3px solid #ffcc00;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 30px #ffcc00;
+  z-index: 2000;
+  text-align: center;
+">
+  <div style="text-align: right;">
+    <button onclick="toggleOudVideo()" style="
+      background: #ffcc00;
+      border: none;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    ">✖ إغلاق</button>
+  </div>
+  <iframe 
+    id="oudVideo"
+    width="100%"
+    height="350"
+    src=""
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+    style="border-radius: 15px; margin-top: 10px;">
+  </iframe>
+</div>
+
+<script>
+  const oudIcon = document.querySelector('#learnOudIcon div');
+  oudIcon.addEventListener('mouseenter', () => {
+    oudIcon.style.transform = 'scale(1.1)';
+    oudIcon.style.boxShadow = '0 0 30px #ffcc00';
+  });
+  oudIcon.addEventListener('mouseleave', () => {
+    oudIcon.style.transform = 'scale(1)';
+    oudIcon.style.boxShadow = '0 0 20px #ffcc00';
+  });
+
+  function toggleOudVideo() {
+    const box = document.getElementById('oudVideoBox');
+    const video = document.getElementById('oudVideo');
+    if (box.style.display === 'none' || box.style.display === '') {
+      box.style.display = 'block';
+      video.src = "https://www.youtube.com/embed/v5zol69e02o?si=SE4tX2T8BL38trob&mute=1";
+    } else {
+      video.src = "";
+      box.style.display = 'none';
+    }
+  }
+</script>
