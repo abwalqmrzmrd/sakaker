@@ -2496,13 +2496,6 @@ body {
 }
 </style>
 
-<!-- Language toggle -->
-<div id="langToggle">
-  <button id="btnAR" class="lang-btn">AR</button>
-  <button id="btnEN" class="lang-btn">EN</button>
-</div>
-
-
 <!-- Sections -->
 <div id="culture" class="section" style="display:none;">
 <button class="close-btn" onclick="closeSection(this)">❌ <span data-i18n="close">إغلاق</span></button>
@@ -4279,8 +4272,8 @@ async function initChatConnection(){
 <!-- Footer -->
 <div id="footer" style="
     position: fixed;       /* ليبقى ثابت عند التمرير */
-    bottom: 30;             /* أسفل الشاشة */
-    left: 0;               /* على اليسار */
+    bottom: 270             /* أسفل الشاشة */
+    left:20;               /* على اليسار */
    ية شبه شف */افة
     color: #fff; 
     padding: 10px 20px; 
@@ -5328,195 +5321,13 @@ body {
 </style>
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎵 أيقونة أبو القمر زمرد 🎵</title>
-<style>
-body {
-  background: linear-gradient(135deg, #0b0b0b, #1e1e1e);
-  color: #eee;
-  font-family: 'Cairo', sans-serif;
-  overflow-x: hidden;
-}
-
-/* 🔹 الأيقونة */
-#zamrudIcon {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle at center, #007bff, #002b80);
-  border-radius: 50%;
-  box-shadow: 0 0 25px #00bfffaa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  z-index: 9999;
-}
-#zamrudIcon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 35px #00d0ff;
-}
-#zamrudIcon span {
-  color: white;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-/* 🔹 نافذة الفيديو والقصة */
-#book {
-  position: fixed;
-  top: 70px;
-  right: 50%;
-  transform: translateX(50%);
-  width: 680px;
-  max-width: 95%;
-  background: rgba(15, 15, 15, 0.96);
-  border: 2px solid #00bfff66;
-  border-radius: 20px;
-  box-shadow: 0 0 25px #00bfff66;
-  padding: 20px;
-  display: none;
-  z-index: 9998;
-}
-
-.title {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #00bfff;
-  margin-bottom: 10px;
-}
-
-.page-left, .page-right {
-  padding: 10px;
-}
-
-iframe {
-  width: 100%;
-  height: 320px;
-  border-radius: 15px;
-  border: none;
-}
-
-/* 🔹 زر ملء الشاشة */
-.fullscreen-btn {
-  display: block;
-  margin: 10px auto;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 15px;
-  cursor: pointer;
-}
-.fullscreen-btn:hover {
-  background: #00bfff;
-}
-
-/* 🔹 زر الإغلاق */
-.close-btn {
-  display: block;
-  margin: 15px auto 0;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 8px 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.close-btn:hover {
-  background: #00bfff;
-}
-</style>
-</head>
-<body>
-
-<!-- 🌸 أيقونة الفتح -->
-<div id="zamrudIcon">
-  <span>ابوالقمر<br>زمرد<br>abwalqmrzmrd</span>
-</div>
-
-<!-- 📖 نافذة الفيديو + القصة -->
-<div class="book" id="book">
-  <div class="title">🎵 معزوفة أبو القمر زمرد 🎵</div>
-
-  <div class="page-left">
-    <!-- 🎬 الفيديو -->
-    <iframe id="videoFrame" 
-      src="https://www.youtube.com/embed/hFX_mSTXwAg?autoplay=0&mute=1&loop=1&playlist=hFX_mSTXwAg&vq=hd1080"
-      title="معزوفة أبو القمر زمرد"
-      allow="autoplay; encrypted-media"
-      allowfullscreen></iframe>
-    <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ ملء الشاشة</button>
-  </div>
-
-  <div class="page-right">
-    <p>
-    عندما بدأ أبو القمر زمرد في أوقات فراغه بالعزف على الته القديمة،  
-    حمله خياله إلى أعماق المحيطات، حيث لا نجوم ولا هواء،  
-    هناك أمسك أنفاسه وأغمض عينيه، فسمع همس البحر يتحدث إليه،  
-    يخبره أن الموسيقى يمكن أن تفتح أبواب العوالم المخفية،  
-    وأن النغمة التي تخرج من قلب صادق قادرة على تحريك المد والجزر.  
-    ومن هناك، وُلد لحنٌ لم يسمع به بشر من قبل — لحن الزمرد القمري.
-    </p>
-
-    <p style="direction:ltr; font-size:10px; color:#aaa;">
-    When Abu Al-Qamar Zamrud began playing on the ancient instruments during his quiet hours,  
-    his imagination drifted into the depths of the oceans — where there were no stars and no air.  
-    He held his breath and listened to the whispers of the sea,  
-    telling him that true melodies could open hidden worlds,  
-    and that a sound born from a pure heart could move the tides.  
-    From that silence emerged a melody unknown to humankind — the Emerald Moon Symphony.
-    </p>
-  </div>
-
-  <button class="close-btn" onclick="closeBook()">✖ إغلاق</button>
-</div>
-
-<script>
-// 🔹 فتح القصة والفيديو
-document.getElementById("zamrudIcon").addEventListener("click", () => {
-  const book = document.getElementById("book");
-  book.style.display = "block";
-});
-
-// 🔹 إغلاق القصة
-function closeBook() {
-  const book = document.getElementById("book");
-  book.style.display = "none";
-
-  // لإيقاف الفيديو عند الإغلاق
-  const iframe = document.getElementById("videoFrame");
-  iframe.src = iframe.src;
-}
-
-// 🔹 ملء الشاشة للفيديو
-function toggleFullScreen() {
-  const iframe = document.getElementById("videoFrame");
-  if (!document.fullscreenElement) {
-    iframe.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-}
-</script>
-
 </body>
 </html>
 <!-- 🌍 أيقونة تعلم الإنجليزية -->
 <div id="learnEnglishIcon" style="
-  position: fixed;
-  bottom: 100px;
-  left: 220px; /* تحريك الأيقونة أكثر لليمين */
+  position: fixed; 
+  bottom:360px;
+  left: 90px; /* تحريك الأيقونة أكثر لليمين */
   z-index: 1000;
   text-align: center;
 ">
@@ -5615,9 +5426,9 @@ function toggleFullScreen() {
 </script>
 <!-- 🎵 أيقونة تعلم العزف على العود -->
 <div id="learnOudIcon" style="
-  position: fixed;
-  bottom: 100px;
-  left: 70%; /* تقريبًا بين منتصف الصفحة واليمين */
+  position: fixed; 
+  bottom:360px;
+  left: 30%; /* تقريبًا بين منتصف الصفحة واليمين */
   z-index: 1000;
   text-align: center;
 ">
@@ -5649,7 +5460,7 @@ function toggleFullScreen() {
 <div id="oudVideoBox" style="
   display: none;
   position: fixed;
-  top: 50%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
@@ -5800,8 +5611,8 @@ function toggleFullScreen() {
   /* الحاوية الكاملة في أسفل اليمين */
   #scrollContainer {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 210px;
+    right: 60px;
     z-index: 9999;
     width: 420px;
     max-width: 65vw;
@@ -5838,7 +5649,7 @@ function toggleFullScreen() {
     left: 12px;
     padding: 6px 12px;
     border-radius: 16px;
-    background: rgba(255,255,255,0.06);
+    background: 
     
     border: 1px solid rgba(0,255,255,0.18);
     font-size: 15px;
@@ -6097,121 +5908,7 @@ function toggleFullScreen() {
 بِحَومانَةِ الدُرّاجِ فَالمُتَثَلَّمِ
 وَدارٌ لَها بِالرَقمَتَينِ كَأَنَّها
 مَراجِعُ وَشمٍ في نَواشِرِ مِعصَمِ
-بِها العَينُ وَالأَرآمُ يَمشينَ خِلفَةً
-وَأَطلاؤُها يَنهَضنَ مِن كُلِّ مَجثِمِ
-وَقَفتُ بِها مِن بَعدِ عِشرينَ حِجَّةً
-فَلَأياً عَرَفتُ الدارَ بَعدَ التَوَهُّمِ
-أَثافِيَّ سُفعاً في مُعَرَّسِ مِرجَلٍ
-وَنُؤياً كَجِذمِ الحَوضِ لَم يَتَثَلَّمِ
-فَلَمّا عَرَفتُ الدارَ قُلتُ لِرَبعِها
-أَلا عِم صَباحاً أَيُّها الرَبعُ وَاِسلَمِ
-تَبَصَّر خَليلي هَل تَرى مِن ظَعائِنٍ
-تَحَمَّلنَ بِالعَلياءِ مِن فَوقِ جُرثُمِ
-عَلَونَ بِأَنماطٍ عِتاقٍ وَكِلَّةٍ
-وِرادٍ حَواشيها مُشاكِهَةِ الدَمِ
-وَفيهِنَّ مَلهىً لِلصَديقِ وَمَنظَرٌ
-أَنيقٌ لِعَينِ الناظِرِ المُتَوَسِّمِ
-بَكَرنَ بُكوراً وَاِستَحَرنَ بِسُحرَةٍ
-فَهُنَّ لِوادي الرَسِّ كَاليَدِ لِلفَمِ
-جَعَلنَ القَنانَ عَن يَمينٍ وَحَزنَهُ
-وَمَن بِالقَنانِ مِن مُحِلٍّ وَمُحرِمِ
-ظَهَرنَ مِنَ السوبانِ ثُمَّ جَزَعنَهُ
-عَلى كُلِّ قَينِيٍّ قَشيبٍ مُفَأَّمِ
-كَأَنَّ فُتاتَ العِهنِ في كُلِّ مَنزِلٍ
-نَزَلنَ بِهِ حَبُّ الفَنا لَم يُحَطَّمِ
-فَلَمّا وَرَدنَ الماءَ زُرقاً جِمامُهُ
-وَضَعنَ عِصِيَّ الحاضِرِ المُتَخَيِّمِ
-سَعى ساعِيا غَيظِ بنِ مُرَّةَ بَعدَما
-تَبَزَّلَ ما بَينَ العَشيرَةِ بِالدَمِ
-فَأَقسَمتُ بِالبَيتِ الَّذي طافَ حَولَهُ
-رِجالٌ بَنَوهُ مِن قُرَيشٍ وَجُرهُمِ
-يَميناً لَنِعمَ السَيِّدانِ وُجِدتُما
-عَلى كُلِّ حالٍ مِن سَحيلٍ وَمُبرَمِ
-تَدارَكتُما عَبساً وَذُبيانَ بَعدَما
-تَفانوا وَدَقّوا بَينَهُم عِطرَ مَنشِمِ
-وَقَد قُلتُما إِن نُدرِكِ السِلمَ واسِعاً
-بِمالٍ وَمَعروفٍ مِنَ الأَمرِ نَسلَمِ
-فَأَصبَحتُما مِنها عَلى خَيرِ مَوطِنٍ
-بَعيدَينِ فيها مِن عُقوقٍ وَمَأثَمِ
-عَظيمَينِ في عُليا مَعَدٍّ وَغَيرِها
-وَمَن يَستَبِح كَنزاً مِنَ المَجدِ يَعظُمِ
-فَأَصبَحَ يَجري فيهُمُ مِن تِلادِكُم
-مَغانِمُ شَتّى مِن إِفالِ المُزَنَّمِ
-تُعَفّى الكُلومُ بِالمِئينَ فَأَصبَحَت
-يُنَجِّمُها مَن لَيسَ فيها بِمُجرِمِ
-يُنَجِّمُها قَومٌ لِقَومٍ غَرامَةً
-وَلَم يُهَريقوا بَينَهُم مِلءَ مِحجَمِ
-فَمِن مُبلِغُ الأَحلافِ عَنّي رِسالَةً
-وَذُبيانَ هَل أَقسَمتُمُ كُلَّ مُقسَمِ
-فَلا تَكتُمُنَّ اللَهَ ما في نُفوسِكُم
-لِيَخفى وَمَهما يُكتَمِ اللَهُ يَعلَمِ
-يُؤَخَّر فَيوضَع في كِتابٍ فَيُدَّخَر
-لِيَومِ الحِسابِ أَو يُعَجَّل فَيُنقَمِ
-وَما الحَربُ إِلّا ما عَلِمتُم وَذُقتُمُ
-وَما هُوَ عَنها بِالحَديثِ المُرَجَّمِ
-مَتى تَبعَثوها تَبعَثوها ذَميمَةً
-وَتَضرَ إِذا ضَرَّيتُموها فَتَضرَمِ
-فَتَعرُكُّمُ عَركَ الرَحى بِثِفالِها
-وَتَلقَح كِشافاً ثُمَّ تَحمِل فَتُتئِمِ
-فَتُنتَج لَكُم غِلمانَ أَشأَمَ كُلُّهُم
-كَأَحمَرِ عادٍ ثُمَّ تُرضِع فَتَفطِمِ
-فَتُغلِل لَكُم ما لا تُغِلُّ لِأَهلِها
-قُرىً بِالعِراقِ مِن قَفيزٍ وَدِرهَمِ
-لَعَمري لَنِعمَ الحَيُّ جَرَّ عَلَيهِمُ
-بِما لا يُواتيهِم حُصَينُ بنُ ضَمضَمِ
-وَكانَ طَوى كَشحاً عَلى مُستَكِنَّةٍ
-فَلا هُوَ أَبداها وَلَم يَتَجَمجَمِ
-وَقالَ سَأَقضي حاجَتي ثُمَّ أَتَّقي
-عَدُوّي بِأَلفٍ مِن وَرائِيَ مُلجَمِ
-فَشَدَّ وَلَم تَفزَع بُيوتٌ كَثيرَةٌ
-لَدى حَيثُ أَلقَت رَحلَها أُمُّ قَشعَمِ
-لَدى أَسَدٍ شاكي السِلاحِ مُقَذَّفٍ
-لَهُ لِبَدٌ أَظفارُهُ لَم تُقَلَّمِ
-جَريءٍ مَتى يُظلَم يُعاقِب بِظُلمِهِ
-سَريعاً وَإِلّا يُبدَ بِالظُلمِ يَظلِمِ
-رَعَوا ما رَعَوا مِن ظِمئِهِم ثُمَّ أَورَدوا
-غِماراً تَسيلُ بِالرِماحِ وَبِالدَمِ
-فَقَضَّوا مَنايا بَينَهُم ثُمَّ أَصدَروا
-إِلى كَلَأٍ مُستَوبِلٍ مُتَوَخَّمِ
-لَعَمرُكَ ما جَرَّت عَلَيهِم رِماحُهُم
-دَمَ اِبنِ نَهيكٍ أَو قَتيلِ المُثَلَّمِ
-وَلا شارَكوا في القَومِ في دَمِ نَوفَلٍ
-وَلا وَهَبٍ مِنهُم وَلا اِبنِ المُحَزَّمِ
-فَكُلّاً أَراهُم أَصبَحوا يَعقِلونَهُم
-عُلالَةَ أَلفٍ بَعدَ أَلفٍ مُصَتَّمِ
-تُساقُ إِلى قَومٍ لِقَومٍ غَرامَةً
-صَحيحاتِ مالٍ طالِعاتٍ بِمَخرِمِ
-لِحَيٍّ حِلالٍ يَعصِمُ الناسَ أَمرُهُم
-إِذا طَلَعَت إِحدى اللَيالي بِمُعظَمِ
-كِرامٍ فَلا ذو الوِترِ يُدرِكُ وِترَهُ
-لَدَيهِم وَلا الجاني عَلَيهِم بِمُسلَمِ
-سَئِمتُ تَكاليفَ الحَياةِ وَمَن يَعِش
-ثَمانينَ حَولاً لا أَبا لَكَ يَسأَمِ
-رَأَيتُ المَنايا خَبطَ عَشواءَ مَن تُصِب
-تُمِتهُ وَمَن تُخطِئ يُعَمَّر فَيَهرَمِ
-وَأَعلَمُ عِلمَ اليَومِ وَالأَمسِ قَبلَهُ
-وَلَكِنَّني عَن عِلمِ ما في غَدٍ عَمي
-وَمَن لا يُصانِع في أُمورٍ كَثيرَةٍ
-يُضَرَّس بِأَنيابٍ وَيوطَأ بِمَنسِمِ
-وَمَن يَكُ ذا فَضلٍ فَيَبخَل بِفَضلِهِ
-عَلى قَومِهِ يُستَغنَ عَنهُ وَيُذمَمِ
-وَمَن يَجعَلِ المَعروفَ مِن دونِ عِرضِهِ
-يَفِرهُ وَمَن لا يَتَّقِ الشَتمَ يُشتَمِ
-وَمَن لا يَذُد عَن حَوضِهِ بِسِلاحِهِ
-يُهَدَّم وَمَن لا يَظلِمِ الناسَ يُظلَمِ
-وَمَن هابَ أَسبابَ المَنِيَّةِ يَلقَها
-وَلَو رامَ أَسبابَ السَماءِ بِسُلَّمِ
-وَمَن يَعصِ أَطرافَ الزُجاجِ فَإِنَّهُ
-يُطيعُ العَوالي رُكِّبَت كُلَّ لَهذَمِ
-وَمَن يوفِ لا يُذمَم وَمَن يُفضِ قَلبُهُ
-إِلى مُطمَئِنِّ البِرِّ لا يَتَجَمجَمِ
-وَمَن يَغتَرِب يَحسِب عَدُوّاً صَديقَهُ
-وَمَن لا يُكَرِّم نَفسَهُ لا يُكَرَّمِ
-وَمَهما تَكُن عِندَ اِمرِئٍ مِن خَليقَةٍ
-وَإِن خالَها تَخفى عَلى الناسِ تُعلَمِ
-وَمَن لا يَزَل يَستَحمِلُ الناسَ نَفسَهُ
-وَلا يُغنِها يَوماً مِنَ الدَهرِ يُسأَمِ
-ودِّع هريرةَ إنَّ الركبَ مرتحلُ
+بِها العَينُ وَالأَرآمُ يَمشينَ خِلفَةًةَ إنَّ الركبَ مرتحلُ
 وهل تطيقُ وداعاً أيُّها الرجلُ
 غرّاءُ فرعاءُ مصقولٌ عوارضها
 تمشي الهوينا كما يمشي الوجيُ
@@ -6296,3 +5993,141 @@ function toggleFullScreen() {
   // يمكنك تغيير سرعة التمرير عبر CSS variable:
   // document.getElementById('scrollInner').style.setProperty('--scroll-duration', '70s');
 </script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>📰 أخبار اليوم</title>
+  <style>
+    body {
+      margin: 0;
+      padding-top: 80px; /* لترك مساحة للشريط والتاريخ */
+      font-family: "Tahoma", sans-serif;
+      background: #fff;
+    }
+
+    /* 🔸 شريط الأخبار */
+    #news-ticker {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, #222, #444);
+      color: #fff;
+      font-size: 16px;
+      line-height: 50px;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 9999;
+      border-bottom: 2px solid #ffcc00;
+    }
+
+    #news-ticker span {
+      display: inline-block;
+      padding: 0 50px;
+      animation: ticker-move 25s linear infinite;
+    }
+
+    @keyframes ticker-move {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    #news-ticker a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+
+    #news-ticker a:hover {
+      text-decoration: underline;
+    }
+
+    /* 🔸 عنوان "أخبار اليوم" */
+    #news-title {
+      position: fixed;
+      top: -5px;
+      right: 20px;
+      z-index: 10000;
+      color: #ffcc00;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 8px #000;
+    }
+
+    /* 🔸 التاريخ والوقت أسفل الشريط */
+    #date-time {
+      position: fixed;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffcc00;
+      padding: 5px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 0 0 10px 10px;
+      text-align: center;
+      min-width: 250px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 📰 عنوان -->
+<div id="news-title">📰 أخبار اليوم</div>
+
+<!-- 📰 شريط الأخبار -->
+<div id="news-ticker">
+  <span>جارٍ تحميل الأخبار...</span>
+</div>
+
+<!-- 🕓 التاريخ والوقت -->
+<div id="date-time">جارٍ التحديث...</div>
+
+<script>
+  // 🕓 تحديث الوقت والتاريخ
+  function updateDateTime() {
+    const now = new Date();
+    const days = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+    const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+    const dayName = days[now.getDay()];
+    const date = now.getDate();
+    const monthName = months[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    document.getElementById("date-time").textContent =
+      `${dayName} ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  // 📰 جلب الأخبار من مصدر عربي (قناة العربية)
+  const RSS_URL = "https://www.alarabiya.net/xml/rss/all.xml";
+  fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(RSS_URL))
+    .then(response => response.json())
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, "text/xml");
+      const items = xml.querySelectorAll("item");
+      const ticker = document.getElementById("news-ticker");
+      ticker.innerHTML = "";
+      items.forEach((item, idx) => {
+        if (idx >= 10) return; // عرض أول 10 أخبار فقط
+        const title = item.querySelector("title").textContent;
+        const link = item.querySelector("link").textContent;
+        const span = document.createElement("span");
+        span.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
+        ticker.appendChild(span);
+      });
+    })
+    .catch(err => {
+      console.error("خطأ في تحميل RSS:", err);
+      document.getElementById("news-ticker").innerHTML = "<span>تعذّر تحميل الأخبار</span>";
+    });
+</script>
+
+</body>
+</html>
