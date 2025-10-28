@@ -10,18 +10,18 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* يمنع ظهور شريط تمرير */
   background: black;
   font-family: "Tahoma", sans-serif;
 }
 
-/* 🎬 خلفية الفيديو */
+/* 🎬 الفيديو كخلفية كاملة */
 #video-background {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   z-index: -1;
   background: black;
@@ -31,15 +31,13 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120vw;
-  height: 67.5vw; /* نسبة 16:9 */
-  min-width: 100%;
-  min-height: 100%;
+  width: 177.78vh; /* لتناسب نسبة 16:9 بدقة */
+  height: 100vh;
   transform: translate(-50%, -50%);
   border: none;
 }
 
-/* 🔊 زر الصوت بالأعلى */
+/* 🔊 زر الصوت */
 #soundToggle {
   position: fixed;
   top: 20px;
@@ -58,14 +56,38 @@ html, body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* 🌙 محتوى الصفحة */
+/* ✖️ زر إغلاق الخلفية */
+#closeVideo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background: rgba(255, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#closeVideo:hover {
+  background: rgba(255, 0, 0, 0.8);
+}
+
+/* 🌙 محتوى الصفحة فوق الفيديو */
 #content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   color: white;
   text-align: center;
-  margin-top: 120px;
-  text-shadow: 0 0 10px #000;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-shadow: 0 0 12px #000;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-radius: 20px;
 }
 </style>
 </head>
@@ -75,22 +97,21 @@ html, body {
 <!-- 🎬 فيديو الخلفية -->
 <div id="video-background">
   <iframe id="mainVideo"
-    src="https://www.youtube.com/embed/021C5ao1GZg?autoplay=1&mute=1&loop=1&playlist=021C5ao1GZg&playsinline=1"
-    allow="autoplay; fullscreen"
+    src="https://www.youtube.com/embed/021C5ao1GZg?autoplay=1&mute=1&loop=1&playlist=021C5ao1GZg&controls=0&showinfo=0&modestbranding=1"
+    title="YouTube video player"
+    allow="autoplay; encrypted-media; fullscreen"
     allowfullscreen>
   </iframe>
 </div>
 
-<!-- 🔊 زر الصوت بالأعلى -->
+<!-- 🔊 زر الصوت -->
 <button id="soundToggle">🔈 تشغيل الصوت</button>
 
-<!-- ✨ محتوى الصفحة -->
-<div id="content">
-  <h1>🌕 أبو القمر زمرد</h1>
-  <p>الخلفية الآن بالفيديو الجديد والصوت بالأعلى 🎶</p>
-</div>
+<!-- ❌ زر إغلاق الخلفية -->
+<button id="closeVideo">✖️ إغلاق الخلفية</button>
 
-<!-- 🎵 كود API -->
+<!-- ✨ محتوى الصفحة -->
+<!-- 🎵 كود التحكم -->
 <script>
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -107,26 +128,36 @@ function onPlayerReady() {
   player.mute();
   player.playVideo();
 
-  const btn = document.getElementById("soundToggle");
+  const btnSound = document.getElementById("soundToggle");
+  const btnClose = document.getElementById("closeVideo");
   let muted = true;
 
-  btn.addEventListener("click", () => {
+  btnSound.addEventListener("click", () => {
     if (muted) {
       player.unMute();
       player.setVolume(100);
-      btn.textContent = "🔇 إيقاف الصوت";
+      btnSound.textContent = "🔇 إيقاف الصوت";
       muted = false;
     } else {
       player.mute();
-      btn.textContent = "🔈 تشغيل الصوت";
+      btnSound.textContent = "🔈 تشغيل الصوت";
       muted = true;
     }
   });
+
+  btnClose.addEventListener("click", () => {
+    document.getElementById("video-background").style.display = "none";
+    btnSound.style.display = "none";
+    btnClose.style.display = "none";
+  });
 }
 </script>
+
 </body>
 </html>
 
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
