@@ -543,72 +543,10 @@ document.addEventListener('mouseup', ()=>{ isDragging=false; });
 </body>
 </html>
 
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>i will cam bake</title>
-<style>
-/* 🔹 إزالة هوامش الصفحة */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  background: black;
-}
-
-/* 🔹 الفيديو يغطي الصفحة كاملة */
-#globalVideoBg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-#globalVideoBg iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120vw;
-  height: 120vh;
-  transform: translate(-50%, -50%);
-  pointer-events: none; /* منع النقر */
-}
-
-/* 🔊 زر الصوت بين المنتصف واليمين */
-#soundToggle {
-  position: fixed;
-  top: 20px;
-  left: 65%; /* تقريبًا بين المنتصف واليمين */
-  transform: translateX(-50%);
-  z-index: 10;
-  background: rgba(255,255,255,0.15);
-  color: #000;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 40px;
-  cursor: pointer;
-  font-size: 16px;
-  backdrop-filter: blur(6px);
-  transition: all 0.3s ease;
-}
-#soundToggle:hover {
-  background: rgba(255,255,255,0.3);
-}
-</style>
-</head>
-<body>
-
-<!-- 🎬 فيديو الخلفية -->
+<!-- 🎬 فيديو الخلفية يغطي كامل الصفحة -->
 <div id="globalVideoBg">
   <iframe id="mainVideo"
-    src="https://www.youtube.com/embed/rrNaH9CpNNk?autoplay=1&mute=1&loop=1&playlist=rrNaH9CpNNk&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
+    src="https://www.youtube.com/embed/iGLoSfbu1t0?autoplay=1&mute=1&loop=1&playlist=iGLoSfbu1t0&controls=0&showinfo=0&modestbranding=1&enablejsapi=1"
     frameborder="0"
     allow="autoplay; fullscreen"
     allowfullscreen></iframe>
@@ -616,6 +554,52 @@ html, body {
 
 <!-- 🔊 زر الصوت -->
 <button id="soundToggle">🔈 تشغيل الصوت</button>
+
+<!-- المحتوى الذي يظهر فوق الخلفية -->
+<div id="content">
+  <h1 style="color:white; text-align:center; margin-top:50px;"> </h1>
+  <p style="color:white; text-align:center;"></p>
+</div>
+
+<style>
+/* تنسيقات الفيديو ليغطي كامل الصفحة */
+#globalVideoBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1; /* خلف كل العناصر */
+}
+
+#globalVideoBg iframe {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* زر الصوت */
+#soundToggle {
+  position: fixed;
+  bottom: 600px;
+  right:90px;
+  z-index: 10;
+  padding: 10px 15px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 8px;
+}
+
+/* محتوى الصفحة يظهر فوق الفيديو */
+#content {
+  position: relative;
+  z-index: 1;
+}
+</style>
 
 <!-- 🎵 كود التحكم في الصوت -->
 <script>
