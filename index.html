@@ -1,3 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong Bong Bong مع فيديو خلفية وأزرار صوت</title>
+<style>
+body, html {
+  margin:0; padding:0; height:100%; background:black; overflow:hidden;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* زر فتح اللعبة */
+#pongButton {
+  position: fixed;
+  top: 20%;
+  right: 900px;
+  transform: translateY(-50%);
+  z-index: 1000;
+  padding: 12px 18px;
+  font-size: 15px;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+/* نافذة اللعبة */
+#pongContainer {
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  aspect-ratio:16/10;
+  max-height: 90vh;
+  z-index: 9999;
+  border: 2px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 0 25px rgba(0,255,255,0.4);
+}
+
+/* خلفية الفيديو */
+#bgVideo {
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  pointer-events: none;
+}
+
+/* زر الإغلاق */
+#closeBtn {
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:10001;
+  background: rgba(255,0,0,0.8);
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* قائمة الخيارات */
+#menu {
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:center;
+  background:rgba(255,255,255,0.15);
+  padding:15px;
+  border-radius:12px;
+  color:#fff;
+  z-index:10001;
+  text-align:center;
+}
+#menu label { font-size:14px; }
+#menu input, #menu select { margin-left:6px; }
+
+/* Canvas اللعبة */
+#pong {
+  position: relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* أزرار الفيديو */
+.videoControls {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 10002;
+  display: flex;
+  gap: 8px;
+}
+.controlBtn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#playVideoBtn { background: #00BFFF; color: white; }
+#muteVideoBtn { background: #FFD700; color: black; }
+</style>
+</head>
+<body>
+
+<!-- زر فتح اللعبة -->
+<button id="pongButton">play bong bong🏓 بونج بونج</button>
+
+<!-- نافذة اللعبة -->
+<div id="pongContainer">
+  <!-- خلفية الفيديو -->
+  <iframe id="bgVideo" src="https://www.youtube.com/embed/bG4NtWR2e88?autoplay=1&mute=1&loop=1&playlist=bG4NtWR2e88" 
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+  <!-- زر إغلاق -->
+  <button id="closeBtn">✖</button>
+
+  <!-- قائمة الخيارات -->
+  <div id="menu">
+    <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
+    <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
+    <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
+    <label>🎯 المستوى:
+      <select id="level">
+        <option value="easy">سهل</option>
+        <option value="hard">صعب</option>
+        <option value="harder">أصعب</option>
+        <option value="impossible">مستحيل</option>
+      </select>
+    </label>
+    <div style="margin-top:8px;">
+      <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
+      <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
+    </div>
+  </div>
+
+  <!-- Canvas اللعبة -->
+  <canvas id="pong"></canvas>
+
+  <!-- أزرار الفيديو -->
+  <div class="videoControls">
+    <button class="controlBtn" id="playVideoBtn">▶️ تشغيل/إيقاف</button>
+    <button class="controlBtn" id="muteVideoBtn">🔇 كتم/تشغيل</button>
+  </div>
+</div>
+
+<script>
+// عناصر اللعبة
+const pongButton = document.getElementById('pongButton');
+const pongContainer = document.getElementById('pongContainer');
+const closeBtn = document.getElementById('closeBtn');
+const canvas = document.getElementById('pong');
+const ctx = canvas.getContext('2d');
+const menu = document.getElementById('menu');
+
+// أزرار الفيديو
+const bgVideo = document.getElementById('bgVideo');
+const playVideoBtn = document.getElementById('playVideoBtn');
+const muteVideoBtn = document.getElementById('muteVideoBtn');
+
+let paddleWidth=15, paddleHeight=100;
+let player1, player2, ball;
+let gameMode='player', animFrame;
+let wPressed=false, sPressed=false, upPressed=false, downPressed=false;
+let videoPlaying = true;
+let videoMuted = true;
+
+// لعبة Pong
+function initGame(){
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+  player1 = {x:10, y:canvas.height/2-paddleHeight/2, color:'#FFD700', score:0};
+  player2 = {x:canvas.width-paddleWidth-10, y:canvas.height/2-paddleHeight/2, color:'#00BFFF', score:0};
+  ball = {x:canvas.width/2, y:canvas.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
+}
+
+function resetBall(){
+  ball.x = canvas.width/2;
+  ball.y = canvas.height/2;
+  ball.dx = Math.random()<0.5?ball.speed:-ball.speed;
+  ball.dy = Math.random()<0.5?ball.speed:-ball.speed;
+}
+
+function movePaddles(){
+  if(wPressed) player1.y = Math.max(player1.y-7,0);
+  if(sPressed) player1.y = Math.min(player1.y+7,canvas.height-paddleHeight);
+
+  if(gameMode==='player'){
+    if(upPressed) player2.y = Math.max(player2.y-7,0);
+    if(downPressed) player2.y = Math.min(player2.y+7,canvas.height-paddleHeight);
+  } else if(gameMode==='computer'){
+    let speed = getComputerSpeed(document.getElementById('level').value);
+    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvas.height-player2.y-paddleHeight);
+    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
+    player2.y = Math.max(0, Math.min(canvas.height-paddleHeight, player2.y));
+  }
+}
+
+function getComputerSpeed(level){
+  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
+}
+
+function collision(b,p){
+  return b.x-b.radius<p.x+paddleWidth && b.x+ball.radius>p.x && b.y+ball.radius>p.y && b.y-ball.radius<p.y+paddleHeight;
+}
+
+function updateBall(){
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+  if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0) ball.dy*=-1;
+  if(collision(ball,player1)){ ball.dx = Math.abs(ball.dx); ball.dy = (ball.y-(player1.y+paddleHeight/2))/2; }
+  if(collision(ball,player2)){ ball.dx = -Math.abs(ball.dx); ball.dy = (ball.y-(player2.y+paddleHeight/2))/2; }
+
+  if(ball.x-ball.radius<0){player2.score++; resetBall();}
+  if(ball.x+ball.radius>canvas.width){player1.score++; resetBall();}
+}
+
+function drawGame(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  let grass = ctx.createLinearGradient(0,0,0,canvas.height);
+  grass.addColorStop(0,'rgba(0,255,0,0.05)');
+  grass.addColorStop(1,'rgba(0,128,0,0.05)');
+  ctx.fillStyle = grass;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = player1.color; ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
+  ctx.fillStyle = player2.color; ctx.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
+  ctx.fillStyle = ball.color; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctx.fill();
+
+  ctx.fillStyle='white'; ctx.font='28px Tajawal';
+  ctx.fillText(player1.score, canvas.width/4, 40);
+  ctx.fillText(player2.score, 3*canvas.width/4, 40);
+}
+
+function gameLoop(){
+  movePaddles();
+  updateBall();
+  drawGame();
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+function startGame(mode){
+  gameMode = mode;
+  initGame();
+  menu.style.display='none';
+  gameLoop();
+}
+
+// مفاتيح
+document.addEventListener('keydown', e=>{
+  if(e.key==='w'||e.key==='W') wPressed=true;
+  if(e.key==='s'||e.key==='S') sPressed=true;
+  if(e.key==='ArrowUp') upPressed=true;
+  if(e.key==='ArrowDown') downPressed=true;
+});
+document.addEventListener('keyup', e=>{
+  if(e.key==='w'||e.key==='W') wPressed=false;
+  if(e.key==='s'||e.key==='S') sPressed=false;
+  if(e.key==='ArrowUp') upPressed=false;
+  if(e.key==='ArrowDown') downPressed=false;
+});
+
+// موس ولمس
+canvas.addEventListener('mousemove', e=>{
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.clientY-rect.top-paddleHeight/2;
+});
+canvas.addEventListener('touchmove', e=>{
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
+},{passive:false});
+
+// فتح وإغلاق اللعبة
+pongButton.addEventListener('click', ()=>{
+  initGame();
+  menu.style.display='flex';
+  pongContainer.style.display='block';
+  document.body.style.overflow='hidden';
+});
+closeBtn.addEventListener('click', ()=>{
+  pongContainer.style.display='none';
+  document.body.style.overflow='auto';
+  cancelAnimationFrame(animFrame);
+});
+
+// التحكم بالفيديو
+playVideoBtn.addEventListener('click', ()=>{
+  videoPlaying = !videoPlaying;
+  const url = new URL(bgVideo.src);
+  url.searchParams.set('autoplay', videoPlaying?1:0);
+  bgVideo.src = url.toString();
+});
+
+muteVideoBtn.addEventListener('click', ()=>{
+  videoMuted = !videoMuted;
+  const url = new URL(bgVideo.src);
+  url.searchParams.set('mute', videoMuted?1:0);
+  bgVideo.src = url.toString();
+});
+</script>
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -107,341 +433,6 @@ function onPlayerReady(event) {
 </body>
 </html>
 
-</body>
-</html>
-
-</script>
-
-</body>
-</html>
-
-</script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لعبة Pong مع فيديو خلفية</title>
-<style>
-body, html {
-  margin:0; padding:0; height:100%; background:black; overflow:hidden;
-  font-family: 'Tajawal', sans-serif;
-}
-
-/* زر فتح اللعبة شفاف ودائري */
-#pongButtonFixed {
-  position: fixed;
-  top: 50%;
-  right: 10px;           /* على يمين الصفحة */
-  transform: translateY(-50%);
-  z-index: 10000;
-  width: 60px;
-  height: 60px;
-  font-size: 28px;
-  cursor: pointer;
-  border:none;
-  border-radius:50%;
-  background: 
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* نافذة اللعبة */
-#pongContainerFixed {
-  display:none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 800px;
-  aspect-ratio:16/10;
-  max-height: 90vh;
-  z-index: 9999;
-  border: 2px solid white;
-  border-radius: 10px;
-  overflow: hidden;
-  background: rgba(0,255,0,0.05);
-}
-
-/* زر الإغلاق */
-#closeBtnFixed {
-  position:absolute; top:8px; right:8px;
-  z-index:10001;
-  background: rgba(255,0,0,0.8);
-  color:white;
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-/* خلفية الفيديو */
-#bgVideoFixed {
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  pointer-events:none;
-}
-
-/* أزرار التحكم */
-.controlBtn {
-  width:50px; height:50px; border:none; border-radius:50%;
-  cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center;
-}
-#playVideoBtnFixed { background: }
-#muteVideoBtnFixed { background: }
-#hideVideoBtnFixed { background:); color:}
-
-/* قائمة الخيارات */
-#menuFixed {
-  position:absolute; top:60px; left:50%; transform:translateX(-50%);
-  display:flex; flex-direction:column; gap:8px; align-items:center;
-  background:rgba(255,255,255,0.15); padding:15px; border-radius:12px;
-  color:#fff; z-index:10002; text-align:center;
-}
-#menuFixed label { font-size:14px; }
-#menuFixed input, #menuFixed select { margin-left:6px; }
-
-/* Canvas اللعبة */
-#pongFixed { width:100%; height:100%; display:block; position:relative; z-index:1; }
-
-</style>
-</head>
-<body>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pong Bong Bong</title>
-<style>
-body, html {
-  margin:0; padding:0; height:100%; background:black; overflow:hidden;
-  font-family: 'Tajawal', sans-serif;
-}
-
-/* أيقونة شفافة */
-#pongButton {
-  position: fixed;
-  top: 70%;
-  left:10%;
-  transform: translate(-50%,-50%);
-  z-index: 10000;
-  padding: 12px 18px;
-  font-size: 16px;
-  cursor: pointer;
-  border:none;
-  border-radius:12px;
-  background: 
-  color:white;
-  backdrop-filter:blur(6px);
-  box-shadow: 0 0 12px rgba(0,255,255,0.3);
-}
-
-/* نافذة اللعبة شفافة */
-#pongContainer {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  width: 90%;
-  max-width: 800px;
-  aspect-ratio:16/10;
-  max-height: 90vh;
-  z-index: 9999;
-  border: 2px solid rgba(255,255,255,0.7);
-  border-radius: 10px;
-  overflow: hidden;
-  background:
-  box-shadow: 0 0 25px rgba(0,255,255,0.4);
-}
-
-/* زر الإغلاق */
-#closeBtn {
-  position:absolute; top:8px; right:8px;
-  z-index:10001;
-  background: rgba(255,0,0,0.6);
-  color:white;
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-#menu {
-  position:absolute; top:10px; left:50%; transform:translateX(-50%);
-  display:flex; flex-direction:column; gap:8px; align-items:center;
-  background:rgba(255,255,255,0.1); padding:15px; border-radius:12px;
-  color:#fff; z-index:10000; text-align:center;
-}
-
-#menu label { font-size:14px; }
-#menu input, #menu select { margin-left:6px; }
-
-#pong { width:100%; height:100%; display:block; position:relative; z-index:1; }
-</style>
-</head>
-<body>
-
-<button id="pongButton">🏓 بونج بونج</button>
-
-<div id="pongContainer">
-  <button id="closeBtn">✖</button>
-  <div id="menu">
-    <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
-    <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
-    <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
-    <label>🎯 المستوى:
-      <select id="level" style="padding:4px;">
-        <option value="easy">سهل</option>
-        <option value="hard">صعب</option>
-        <option value="harder">أصعب</option>
-        <option value="impossible">مستحيل</option>
-      </select>
-    </label>
-    <div style="margin-top:8px;">
-      <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
-      <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
-    </div>
-  </div>
-
-  <canvas id="pong"></canvas>
-</div>
-
-<script>
-// كود اللعبة بدون تغيير، مع تحريكها إلى المنتصف وشفافية
-const pongButton = document.getElementById('pongButton');
-const pongContainer = document.getElementById('pongContainer');
-const closeBtn = document.getElementById('closeBtn');
-const canvas = document.getElementById('pong');
-const ctx = canvas.getContext('2d');
-const menu = document.getElementById('menu');
-
-let paddleWidth=15, paddleHeight=100;
-let player1, player2, ball;
-let gameMode='player', animFrame;
-let wPressed=false, sPressed=false, upPressed=false, downPressed=false;
-
-function initGame(){
-  canvas.width = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
-  player1 = {x:10, y:canvas.height/2-paddleHeight/2, color:'#FFD700', score:0};
-  player2 = {x:canvas.width-paddleWidth-10, y:canvas.height/2-paddleHeight/2, color:'#00BFFF', score:0};
-  ball = {x:canvas.width/2, y:canvas.height/2, radius:10, speed:5, dx:5, dy:5, color:'#FFF'};
-}
-
-function resetBall(){
-  ball.x = canvas.width/2;
-  ball.y = canvas.height/2;
-  ball.dx = Math.random()<0.5?ball.speed:-ball.speed;
-  ball.dy = Math.random()<0.5?ball.speed:-ball.speed;
-}
-
-function movePaddles(){
-  if(wPressed) player1.y = Math.max(player1.y-7,0);
-  if(sPressed) player1.y = Math.min(player1.y+7,canvas.height-paddleHeight);
-
-  if(gameMode==='player'){
-    if(upPressed) player2.y = Math.max(player2.y-7,0);
-    if(downPressed) player2.y = Math.min(player2.y+7,canvas.height-paddleHeight);
-  } else if(gameMode==='computer'){
-    let speed = getComputerSpeed(document.getElementById('level').value);
-    if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvas.height-player2.y-paddleHeight);
-    if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
-    player2.y = Math.max(0, Math.min(canvas.height-paddleHeight, player2.y));
-  }
-}
-
-function getComputerSpeed(level){
-  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
-}
-
-function collision(b,p){
-  return b.x-b.radius<p.x+paddleWidth && b.x+b.radius>p.x && b.y+b.radius>p.y && b.y-b.radius<p.y+paddleHeight;
-}
-
-function updateBall(){
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-
-  if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0) ball.dy*=-1;
-  if(collision(ball,player1)){ ball.dx = Math.abs(ball.dx); ball.dy = (ball.y-(player1.y+paddleHeight/2))/2; flashBall();}
-  if(collision(ball,player2)){ ball.dx = -Math.abs(ball.dx); ball.dy = (ball.y-(player2.y+paddleHeight/2))/2; flashBall();}
-
-  if(ball.x-ball.radius<0){player2.score++; resetBall();}
-  if(ball.x+ball.radius>canvas.width){player1.score++; resetBall();}
-}
-
-function flashBall(){ ball.color='#0FF'; setTimeout(()=>{ ball.color=document.getElementById('ballColor').value; },100); }
-
-function drawGame(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  let grass = ctx.createLinearGradient(0,0,0,canvas.height);
-  grass.addColorStop(0,'rgba(0,255,0,0.05)');
-  grass.addColorStop(1,'rgba(0,128,0,0.05)');
-  ctx.fillStyle = grass;
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  ctx.fillStyle = player1.color; ctx.shadowColor='cyan'; ctx.shadowBlur=15;
-  ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
-  ctx.fillStyle = player2.color; ctx.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
-  ctx.shadowBlur=0;
-
-  ctx.fillStyle = ball.color; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctx.fill();
-
-  ctx.fillStyle='white'; ctx.font='28px Tajawal';
-  ctx.fillText(player1.score, canvas.width/4, 40);
-  ctx.fillText(player2.score, 3*canvas.width/4, 40);
-}
-
-function gameLoop(){ movePaddles(); updateBall(); drawGame(); animFrame = requestAnimationFrame(gameLoop); }
-
-function startGame(mode){ gameMode = mode; initGame(); menu.style.display='none'; gameLoop(); }
-
-document.addEventListener('keydown', e=>{
-  if(e.key==='w'||e.key==='W') wPressed=true;
-  if(e.key==='s'||e.key==='S') sPressed=true;
-  if(e.key==='ArrowUp') upPressed=true;
-  if(e.key==='ArrowDown') downPressed=true;
-});
-document.addEventListener('keyup', e=>{
-  if(e.key==='w'||e.key==='W') wPressed=false;
-  if(e.key==='s'||e.key==='S') sPressed=false;
-  if(e.key==='ArrowUp') upPressed=false;
-  if(e.key==='ArrowDown') downPressed=false;
-});
-
-canvas.addEventListener('mousemove', e=>{
-  const rect = canvas.getBoundingClientRect();
-  player1.y = e.clientY-rect.top-paddleHeight/2;
-});
-canvas.addEventListener('touchmove', e=>{
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
-},{passive:false});
-
-pongButton.addEventListener('click', ()=>{
-  initGame();
-  menu.style.display='flex';
-  pongContainer.style.display='block';
-  document.body.style.overflow='hidden';
-});
-
-closeBtn.addEventListener('click', ()=>{
-  pongContainer.style.display='none';
-  document.body.style.overflow='auto';
-  cancelAnimationFrame(animFrame);
-});
-</script>
-</body>
-</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -5302,9 +5293,7 @@ body {
     satcVideo.src = "";
     satcBox.style.display = 'none';
   });
-</script>
-<!-- أيقونة مربعية تطفو فوق نص "معلقة الأعشى" — النص يظهر كاملاً ويتم التمرير لأعلى -->
-<style>
+</script><style>
   /* الحاوية الكاملة في أسفل اليمين */
   #scrollContainer {
     position: fixed;
@@ -5316,50 +5305,66 @@ body {
     font-family: "Scheherazade", "Amiri", "Noto Naskh Arabic", serif;
   }
 
-  /* صندوق النص (القابل للتصغير) */
+  /* صندوق النص */
   #scrollPanel {
-    height:300px;
-    background:
-    border-radius: 14px;
-    box-shadow: 0 18px 50px rgba(0,255,255,0.12);
-    overflow: hidden;
-    position: relative;
-    padding: 12px 16px;
-    border: 1px solid rgba(50,200,255,0.08);
-    backdrop-filter: blur(4px);
-    transition: height .60s ease, width .60s ease, transform .60s ease, opacity .800s ease;
-  }
-
-  /* شكل الصغير (مظلّل) عند التصغير */
-  #scrollPanel.minimized {
-    height: 64px;
+    height: 64px; /* مصغّر افتراضياً */
     width: 220px;
+    background: rgba(0,0,0,0.25);
     border-radius: 20px;
     padding: 8px 12px;
+    box-shadow: 0 18px 50px rgba(0,255,255,0.12);
+    border: 1px solid rgba(50,200,255,0.08);
+    backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    transition: height .6s ease, width .6s ease, border-radius .6s ease;
     cursor: pointer;
   }
 
-  /* الأيقونة الطافية داخل الصندوق */
+  /* الشكل المكبّر */
+  #scrollPanel.expanded {
+    height: 300px;
+    width: 420px;
+    border-radius: 14px;
+    padding: 12px 16px;
+    cursor: default;
+  }
+
+  /* الأيقونة داخل الصندوق */
   #scrollIcon {
     position: absolute;
     top: 12px;
     left: 12px;
     padding: 6px 12px;
     border-radius: 16px;
-    background: 
-    
+    background: rgba(0,200,255,0.15);
     border: 1px solid rgba(0,255,255,0.18);
     font-size: 15px;
     font-weight: 700;
     text-shadow: 0 0 8px rgba(0,255,255,0.18);
-    cursor: pointer;
     z-index: 12;
-    transition: all .8s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
   }
   #scrollIcon:hover { transform: translateY(-2px); }
+
+  /* زر الإغلاق في الأعلى */
+  #closeBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,0,0,0.8);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 13;
+    display: none; /* يظهر فقط عند التوسيع */
+  }
 
   /* حاوية التمرير الداخلية */
   .scrollViewport {
@@ -5368,49 +5373,54 @@ body {
     position: relative;
     padding-top: 8px;
     padding-bottom: 8px;
+    opacity: 0; /* مخفية افتراضياً */
+    transition: opacity .4s ease;
   }
 
-  /* المحتوى الذي سيتم تحريكه (ننسخ النص مرتين للاستمرارية) */
+  /* محتوى النص المتحرك */
   .scrollInner {
     display: block;
     will-change: transform;
     animation: scrollUp var(--scroll-duration, 500s) linear infinite;
   }
-
-  /* كل كتلة نص */
   .scrollBlock {
     white-space: pre-wrap;
     line-height: 2;
     font-size: 10.5px;
-
     text-shadow: 0 0 8px rgba(0,200,255,0.08);
     margin-bottom: 18px;
   }
 
-  /* إيقاف الحركة عند الوقوف بالماوس */
   .scrollViewport:hover .scrollInner { animation-play-state: paused; }
 
   @keyframes scrollUp {
     0%   { transform: translateY(0); }
-    100% { transform: translateY(-50%); } /* لأن النص مكرر مرتين، -50% يكفي للحلقة */
+    100% { transform: translateY(-50%); }
   }
 
-  /* استجابة لشاشات صغيرة */
+  /* عند التوسيع اجعل النص مرئي وزر الإغلاق ظاهر */
+  #scrollPanel.expanded .scrollViewport {
+    opacity: 1;
+  }
+  #scrollPanel.expanded #closeBtn {
+    display: block;
+  }
+
   @media (max-width: 720px) {
     #scrollContainer { right: 6px; bottom: 12px; width: 86vw; }
-    #scrollPanel { height: 56vh; }
+    #scrollPanel.expanded { height: 56vh; width: 100%; }
     .scrollBlock { font-size: 15px; line-height: 1.8; }
   }
 </style>
 
 <div id="scrollContainer" aria-live="polite">
-  <div id="scrollPanel" role="region" aria-label="معلقة الأعشى">
-    <div id="scrollIcon" title="وتصغير/تكبير نافذة النص">معلقة زهيرو الأعشى</div>
-
-    <div class="scrollViewport" aria-hidden="false">
-      <div class="scrollInner" id="scrollInner">
-        <!-- النسخة الأولى من النص (المرئية) -->
+  <div id="scrollPanel">
+    <div id="scrollIcon" title="اضغط لفتح النص">معلقة زهيرو الأعشى</div>
+    <button id="closeBtn">✖</button>
+    <div class="scrollViewport">
+      <div class="scrollInner">
         <div class="scrollBlock">
+         
 ودِّع هريرةَ إنَّ الركبَ مرتحلُ
 وهل تطيقُ وداعاً أيُّها الرجلُ
 غرّاءُ فرعاءُ مصقولٌ عوارضها
@@ -5477,131 +5487,77 @@ body {
 جنبي فطيمةَ لا ميلٌ ولا غزلُ
 قالوا الطرادُ فقلنا تلكَ عادتنا
 أو تنزلونَ فإنّا معشرٌ نزل
-الأعشى هو ميمون بن قيس وقد كان أعمى، أدرك الإسلام وأتى سيدنا محمد صلى الله عليه وسلم يريد إعلان إسلامه، فالتقى به أبو سفيان وهو ماضٍ في طريقه فاستوقفه وسأله عن وجهته، ولما علم أبو سفيان غرض الأعشى ونيته نبههه قائلا: إن محمداً يحرم عليك الخمر والزنا والقمار. فأجابه الأعشى: فأمّا الزنا فقد تركني وما تركته، وأما الخمر فقد قضيت منها وطراً، وأما القمار فلعلي أصيب منه خلفاً. فقال أبو سفيان: ألا أدلك على خير؟ قال: وما هو؟ قال: إن بيننا وبينه هدنة (يريد صلح الحديبية) فترجع عامك هذا وتأخذ مئة ناقة حمراء، فإن ظهر بعدها أتيته، وإن ظفرنا به أصبت عوضاً من رحلتك. فقال الأعشى: لا أبالي. فأخذه أبو سفيان إلى بيته وجمع له سادة القوم، ثم قال لهم: يا معشر قريش، هذا أعشى قيس، وقد علمتم شعره، ولئن وصل إلى محمد ليضربن عليكم العرب قاطبة بشعره. فجمعوا له مئة ناقة حمراء فأخذها ورجع، فلما كان في اليمامة أوقعه بعيره عن ظهره فمات زهير بن أبي سلمى
-أَمِن أُمِّ أَوفى دِمنَةٌ لَم تَكَلَّمِ
-بِحَومانَةِ الدُرّاجِ فَالمُتَثَلَّمِ
-وَدارٌ لَها بِالرَقمَتَينِ كَأَنَّها
-مَراجِعُ وَشمٍ في نَواشِرِ مِعصَمِ
-بِها العَينُ وَالأَرآمُ يَمشينَ خِلفَةً
-وَأَطلاؤُها يَنهَضنَ مِن كُلِّ مَجثِمِ
-وَقَفتُ بِها مِن بَعدِ عِشرينَ حِجَّةً
-فَلَأياً عَرَفتُ الدارَ بَعدَ التَوَهُّمِ
-أَثافِيَّ سُفعاً في مُعَرَّسِ مِرجَلٍ
-وَنُؤياً كَجِذمِ الحَوضِ لَم يَتَثَلَّمِ
-فَلَمّا عَرَفتُ الدارَ قُلتُ لِرَبعِها
-أَلا عِم صَباحاً أَيُّها الرَبعُ وَاِسلَمِ
-تَبَصَّر خَليلي هَل تَرى مِن ظَعائِنٍ
-تَحَمَّلنَ بِالعَلياءِ مِن فَوقِ جُرثُمِ
-عَلَونَ بِأَنماطٍ عِتاقٍ وَكِلَّةٍ
-وِرادٍ حَواشيها مُشاكِهَةِ الدَمِ
-وَفيهِنَّ مَلهىً لِلصَديقِ وَمَنظَرٌ
-أَنيقٌ لِعَينِ الناظِرِ المُتَوَسِّمِ
-بَكَرنَ بُكوراً وَاِستَحَرنَ بِسُحرَةٍ
-فَهُنَّ لِوادي الرَسِّ كَاليَدِ لِلفَمِ
-جَعَلنَ القَنانَ عَن يَمينٍ وَحَزنَهُ
-وَمَن بِالقَنانِ مِن مُحِلٍّ وَمُحرِمِ
-ظَهَرنَ مِنَ السوبانِ ثُمَّ جَزَعنَهُ
-عَلى كُلِّ قَينِيٍّ قَشيبٍ مُفَأَّمِ
-كَأَنَّ فُتاتَ العِهنِ في كُلِّ مَنزِلٍ
-نَزَلنَ بِهِ حَبُّ الفَنا لَم يُحَطَّمِ
-فَلَمّا وَرَدنَ الماءَ زُرقاً جِمامُهُ
-وَضَعنَ عِصِيَّ الحاضِرِ المُتَخَيِّمِ
-سَعى ساعِيا غَيظِ بنِ مُرَّةَ بَعدَما
-تَبَزَّلَ ما بَينَ العَشيرَةِ بِالدَمِ
-فَأَقسَمتُ بِالبَيتِ الَّذي طافَ حَولَهُ
-رِجالٌ بَنَوهُ مِن قُرَيشٍ وَجُرهُمِ
-يَميناً لَنِعمَ السَيِّدانِ وُجِدتُما
-عَلى كُلِّ حالٍ مِن سَحيلٍ وَمُبرَمِ
-تَدارَكتُما عَبساً وَذُبيانَ بَعدَما
-تَفانوا وَدَقّوا بَينَهُم عِطرَ مَنشِمِ
-وَقَد قُلتُما إِن نُدرِكِ السِلمَ واسِعاً
-بِمالٍ وَمَعروفٍ مِنَ الأَمرِ نَسلَمِ
-فَأَصبَحتُما مِنها عَلى خَيرِ مَوطِنٍ
-بَعيدَينِ فيها مِن عُقوقٍ وَمَأثَمِ
-عَظيمَينِ في عُليا مَعَدٍّ وَغَيرِها
-وَمَن يَستَبِح كَنزاً مِنَ المَجدِ يَعظُمِ
-فَأَصبَحَ يَجري فيهُمُ مِن تِلادِكُم
-مَغانِمُ شَتّى مِن إِفالِ المُزَنَّمِ
-تُعَفّى الكُلومُ بِالمِئينَ فَأَصبَحَت
-يُنَجِّمُها مَن لَيسَ فيها بِمُجرِمِ
-يُنَجِّمُها قَومٌ لِقَومٍ غَرامَةً
-وَلَم يُهَريقوا بَينَهُم مِلءَ مِحجَمِ
-فَمِن مُبلِغُ الأَحلافِ عَنّي رِسالَةً
-وَذُبيانَ هَل أَقسَمتُمُ كُلَّ مُقسَمِ
-فَلا تَكتُمُنَّ اللَهَ ما في نُفوسِكُم
-لِيَخفى وَمَهما يُكتَمِ اللَهُ يَعلَمِ
-يُؤَخَّر فَيوضَع في كِتابٍ فَيُدَّخَر
-لِيَومِ الحِسابِ أَو يُعَجَّل فَيُنقَمِ
-وَما الحَربُ إِلّا ما عَلِمتُم وَذُقتُمُ
-وَما هُوَ عَنها بِالحَديثِ المُرَجَّمِ
-مَتى تَبعَثوها تَبعَثوها ذَميمَةً
-وَتَضرَ إِذا ضَرَّيتُموها فَتَضرَمِ
-فَتَعرُكُّمُ عَركَ الرَحى بِثِفالِها
-وَتَلقَح كِشافاً ثُمَّ تَحمِل فَتُتئِمِ
-فَتُنتَج لَكُم غِلمانَ أَشأَمَ كُلُّهُم
-كَأَحمَرِ عادٍ ثُمَّ تُرضِع فَتَفطِمِ
-فَتُغلِل لَكُم ما لا تُغِلُّ لِأَهلِها
-قُرىً بِالعِراقِ مِن قَفيزٍ وَدِرهَمِ
-لَعَمري لَنِعمَ الحَيُّ جَرَّ عَلَيهِمُ
-بِما لا يُواتيهِم حُصَينُ بنُ ضَمضَمِ
-وَكانَ طَوى كَشحاً عَلى مُستَكِنَّةٍ
-فَلا هُوَ أَبداها وَلَم يَتَجَمجَمِ
-وَقالَ سَأَقضي حاجَتي ثُمَّ أَتَّقي
-عَدُوّي بِأَلفٍ مِن وَرائِيَ مُلجَمِ
-فَشَدَّ وَلَم تَفزَع بُيوتٌ كَثيرَةٌ
-لَدى حَيثُ أَلقَت رَحلَها أُمُّ قَشعَمِ
-لَدى أَسَدٍ شاكي السِلاحِ مُقَذَّفٍ
-لَهُ لِبَدٌ أَظفارُهُ لَم تُقَلَّمِ
-جَريءٍ مَتى يُظلَم يُعاقِب بِظُلمِهِ
-سَريعاً وَإِلّا يُبدَ بِالظُلمِ يَظلِمِ
-رَعَوا ما رَعَوا مِن ظِمئِهِم ثُمَّ أَورَدوا
-غِماراً تَسيلُ بِالرِماحِ وَبِالدَمِ
-فَقَضَّوا مَنايا بَينَهُم ثُمَّ أَصدَروا
-إِلى كَلَأٍ مُستَوبِلٍ مُتَوَخَّمِ
-لَعَمرُكَ ما جَرَّت عَلَيهِم رِماحُهُم
-دَمَ اِبنِ نَهيكٍ أَو قَتيلِ المُثَلَّمِ
-وَلا شارَكوا في القَومِ في دَمِ نَوفَلٍ
-وَلا وَهَبٍ مِنهُم وَلا اِبنِ المُحَزَّمِ
-فَكُلّاً أَراهُم أَصبَحوا يَعقِلونَهُم
-عُلالَةَ أَلفٍ بَعدَ أَلفٍ مُصَتَّمِ
-تُساقُ إِلى قَومٍ لِقَومٍ غَرامَةً
-صَحيحاتِ مالٍ طالِعاتٍ بِمَخرِمِ
-لِحَيٍّ حِلالٍ يَعصِمُ الناسَ أَمرُهُم
-إِذا طَلَعَت إِحدى اللَيالي بِمُعظَمِ
-كِرامٍ فَلا ذو الوِترِ يُدرِكُ وِترَهُ
-لَدَيهِم وَلا الجاني عَلَيهِم بِمُسلَمِ
-سَئِمتُ تَكاليفَ الحَياةِ وَمَن يَعِش
-ثَمانينَ حَولاً لا أَبا لَكَ يَسأَمِ
-رَأَيتُ المَنايا خَبطَ عَشواءَ مَن تُصِب
-تُمِتهُ وَمَن تُخطِئ يُعَمَّر فَيَهرَمِ
-وَأَعلَمُ عِلمَ اليَومِ وَالأَمسِ قَبلَهُ
-وَلَكِنَّني عَن عِلمِ ما في غَدٍ عَمي
-وَمَن لا يُصانِع في أُمورٍ كَثيرَةٍ
-يُضَرَّس بِأَنيابٍ وَيوطَأ بِمَنسِمِ
-وَمَن يَكُ ذا فَضلٍ فَيَبخَل بِفَضلِهِ
-عَلى قَومِهِ يُستَغنَ عَنهُ وَيُذمَمِ
-وَمَن يَجعَلِ المَعروفَ مِن دونِ عِرضِهِ
-يَفِرهُ وَمَن لا يَتَّقِ الشَتمَ يُشتَمِ
-وَمَن لا يَذُد عَن حَوضِهِ بِسِلاحِهِ
-يُهَدَّم وَمَن لا يَظلِمِ الناسَ يُظلَمِ
-وَمَن هابَ أَسبابَ المَنِيَّةِ يَلقَها
-وَلَو رامَ أَسبابَ السَماءِ بِسُلَّمِ
-وَمَن يَعصِ أَطرافَ الزُجاجِ فَإِنَّهُ
-يُطيعُ العَوالي رُكِّبَت كُلَّ لَهذَمِ
-وَمَن يوفِ لا يُذمَم وَمَن يُفضِ قَلبُهُ
-إِلى مُطمَئِنِّ البِرِّ لا يَتَجَمجَمِ
-وَمَن يَغتَرِب يَحسِب عَدُوّاً صَديقَهُ
-وَمَن لا يُكَرِّم نَفسَهُ لا يُكَرَّمِ
-وَمَهما تَكُن عِندَ اِمرِئٍ مِن خَليقَةٍ
-وَإِن خالَها تَخفى عَلى الناسِ تُعلَمِ
-وَمَن لا يَزَل يَستَحمِلُ الناسَ نَفسَهُ
-وَلا يُغنِها يَوماً مِنَ الدَهرِ يُسأَمِ.
+الأعشى هو ميمون بن قيس وقد كان أعمى، أدرك الإسلام وأتى سيدنا محمد صلى الله عليه وسلم يريد إعلان إسلامه، فالتقى به أبو سفيان وهو ماضٍ في طريقه فاستوقفه وسأله عن وجهته، ولما علم أبو سفيان غرض الأعشى ونيته نبههه قائلا: إن محمداً يحرم عليك الخمر والزنا والقمار. فأجابه الأعشى: فأمّا الزنا فقد تركني وما تركته، وأما الخمر فقد قضيت منها وطراً، وأما القمار فلعلي أصيب منه خلفاً. فقال أبو سفيان: ألا أدلك على خير؟ قال: وما هو؟ قال: إن بيننا وبينه هدنة (يريد صلح الحديبية) فترجع عامك هذا وتأخذ مئة ناقة حمراء، فإن ظهر بعدها أتيته، وإن ظفرنا به أصبت عوضاً من رحلتك. فقال الأعشى: لا أبالي. فأخذه أبو سفيان إلى بيته وجمع له سادة القوم، ثم قال لهم: يا معشر قريش، هذا أعشى قيس، وقد علمتم شعره، ولئن وصل إلى محمد ليضربن عليكم العرب قاطبة بشعره. فجمعوا له مئة ناقة حمراء فأخذها ورجع، فلما كان في اليمامة أوقعه بعيره عن ظهره فمات ز
         </div>
-
-        <!-- النسخة الثانية المكررة لتأمين حلقة تمرير سلسة -->
-     
-       <div class="scrollBlock" aria-hidden="true">
-           أَمِن أُمِّ أَوفى دِ زهير بن أبي سلمىمنَةٌ لَم تَكَلَّمِ
+        <div class="scrollBlock">
+        
+ودِّع هريرةَ إنَّ الركبَ مرتحلُ
+وهل تطيقُ وداعاً أيُّها الرجلُ
+غرّاءُ فرعاءُ مصقولٌ عوارضها
+تمشي الهوينا كما يمشي الوجيُ
+كأنَّ مشيتها من بيتِ جارتها
+مرُّ السحابةِ لاريثٌ ولا عجلٌ
+ليست كمن يكرهُ الجيرانُ طلعتها
+ولا تراها لسرِّ الجارِ تختتلُ
+تكادُ تصرعها لولا تشدُّدها
+إذا تقومُ إلى جاراتها الكسلُ
+إذا تقومُ يضوعُ المسكُ أصورةً
+والزنبقُ الوردُ من أردانها شملُ
+ما روضةٌ من رياضِ الحزنِ معشبةٌ
+خضراءُ جادَ عليها مسيلٌ هطلُ
+يضاحكُ الشمسَ منها كوكبٌ شرقٌ
+مؤزَّرٌ بعميمِ النبتِ مكتهلُ
+يوماً بأطيبَ منها نشرَ رائحةٍ
+ولا بأحسنَ منها إذ دنا الأُصُلُ
+قالت هريرةُ لمّا جئتُ زائرها
+ويلي عليكَ وويلي منكَ يا رجلُ
+إمّا ترينا حفاةً لا نعالَ لنا
+إنّا كذلكَ ما نحفى وننتعلُ
+وبلدةً مثلِ ظهرِ الترسِ موحشةٍ
+للجنِّ بالليلِ في حافاتها زجلُ
+جاوزنها بطليحٍ جسرةٍ سرحٍ
+في مرفقيها إذا استعضتها فتَلُ
+بل هل ترى عارضاً قد بتُّ أرمقهُ
+كأنما البرقُ في حافاتهِ شعلُ
+لهُ ردافٌ وجوزٌ مفأَمٌ عملٌ
+منطَّقٌ بسجالِ الماءِ متصلُ
+لم يلهني اللهو عنهُ حينَ أرقبهُ
+ولا اللذاذةُ في كأسٍ ولا شغلُ
+فقلتُ للشربِ في درني وقد ثملوا
+شيموا وكيفَ يشيمُ الشاربُ الثملُ
+أبلغ يزيدَ بني شيبانَ مألكةً
+أبا ثبيتٍ أما تنلكُّ نأتكلُ
+ألستَ منتهياً عن نحتِ أثلتنا
+ولستَ ضائرها ما أطَّت الإبلُ
+كناطحٍ صخرةً يوماً ليفلقها
+فم يضرها وأوهى قرنهُ الوعلُ
+تغري بنا رهطَ مسعودٍ وإخوتهِ
+عندَ اللقاءِ فتردي ثمَّ تعتزلُ
+لا تقعدنَّ وقد أكَّلتها حطباً
+تعوذُ من شرِّها يوماً وتبتهلُ
+سائل بني أسدٍ عنا فقد علموا
+أن سوفَ يأتيكَ من أنبائنا شكلُ
+واسأل قشيراً و عبدَاللهِ كلُّهمُ
+واسأل ربيعةَ عنّا كيفَ نفتعلُ
+إنا نقاتلهم ثمَّتَ نقتلهم
+عند اللقاءِ وهم جاروا وهم جهلوا
+لئن قتلتم عميداً لم يكن صدداً
+لنقتلن مثلهُ منكم فنمتثلُ
+لئن منيتَ بنا عن غبّ معركةٍ
+لم تلفنا من دماءِ القومِ تنتفلُ
+لاتنهونَ ولن ينهى ذوي شططٍ
+كالطعن يذهبُ فيه الزيتُ والفتلُ
+حتى يظلَّ عميدُ القومِ مرتفقاًَ
+يدفعُ بالراحِ عنه نسوةٌ عجلُ
+أصابهُ هندوانيٌّ فأقصدهُ
+أو ذابلٌ من رماحِ الخطِّ معتدلُ
+كلاّ زعمتم بأنا لانقاتلكم
+إنا لأمثالكم يا قومنا قتلُ
+نحن الفوارسُ يومَ الحنو ضاحيةً
+جنبي فطيمةَ لا ميلٌ ولا غزلُ
+قالوا الطرادُ فقلنا تلكَ عادتنا
+أو تنزلونَ فإنّا معشرٌ نزل
+الأعشى هو ميمون بن قيس وقد كان أعمى، أدرك الإسلام وأتى سيدنا محمد صلى الله عليه وسلم يريد إعلان إسلامه، فالتقى به أبو سفيان وهو ماضٍ في طريقه فاستوقفه وسأله عن وجهته، ولما علم أبو سفيان غرض الأعشى ونيته نبههه قائلا: إن محمداً يحرم عليك الخمر والزنا والقمار. فأجابه الأعشى: فأمّا الزنا فقد تركني وما تركته، وأما الخمر فقد قضيت منها وطراً، وأما القمار فلعلي أصيب منه خلفاً. فقال أبو سفيان: ألا أدلك على خير؟ قال: وما هو؟ قال: إن بيننا وبينه هدنة (يريد صلح الحديبية) فترجع عامك هذا وتأخذ مئة ناقة حمراء، فإن ظهر بعدها أتيته، وإن ظفرنا به أصبت عوضاً من رحلتك. فقال الأعشى: لا أبالي. فأخذه أبو سفيان إلى بيته وجمع له سادة القوم، ثم قال لهم: يا معشر قريش، هذا أعشى قيس، وقد علمتم شعره، ولئن وصل إلى محمد ليضربن عليكم العرب قاطبة بشعره. فجمعوا له مئة ناقة حمراء فأخذها ورجع، فلما كان في اليمامة أوقعه بعيره عن ظهره فمات زكة  أَوفى دِ زهير بن أبي سلمىمنَةٌ لَم تَكَلَّمِ
 بِحَومانَةِ الدُرّاجِ فَالمُتَثَلَّمِ
 وَدارٌ لَها بِالرَقمَتَينِ كَأَنَّها
 مَراجِعُ وَشمٍ في نَواشِرِ مِعصَمِ
@@ -5671,7 +5627,7 @@ body {
 جنبي فطيمةَ لا ميلٌ ولا غزلُ
 قالوا الطرادُ فقلنا تلكَ عادتنا
 أو تنزلونَ فإنّا معشرٌ نزل
-الأعشى هو ميمون بن قيس وقد كان أعمى، أدرك الإسلام وأتى سيدنا محمد صلى الله عليه وسلم يريد إعلان إسلامه، فالتقى به أبو سفيان وهو ماضٍ في طريقه فاستوقفه وسأله عن وجهته، ولما علم أبو سفيان غرض الأعشى ونيته نبههه قائلا: إن محمداً يحرم عليك الخمر والزنا والقمار. فأجابه الأعشى: فأمّا الزنا فقد تركني وما تركته،وأما الخمر فقد قضيت منها وطراً، وأما القمار فلعلي أصيب منه خلفاً. فقال أبو سفيان: ألا أدلك على خير؟ قال: وما هو؟ قال: إن بيننا وبينه هدنة (يريد صلح الحديبية) فترجع عامك هذا وتأخذ مئة ناقة حمراء، فإن ظهر بعدها أتيته، وإن ظفرنا به أصبت عوضاً من رحلتك. فقال الأعشى: لا أبالي. فأخذه أبو سفيان إلى بيته وجمع له سادة القوم، ثم قال لهم: يا معشر قريش، هذا أعشى قيس، وقد علمتم شعره، ولئن وصل إلى محمد ليضربن عليكم العرب قاطبة بشعره. فجمعوا له مئة ناقة حمراء فأخذها ورجع، فلما كان في اليمامة أوقعه بعيره عن ظهره فمات .
+الأعشى هو ميمون بن قيس وقد كان أعمى، أدرك الإسلام وأتى سيدنا محمد صلى الله عليه وسلم يريد إعلان إسلامه، فالتقى به أبو سفيان وهو ماضٍ في طريقه فاستوقفه وسأله عن وجهته، ولما علم أبو سفيان غرض الأعشى ونيته نبههه قائلا: إن محمداً يحرم عليك الخمر والزنا والقمار. فأجابه الأعشى: فأمّا الزنا فقد تركني وما تركته،وأما الخمر فقد قضيت منها وطراً، وأما القمار فلعلي أصيب منه خلفاً. فقال أبو سفيان: ألا أدلك على خير؟ قال: وما هو؟ قال: إن بيننا وبينه هدنة (يريد صلح الحديبية) فترجع عامك هذا وتأخذ مئة ناقة حمراء، فإن ظهر بعدها أتيته، وإن ظفرنا به أصبت عوضاً من رحلتك. فقال الأعشى: لا أبالي. فأخذه أبو سفيان إلى بيته وجمع له سادة القوم، ثم قال لهم: يا معشر قريش، هذا أعشى قيس، وقد علمتم شعره، ولئن وصل إلى محمد ليضربن عليكم العرب قاطبة بشعره. فجمعوا له مئة ناقة حمراء فأخذها ورجع، فلما كان في اليمامة أوقعه بعيره عن ظهره فمات
         </div>
       </div>
     </div>
@@ -5690,214 +5646,150 @@ body {
   // يمكنك تغيير سرعة التمرير عبر CSS variable:
   // document.getElementById('scrollInner').style.setProperty('--scroll-duration', '70s');
 </script>
-<!DOCTYPE html><!DOCTYPE html>
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>أخبار ونكت وفيديوهات مضحكة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شريط الأخبار المتغير - أبو القمر زمرد</title>
 <style>
-body {
-  margin: 0;
-  padding-top: 120px;
-  font-family: 'Tajawal', sans-serif;
-  background: #f5f5f5;
-}
+  body {
+    margin: 0;
+    font-family: "Tahoma", sans-serif;
+    background:
+    color: #fff;
+    overflow-x: hidden;
+  }
 
-/* شريط الأخبار */
-#news-ticker {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(90deg, #222, #444);
-  color: #fff;
-  font-size: 16px;
-  line-height: 50px;
-  overflow: hidden;
-  white-space: nowrap;
-  z-index: 9999;
-  border-bottom: 2px solid #ffcc00;
-}
+  /* ✅ شريط الأخبار */
+  #newsBar {
+    width: 100%;
+    height: 50px;
+    background: 
+    color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+    border-bottom: 2px solid #00ff99;
+  }
 
-#news-ticker span {
-  display: inline-block;
-  padding: 0 50px;
-  animation: ticker-move 25s linear infinite;
-}
+  #newsFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    animation: fadeIn 1s ease-in-out;
+  }
 
-@keyframes ticker-move {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-#news-ticker a {
-  color: #ffcc00;
-  text-decoration: none;
-}
+  /* ✅ الساعة والتاريخ أسفل الشريط */
+  #clock {
+    position: fixed;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    background:
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #00ff99;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+  }
 
-#news-ticker a:hover {
-  text-decoration: underline;
-}
+  /* ✅ إشعار المصدر الحالي */
+  #sourceLabel {
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    background:
+    border: 1px solid #00ff99;
+    border-radius: 15px;
+    padding: 6px 12px;
+    font-size: 15px;
+    color: #ffcc00;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    animation: fadeLabel 1.5s ease-in-out;
+  }
 
-#news-title {
-  position: fixed;
-  top: -5px;
-  right: 20px;
-  z-index: 10000;
-  color: #ffcc00;
-  font-size: 18px;
-  font-weight: bold;
-  text-shadow: 0 0 8px #000;
-}
-
-/* التاريخ والوقت */
-#date-time {
-  position: fixed;
-  top: 52px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
-  background: rgba(0,0,0,0.7);
-  color: #ffcc00;
-  padding: 5px 15px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 0 0 10px 10px;
-  text-align: center;
-  min-width: 250px;
-}
-
-/* شريط النكت */
-#joke-bar {
-  position: fixed;
-  top: 90px;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  font-size: 16px;
-  line-height: 40px;
-  padding: 0 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-align: center;
-  z-index: 10000;
-  border-bottom: 2px solid #ffcc00;
-}
-
-#joke-bar span {
-  display: inline-block;
-  animation: joke-move 15s linear infinite;
-}
-
-@keyframes joke-move {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-#joke-bar strong {
-  color: #ffcc00;
-}
+  @keyframes fadeLabel {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
 </head>
 <body>
 
-<div id="news-title">📰 أخبار اليوم</div>
-<div id="news-ticker"><span>جارٍ تحميل الأخبار...</span></div>
-<div id="date-time">جارٍ التحديث...</div>
-<div id="joke-bar"><span>جارٍ تحميل النكت...</span></div>
+<!-- ✅ شريط الأخبار -->
+<div id="newsBar">
+  <iframe id="newsFrame" src="https://www.alarabiya.net/" loading="lazy"></iframe>
+</div>
+
+<!-- ✅ الساعة والتاريخ -->
+<div id="clock"></div>
+
+<!-- ✅ إشعار المصدر الحالي -->
+<div id="sourceLabel">📺 المصدر الآن: العربية</div>
 
 <script>
-// تحديث التاريخ والوقت
-function updateDateTime() {
-  const now = new Date();
-  const days = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-  const months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
-  const dayName = days[now.getDay()];
-  const date = now.getDate();
-  const monthName = months[now.getMonth()];
-  const year = now.getFullYear();
-  const hours = String(now.getHours()).padStart(2,'0');
-  const minutes = String(now.getMinutes()).padStart(2,'0');
-  const seconds = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('date-time').textContent = `${dayName} ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
+  // ⏰ تحديث الساعة
+  function updateClock() {
+    const now = new Date();
+    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const day = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent =
+      `${day} - ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-// مصادر متعددة للأخبار (RSS)
-const RSS_SOURCES = [
-  "https://www.aljazeera.net/aljazeerarss/ajrss.xml",
-  "https://www.alarabiya.net/.mrss/ar.xml",
-  "https://www.skynewsarabia.com/webfeeds/rss/home.xml"
-];
+  // 🌐 المصادر الإخبارية
+  const sources = [
+    { url: "https://www.alarabiya.net/", name: "العربية" },
+    { url: "https://www.aljazeera.net/", name: "الجزيرة" },
+    { url: "https://www.skynewsarabia.com/", name: "سكاي نيوز عربية" },
+    { url: "https://www.bbc.com/arabic", name: "BBC عربي" },
+    { url: "https://arabic.rt.com/", name: "RT العربية" }
+  ];
 
-// دالة لجلب الأخبار من كل مصدر
-function fetchAllNews() {
-  const ticker = document.getElementById("news-ticker");
-  ticker.innerHTML = "<span>جارٍ تحميل الأخبار...</span>";
-  let allItems = [];
+  let currentSource = 0;
+  const iframe = document.getElementById('newsFrame');
+  const label = document.getElementById('sourceLabel');
 
-  let fetchPromises = RSS_SOURCES.map(url => {
-    return fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(url))
-      .then(r => r.json())
-      .then(data => {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents,"text/xml");
-        const items = xml.querySelectorAll("item");
-        items.forEach((item, idx) => {
-          if(idx>=5) return; // الحد الأعلى لكل مصدر
-          allItems.push({
-            title: item.querySelector("title")?.textContent || "لا عنوان",
-            link: item.querySelector("link")?.textContent || "#"
-          });
-        });
-      })
-      .catch(err => console.error("خطأ في جلب RSS:", err));
-  });
+  // 🔄 تبديل الموقع كل 15 دقيقة
+  function switchNewsSource() {
+    currentSource = (currentSource + 1) % sources.length;
+    iframe.src = sources[currentSource].url;
+    label.textContent = "📺 المصدر الآن: " + sources[currentSource].name;
+    label.style.animation = "none";
+    setTimeout(() => label.style.animation = "fadeLabel 1.5s ease-in-out", 10);
+  }
 
-  Promise.all(fetchPromises).then(()=>{
-    // خلط الأخبار
-    allItems = allItems.sort(()=>Math.random()-0.5);
-    ticker.innerHTML = "";
-    allItems.forEach(news=>{
-      const span = document.createElement("span");
-      span.innerHTML = `<a href="${news.link}" target="_blank">${news.title}</a>`;
-      ticker.appendChild(span);
-    });
-  });
-}
-
-// تحديث الأخبار كل 5 دقائق (300000 مللي ثانية)
-fetchAllNews();
-setInterval(fetchAllNews, 300000);
-
-// النكت مع الترجمة
-const jokes = [
-  {ar:"مرة واحد ذهب إلى الطبيب وقال: كل ما أشرب شاي أحس بألم في عيني، قال له الطبيب: حاول تشيل الملعقة من الكوب 😂", en:"A guy went to the doctor and said: Every time I drink tea, I feel pain in my eye. The doctor said: Try removing the spoon from the cup 😂"},
-  {ar:"واحد غبي قال لصاحبه: اشتريت ساعة ضد الماء، قال له: لماذا؟ قال: لأن الماء معه موبايل 🤣", en:"A silly guy said to his friend: I bought a waterproof watch. Friend asked: Why? He said: Because water has a mobile phone 🤣"},
-  {ar:"فيه واحد نام في الشغل، المدير سأله: لماذا نائم؟ قال: كنت أحلم أني أعمل 😅", en:"Someone slept at work. The boss asked: Why are you sleeping? He said: I was dreaming I was working 😅"},
-  {ar:"قالوا لأحدهم: لماذا تضحك؟ قال: الطبيب قال لي أبتسم كل يوم، وأنا أنفذ الأوامر 😂", en:"They asked someone: Why are you laughing? He said: The doctor told me to smile every day, and I follow orders 😂"},
-  {ar:"مرة بخيل فتح التلاجة ورأى المرآة وقال: الحمد لله لا أحد في البيت 😆", en:"A miser opened the fridge, saw the mirror and said: Thank God no one is home 😆"},
-  {ar:"مرة واحد حاول يسوي رجيم، فكل ما يشتهي أكل، يقول: لا، أنا على حمية، ثم ينام 🤣", en:"A guy tried to diet, whenever he craved food, he said: No, I am on a diet, then goes to sleep 🤣"},
-  {ar:"واحد ذهب للمدرسة بدون قلم، فسأله المعلم: لماذا؟ قال: لأن عقلي مليء بالأفكار 😂", en:"A guy went to school without a pen. Teacher asked: Why? He said: Because my mind is full of ideas 😂"},
-  {ar:"مرة واحد دخل الحمام ونسي يخرج ورقة التواليت، قال: الحمد لله أنا ذكي 😅", en:"Someone went to the bathroom and forgot the toilet paper. He said: Thank God, I am smart 😅"},
-  {ar:"واحد يحاول تعلم اللغة الإنجليزية، قال: أنا أتحدث الإنجليزية بطلاقة... في أحلامي 😂", en:"A guy tries to learn English. He said: I speak English fluently... in my dreams 😂"},
-  {ar:"مرة واحد أراد يطبخ، فحرق الماء، وقال: أنا شيف محترف 🤣", en:"A guy wanted to cook, he burned the water and said: I am a professional chef 🤣"}
-];
-
-// تحديث النكت كل 5 ثوانٍ
-function updateJokeBar() {
-  const jokeBar = document.getElementById("joke-bar");
-  const joke = jokes[Math.floor(Math.random()*jokes.length)];
-  jokeBar.innerHTML = `<span><strong>AR:</strong> ${joke.ar} &nbsp;|&nbsp; <strong>EN:</strong> ${joke.en}</span>`;
-}
-setInterval(updateJokeBar, 5000);
-updateJokeBar();
+  // كل 15 دقيقة (900,000 ms)
+  setInterval(switchNewsSource, 15 * 60 * 1000);
 </script>
+
 </body>
 </html>
+
 <!-- شريط القصص الأدبية -->
 <div class="bottom-stories">
   <div id="storyBox">
@@ -5917,7 +5809,7 @@ updateJokeBar();
   text-align: center;
   padding: 15px 0;
   overflow: hidden;
-  background: rgba(0,0,0,0.85);
+  background: 
 }
 
 #storyBox {
