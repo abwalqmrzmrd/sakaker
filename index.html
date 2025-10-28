@@ -228,13 +228,12 @@
 </script>
 </body>
 </html>
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pong Bong Bong مصغر مع زر إغلاق أسفل الملعب</title>
+<title>Pong Bong Bong مصغر مع زر إغلاق وزر رجوع</title>
 <style>
 body, html {
   margin:0; padding:0; height:100%; background:black; overflow:hidden;
@@ -306,6 +305,20 @@ body, html {
   display:block;
 }
 
+#closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(255,0,0,0.8);
+  color:white;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10003;
+}
+
 .videoControls {
   position: absolute;
   bottom: 5px;
@@ -314,7 +327,7 @@ body, html {
   display: flex;
   gap: 6px;
 }
-.controlBtn, #closeBtn {
+.controlBtn {
   width: 35px;
   height: 35px;
   border: none;
@@ -328,7 +341,16 @@ body, html {
 }
 #playVideoBtn { background: #00BFFF; color: white; }
 #muteVideoBtn { background: #FFD700; color: black; }
-#closeBtn { background: rgba(255,0,0,0.8); color:white; }
+
+#backBtn {
+  margin-top:6px;
+  padding:4px 10px;
+  border:none;
+  border-radius:6px;
+  background:red;
+  color:white;
+  cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -336,7 +358,8 @@ body, html {
 <button id="pongButton">🏓 بونج بونج</button>
 
 <div id="pongContainer">
-  <iframe id="bgVideo" src="https://www.youtube.com/embed/bG4NtWR2e88?autoplay=1&mute=1&loop=1&playlist=bG4NtWR2e88" 
+  <iframe id="bgVideo" 
+          src="https://www.youtube.com/embed/bG4NtWR2e88?autoplay=1&mute=1&loop=1&playlist=bG4NtWR2e88&enablejsapi=1" 
           frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
   <div id="menu">
@@ -355,15 +378,16 @@ body, html {
       <button onclick="startGame('player')" style="padding:4px 10px;border:none;border-radius:6px;background:#FFD700;cursor:pointer;">🎮 لاعب</button>
       <button onclick="startGame('computer')" style="padding:4px 10px;border:none;border-radius:6px;background:#00BFFF;cursor:pointer;">🤖 كمبيوتر</button>
     </div>
+    <button id="backBtn">🔙 رجوع</button>
   </div>
 
   <canvas id="pong"></canvas>
 
-  <!-- أزرار الفيديو + زر الإغلاق أسفل الملعب -->
+  <button id="closeBtn">✖</button>
+
   <div class="videoControls">
-    <button class="controlBtn" id="playVideoBtn">▶️</button>
+    <button class="controlBtn" id="playVideoBtn">⏸</button>
     <button class="controlBtn" id="muteVideoBtn">🔇</button>
-    <button id="closeBtn">✖</button>
   </div>
 </div>
 
@@ -372,6 +396,7 @@ body, html {
 const pongButton = document.getElementById('pongButton');
 const pongContainer = document.getElementById('pongContainer');
 const closeBtn = document.getElementById('closeBtn');
+const backBtn = document.getElementById('backBtn');
 const canvas = document.getElementById('pong');
 const ctx = canvas.getContext('2d');
 const menu = document.getElementById('menu');
@@ -482,6 +507,12 @@ closeBtn.addEventListener('click', ()=>{
   cancelAnimationFrame(animFrame);
 });
 
+backBtn.addEventListener('click', ()=>{
+  pongContainer.style.display='none';
+  document.body.style.overflow='auto';
+  cancelAnimationFrame(animFrame);
+});
+
 playVideoBtn.addEventListener('click', ()=>{
   videoPlaying = !videoPlaying;
   playVideoBtn.textContent = videoPlaying?'⏸':'▶️';
@@ -511,6 +542,7 @@ document.addEventListener('mouseup', ()=>{ isDragging=false; });
 </script>
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
