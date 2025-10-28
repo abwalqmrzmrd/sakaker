@@ -502,7 +502,7 @@ body {
   min-height:100vh; background:#000; overflow:hidden;
 }
 .iconColumn {
-  position: fixed; top: 20px; left: 20px;
+  position: fixed; top: 100px; left: 20px;
   display: flex; flex-direction: column; gap: 12px; z-index: 1100;
 }
 .icon {
@@ -1540,10 +1540,10 @@ updateLanguage();
     <!-- زر تشغيل/إيقاف داخل الفيديو -->
     <button id="toggleVideoBtn" style="
       position: absolute;
-      bottom: 5px;
-      right: 5px;
+      bottom: 50px;
+      right: 50px;
       padding: 4px 8px;
-      background: rgba(0,0,0,0.6);
+      background: 
       color: #fff;
       border: none;
       border-radius: 5px;
@@ -2436,7 +2436,7 @@ body {
 #bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size:24px; cursor:pointer; z-index:1000; }
 
 /* CV icon */
-#cvIcon { margin-top:10px; padding:8px; background:rgba(255,255,255,0.1); border:1px solid #fff; border-radius:6px; cursor:pointer; }
+#cvIcon { margin-top:50px; padding:8px; background:rgba(255,255,255,0.1); border:1px solid #fff; border-radius:6px; cursor:pointer; }
 
 /* Video modal */
 .video-modal { display:none; position:fixed; z-index:2000; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; }
@@ -3837,149 +3837,6 @@ function showLevelMessage(msg) {
 })();
 </script>
 
-<div id="support-follow" style="
-    text-align:center; 
-    margin:0 auto 10px auto; 
-    font-family:'Tajawal',sans-serif;
-    position: fixed;
-    bottom: 140px; /* فوق الأيقونة */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-">
-
-</div>
-
-<!-- نافذة النكت -->
-<div id="funnyLibrary" class="video-modal" style="display:none; justify-content:center; align-items:center;">
-  <div style="background:rgba(0,0,0,0.9); color:#fff; border-radius:12px; padding:20px; width:80%; max-width:600px; text-align:center; position:relative;">
-    <span class="close-btn" onclick="document.getElementById('funnyLibrary').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
-    <h2>😂 نكت مضحكة</h2>
-    <p id="jokeText" style="font-size:18px; margin:20px 0;">نكتة البداية...</p>
-    <div>
-      <button onclick="prevJoke()" style="margin:5px;">⬅️ السابق</button>
-      <button onclick="nextJoke()" style="margin:5px;">➡️ التالي</button>
-    </div>
-  </div>
-</div>
-
-<!-- نافذة الفيديوهات المضحكة -->
-<div id="funnyVideos" class="video-modal" style="display:none; justify-content:center; align-items:center;">
-  <div class="video-content" style="position:relative; width:85%; max-width:900px;">
-    <span class="close-btn" onclick="document.getElementById('funnyVideos').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
-    <iframe id="funnyFrame" src="" frameborder="0" allowfullscreen style="width:100%; height:500px; border-radius:10px;"></iframe>
-  </div>
-</div>
-
-<script>
-// ✅ نكت متغيرة تلقائيًا
-const jokes = [
-  "مرة واحد راح للدكتور قاله: كل ما أشرب شاي بحس بألم بعيني، قاله الدكتور: حاول تشيل المعلقة من الكوب 😂",
-  "واحد غبي بيقول لصاحبه: أنا اشتريت ساعة ضد الميه، قاله: طب ليه؟ الميه معاها موبايل؟ 🤣",
-  "فيه واحد نام في الشغل، المدير صحيه وقاله: انت نايم ليه؟ قاله: والله يا فندم كنت بحلم إني في الشغل! 😅",
-  "قالوا لواحد: ليه بتضحك؟ قالهم: أصل الدكتور قالي لازم أبتسم كل يوم… وأنا بنفذ الأوامر 😂",
-  "مرة واحد بخيل فتح التلاجة شاف المراية، قال: الحمد لله لسه في حد في البيت 😆"
-];
-let jokeIndex = 0;
-function showJoke(index){ document.getElementById('jokeText').innerText = jokes[index]; }
-function nextJoke(){ jokeIndex = (jokeIndex + 1) % jokes.length; showJoke(jokeIndex); }
-function prevJoke(){ jokeIndex = (jokeIndex - 1 + jokes.length) % jokes.length; showJoke(jokeIndex); }
-setInterval(nextJoke, 5000);
-showJoke(0);
-
-// ✅ فيديوهات مضحكة
-function openFunnyVideo(id){
-  const modal = document.getElementById('funnyVideos');
-  const frame = document.getElementById('funnyFrame');
-  modal.style.display = 'flex';
-  frame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
-}
-</script>
-
-<script>
-function openVideo(videoId) {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'flex';
-    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  }
-}
-
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'none';
-    frame.src = "";
-  }
-}
-</script>
-
-<!-- نافذة النكت -->
-<div id="funnyLibrary" class="video-modal" style="display:none; justify-content:center; align-items:center;">
-  <div style="background:rgba(0,0,0,0.9); color:#fff; border-radius:12px; padding:20px; width:80%; max-width:600px; text-align:center; position:relative;">
-    <span class="close-btn" onclick="document.getElementById('funnyLibrary').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
-    <h2>😂 نكت مضحكة</h2>
-    <p id="jokeText" style="font-size:18px; margin:20px 0;">نكتة البداية...</p>
-    <div>
-      <button onclick="prevJoke()" style="margin:5px;">⬅️ السابق</button>
-      <button onclick="nextJoke()" style="margin:5px;">➡️ التالي</button>
-    </div>
-  </div>
-</div>
-
-<!-- نافذة الفيديوهات المضحكة -->
-<div id="funnyVideos" class="video-modal" style="display:none; justify-content:center; align-items:center;">
-  <div class="video-content" style="position:relative; width:85%; max-width:900px;">
-    <span class="close-btn" onclick="document.getElementById('funnyVideos').style.display='none';" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px;">×</span>
-    <iframe id="funnyFrame" src="" frameborder="0" allowfullscreen style="width:100%; height:500px; border-radius:10px;"></iframe>
-  </div>
-</div>
-
-<script>
-// ✅ نكت متغيرة تلقائيًا
-const jokes = [
-  "مرة واحد راح للدكتور قاله: كل ما أشرب شاي بحس بألم بعيني، قاله الدكتور: حاول تشيل المعلقة من الكوب 😂",
-  "واحد غبي بيقول لصاحبه: أنا اشتريت ساعة ضد الميه، قاله: طب ليه؟ الميه معاها موبايل؟ 🤣",
-  "فيه واحد نام في الشغل، المدير صحيه وقاله: انت نايم ليه؟ قاله: والله يا فندم كنت بحلم إني في الشغل! 😅",
-  "قالوا لواحد: ليه بتضحك؟ قالهم: أصل الدكتور قالي لازم أبتسم كل يوم… وأنا بنفذ الأوامر 😂",
-  "مرة واحد بخيل فتح التلاجة شاف المراية، قال: الحمد لله لسه في حد في البيت 😆"
-];
-let jokeIndex = 0;
-function showJoke(index){ document.getElementById('jokeText').innerText = jokes[index]; }
-function nextJoke(){ jokeIndex = (jokeIndex + 1) % jokes.length; showJoke(jokeIndex); }
-function prevJoke(){ jokeIndex = (jokeIndex - 1 + jokes.length) % jokes.length; showJoke(jokeIndex); }
-setInterval(nextJoke, 5000);
-showJoke(0);
-
-// ✅ فيديوهات مضحكة
-function openFunnyVideo(id){
-  const modal = document.getElementById('funnyVideos');
-  const frame = document.getElementById('funnyFrame');
-  modal.style.display = 'flex';
-  frame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
-}
-</script>
-
-<script>
-function openVideo(videoId) {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'flex';
-    frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-  }
-}
-
-function closeVideo() {
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  if (modal && frame) {
-    modal.style.display = 'none';
-    frame.src = "";
-  }
-}
 </script>
 <!-- 🔹 أيقونة الدردشة -->
 <div id="chat-icon" title="فتح الدردشة" style="
@@ -4272,8 +4129,8 @@ async function initChatConnection(){
 <!-- Footer -->
 <div id="footer" style="
     position: fixed;       /* ليبقى ثابت عند التمرير */
-    bottom: 270             /* أسفل الشاشة */
-    left:20;               /* على اليسار */
+    bottom: 200             /* أسفل الشاشة */
+    left:50;               /* على اليسار */
    ية شبه شف */افة
     color: #fff; 
     padding: 10px 20px; 
@@ -4288,8 +4145,8 @@ async function initChatConnection(){
   <div id="cvPage" style="
       display:none; 
       position:fixed; 
-      top:0; 
-      left:0; 
+      top:200; 
+      left:20; 
       width:100%; 
       height:100%; 
       background: rgba(0,0,0,0.85); 
@@ -4319,7 +4176,7 @@ async function initChatConnection(){
 /* 🔹 الحاوية العامة */
 #video-circle-container {
   position: fixed;
-  top: 20px;
+  top: 50px;
   right: 20px;
   z-index: 9999;
   display: flex;
@@ -4532,119 +4389,6 @@ function updateText() {
 }
 updateText();
 setInterval(updateText, 25000);
-</script><!-- 🌙 القصص الأدبية الطويلة -->
-<div class="bottom-stories">
-  <div id="storyBox">
-    <div class="ar"></div>
-    <div class="en"></div>
-  </div>
-</div>
-
-<style>
-.bottom-stories {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background:
-  z-index: 99999;
-  font-family: 'Tajawal', sans-serif;
-  
-  text-align: center;
-  padding: 15px 0;
-  overflow: hidden;
-}
-
-#storyBox {
-  animation: fadeIn 2s ease;
-  transition: all 0.6s ease;
-  max-width: 90%;
-  margin: auto;
-}
-
-.ar {
-  font-size: 18px;
-
-  direction: rtl;
-  line-height: 1.7;
-  margin-bottom: 6px;
-}
-
-.en {
-  font-size: 16px;
-
-  line-height: 1.6;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateX(40px);}
-  to {opacity: 1; transform: translateX(0);}
-}
-
-@keyframes fadeOut {
-  from {opacity: 1; transform: translateX(0);}
-  to {opacity: 0; transform: translateX(-40px);}
-}
-</style>
-
-<script>
-const stories = [
-{
-  ar: `في بلد العميان، عاش رجال ونساء لا يرون شيئاً، وكان كل من يولد في هذا البلد يُحرم من النظر. 
-في يوم من الأيام، جاء رجل مبصر إلى هذا البلد. كان يعرف أن لديه قدرة على الرؤية، 
-لكنه خاف أن يخبرهم خوفاً من أن يسخروا منه أو يعتبرونه غريباً. 
-بدأ يلاحظ عاداتهم وأخطائهم، وحاول أن يشرح لهم أن العالم أكبر من حدود بلدهم، 
-لكنهم رفضوا سماع الحقيقة واعتبروا كل ما يقوله هراء. ومع مرور الزمن، فهم الرجل أن الحقيقة وحدها لا تكفي لتغيير مجتمع اعتاد العمى.`,
-  en: `In the country of the blind, men and women lived without sight, and everyone born there was deprived of seeing. 
-One day, a sighted man arrived in this country. He knew he had the ability to see, 
-but he feared telling them, afraid they would mock him or deem him strange. 
-He began observing their habits and mistakes and tried to explain that the world was bigger than their country’s limits, 
-but they refused to listen and considered everything he said nonsense. Over time, the man realized that truth alone was not enough to change a society accustomed to blindness.`
-},
-{
-  ar: `ذات يوم، جلس الحكيم تحت شجرة وارفة الظلال، يتأمل الطيور الصغيرة وهي تحلق بحرية في الهواء. 
-تساءل عن معنى الحرية وهل هي مجرد القدرة على الحركة، أم أنها تحتاج أيضاً إلى شعور بالأمان والسلام الداخلي. 
-لقد أدرك أن من يمتلك الحرية بدون أمان يعيش في قلق دائم، وأن الطائر الصغير يعود دائماً إلى عشه لأنه يعرف أن الأمان أهم من أي رحلة.`,
-  en: `One day, a wise man sat under a shady tree, observing the little birds flying freely in the air. 
-He pondered the meaning of freedom—was it merely the ability to move, or did it also require a sense of safety and inner peace? 
-He realized that one who has freedom without safety lives in constant anxiety, and that the little bird always returns to its nest because it knows safety is more important than any journey.`
-},
-{
-  ar: `في ليلة مظلمة من ليالي الشتاء، كان الشاعر يسير على طريق مهجور، يستنير بضوء القمر. 
-أضاء القمر على وجهه، فاستلهم من ضوئه كلمات أحلامه ليكتب قصيدة الخلود. 
-لقد شعر أن كل نجمة في السماء تحمل رسالة، وأن كل ظل يمر به هو جزء من حكمة الكون، فجلس يكتب حتى بزوغ الفجر، مستمتعاً بسحر الليل وحده.`,
-  en: `On a dark winter night, the poet walked along a deserted path, guided by the moonlight. 
-The moon illuminated his face, inspiring him with words from his dreams to write a poem of eternity. 
-He felt that every star in the sky carried a message, and every shadow he passed was part of the wisdom of the universe, so he sat writing until dawn, enjoying the magic of the night alone.`
-},
-{
-  ar: `كان الطفل الصغير يجلس على حافة النهر، يراقب تدفق الماء بصمت. 
-تساءل عن معنى الحياة والحرية والأمل. رأى الأسماك تسبح بحرية، والأشجار تتحرك مع الريح، 
-ففهم أن الطبيعة تحمل دروساً عظيمة، وأن كل شيء في الحياة مرتبط بالآخر، وأن الصبر والمثابرة هما مفتاح فهم العالم.`,
-  en: `The little child sat on the riverbank, silently observing the flowing water. 
-He wondered about the meaning of life, freedom, and hope. He saw the fish swimming freely and the trees moving with the wind, 
-and realized that nature holds great lessons, that everything in life is interconnected, and that patience and perseverance are the keys to understanding the world.`
-}
-];
-
-let index = 0;
-const box = document.getElementById("storyBox");
-
-function showStory() {
-  box.style.animation = "fadeOut 2s ease";
-  setTimeout(() => {
-    box.innerHTML = `
-      <div class="ar">${stories[index].ar}</div>
-      <div class="en">${stories[index].en}</div>
-    `;
-    box.style.animation = "fadeIn 2s ease";
-    index = (index + 1) % stories.length;
-  }, 2000);
-}
-
-setInterval(showStory, 20000); // كل 20 ثانية تتحرك القصة
-showStory(); // عرض القصة الأولى مباشرة
-</script>
 
 <style>
   /* ✅ الشريط السفلي للنكت */
@@ -4887,7 +4631,7 @@ document.querySelectorAll('.video-icon').forEach(icon => {
   /* الأيقونة الرئيسية */
   #my-life-icon {
     position:fixed; 
-    top:480px;  /* نزول عن أعلى الصفحة تقريباً 10 أسطر */
+    top:500px;  /* نزول عن أعلى الصفحة تقريباً 10 أسطر */
     left:10px;  /* يسار الصفحة */
     z-index:9999; 
     text-align:center;
@@ -5183,7 +4927,7 @@ supportBtn.addEventListener('click', () => {
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
-  top: -10px; /* مرفوعة حوالي خمس أسطر */
+  top: 20px; /* مرفوعة حوالي خمس أسطر */
   right: 25px;
   width: 75px;
   height: 75px;
@@ -5427,8 +5171,8 @@ body {
 <!-- 🎵 أيقونة تعلم العزف على العود -->
 <div id="learnOudIcon" style="
   position: fixed; 
-  bottom:220px;
-  left: 30%; /* تقريبًا بين منتصف الصفحة واليمين */
+  bottom:230px;
+  left: 10%; /* تقريبًا بين منتصف الصفحة واليمين */
   z-index: 1000;
   text-align: center;
 ">
@@ -5460,8 +5204,8 @@ body {
 <div id="oudVideoBox" style="
   display: none;
   position: fixed;
-  top: 20%;
-  left: 50%;
+  top: 40%;
+  left: 40%;
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 600px;
@@ -5519,12 +5263,12 @@ body {
       video.src = "";
       box.style.display = 'none';
     }
-  }
+  } 
 </script>
 <!-- 🎓 أيقونة Study and Work with SATC -->
 <div id="studySatcIcon" style="
   position: fixed;
-  top: 50px;
+  top: 200px;
   left: 30%; /* بين منتصف الصفحة واليسار */
   z-index: 1000;
   text-align: center;
@@ -5611,8 +5355,8 @@ body {
   /* الحاوية الكاملة في أسفل اليمين */
   #scrollContainer {
     position: fixed;
-    bottom: 210px;
-    right: 60px;
+    bottom: 220px;
+    right: 200px;
     z-index: 9999;
     width: 420px;
     max-width: 65vw;
@@ -5621,8 +5365,8 @@ body {
 
   /* صندوق النص (القابل للتصغير) */
   #scrollPanel {
-    height: 430px;
-    background: rgba(8,8,20,0.92);
+    height:300px;
+    background:
     border-radius: 14px;
     box-shadow: 0 18px 50px rgba(0,255,255,0.12);
     overflow: hidden;
@@ -5677,14 +5421,14 @@ body {
   .scrollInner {
     display: block;
     will-change: transform;
-    animation: scrollUp var(--scroll-duration, 55s) linear infinite;
+    animation: scrollUp var(--scroll-duration, 500s) linear infinite;
   }
 
   /* كل كتلة نص */
   .scrollBlock {
     white-space: pre-wrap;
     line-height: 2;
-    font-size: 16.5px;
+    font-size: 10.5px;
 
     text-shadow: 0 0 8px rgba(0,200,255,0.08);
     margin-bottom: 18px;
@@ -5993,141 +5737,328 @@ body {
   // يمكنك تغيير سرعة التمرير عبر CSS variable:
   // document.getElementById('scrollInner').style.setProperty('--scroll-duration', '70s');
 </script>
+<!DOCTYPE html><!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>📰 أخبار اليوم</title>
-  <style>
-    body {
-      margin: 0;
-      padding-top: 80px; /* لترك مساحة للشريط والتاريخ */
-      font-family: "Tahoma", sans-serif;
-      background: #fff;
-    }
+<meta charset="UTF-8">
+<title>أخبار ونكت وفيديوهات مضحكة</title>
+<style>
+body {
+  margin: 0;
+  padding-top: 120px;
+  font-family: 'Tajawal', sans-serif;
+  background: #f5f5f5;
+}
 
-    /* 🔸 شريط الأخبار */
-    #news-ticker {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(90deg, #222, #444);
-      color: #fff;
-      font-size: 16px;
-      line-height: 50px;
-      overflow: hidden;
-      white-space: nowrap;
-      z-index: 9999;
-      border-bottom: 2px solid #ffcc00;
-    }
+/* شريط الأخبار */
+#news-ticker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #222, #444);
+  color: #fff;
+  font-size: 16px;
+  line-height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 9999;
+  border-bottom: 2px solid #ffcc00;
+}
 
-    #news-ticker span {
-      display: inline-block;
-      padding: 0 50px;
-      animation: ticker-move 25s linear infinite;
-    }
+#news-ticker span {
+  display: inline-block;
+  padding: 0 50px;
+  animation: ticker-move 25s linear infinite;
+}
 
-    @keyframes ticker-move {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
+@keyframes ticker-move {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
 
-    #news-ticker a {
-      color: #ffcc00;
-      text-decoration: none;
-    }
+#news-ticker a {
+  color: #ffcc00;
+  text-decoration: none;
+}
 
-    #news-ticker a:hover {
-      text-decoration: underline;
-    }
+#news-ticker a:hover {
+  text-decoration: underline;
+}
 
-    /* 🔸 عنوان "أخبار اليوم" */
-    #news-title {
-      position: fixed;
-      top: -5px;
-      right: 20px;
-      z-index: 10000;
-      color: #ffcc00;
-      font-size: 18px;
-      font-weight: bold;
-      text-shadow: 0 0 8px #000;
-    }
+#news-title {
+  position: fixed;
+  top: -5px;
+  right: 20px;
+  z-index: 10000;
+  color: #ffcc00;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 8px #000;
+}
 
-    /* 🔸 التاريخ والوقت أسفل الشريط */
-    #date-time {
-      position: fixed;
-      top: 52px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10000;
-      background: rgba(0, 0, 0, 0.7);
-      color: #ffcc00;
-      padding: 5px 15px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 0 0 10px 10px;
-      text-align: center;
-      min-width: 250px;
-    }
-  </style>
+/* التاريخ والوقت */
+#date-time {
+  position: fixed;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  background: rgba(0,0,0,0.7);
+  color: #ffcc00;
+  padding: 5px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 0 0 10px 10px;
+  text-align: center;
+  min-width: 250px;
+}
+
+/* شريط النكت */
+#joke-bar {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 16px;
+  line-height: 40px;
+  padding: 0 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  z-index: 10000;
+  border-bottom: 2px solid #ffcc00;
+}
+
+#joke-bar span {
+  display: inline-block;
+  animation: joke-move 15s linear infinite;
+}
+
+@keyframes joke-move {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+#joke-bar strong {
+  color: #ffcc00;
+}
+</style>
 </head>
 <body>
 
-<!-- 📰 عنوان -->
 <div id="news-title">📰 أخبار اليوم</div>
-
-<!-- 📰 شريط الأخبار -->
-<div id="news-ticker">
-  <span>جارٍ تحميل الأخبار...</span>
-</div>
-
-<!-- 🕓 التاريخ والوقت -->
+<div id="news-ticker"><span>جارٍ تحميل الأخبار...</span></div>
 <div id="date-time">جارٍ التحديث...</div>
+<div id="joke-bar"><span>جارٍ تحميل النكت...</span></div>
 
 <script>
-  // 🕓 تحديث الوقت والتاريخ
-  function updateDateTime() {
-    const now = new Date();
-    const days = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-    const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
-    const dayName = days[now.getDay()];
-    const date = now.getDate();
-    const monthName = months[now.getMonth()];
-    const year = now.getFullYear();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    document.getElementById("date-time").textContent =
-      `${dayName} ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
+// تحديث التاريخ والوقت
+function updateDateTime() {
+  const now = new Date();
+  const days = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+  const months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  const dayName = days[now.getDay()];
+  const date = now.getDate();
+  const monthName = months[now.getMonth()];
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2,'0');
+  const minutes = String(now.getMinutes()).padStart(2,'0');
+  const seconds = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('date-time').textContent = `${dayName} ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
 
-  // 📰 جلب الأخبار من مصدر عربي (قناة العربية)
-  const RSS_URL = "https://www.alarabiya.net/xml/rss/all.xml";
-  fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(RSS_URL))
-    .then(response => response.json())
-    .then(data => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, "text/xml");
-      const items = xml.querySelectorAll("item");
-      const ticker = document.getElementById("news-ticker");
-      ticker.innerHTML = "";
-      items.forEach((item, idx) => {
-        if (idx >= 10) return; // عرض أول 10 أخبار فقط
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        const span = document.createElement("span");
-        span.innerHTML = `<a href="${link}" target="_blank">${title}</a>`;
-        ticker.appendChild(span);
-      });
-    })
-    .catch(err => {
-      console.error("خطأ في تحميل RSS:", err);
-      document.getElementById("news-ticker").innerHTML = "<span>تعذّر تحميل الأخبار</span>";
+// مصادر متعددة للأخبار (RSS)
+const RSS_SOURCES = [
+  "https://www.aljazeera.net/aljazeerarss/ajrss.xml",
+  "https://www.alarabiya.net/.mrss/ar.xml",
+  "https://www.skynewsarabia.com/webfeeds/rss/home.xml"
+];
+
+// دالة لجلب الأخبار من كل مصدر
+function fetchAllNews() {
+  const ticker = document.getElementById("news-ticker");
+  ticker.innerHTML = "<span>جارٍ تحميل الأخبار...</span>";
+  let allItems = [];
+
+  let fetchPromises = RSS_SOURCES.map(url => {
+    return fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(url))
+      .then(r => r.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents,"text/xml");
+        const items = xml.querySelectorAll("item");
+        items.forEach((item, idx) => {
+          if(idx>=5) return; // الحد الأعلى لكل مصدر
+          allItems.push({
+            title: item.querySelector("title")?.textContent || "لا عنوان",
+            link: item.querySelector("link")?.textContent || "#"
+          });
+        });
+      })
+      .catch(err => console.error("خطأ في جلب RSS:", err));
+  });
+
+  Promise.all(fetchPromises).then(()=>{
+    // خلط الأخبار
+    allItems = allItems.sort(()=>Math.random()-0.5);
+    ticker.innerHTML = "";
+    allItems.forEach(news=>{
+      const span = document.createElement("span");
+      span.innerHTML = `<a href="${news.link}" target="_blank">${news.title}</a>`;
+      ticker.appendChild(span);
     });
-</script>
+  });
+}
 
+// تحديث الأخبار كل 5 دقائق (300000 مللي ثانية)
+fetchAllNews();
+setInterval(fetchAllNews, 300000);
+
+// النكت مع الترجمة
+const jokes = [
+  {ar:"مرة واحد ذهب إلى الطبيب وقال: كل ما أشرب شاي أحس بألم في عيني، قال له الطبيب: حاول تشيل الملعقة من الكوب 😂", en:"A guy went to the doctor and said: Every time I drink tea, I feel pain in my eye. The doctor said: Try removing the spoon from the cup 😂"},
+  {ar:"واحد غبي قال لصاحبه: اشتريت ساعة ضد الماء، قال له: لماذا؟ قال: لأن الماء معه موبايل 🤣", en:"A silly guy said to his friend: I bought a waterproof watch. Friend asked: Why? He said: Because water has a mobile phone 🤣"},
+  {ar:"فيه واحد نام في الشغل، المدير سأله: لماذا نائم؟ قال: كنت أحلم أني أعمل 😅", en:"Someone slept at work. The boss asked: Why are you sleeping? He said: I was dreaming I was working 😅"},
+  {ar:"قالوا لأحدهم: لماذا تضحك؟ قال: الطبيب قال لي أبتسم كل يوم، وأنا أنفذ الأوامر 😂", en:"They asked someone: Why are you laughing? He said: The doctor told me to smile every day, and I follow orders 😂"},
+  {ar:"مرة بخيل فتح التلاجة ورأى المرآة وقال: الحمد لله لا أحد في البيت 😆", en:"A miser opened the fridge, saw the mirror and said: Thank God no one is home 😆"},
+  {ar:"مرة واحد حاول يسوي رجيم، فكل ما يشتهي أكل، يقول: لا، أنا على حمية، ثم ينام 🤣", en:"A guy tried to diet, whenever he craved food, he said: No, I am on a diet, then goes to sleep 🤣"},
+  {ar:"واحد ذهب للمدرسة بدون قلم، فسأله المعلم: لماذا؟ قال: لأن عقلي مليء بالأفكار 😂", en:"A guy went to school without a pen. Teacher asked: Why? He said: Because my mind is full of ideas 😂"},
+  {ar:"مرة واحد دخل الحمام ونسي يخرج ورقة التواليت، قال: الحمد لله أنا ذكي 😅", en:"Someone went to the bathroom and forgot the toilet paper. He said: Thank God, I am smart 😅"},
+  {ar:"واحد يحاول تعلم اللغة الإنجليزية، قال: أنا أتحدث الإنجليزية بطلاقة... في أحلامي 😂", en:"A guy tries to learn English. He said: I speak English fluently... in my dreams 😂"},
+  {ar:"مرة واحد أراد يطبخ، فحرق الماء، وقال: أنا شيف محترف 🤣", en:"A guy wanted to cook, he burned the water and said: I am a professional chef 🤣"}
+];
+
+// تحديث النكت كل 5 ثوانٍ
+function updateJokeBar() {
+  const jokeBar = document.getElementById("joke-bar");
+  const joke = jokes[Math.floor(Math.random()*jokes.length)];
+  jokeBar.innerHTML = `<span><strong>AR:</strong> ${joke.ar} &nbsp;|&nbsp; <strong>EN:</strong> ${joke.en}</span>`;
+}
+setInterval(updateJokeBar, 5000);
+updateJokeBar();
+</script>
 </body>
 </html>
+<!-- شريط القصص الأدبية -->
+<div class="bottom-stories">
+  <div id="storyBox">
+    <div class="ar"></div>
+    <div class="en"></div>
+  </div>
+</div>
+
+<style>
+.bottom-stories {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+  font-family: 'Tajawal', sans-serif;
+  text-align: center;
+  padding: 15px 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.85);
+}
+
+#storyBox {
+  animation: fadeIn 2s ease;
+  transition: all 0.6s ease;
+  max-width: 90%;
+  margin: auto;
+}
+
+.ar {
+  font-size: 18px;
+  color: #FFD700; /* أصفر */
+  direction: rtl;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.en {
+  font-size: 16px;
+  color: #00BFFF; /* أزرق فاتح */
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateX(40px);}
+  to {opacity: 1; transform: translateX(0);}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1; transform: translateX(0);}
+  to {opacity: 0; transform: translateX(-40px);}
+}
+</style>
+
+<script>
+// ✅ مصفوفة القصص الأدبية الطويلة
+const stories = [
+  {
+    ar: `في بلد العميان، عاش رجال ونساء لا يرون شيئاً منذ ولادتهم، وتعودوا على عالم محدود لا يعرفون خارجه شيئاً. جاء رجل مبصر إلى هذا البلد، وكان يعلم أن لديه قدرة فريدة على الرؤية، لكنه خاف أن يخبرهم خوفاً من السخرية. بدأ يراقب عاداتهم اليومية، وأخطائهم، وحاول أن يشرح لهم أن العالم أوسع من حدود بلدهم، لكنهم رفضوا سماع الحقيقة واعتبروا كل ما يقوله هراء. ومع مرور الأيام، أدرك الرجل أن الحقيقة وحدها لا تكفي لتغيير مجتمع اعتاد العمى.`,
+    en: `In the country of the blind, men and women had lived without sight since birth, accustomed to a limited world they could not imagine beyond. One day, a sighted man arrived, aware of his unique ability to see, yet fearful of telling them, afraid of ridicule. He observed their daily habits and mistakes, trying to explain that the world extended beyond their borders, but they refused to listen, deeming everything he said nonsense. Over time, the man realized that truth alone was insufficient to change a society accustomed to blindness.`
+  },
+  {
+    ar: `كان الراعي يسير في المروج الخضراء، يستمع إلى أصوات الطبيعة ويعتني بغنمه بحب وحرص. في إحدى الليالي، ضاعت إحدى خرافه المفضلة، فبدأ البحث عنها بين الأشجار والتلال حتى بزوغ الفجر. شعر بأهمية المسؤولية والصبر، وأدرك أن الحب الحقيقي يظهر من خلال العناية والالتزام بما نعتني به، وأن لكل مخلوق قيمته الخاصة التي تستحق التفاني في رعايته.`,
+    en: `The shepherd walked through the green meadows, listening to the sounds of nature and tending his sheep with love and care. One night, one of his favorite sheep went missing, and he searched for it among trees and hills until dawn. He felt the importance of responsibility and patience, realizing that true love manifests through care and dedication, and that every creature has its unique value worthy of devoted attention.`
+  },
+  {
+    ar: `جلس الرجل بجانب المرأة الحسناء في الحديقة، يتحدثان عن الحياة والأحلام والطموحات. لاحظ كيف أن كل لحظة معها تحمل معنى أعمق، وكيف أن جمالها لا يقتصر على المظاهر، بل يشمل الروح والكلام والمشاعر. فهم أن الحب الحقيقي هو مشاركة الأفكار والمشاعر، وأن التفاهم والاحترام هما أساس أي علاقة طويلة الأمد.`,
+    en: `The man sat beside the beautiful woman in the garden, discussing life, dreams, and ambitions. He noticed how every moment with her held deeper meaning, realizing that her beauty was not confined to appearances but encompassed her soul, words, and emotions. He understood that true love involves sharing thoughts and feelings, and that understanding and respect are the foundation of any lasting relationship.`
+  },
+  {
+    ar: `في صباحٍ مشرق، خرج الفتى إلى الغابة ليستنشق الهواء النقي ويستمع إلى أصوات الطيور. شعر بأن الطبيعة تحمل حكمة عظيمة، وأن كل عنصر فيها مرتبط بالآخر بطريقة دقيقة. رأى الأشجار تتمايل مع الرياح، والمياه تتدفق بهدوء، وفهم أن الحياة مليئة بالدروس التي يمكن تعلمها بالصبر والملاحظة.`,
+    en: `On a bright morning, the boy ventured into the forest to breathe the fresh air and listen to the birds. He felt that nature held great wisdom and that every element was intricately connected. He watched the trees sway with the wind and the waters flow gently, realizing that life is full of lessons that can be learned through patience and observation.`
+  },
+  {
+    ar: `جلس الشاعر على ضفاف النهر، يستنير بضوء القمر، ويكتب كلمات من وحي الليل. شعر بأن كل نجمة تحمل رسالة، وأن كل ظلال الأشجار تروي حكمة خفية. كتب حتى بزوغ الفجر، مستمتعاً بسحر الليل ووحدته، مدركاً أن الإبداع يولد من الصمت والتأمل.`,
+    en: `The poet sat by the river, illuminated by moonlight, writing words inspired by the night. He felt that every star carried a message, and that every shadow of the trees told a hidden wisdom. He wrote until dawn, enjoying the magic and solitude of the night, realizing that creativity is born from silence and reflection.`
+  },
+  {
+    ar: `في أعلى جبل شاهق، تأمل الرحّالة الأفق البعيد، ولاحظ كيف تشرق الشمس وتغيب بلا توقف. شعر بعظمة الطبيعة وأن الصبر والمثابرة هما مفتاح الفهم والتقدم. علم أن الإنسان مهما بلغ من القوة، يبقى جزءاً صغيراً من الكون الشاسع وأن التعلم من الطبيعة هو أعظم درس.`,
+    en: `At the peak of a lofty mountain, the traveler contemplated the distant horizon, observing the sun rise and set without pause. He felt the majesty of nature and understood that patience and perseverance are keys to comprehension and progress. He realized that no matter how powerful a human may be, he remains a small part of the vast universe, and that learning from nature is the greatest lesson.`
+  },
+  {
+    ar: `تحت ظلال شجرة وارفة، جلست المرأة تتأمل الحياة والأحداث من حولها. رأت الأطفال يلعبون، والطيور تحلق بحرية، وفهمت أن البساطة والسعادة مرتبطان بفهم اللحظة والعيش بها بصدق. أدركت أن التعلق بالمستقبل قد يشتت العقل والقلب، وأن الصفاء الداخلي هو مفتاح السعادة الحقيقية.`,
+    en: `Under the shade of a large tree, the woman sat contemplating life and the events around her. She saw children playing and birds flying freely, realizing that simplicity and happiness are connected to understanding the moment and living it sincerely. She understood that attachment to the future could distract the mind and heart, and that inner peace is the key to true happiness.`
+  },
+  {
+    ar: `في أزقة المدينة القديمة، كان الباعة ينادون على بضائعهم، وتختلط الروائح المتنوعة في الهواء. شعر الكاتب بأن كل شارع يحكي قصة، وكل ركن يختزن ذكريات لا تعد، وأن مراقبة الحياة اليومية تمنحه أفكاراً وإلهاماً لا ينضب.`,
+    en: `In the alleys of the old city, vendors called out their wares, and the diverse scents mingled in the air. The writer felt that every street told a story, and every corner held countless memories, and that observing daily life provided him with inexhaustible ideas and inspiration.`
+  },
+  {
+    ar: `جلست الفتاة على الشرفة المطلة على البحر، تتأمل الأمواج المتلاطمة وتشعر بعظمة الكون. فكرت في الرحلة التي خاضتها الحياة وكيف أن كل تجربة تمنحها دروساً قيمة، وأن القوة الحقيقية تكمن في التعلم من كل صعوبة والتطلع إلى المستقبل بتفاؤل.`,
+    en: `The girl sat on the balcony overlooking the sea, watching the crashing waves and feeling the grandeur of the universe. She pondered life's journey and realized that every experience imparts valuable lessons, and that true strength lies in learning from every hardship and looking to the future with optimism.`
+  },
+  {
+    ar: `في صباح الربيع، شمّت المرأة رائحة الزهور المتفتحة، وأحست بأن الحياة كالحديقة تحتاج إلى رعاية وصبر لتزدهر. أدركت أن الحب والعناية بما نملك هو أساس النمو والازدهار، وأن كل لحظة من الاهتمام تصنع فرقاً كبيراً في المستقبل.`,
+    en: `On a spring morning, the woman smelled the blooming flowers and felt that life, like a garden, requires care and patience to flourish. She realized that love and attention to what we possess are the foundation of growth and prosperity, and that every moment of care makes a significant difference in the future.`
+  }
+];
+
+let index = 0;
+const box = document.getElementById("storyBox");
+
+function showStory() {
+  box.style.animation = "fadeOut 2s ease";
+  setTimeout(() => {
+    box.innerHTML = `
+      <div class="ar">${stories[index].ar}</div>
+      <div class="en">${stories[index].en}</div>
+    `;
+    box.style.animation = "fadeIn 2s ease";
+    index = (index + 1) % stories.length;
+  }, 2000);
+}
+
+setInterval(showStory, 20000); // كل 20 ثانية تتحرك القصة
+showStory(); // عرض القصة الأولى مباشرة
+</script>
