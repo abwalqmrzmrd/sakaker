@@ -3,18 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pong Bong Bong مع فيديو خلفية وأزرار صوت</title>
+<title>شريط الأخبار المتحرك مع أخبار مباشرة - أبو القمر زمرد</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Tahoma", sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* ✅ شريط الأخبار الرئيسي */
+  #newsBarContainer {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    border-bottom: 2px solid #00ff99;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  #newsBar {
+    overflow: hidden;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  #newsBar span {
+    display: inline-block;
+    padding: 0 50px;
+    font-size: 18px;
+    color: #fff;
+    line-height: 50px;
+    animation: scrollNews 60s linear infinite;
+  }
+
+  @keyframes scrollNews {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* زر إغلاق */
+  #closeNews {
+    margin-left: 10px;
+    background: #ff0000;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  /* ✅ الساعة والتاريخ أسفل الشريط */
+  #clock {
+    position: fixed;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #00ff99;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+  }
+
+  /* ✅ إشعار المصدر الحالي */
+  #sourceLabel {
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #00ff99;
+    border-radius: 15px;
+    padding: 6px 12px;
+    font-size: 15px;
+    color: #ffcc00;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    animation: fadeLabel 1.5s ease-in-out;
+  }
+
+  @keyframes fadeLabel {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* شريط الأخبار النصية المباشرة */
+  #newsTicker {
+    position: fixed;
+    top: 105px;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    color: #00ff99;
+    font-size: 16px;
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 9997;
+  }
+
+  /* استجابة شاشات صغيرة */
+  @media (max-width: 720px) {
+    #newsBar span { font-size: 14px; padding: 0 30px; }
+    #clock { font-size: 14px; padding: 4px 12px; }
+    #sourceLabel { font-size: 12px; padding: 4px 8px; }
+    #newsTicker { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ✅ شريط الأخبار مع زر إغلاق -->
+<div id="newsBarContainer">
+  <div id="newsBar"></div>
+  <button id="closeNews">✖</button>
+</div>
+
+<!-- ✅ الساعة والتاريخ -->
+<div id="clock"></div>
+
+<!-- ✅ إشعار المصدر الحالي -->
+<div id="sourceLabel">📺 المصدر الآن: العربية</div>
+
+<!-- شريط الأخبار النصية المتحركة -->
+<div id="newsTicker">تحميل الأخبار...</div>
+
+<script>
+  // ⏰ تحديث الساعة
+  function updateClock() {
+    const now = new Date();
+    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const day = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2,'0');
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    const seconds = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('clock').textContent =
+      `${day} - ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // 🌐 المصادر
+  const sources = [
+    { url: "https://www.alarabiya.net/ar/rss.xml", name: "العربية" },
+    { url: "https://www.aljazeera.net/aljazeera/ar/arabic/rss", name: "الجزيرة" },
+    { url: "https://www.skynewsarabia.com/web/rss/home", name: "سكاي نيوز عربية" },
+    { url: "https://www.bbc.com/arabic/index.xml", name: "BBC عربي" },
+    { url: "https://arabic.rt.com/rss", name: "RT العربية" },
+    { url: "https://www.france24.com/ar/rss", name: "فرانس 24 عربي" },
+    { url: "https://www.middleeasteye.net/ar/rss", name: "Middle East Eye عربي" },
+    { url: "https://www.aa.com.tr/ar/rss", name: "الأناضول" },
+    { url: "https://www.dw.com/ar/rss", name: "DW عربية" }
+  ];
+
+  // 🔄 إنشاء الشريط الرئيسي
+  const newsBar = document.getElementById('newsBar');
+  let newsItems = '';
+  sources.forEach(src => {
+    newsItems += `🔹 <a href="${src.url}" target="_blank" style="color:#fff; text-decoration:none;">${src.name}</a> `;
+  });
+  newsBar.innerHTML = `<span>${newsItems}</span><span>${newsItems}</span>`;
+
+  // 🔄 تبديل المصدر الحالي كل 15 دقيقة
+  let currentSource = 0;
+  const label = document.getElementById('sourceLabel');
+  function switchNewsSource() {
+    currentSource = (currentSource + 1) % sources.length;
+    label.textContent = "📺 المصدر الآن: " + sources[currentSource].name;
+    label.style.animation = "none";
+    setTimeout(() => label.style.animation = "fadeLabel 1.5s ease-in-out", 10);
+    fetchTickerNews();
+  }
+  setInterval(switchNewsSource, 15 * 60 * 1000);
+
+  // ❌ زر إغلاق الشريط
+  document.getElementById('closeNews').addEventListener('click', () => {
+    document.getElementById('newsBarContainer').style.display = 'none';
+    document.getElementById('clock').style.display = 'none';
+    document.getElementById('sourceLabel').style.display = 'none';
+    document.getElementById('newsTicker').style.display = 'none';
+  });
+
+  // 📰 شريط الأخبار النصية المتحركة
+  const ticker = document.getElementById('newsTicker');
+  let headlines = [];
+  let tickerIndex = 0;
+  async function fetchTickerNews() {
+    const src = sources[currentSource];
+    try {
+      const apiURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(src.url)}`;
+      const res = await fetch(apiURL);
+      const data = await res.json();
+      headlines = data.items.map(item => item.title);
+      tickerIndex = 0;
+      updateTicker();
+    } catch(e) {
+      console.error("خطأ في جلب الأخبار:", e);
+      ticker.textContent = "لا توجد أخبار حالياً";
+    }
+  }
+
+  function updateTicker() {
+    if (!headlines.length) { ticker.textContent = "لا توجد أخبار حالياً"; return; }
+    ticker.textContent = headlines[tickerIndex];
+    tickerIndex = (tickerIndex + 1) % headlines.length;
+    setTimeout(updateTicker, 5000);
+  }
+
+  // أول تحميل
+  fetchTickerNews();
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong Bong Bong مصغر مع زر إغلاق أسفل الملعب</title>
 <style>
 body, html {
   margin:0; padding:0; height:100%; background:black; overflow:hidden;
   font-family: 'Tajawal', sans-serif;
 }
 
-/* زر فتح اللعبة */
 #pongButton {
   position: fixed;
-  top: 20%;
-  right: 900px;
+  top: 50%;
+  right: 10px;
   transform: translateY(-50%);
   z-index: 1000;
   padding: 12px 18px;
@@ -27,26 +257,21 @@ body, html {
   backdrop-filter: blur(6px);
 }
 
-/* نافذة اللعبة */
 #pongContainer {
   display: none;
   position: fixed;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 800px;
-  aspect-ratio:16/10;
-  max-height: 90vh;
+  top: 25%;
+  left: 25%;
+  width: 50vw;
+  height: 50vh;
   z-index: 9999;
-  border: 2px solid white;
   border-radius: 10px;
   overflow: hidden;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.25);
   box-shadow: 0 0 25px rgba(0,255,255,0.4);
+  cursor: move;
 }
 
-/* خلفية الفيديو */
 #bgVideo {
   position: absolute;
   top:0; left:0;
@@ -55,22 +280,6 @@ body, html {
   pointer-events: none;
 }
 
-/* زر الإغلاق */
-#closeBtn {
-  position:absolute;
-  top:8px;
-  right:8px;
-  z-index:10001;
-  background: rgba(255,0,0,0.8);
-  color:white;
-  border:none;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-/* قائمة الخيارات */
 #menu {
   position:absolute;
   top:10px;
@@ -78,70 +287,62 @@ body, html {
   transform:translateX(-50%);
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:6px;
   align-items:center;
   background:rgba(255,255,255,0.15);
-  padding:15px;
-  border-radius:12px;
+  padding:10px;
+  border-radius:10px;
   color:#fff;
   z-index:10001;
   text-align:center;
+  font-size:12px;
 }
-#menu label { font-size:14px; }
-#menu input, #menu select { margin-left:6px; }
 
-/* Canvas اللعبة */
 #pong {
-  position: relative;
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
   z-index:1;
-  width:100%;
-  height:100%;
   display:block;
 }
 
-/* أزرار الفيديو */
 .videoControls {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
+  bottom: 5px;
+  left: 5px;
   z-index: 10002;
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
-.controlBtn {
-  width: 40px;
-  height: 40px;
+.controlBtn, #closeBtn {
+  width: 35px;
+  height: 35px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
 }
 #playVideoBtn { background: #00BFFF; color: white; }
 #muteVideoBtn { background: #FFD700; color: black; }
+#closeBtn { background: rgba(255,0,0,0.8); color:white; }
 </style>
 </head>
 <body>
 
-<!-- زر فتح اللعبة -->
-<button id="pongButton">play bong bong🏓 بونج بونج</button>
+<button id="pongButton">🏓 بونج بونج</button>
 
-<!-- نافذة اللعبة -->
 <div id="pongContainer">
-  <!-- خلفية الفيديو -->
   <iframe id="bgVideo" src="https://www.youtube.com/embed/bG4NtWR2e88?autoplay=1&mute=1&loop=1&playlist=bG4NtWR2e88" 
           frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-  <!-- زر إغلاق -->
-  <button id="closeBtn">✖</button>
-
-  <!-- قائمة الخيارات -->
   <div id="menu">
-    <label>🎨 لون المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
-    <label>🎨 لون المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
-    <label>⚪ لون الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
+    <label>🎨 المضرب 1: <input id="p1Color" type="color" value="#FFD700"/></label>
+    <label>🎨 المضرب 2: <input id="p2Color" type="color" value="#00BFFF"/></label>
+    <label>⚪ الكرة: <input id="ballColor" type="color" value="#FFFFFF"/></label>
     <label>🎯 المستوى:
       <select id="level">
         <option value="easy">سهل</option>
@@ -150,19 +351,19 @@ body, html {
         <option value="impossible">مستحيل</option>
       </select>
     </label>
-    <div style="margin-top:8px;">
-      <button onclick="startGame('player')" style="padding:6px 14px;border:none;border-radius:8px;background:#FFD700;cursor:pointer;">🎮 ضد لاعب</button>
-      <button onclick="startGame('computer')" style="padding:6px 14px;border:none;border-radius:8px;background:#00BFFF;cursor:pointer;">🤖 ضد الكمبيوتر</button>
+    <div style="margin-top:4px;">
+      <button onclick="startGame('player')" style="padding:4px 10px;border:none;border-radius:6px;background:#FFD700;cursor:pointer;">🎮 لاعب</button>
+      <button onclick="startGame('computer')" style="padding:4px 10px;border:none;border-radius:6px;background:#00BFFF;cursor:pointer;">🤖 كمبيوتر</button>
     </div>
   </div>
 
-  <!-- Canvas اللعبة -->
   <canvas id="pong"></canvas>
 
-  <!-- أزرار الفيديو -->
+  <!-- أزرار الفيديو + زر الإغلاق أسفل الملعب -->
   <div class="videoControls">
-    <button class="controlBtn" id="playVideoBtn">▶️ تشغيل/إيقاف</button>
-    <button class="controlBtn" id="muteVideoBtn">🔇 كتم/تشغيل</button>
+    <button class="controlBtn" id="playVideoBtn">▶️</button>
+    <button class="controlBtn" id="muteVideoBtn">🔇</button>
+    <button id="closeBtn">✖</button>
   </div>
 </div>
 
@@ -175,7 +376,6 @@ const canvas = document.getElementById('pong');
 const ctx = canvas.getContext('2d');
 const menu = document.getElementById('menu');
 
-// أزرار الفيديو
 const bgVideo = document.getElementById('bgVideo');
 const playVideoBtn = document.getElementById('playVideoBtn');
 const muteVideoBtn = document.getElementById('muteVideoBtn');
@@ -187,7 +387,6 @@ let wPressed=false, sPressed=false, upPressed=false, downPressed=false;
 let videoPlaying = true;
 let videoMuted = true;
 
-// لعبة Pong
 function initGame(){
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -210,7 +409,7 @@ function movePaddles(){
   if(gameMode==='player'){
     if(upPressed) player2.y = Math.max(player2.y-7,0);
     if(downPressed) player2.y = Math.min(player2.y+7,canvas.height-paddleHeight);
-  } else if(gameMode==='computer'){
+  } else {
     let speed = getComputerSpeed(document.getElementById('level').value);
     if(ball.y > player2.y+paddleHeight/2) player2.y += Math.min(speed, canvas.height-player2.y-paddleHeight);
     if(ball.y < player2.y+paddleHeight/2) player2.y -= Math.min(speed, player2.y);
@@ -218,58 +417,35 @@ function movePaddles(){
   }
 }
 
-function getComputerSpeed(level){
-  return level==='easy'?3:level==='hard'?6:level==='harder'?10:15;
-}
-
-function collision(b,p){
-  return b.x-b.radius<p.x+paddleWidth && b.x+ball.radius>p.x && b.y+ball.radius>p.y && b.y-ball.radius<p.y+paddleHeight;
-}
-
+function getComputerSpeed(level){ return level==='easy'?3:level==='hard'?6:level==='harder'?10:15; }
+function collision(b,p){ return b.x-b.radius<p.x+paddleWidth && b.x+ball.radius>p.x && b.y+ball.radius>p.y && b.y-ball.radius<p.y+paddleHeight; }
 function updateBall(){
-  ball.x += ball.dx;
-  ball.y += ball.dy;
+  ball.x += ball.dx; ball.y += ball.dy;
   if(ball.y+ball.radius>canvas.height || ball.y-ball.radius<0) ball.dy*=-1;
   if(collision(ball,player1)){ ball.dx = Math.abs(ball.dx); ball.dy = (ball.y-(player1.y+paddleHeight/2))/2; }
   if(collision(ball,player2)){ ball.dx = -Math.abs(ball.dx); ball.dy = (ball.y-(player2.y+paddleHeight/2))/2; }
-
   if(ball.x-ball.radius<0){player2.score++; resetBall();}
   if(ball.x+ball.radius>canvas.width){player1.score++; resetBall();}
 }
 
 function drawGame(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  let grass = ctx.createLinearGradient(0,0,0,canvas.height);
-  grass.addColorStop(0,'rgba(0,255,0,0.05)');
-  grass.addColorStop(1,'rgba(0,128,0,0.05)');
-  ctx.fillStyle = grass;
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
+  ctx.fillStyle = 'rgba(0,128,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = player1.color; ctx.fillRect(player1.x,player1.y,paddleWidth,paddleHeight);
   ctx.fillStyle = player2.color; ctx.fillRect(player2.x,player2.y,paddleWidth,paddleHeight);
   ctx.fillStyle = ball.color; ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2); ctx.fill();
-
-  ctx.fillStyle='white'; ctx.font='28px Tajawal';
-  ctx.fillText(player1.score, canvas.width/4, 40);
-  ctx.fillText(player2.score, 3*canvas.width/4, 40);
+  ctx.fillStyle='white'; ctx.font='20px Tajawal';
+  ctx.fillText(player1.score, canvas.width/4, 30);
+  ctx.fillText(player2.score, 3*canvas.width/4, 30);
 }
 
 function gameLoop(){
-  movePaddles();
-  updateBall();
-  drawGame();
+  movePaddles(); updateBall(); drawGame();
   animFrame = requestAnimationFrame(gameLoop);
 }
 
-function startGame(mode){
-  gameMode = mode;
-  initGame();
-  menu.style.display='none';
-  gameLoop();
-}
+function startGame(mode){ gameMode = mode; initGame(); menu.style.display='none'; gameLoop(); }
 
-// مفاتيح
 document.addEventListener('keydown', e=>{
   if(e.key==='w'||e.key==='W') wPressed=true;
   if(e.key==='s'||e.key==='S') sPressed=true;
@@ -283,7 +459,6 @@ document.addEventListener('keyup', e=>{
   if(e.key==='ArrowDown') downPressed=false;
 });
 
-// موس ولمس
 canvas.addEventListener('mousemove', e=>{
   const rect = canvas.getBoundingClientRect();
   player1.y = e.clientY-rect.top-paddleHeight/2;
@@ -294,33 +469,45 @@ canvas.addEventListener('touchmove', e=>{
   player1.y = e.touches[0].clientY-rect.top-paddleHeight/2;
 },{passive:false});
 
-// فتح وإغلاق اللعبة
 pongButton.addEventListener('click', ()=>{
   initGame();
   menu.style.display='flex';
   pongContainer.style.display='block';
   document.body.style.overflow='hidden';
 });
+
 closeBtn.addEventListener('click', ()=>{
   pongContainer.style.display='none';
   document.body.style.overflow='auto';
   cancelAnimationFrame(animFrame);
 });
 
-// التحكم بالفيديو
 playVideoBtn.addEventListener('click', ()=>{
   videoPlaying = !videoPlaying;
-  const url = new URL(bgVideo.src);
-  url.searchParams.set('autoplay', videoPlaying?1:0);
-  bgVideo.src = url.toString();
+  playVideoBtn.textContent = videoPlaying?'⏸':'▶️';
+  bgVideo.contentWindow.postMessage('{"event":"command","func":"'+(videoPlaying?'playVideo':'pauseVideo')+'","args":""}', '*');
 });
 
 muteVideoBtn.addEventListener('click', ()=>{
   videoMuted = !videoMuted;
-  const url = new URL(bgVideo.src);
-  url.searchParams.set('mute', videoMuted?1:0);
-  bgVideo.src = url.toString();
+  muteVideoBtn.textContent = videoMuted?'🔇':'🔊';
+  bgVideo.contentWindow.postMessage('{"event":"command","func":"'+(videoMuted?'mute':'unMute')+'","args":""}', '*');
 });
+
+// السحب
+let isDragging=false, offsetX=0, offsetY=0;
+pongContainer.addEventListener('mousedown', e=>{
+  isDragging=true;
+  offsetX = e.clientX - pongContainer.getBoundingClientRect().left;
+  offsetY = e.clientY - pongContainer.getBoundingClientRect().top;
+});
+document.addEventListener('mousemove', e=>{
+  if(isDragging){
+    pongContainer.style.left = (e.clientX - offsetX) + 'px';
+    pongContainer.style.top = (e.clientY - offsetY) + 'px';
+  }
+});
+document.addEventListener('mouseup', ()=>{ isDragging=false; });
 </script>
 </body>
 </html>
@@ -5645,146 +5832,6 @@ body {
 
   // يمكنك تغيير سرعة التمرير عبر CSS variable:
   // document.getElementById('scrollInner').style.setProperty('--scroll-duration', '70s');
-</script>
-<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شريط الأخبار المتغير - أبو القمر زمرد</title>
-<style>
-  body {
-    margin: 0;
-    font-family: "Tahoma", sans-serif;
-    background:
-    color: #fff;
-    overflow-x: hidden;
-  }
-
-  /* ✅ شريط الأخبار */
-  #newsBar {
-    width: 100%;
-    height: 50px;
-    background: 
-    color: #fff;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    backdrop-filter: blur(4px);
-    border-bottom: 2px solid #00ff99;
-  }
-
-  #newsFrame {
-    width: 100%;
-    height: 100%;
-    border: none;
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* ✅ الساعة والتاريخ أسفل الشريط */
-  #clock {
-    position: fixed;
-    top: 52px;
-    left: 50%;
-    transform: translateX(-50%);
-    background:
-    padding: 6px 18px;
-    border-radius: 20px;
-    font-size: 16px;
-    color: #00ff99;
-    text-align: center;
-    backdrop-filter: blur(6px);
-    z-index: 9998;
-  }
-
-  /* ✅ إشعار المصدر الحالي */
-  #sourceLabel {
-    position: fixed;
-    top: 5px;
-    right: 10px;
-    background:
-    border: 1px solid #00ff99;
-    border-radius: 15px;
-    padding: 6px 12px;
-    font-size: 15px;
-    color: #ffcc00;
-    z-index: 10000;
-    backdrop-filter: blur(5px);
-    animation: fadeLabel 1.5s ease-in-out;
-  }
-
-  @keyframes fadeLabel {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
-</head>
-<body>
-
-<!-- ✅ شريط الأخبار -->
-<div id="newsBar">
-  <iframe id="newsFrame" src="https://www.alarabiya.net/" loading="lazy"></iframe>
-</div>
-
-<!-- ✅ الساعة والتاريخ -->
-<div id="clock"></div>
-
-<!-- ✅ إشعار المصدر الحالي -->
-<div id="sourceLabel">📺 المصدر الآن: العربية</div>
-
-<script>
-  // ⏰ تحديث الساعة
-  function updateClock() {
-    const now = new Date();
-    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-    const day = days[now.getDay()];
-    const date = now.getDate();
-    const month = months[now.getMonth()];
-    const year = now.getFullYear();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent =
-      `${day} - ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // 🌐 المصادر الإخبارية
-  const sources = [
-    { url: "https://www.alarabiya.net/", name: "العربية" },
-    { url: "https://www.aljazeera.net/", name: "الجزيرة" },
-    { url: "https://www.skynewsarabia.com/", name: "سكاي نيوز عربية" },
-    { url: "https://www.bbc.com/arabic", name: "BBC عربي" },
-    { url: "https://arabic.rt.com/", name: "RT العربية" }
-  ];
-
-  let currentSource = 0;
-  const iframe = document.getElementById('newsFrame');
-  const label = document.getElementById('sourceLabel');
-
-  // 🔄 تبديل الموقع كل 15 دقيقة
-  function switchNewsSource() {
-    currentSource = (currentSource + 1) % sources.length;
-    iframe.src = sources[currentSource].url;
-    label.textContent = "📺 المصدر الآن: " + sources[currentSource].name;
-    label.style.animation = "none";
-    setTimeout(() => label.style.animation = "fadeLabel 1.5s ease-in-out", 10);
-  }
-
-  // كل 15 دقيقة (900,000 ms)
-  setInterval(switchNewsSource, 15 * 60 * 1000);
 </script>
 
 </body>
