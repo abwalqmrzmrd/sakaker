@@ -1,3 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خلفية فيديو كاملة مع زر صوت</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Tahoma", sans-serif;
+  }
+
+  /* الفيديو يغطي كامل الصفحة */
+  .video-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .video-bg-container iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+  }
+
+  /* زر الصوت */
+  #soundBtn {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: 0.3s;
+  }
+
+  #soundBtn:hover {
+    background: rgba(255,255,255,0.85);
+    color: #000;
+  }
+</style>
+</head>
+<body>
+
+<!-- زر الصوت -->
+<button id="soundBtn">🔊 تشغيل الصوت</button>
+
+<!-- فيديو الخلفية -->
+<div class="video-bg-container">
+  <iframe id="video-bg" src="https://www.youtube.com/embed/R1A_kGMc-0A?autoplay=1&mute=1&controls=0&loop=1&playlist=R1A_kGMc-0A&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  const soundBtn = document.getElementById('soundBtn');
+  const iframe = document.getElementById('video-bg');
+  let isMuted = true;
+
+  soundBtn.addEventListener('click', () => {
+    if (isMuted) {
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      soundBtn.textContent = "🔈 كتم الصوت";
+      isMuted = false;
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+      soundBtn.textContent = "🔊 تشغيل الصوت";
+      isMuted = true;
+    }
+  });
+</script>
+
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
