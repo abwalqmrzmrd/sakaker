@@ -1,134 +1,146 @@
-<!-- 🔹 زر فتح اللعبة -->
-<button id="pongGame-btn" style="z-index:9999;position:fixed;bottom:15px;right:15px;padding:10px 20px;border:none;border-radius:12px;background:#00BFFF;color:#fff;font-size:18px;cursor:pointer;">🏓 بونج بونج</button><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خلفية فيديو متناسقة - أبو القمر زمرد</title>
+<title>خلفية فيديو MP4 - أبو القمر زمرد</title>
+
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: "Tahoma", sans-serif;
-    background: transparent; /* إزالة أي خلفية تمنع ظهور الفيديو */
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Tahoma", sans-serif;
+  background: black;
+}
 
-  /* 🎬 خلفية الفيديو */
-  #video-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* دائما خلف المحتوى */
-    pointer-events: none; /* حتى لا يتفاعل المستخدم مع الفيديو */
-  }
+/* 🎬 الفيديو الخلفية */
+#video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
 
-  #video-bg iframe {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+#mainVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.78vh; /* نسبة 16:9 */
+  height: 100vh;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
 
-  /* 🔊 زر التحكم بالصوت */
-  #soundToggle {
-    position: fixed;
-    top: 20px;
-    right: 300px;
-    z-index: 10;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #soundToggle:hover { background: rgba(255,255,255,0.2); }
+/* 🔊 زر الصوت */
+#soundToggle {
+  position: fixed;
+  top: 20px;
+  right: 200px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#soundToggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 
-  /* 🌙 محتوى الصفحة فوق الفيديو */
-  .content {
-    position: relative;
-    z-index: 1; /* فوق الفيديو */
-    text-align: center;
-    padding-top: 60px;
-    color: white;
-    text-shadow: 0 0 10px #000;
-  }
+/* ❌ زر إغلاق الخلفية */
+#closeVideo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background: rgba(255, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#closeVideo:hover {
+  background: rgba(255, 0, 0, 0.8);
+}
 
-  .icon {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2); /* يمكن تخفيف اللون أو جعله شفاف تمامًا */
-    backdrop-filter: blur(3px);
-    transition: transform 0.3s;
-  }
-
-  .icon:hover {
-    transform: scale(1.2);
-    background: rgba(255, 255, 255, 0.4);
-  }
+/* 🌙 محتوى الصفحة فوق الفيديو */
+#content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-shadow: 0 0 12px #000;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-radius: 20px;
+}
 </style>
 </head>
+
 <body>
 
-<!-- 🎬 فيديو الخلفية -->
-<div id="video-bg">
-  <iframe
-    id="mainVideo"
-    src="https://www.youtube.com/embed/6Hoq2I4k0GE?autoplay=1&mute=1&loop=1&playlist=6Hoq2I4k0GE&playsinline=1"
-    frameborder="0"
-    allow="autoplay; fullscreen"
-    allowfullscreen>
-  </iframe>
+<!-- 🎬 فيديو الخلفية MP4 -->
+<div id="video-background">
+  <video id="mainVideo" autoplay loop muted>
+    <source src="video.mp4" type="video/mp4">
+    متصفحك لا يدعم تشغيل الفيديو.
+  </video>
 </div>
 
 <!-- 🔊 زر التحكم بالصوت -->
 <button id="soundToggle">🔈 تشغيل الصوت</button>
 
+<!-- ❌ زر إغلاق الخلفية -->
+<button id="closeVideo">✖️ إغلاق الخلفية</button>
 
-<!-- 🎵 كود التحكم بالصوت -->
 <script>
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-document.body.appendChild(tag);
+const video = document.getElementById('mainVideo');
+const btnSound = document.getElementById('soundToggle');
+const btnClose = document.getElementById('closeVideo');
 
-let player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('mainVideo', {
-    events: { 'onReady': onPlayerReady }
-  });
-}
+video.volume = 0.5; // صوت متوسط
 
-function onPlayerReady() {
-  player.mute();
-  player.playVideo();
+let muted = true;
+btnSound.addEventListener('click', () => {
+  if (muted) {
+    video.muted = false;
+    btnSound.textContent = "🔇 إيقاف الصوت";
+    muted = false;
+  } else {
+    video.muted = true;
+    btnSound.textContent = "🔈 تشغيل الصوت";
+    muted = true;
+  }
+});
 
-  const btn = document.getElementById("soundToggle");
-  let muted = true;
-
-  btn.addEventListener("click", () => {
-    if (muted) {
-      player.unMute();
-      player.setVolume(100);
-      btn.textContent = "🔇 إيقاف الصوت";
-      muted = false;
-    } else {
-      player.mute();
-      btn.textContent = "🔈 تشغيل الصوت";
-      muted = true;
-    }
-  });
-}
+btnClose.addEventListener('click', () => {
+  document.getElementById("video-background").style.display = "none";
+  btnSound.style.display = "none";
+  btnClose.style.display = "none";
+});
 </script>
+
 </body>
 </html>
 
+<!-- 🔹 زر فتح اللعبة -->
+<button id="pongGame-btn" style="z-index:9999;position:fixed;bottom:15px;right:15px;padding:10px 20px;border:none;border-radius:12px;background:#00BFFF;color:#fff;font-size:18px;cursor:pointer;">🏓 بونج بونج</button><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
 <!-- 🔹 حاوية اللعبة -->
 <div id="pongGame-container" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:black;z-index:10000;overflow:hidden;">
 
