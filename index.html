@@ -1,43 +1,42 @@
-<!DOCTYPE html>
+<!-- 🔹 زر فتح اللعبة -->
+<button id="pongGame-btn" style="z-index:9999;position:fixed;bottom:15px;right:15px;padding:10px 20px;border:none;border-radius:12px;background:#00BFFF;color:#fff;font-size:18px;cursor:pointer;">🏓 بونج بونج</button><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خلفية فيديو - أبو القمر زمرد</title>
+<title>خلفية فيديو متناسقة - أبو القمر زمرد</title>
 <style>
-  body {
+  html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
     font-family: "Tahoma", sans-serif;
-    color: #fff;
+    background: transparent; /* إزالة أي خلفية تمنع ظهور الفيديو */
   }
 
   /* 🎬 خلفية الفيديو */
   #video-bg {
     position: fixed;
-    top: 40px; /* نزّل الفيديو قليلًا لتجنب تغطية الأيقونات */
+    top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 40px);
-    overflow: hidden;
-    z-index: -1;
-    background: black;
+    height: 100%;
+    z-index: -1; /* دائما خلف المحتوى */
+    pointer-events: none; /* حتى لا يتفاعل المستخدم مع الفيديو */
   }
 
   #video-bg iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.85;
-    border: none;
   }
 
-  /* 🔊 زر الصوت */
+  /* 🔊 زر التحكم بالصوت */
   #soundToggle {
     position: fixed;
     top: 20px;
-    right:200px;
+    right: 300px;
     z-index: 10;
     background: rgba(0,0,0,0.6);
     color: white;
@@ -50,12 +49,14 @@
   }
   #soundToggle:hover { background: rgba(255,255,255,0.2); }
 
-  /* 🌙 المحتوى فوق الخلفية */
+  /* 🌙 محتوى الصفحة فوق الفيديو */
   .content {
     position: relative;
-    z-index: 2;
+    z-index: 1; /* فوق الفيديو */
     text-align: center;
     padding-top: 60px;
+    color: white;
+    text-shadow: 0 0 10px #000;
   }
 
   .icon {
@@ -63,8 +64,8 @@
     margin: 10px;
     padding: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.2); /* يمكن تخفيف اللون أو جعله شفاف تمامًا */
+    backdrop-filter: blur(3px);
     transition: transform 0.3s;
   }
 
@@ -74,14 +75,14 @@
   }
 </style>
 </head>
-
 <body>
 
-<!-- 🎬 خلفية الفيديو -->
+<!-- 🎬 فيديو الخلفية -->
 <div id="video-bg">
   <iframe
     id="mainVideo"
     src="https://www.youtube.com/embed/6Hoq2I4k0GE?autoplay=1&mute=1&loop=1&playlist=6Hoq2I4k0GE&playsinline=1"
+    frameborder="0"
     allow="autoplay; fullscreen"
     allowfullscreen>
   </iframe>
