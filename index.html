@@ -1,3 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القصص الصينية</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* ✅ الأيقونة */
+  .story-btn {
+    position: fixed;
+    bottom: 100px;
+    left:20%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 99999;
+    font-weight: bold;
+    transition: all 0.3s;
+  }
+  .story-btn:hover {
+    background: rgba(255, 215, 0, 0.4);
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  /* ✅ الصندوق المنبثق */
+  .story-popup {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: rgba(0,0,0,0.88);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 600px;
+    display: none;
+    z-index: 99998;
+    animation: fadeIn 0.5s ease;
+    box-shadow: 0 0 12px rgba(255,255,255,0.2);
+  }
+
+  .ar { color: #FFD700; font-size: 17px; direction: rtl; margin-bottom: 10px; line-height: 1.5; }
+  .en { color: #87CEFA; font-size: 14px; direction: ltr; line-height: 1.4; }
+
+  @keyframes fadeIn { from {opacity:0; transform:translate(-50%,60%);} to {opacity:1; transform:translate(-50%,50%);} }
+  @keyframes fadeOut { from {opacity:1; transform:translate(-50%,50%);} to {opacity:0; transform:translate(-50%,60%);} }
+</style>
+</head>
+<body>
+
+<!-- ✅ أيقونة القصص -->
+<div id="storyBtn" class="story-btn">📜</div>
+
+<!-- ✅ صندوق القصص -->
+<div id="storyPopup" class="story-popup">
+  <div class="ar"></div>
+  <div class="en"></div>
+</div>
+
+<script>
+(() => {
+  const btn = document.getElementById('storyBtn');
+  const popup = document.getElementById('storyPopup');
+  const ar = popup.querySelector('.ar');
+  const en = popup.querySelector('.en');
+
+  const stories = [
+    {ar:`الإصبع - فنغ منغ لونغ<br>رجل فقير طلب إصبع صديقه الذي يحول الأشياء ذهباً.` ,en:`The Finger - Feng Meng Long<br>A poor man asked for his friend's finger that could turn things into gold.`},
+    {ar:`الحكمة - وو تشنغ<br>الإمبراطور حلم بتنين فقتله الوزير في المنام.` ,en:`Wisdom - Wu Cheng<br>The emperor dreamed of a dragon his minister killed in the dream.`},
+    {ar:`قصة الثعالب - نيو تشياو<br>ثعلبان يضحكان تحت شجرة.` ,en:`The Foxes - Niu Xiao<br>Two foxes laughed under a tree.`},
+    {ar:`القرد والبحيرة<br>قرد يساعد الحيوانات على عبور البحيرة.` ,en:`The Monkey and the Lake<br>A monkey helped animals cross the lake.`},
+    {ar:`التنين والأرض<br>تنين يحمي القرية في الليالي الممطرة.` ,en:`The Dragon and the Earth<br>A dragon protects the village on rainy nights.`},
+    {ar:`السمكة الذهبية<br>من يطمع يخسر الأمنيات.` ,en:`The Golden Fish<br>Those who are greedy lose their wishes.`},
+    {ar:`النجوم والحكيم<br>كل نجم يحمل حكمة.` ,en:`The Stars and the Sage<br>Each star carries wisdom.`}
+  ];
+
+  let i = 0;
+  function showStory(){
+    ar.innerHTML = stories[i].ar;
+    en.innerHTML = stories[i].en;
+    i = (i + 1) % stories.length;
+  }
+
+  btn.onclick = () => {
+    if (popup.style.display === 'block') {
+      popup.style.animation = 'fadeOut 0.5s ease';
+      setTimeout(() => popup.style.display = 'none', 400);
+    } else {
+      popup.style.display = 'block';
+      showStory();
+    }
+  };
+
+  setInterval(() => {
+    if (popup.style.display === 'block') showStory();
+  }, 20000);
+})();
+</script>
+
+</body>
+</html>
+
 <!-- 💭 أيقونة الفلاسفة Philosophers -->
 <button id="philosophers-btn" 
 style="position:fixed;top:40%;left:90px;transform:translateY(-50%);
@@ -5413,7 +5526,7 @@ body {
 .title {
   position: fixed;
   bottom: 550px;
-  right: 120px;
+  right: 60px;
   font-size: 16px;
   color: #00ffaa;
   text-shadow: 0 0 10px #00ffaa;
@@ -5425,135 +5538,6 @@ body {
 <body>
 </body>
 </html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قصص صينية - أيقونة منبثقة</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  /* أيقونة القصص */
-  #storyIcon {
-    position: fixed;
-    bottom:100px;
-    left:10%;
-    transform: translateX(-50%);
-    background: 
-    color: #fff;
-    padding: 12px 18px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 99999;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  /* صندوق القصص */
-  #storyBox {
-    position: fixed;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 12px;
-    max-width: 90%;
-    display: none;
-    z-index: 99998;
-    animation: fadeIn 0.5s ease;
-  }
-
-  .ar { color: #FFD700; font-size: 16px; direction: rtl; margin-bottom: 8px; line-height: 1.5; }
-  .en { color: #00BFFF; font-size: 14px; direction: ltr; line-height: 1.4; }
-
-  @keyframes fadeIn { from {opacity:0; transform: translateY(20px);} to {opacity:1; transform: translateY(0);} }
-  @keyframes fadeOut { from {opacity:1; transform: translateY(0);} to {opacity:0; transform: translateY(20px);} }
-</style>
-</head>
-<body>
-
-<!-- أيقونة القصص -->
-<div id="storyIcon">قصص صينية</div>
-
-<!-- صندوق عرض القصص -->
-<div id="storyBox">
-  <div class="ar"></div>
-  <div class="en"></div>
-</div>
-
-<script>
-const storyIcon = document.getElementById('storyIcon');
-const storyBox = document.getElementById('storyBox');
-
-// جميع القصص مع ترجمتها
-const stories = [
-  {
-    ar: `الإصبع\n\nفنغ منغ - لونغ\nإلتقى رجل فقير في الطريق صديقاً قديماً ، وكان لذلك الصديق قدرة خارقة للطبيعة تسمح له القيام بالمعجزات. وبينما كان الفقير يشتكي من الصعوبات التي تواجهه في حياته ، لمس صديقه بإصبعه لبنة تحولت إلى ذهب في الحال ، فقام بعرضها على الفقير الذي شعر بالألم لأن ذلك كان قليلاً. لمس الصديق أسداً من حجارة فحوله إلى ذهب صلب وأضافه إلى اللبنة ، لكن الفقير أصّر بأن كلتا الهديتين تعتبر قليلة.\n- حسناً ، ماذا تريد أيضاً؟ - سأله صانع العجائب مستغرباً.\n- أريد إصبعك - أجابه الآخر.`,
-    en: `The Finger\n\nFeng Meng - Long\nA poor man met an old friend on the road, who had supernatural powers to perform miracles. While the poor man complained about the hardships in his life, his friend touched a brick with his finger, turning it immediately into gold. He offered it to the poor man, who felt it was too little. The friend then touched a lion made of stone, turning it into solid gold and adding it to the brick, but the poor man insisted that both gifts were insufficient.\n- Well, what else do you want? asked the wonder maker in surprise.\n- I want your finger, replied the other.`
-  },
-  {
-    ar: `الحكمة\n\nوو تشنغ - إن\nفي تلك الليلة، وفي ساعة الجرذ، حلم الإمبراطور بأنه خرج من قصره وتمشى في الظلمة أسفل الأشجار المزهرة. حينها جثا شيء ما عند قدميه وطلب منه الحماية. قبل الإمبراطور ذلك حيث قال له المتضرع بأنه تنين وأن الكواكب كشفت له بأنه وفي اليوم التالي قبل أن يحل المساء، سيقوم وي تشينغ، وزير الإمبراطور، بقطع رأسه. في الحلم، تعهد الإمبراطور بحمايته.\nوحين استيقظ، قام الإمبراطور بطلب وي تشينغ، إلا أنهم أخبروه بعدم وجوده في القصر، فبعث بإثره وأبقاه منشغلاً طوال النهار كي لا يقتل التنين، وحين اقترب المساء عرض عليه مشاركته في لعبة شطرنج، كانت المباراة طويلة، فتعب الوزير وبقي طوال الليل نائماً.\nهزت جلبة قوية الأرض، من ثم دخل ضابطان ومعهما رأس تنين كبيرة مبللة بالدم، وضعاها عند قدمي الإمبراطور صارخين: - وقعت من السماء.\nوي تشينغ الذي كان قد استيقظ، نظر إليها بحيرة ثم قال: - يا للغرابة، قد حلمت بأنني أقتل تنيناً كهذا.`,
-    en: `Wisdom\n\nWu Cheng - Yin\nThat night, during the hour of the rat, the emperor dreamed he left his palace and walked in the darkness under the flowering trees. Something knelt at his feet, asking for protection. The emperor accepted, for it claimed to be a dragon and that the stars revealed that the next day, before evening, Emperor's minister Wu Cheng would behead it. In the dream, the emperor pledged to protect it.\nUpon waking, he asked for Wu Cheng, but was told he wasn’t in the palace. He kept him busy all day to prevent the dragon from being killed, and as evening approached, he offered him a chess game. The game was long, and the minister slept through the night.\nA loud noise shook the ground, then two officers entered with a large dragon’s head covered in blood, placing it at the emperor’s feet shouting: - It fell from the sky.\nWu Cheng, who had awakened, looked at it in astonishment and said: - How strange, I dreamed I was killing a dragon like this.`
-  },
-  {
-    ar: `قصة الثعالب\n\nنيو تشياو\nرأى وانغ ثعلبين واقفين على قوائمهما الخلفية مستندين إلى جذع شجرة، كان أحدهما يحمل في يده ورقة، وكانا يضحكان كما لو أنهما يتشاركان في طرفة.`,
-    en: `The Fox Story\n\nNiu Xiao\nWang saw two foxes standing on their hind legs leaning against a tree trunk. One held a paper in its hand, and they laughed as if sharing a joke.`
-  },
-  {
-    ar: `القرد والبحيرة\n\nحكاية صينية قديمة\nكان هناك قرد يعيش بالقرب من بحيرة كبيرة، وكان يحب السباحة والقفز بين الأشجار. في يوم من الأيام، قرر مساعدة بعض الحيوانات الصغيرة للوصول إلى ضفة البحيرة، فتعاون معها بحكمة وشجاعة، وأصبح محبوباً بين جميع سكان الغابة.`,
-    en: `The Monkey and the Lake\n\nAncient Chinese Tale\nThere was a monkey living near a large lake, who loved swimming and leaping between trees. One day, he decided to help some small animals reach the lake’s shore. He cooperated with them wisely and courageously, becoming beloved among all forest inhabitants.`
-  },
-  {
-    ar: `النجوم والحكيم\n\nقصة صينية\nجلس الحكيم تحت النجوم، يتأمل الكون، ويرى أن كل نجم يحمل رسالة، وأن المعرفة تأتي من التأمل والصبر. علّم أهل القرية أن الحياة مليئة بالحكمة في كل تفاصيلها الصغيرة.`,
-    en: `The Stars and the Sage\n\nChinese Story\nThe sage sat under the stars, contemplating the universe, seeing that each star carried a message, and that knowledge comes from reflection and patience. He taught the villagers that life is full of wisdom in every small detail.`
-  },
-  {
-    ar: `التنين والأرض\n\nحكاية قديمة\nتعاون التنين مع الأرض ليحمي القرية من الكوارث، فكان يظهر في الليالي الممطرة ليحمل الماء للحقول، ويعلم الناس دروس الحياة في الشجاعة والصبر.`,
-    en: `The Dragon and the Earth\n\nAncient Tale\nThe dragon cooperated with the earth to protect the village from disasters. It appeared on rainy nights to carry water to the fields, teaching people lessons of courage and patience.`
-  },
-  {
-    ar: `السمكة الذهبية\n\nحكاية شعبية\nكانت السمكة الذهبية تمنح الأمنيات لمن يبر بها، وقد تعلم الناس منها أن الطمع لا يؤدي إلا إلى الخسارة، وأن الحكمة تأتي من تقدير ما لديهم والعمل بما هو متاح.`,
-    en: `The Golden Fish\n\nFolk Tale\nThe golden fish granted wishes to those who treated it well. People learned from it that greed leads only to loss, and that wisdom comes from appreciating what they have and working with what is available.`
-  }
-];
-
-let index = 0;
-
-// عرض القصة
-function showStory() {
-  const arDiv = storyBox.querySelector('.ar');
-  const enDiv = storyBox.querySelector('.en');
-
-  storyBox.style.animation = "fadeOut 0.5s ease";
-  setTimeout(() => {
-    arDiv.innerHTML = stories[index].ar.replace(/\n/g,'<br>');
-    enDiv.innerHTML = stories[index].en.replace(/\n/g,'<br>');
-    storyBox.style.animation = "fadeIn 0.5s ease";
-    index = (index + 1) % stories.length;
-  }, 500);
-}
-
-// التبديل التلقائي كل 20 ثانية
-setInterval(showStory, 20000);
-
-// عند الضغط على الأيقونة
-storyIcon.addEventListener('click', () => {
-  if(storyBox.style.display === "none" || storyBox.style.display === "") {
-    storyBox.style.display = "block";
-    showStory(); // عرض أول قصة عند الفتح
-  } else {
-    storyBox.style.display = "none";
-  }
-});
-</script>
-</body>
-</html>
-
 <!-- 🌙 حاوية الفيديو المخفية -->
 <div id="jokeVideoContainer" style="display:none; position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:10000;">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE_VIDEO?autoplay=1" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
