@@ -34,7 +34,7 @@
   /* زر تغيير الخلفية */
   #changeBgBtn {
     position: fixed;
-    top: 50px;
+    top: 70px;
     left: 20px;
     padding: 12px 20px;
     background: rgba(0,0,0,0.6);
@@ -56,7 +56,7 @@
   #soundBtn {
     position: fixed;
     top: 70px;
-    right: 1700x;
+    right: 300px;
     background: rgba(0,0,0,0.6);
     color: #fff;
     border: none;
@@ -99,7 +99,8 @@
 <body>
 
 <div class="video-bg-container">
-  <iframe id="video-bg" src="https://www.youtube.com/embed/FHDtNY2FEWg?autoplay=1&mute=1&controls=0&loop=1&playlist=FHDtNY2FEWg&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <!-- الخلفية الأولى الجديدة -->
+  <iframe id="video-bg" src="https://www.youtube.com/embed/-I6bgeV-h5U?autoplay=1&mute=1&controls=0&loop=1&playlist=-I6bgeV-h5U&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 
 <div id="emeraldIcon"></div>
@@ -125,18 +126,18 @@
     }
   });
 
-  // قائمة الفيديوهات (أضفنا الخلفية الثالثة)
+  // قائمة الفيديوهات
   const videos = [
-    "FHDtNY2FEWg", // الخلفية 1
-    "R1A_kGMc-0A", // الخلفية 2
-    "A5NtUCfikZ0"  // الخلفية 3 الجديدة
+    "-I6bgeV-h5U", // الخلفية 1 الجديدة
+    "FHDtNY2FEWg", // الخلفية 2
+    "R1A_kGMc-0A", // الخلفية 3
+    "A5NtUCfikZ0"  // الخلفية 4
   ];
 
   let current = 0;
 
   function changeBackground() {
     current = (current + 1) % videos.length;
-    // تغيير الفيديو مع الحفاظ على حالة الصوت
     iframe.src = `https://www.youtube.com/embed/${videos[current]}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videos[current]}&modestbranding=1&enablejsapi=1`;
   }
 
