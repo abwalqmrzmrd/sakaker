@@ -163,7 +163,7 @@ body {
 /* عمود الأيقونات */
 .iconColumn {
   position: fixed;
-  top: 200px;
+  top: 100px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -182,7 +182,7 @@ body {
   flex-direction: column;
   font-size: 24px;
   color: #fff;
-  background: rgba(0,0,0,0.3);
+  background:
   cursor: pointer; /* ← يجعل المؤشر يتحول لليد */
   transition: .3s;
   box-shadow:0 0 15px #00ffff;
@@ -583,8 +583,8 @@ resetGame();
   /* الحاوية */
   #scrollContainer {
     position: fixed;
-    top: 70%;
-    left: 10%;
+    top:85%;
+    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
     text-align: center;
@@ -5326,7 +5326,7 @@ body {
   /* أيقونة القصص */
   #storyIcon {
     position: fixed;
-    bottom:250px;
+    bottom:100px;
     left:10%;
     transform: translateX(-50%);
     background: 
@@ -5517,3 +5517,158 @@ function updateText() {
 updateText();
 setInterval(updateText, 25000);
 </script>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شريط أسعار متحرك</title>
+<style>
+  /* الشريط المتحرك */
+ #ticker-container {
+  position: fixed;
+  bottom: 40px; /* رفع الشريط بمقدار سطرين عن أسفل الصفحة */
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 9999;
+  padding: 8px 0;
+  font-family: Tahoma, sans-serif;
+  color: #c0c0c0; /* خط فضي */
+  font-size: 16px;
+}
+
+  #ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker-scroll 30s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .ticker-item {
+    margin: 0 30px;
+    display: inline-block;
+  }
+
+  @media (max-width: 600px) {
+    #ticker-container { font-size: 14px; }
+    .ticker-item { margin: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div style="padding-bottom:50px;">
+  <!-- محتوى الصفحة -->
+  <h1>مرحبا بكم</h1>
+  <p>المحتوى هنا...</p>
+</div>
+
+<div id="ticker-container">
+  <div id="ticker">
+    <span class="ticker-item">ذهب: <span id="price-gold">…</span> USD/أونصة</span>
+    <span class="ticker-item">فضة: <span id="price-silver">…</span> USD/أونصة</span>
+    <span class="ticker-item">نفط: <span id="price-oil">…</span> USD/برميل</span>
+    <span class="ticker-item">دولار → ريال: <span id="price-usd-sar">…</span></span>
+  </div>
+</div>
+
+<script>
+  // مثال بيانات وهمية، يمكن استبدالها بAPI كما في الكود السابق
+  const gold = 1980.50;
+  const silver = 24.35;
+  const oil = 88.70;
+  const usdSar = 3.75;
+
+  document.getElementById('price-gold').textContent = gold.toFixed(2);
+  document.getElementById('price-silver').textContent = silver.toFixed(2);
+  document.getElementById('price-oil').textContent = oil.toFixed(2);
+  document.getElementById('price-usd-sar').textContent = usdSar.toFixed(2);
+
+  // إذا رغبت، يمكن تحديث البيانات كل X دقيقة عن طريق استدعاء API
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أيقونة الطقس منتصف يسار الصفحة</title>
+<style>
+  #weather-icon {
+    position: fixed;
+    top: 70%;          /* منتصف الصفحة عموديًا */
+    left: 10px;        /* مسافة من الجهة اليسرى */
+    transform: translateY(-50%); /* لتثبيت منتصف العنصر */
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: Tahoma, sans-serif;
+    font-size: 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+  }
+
+  #weather-icon img {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="weather-icon">
+  <span id="weather-text">جارٍ تحميل الطقس...</span>
+  <img id="weather-img" src="" alt="أيقونة الطقس">
+</div>
+
+<script>
+  const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // ضع مفتاح OpenWeatherMap هنا
+
+  function getWeather(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=ar&appid=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const temp = data.main.temp.toFixed(1);
+        const desc = data.weather[0].description;
+        const icon = data.weather[0].icon;
+
+        document.getElementById('weather-text').textContent = `${desc}، ${temp}°C`;
+        document.getElementById('weather-img').src = `https://openweathermap.org/img/wn/${icon}.png`;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('weather-text').textContent = 'تعذر جلب بيانات الطقس';
+      });
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        getWeather(lat, lon);
+      },
+      error => {
+        console.error(error);
+        document.getElementById('weather-text').textContent = 'لم يتم السماح بالموقع';
+      }
+    );
+  } else {
+    document.getElementById('weather-text').textContent = 'المتصفح لا يدعم الموقع';
+  }
+</script>
+
+</body>
+</html>
