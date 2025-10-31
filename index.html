@@ -7204,3 +7204,117 @@ function closeQuotes() {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>شريط نكت بترجمة بطيئة</title>
+<style>
+body {
+  margin: 0;
+  background: #000;
+  font-family: "Tajawal", sans-serif;
+  overflow: hidden;
+}
+
+/* حاوية الشريط */
+.joke-bar {
+  position: fixed;
+  left: 10px;
+  top: 62%;
+  transform: translateY(-50%);
+  width: 300px; /* أصغر عرض */
+  height: 90px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #0ff;
+  border-radius: 20px;
+  box-shadow: 0 0 15px #0ff;
+  text-align: center;
+  overflow: hidden;
+  padding: 5px;
+  animation: glow 2s infinite alternate;
+}
+
+/* تأثير التوهج */
+@keyframes glow {
+  from { box-shadow: 0 0 10px #0ff; border-color: #0ff; }
+  to   { box-shadow: 0 0 25px #0ff; border-color: #0ff; }
+}
+
+/* النص العربي */
+.joke-ar {
+  direction: ltr; /* من اليسار لليمين */
+  white-space: nowrap;
+  display: inline-block;
+  animation: moveAR 30s linear infinite;
+  font-size: 18px;
+}
+
+/* النص الإنجليزي */
+.joke-en {
+  direction: rtl; /* من اليمين لليسار */
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 15px;
+  color: #0ff;
+  animation: moveEN 30s linear infinite;
+}
+
+/* حركة النص العربي */
+@keyframes moveAR {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* حركة النص الإنجليزي */
+@keyframes moveEN {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+</head>
+<body>
+
+<div class="joke-bar">
+  <div class="joke-ar" id="jokeAr">😂 مرة واحد اخذ معاه معلقة وهو رايح يقابل خطيبته عشان يحرك مشاعرها.</div>
+  <div class="joke-en" id="jokeEn">(A guy took a spoon to meet his fiancée so he could stir her feelings.)</div>
+</div>
+
+<script>
+// النكت (العربية + الإنجليزية)
+const jokes = [
+  ["😂 مرة واحد اخذ معاه معلقة وهو رايح يقابل خطيبته عشان يحرك مشاعرها.", "(A guy took a spoon to meet his fiancée so he could stir her feelings.)"],
+  ["🤣 ولد بيسأل أبوه هي الحمير بتتجوز؟ قاله يا بني مبيتجوزش أصلاً غير الحمير.", "(A kid asked his dad: do donkeys marry? Dad said: only donkeys do!)"],
+  ["😆 واحد راح حديقة الحيوان بص للنسر وقال نفسي اعرف الحكومة بتختم بيك إزاي.", "(A man looked at an eagle in the zoo and said: I wonder how the government stamps with you!)"],
+  ["😂 اتنين بيلعبوا شطرنج قال واحد موتلك الحصان، قام التاني حط سم للكلب بتاعه.", "(Two guys playing chess, one said I killed your knight, the other poisoned his dog!)"],
+  ["🤣 غبي يكتب ورا الدكتور بالمحاضرة، كلما الدكتور مسح السبورة شق الورقة ورماها.", "(A fool writes behind the professor, every time the board is erased, he tears his page!)"],
+  ["😄 مرة واحد طويل جداً شرب لبن مات ليه؟ لان اللبن صلاحيته انتهت قبل ما ينزل بطنه.", "(A very tall guy drank milk and died because it expired before reaching his stomach!)"],
+  ["😂 مرة واحد نذل اتصل بالإطفاء وصاح عليهم يا عيب الشوم إذا ما في حريق ما بنشوفكن.", "(A jerk called the fire department: shame on you, we never see you unless there’s a fire!)"],
+  ["🤣 مرة واحد شاف أخوه التوأم قال أنت وينك من الصبح يخرب شكلك أمي خلتني أتحمم مرتين.", "(A guy saw his twin and said: where were you? Mom made me shower twice!)"],
+  ["😆 مرة واحد بيستهبل اتجوز واحدة بتستهبل أول ما خلفو خلفوا ولد اول ما نزل عمل نفسه ميت.", "(A silly man married a silly woman, their baby pretended to be dead when born!)"],
+  ["😂 سواق تاكسي ركبت معاة واحدة حلوة قال لها تعرفي تسوقي قالت لة لا .. قال لها انا تسوقي.", "(A taxi driver told a pretty woman: can you drive? She said no. He said: I’ll drive you!)"],
+  ["🤣 مضيفة طيارة بتسأل راكب تحب انزل لك عشاء كامل ؟؟؟؟ رد عليها : ليه هو كامل مش حيتعشى!!!", "(A flight attendant asked: want me to serve you a full dinner? He said: why, isn’t he eating?)"],
+  ["😄 واحد تايه بيسأل واحد ماشي في الشارع اقرب طريق للمستشفى ايه قاله غمض عينك وعدي الشارع.", "(A lost man asked for the way to the hospital. The guy said: close your eyes and cross the street!)"],
+  ["😂 بخيل اخذ ولده الى السوبر ماركت، اخذ الولد بسكوت وشوكلاته قال يابابا احبه قال الاب بوسه ورجعه.", "(A stingy man’s son picked sweets, said I love it — dad said kiss it and put it back!)"],
+  ["🤣 ذهب رجل إلى البحر فوجد فتاة تغرق وتطلب النجدة… فقال لها: اعطيني يديك فقالت اطلبها من أبي.", "(A man saw a girl drowning, said give me your hand. She said: ask my father for it!)"],
+  ["😆 الأم: لازم تأخذ ابنك العفريت لحديقة الحيوانات. الأب: لا … إذا كانوا يبونه .. يجون هم ويأخذونه بأنفسهم.", "(Mom: take your naughty son to the zoo. Dad: if they want him, they’ll come get him!)"],
+  ["😂 مره واحد غبي بيقول لصاحبه ايه رأيك انت تاخد شهر اجازه من الشغل وانا اخد شهر اجازه ونسافر شهريين فرنسا.", "(A fool told his friend: you take a month off and I’ll take a month, and we’ll travel two months to France!)"]
+];
+
+let index = 0;
+setInterval(() => {
+  index = (index + 1) % jokes.length;
+  document.getElementById("jokeAr").textContent = jokes[index][0];
+  document.getElementById("jokeEn").textContent = jokes[index][1];
+}, 15000); // كل 15 ثانية لتناسب الحركة البطيئة
+</script>
+
+</body>
+</html>
