@@ -125,7 +125,6 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 
 </body>
 </html>
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -152,9 +151,7 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
     overflow: hidden;
   }
 
-  .video-bg-container iframe,
-  .video-bg-container video,
-  .video-bg-container img {
+  .video-bg-container iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -229,11 +226,12 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 <body>
 
 <!-- حاوية الخلفية -->
-<div class="video-bg-container" id="bgContainer">
-  <!-- الصورة الأولية -->
-  <img id="bgImage" src="https://download.4shared.com/download/_0fzXrg2fa" style="width:100%; height:100%; object-fit:cover; display:block;">
-  <!-- الفيديو (يتم إظهاره عند تغيير الخلفية) -->
-  <iframe id="video-bg" style="display:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<div class="video-bg-container">
+  <iframe id="video-bg" 
+    src="https://www.youtube.com/embed/y-NhjSdtYE8?autoplay=1&mute=1&controls=0&loop=1&playlist=y-NhjSdtYE8&modestbranding=1&enablejsapi=1" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+  </iframe>
 </div>
 
 <!-- أيقونة الزمرد المضيء -->
@@ -246,7 +244,6 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 <button id="soundBtn">🔊 تشغيل الصوت | Sound On</button>
 
 <script>
-  const bgImage = document.getElementById('bgImage');
   const iframe = document.getElementById('video-bg');
   const soundBtn = document.getElementById('soundBtn');
   let isMuted = true;
@@ -264,9 +261,8 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
     }
   });
 
-  // قائمة الفيديوهات (معرفات YouTube)
+  // قائمة الفيديوهات التالية (معرفات YouTube)
   const videos = [
-    "0wEYzY4pvBk",
     "-I6bgeV-h5U", 
     "FHDtNY2FEWg", 
     "R1A_kGMc-0A", 
@@ -275,20 +271,16 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
     "740unnv18_Y"
   ];
 
-  let current = -1; // -1 تعني الصورة الأولى
+  let current = 0; // الفيديو الأول هو Shorts
 
   function changeBackground() {
     current = (current + 1) % (videos.length + 1);
     
     if(current === 0){
-      // عرض الصورة
-      bgImage.style.display = 'block';
-      iframe.style.display = 'none';
-      iframe.src = '';
+      // الفيديو الأول (Shorts)
+      iframe.src = `https://www.youtube.com/embed/y-NhjSdtYE8?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=y-NhjSdtYE8&modestbranding=1&enablejsapi=1`;
     } else {
-      // عرض الفيديو
-      bgImage.style.display = 'none';
-      iframe.style.display = 'block';
+      // باقي الفيديوهات
       iframe.src = `https://www.youtube.com/embed/${videos[current-1]}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videos[current-1]}&modestbranding=1&enablejsapi=1`;
     }
   }
