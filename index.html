@@ -1,3 +1,134 @@
+<!-- 🌟 أيقونة فيديو جديدة مستقلة -->
+<div id="adCircle2" onclick="openAdVideo2()">
+  <div class="adText">
+    📢 إعلان جديد<br>
+    <span class="en">New Ad</span>
+  </div>
+</div>
+
+<!-- 🔹 نافذة الفيديو المنبثقة الجديدة -->
+<div id="videoPopup2">
+  <div id="popupContent2">
+    <iframe 
+      id="adVideo2"
+      src=""
+      title="New Ad Video"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <button id="closePopup2" onclick="closeAdVideo2()">✖</button>
+  </div>
+</div>
+
+<style>
+/* 🔸 أيقونة الإعلان الجديدة */
+#adCircle2 {
+  position: fixed;
+  bottom: 60px;  /* رفع حوالي سطرين */
+  right: 70px;   /* يمين الصفحة */
+  width: 110px;  /* تصغير قليل */
+  height: 110px; /* تصغير قليل */
+  border-radius: 50%;
+  background: url('https://img.youtube.com/vi/LhvCtDyMVAk/hqdefault.jpg') center/cover no-repeat;
+  border: 3px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+
+  /* تأثير الإضاءة + نبض */
+  box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000;
+  animation: glow2 3s infinite alternate, pulse2 2s infinite;
+  overflow: hidden;
+}
+
+#adCircle2 .adText {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 8px;
+  padding: 4px 6px;
+}
+
+#adCircle2 .adText .en {
+  font-size: 10px;
+  display: block;
+  color: #ffeb3b;
+}
+
+/* ألوان الإضاءة */
+@keyframes glow2 {
+  0% { box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000; }
+  50% { box-shadow: 0 0 25px #00ff00, inset 0 0 25px #00ff00; }
+  100% { box-shadow: 0 0 25px #00ffff, inset 0 0 25px #00ffff; }
+}
+
+/* نبض الأيقونة */
+@keyframes pulse2 {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* نافذة الفيديو */
+#videoPopup2 {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+#popupContent2 {
+  position: relative;
+  width: 80%;
+  max-width: 480px;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid #fff;
+}
+
+#adVideo2 {
+  width: 100%;
+  height: 100%;
+}
+
+#closePopup2 {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
+#closePopup2:hover { background: red; }
+</style>
+
+<script>
+function openAdVideo2() {
+  const videoFrame = document.getElementById("adVideo2");
+  videoFrame.src = "https://www.youtube.com/embed/LhvCtDyMVAk?autoplay=1&mute=1";
+  document.getElementById("videoPopup2").style.display = "flex";
+}
+function closeAdVideo2() {
+  const videoFrame = document.getElementById("adVideo2");
+  document.getElementById("videoPopup2").style.display = "none";
+  videoFrame.src = "";
+}
+</script>
+
 <!-- 🌟 أيقونة إعلان مضيئة فيها خلفية الفيديو -->
 <div id="adCircle" onclick="openAdVideo()">
   <div class="adText">
