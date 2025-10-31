@@ -1,3 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>أيقونات تبرع وحجز</title>
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000;
+}
+
+/* 🌟 تصميم الأيقونات */
+.adCircle {
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  border: 3px solid #fff;
+  box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000;
+  animation: glow 4s infinite alternate;
+  z-index: 9999;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.adCircle:active { cursor: grabbing; transform: scale(1.05); }
+
+.adText {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  padding: 5px 8px;
+  border-radius: 10px;
+}
+.adText .en {
+  display: block;
+  color: #ffeb3b;
+  font-size: 11px;
+}
+
+/* ✨ تأثير الإضاءة */
+@keyframes glow {
+  0% { box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000; }
+  25% { box-shadow: 0 0 25px #00ffff, inset 0 0 25px #00ffff; }
+  50% { box-shadow: 0 0 25px #00ff00, inset 0 0 25px #00ff00; }
+  75% { box-shadow: 0 0 25px #ff00ff, inset 0 0 25px #ff00ff; }
+  100% { box-shadow: 0 0 25px #ffff00, inset 0 0 25px #ffff00; }
+}
+
+/* ✅ الأيقونات في المنتصف */
+#adCircle1 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-130%, -50%);
+  background-image: url('https://img.youtube.com/vi/E0_ezgwtuNs/hqdefault.jpg');
+}
+#adCircle2 {
+  top: 50%;
+  left: 50%;
+  transform: translate(30%, -50%);
+  background-image: url('https://img.youtube.com/vi/eK4Cra633lA/hqdefault.jpg');
+}
+
+/* 🟢 النوافذ المنبثقة */
+.videoPopup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.popupFrame {
+  width: 85%;
+  max-width: 600px;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 0 30px #fff;
+  position: relative;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+.closeBtn:hover { background: red; }
+
+/* 📱 للجوال */
+@media (max-width: 600px) {
+  .adCircle {
+    width: 90px;
+    height: 90px;
+  }
+  #adCircle1 { transform: translate(-115%, -50%); }
+  #adCircle2 { transform: translate(15%, -50%); }
+}
+</style>
+</head>
+<body>
+
+<!-- أيقونات -->
+<div id="adCircle1" class="adCircle">
+  <div class="adText">💰 يمكن تحويل مبلغ للصفحة وحجز الأيقونة <span class="en">You can donate to the page & book the icon</span></div>
+</div>
+
+<div id="adCircle2" class="adCircle">
+  <div class="adText">💰 يمكن تحويل مبلغ للصفحة وحجز الأيقونة <span class="en">You can donate to the page & book the icon</span></div>
+</div>
+
+<!-- نوافذ الفيديو -->
+<div id="videoPopup1" class="videoPopup">
+  <div class="popupFrame">
+    <iframe id="adVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button class="closeBtn" onclick="closeAd1()">✖</button>
+  </div>
+</div>
+
+<div id="videoPopup2" class="videoPopup">
+  <div class="popupFrame">
+    <iframe id="adVideo2" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button class="closeBtn" onclick="closeAd2()">✖</button>
+  </div>
+</div>
+
+<script>
+const ad1 = document.getElementById("adCircle1");
+const ad2 = document.getElementById("adCircle2");
+const popup1 = document.getElementById("videoPopup1");
+const popup2 = document.getElementById("videoPopup2");
+const video1 = document.getElementById("adVideo1");
+const video2 = document.getElementById("adVideo2");
+
+// فتح الفيديو عند النقر (يمكن تغييره لاحقًا إذا لم ترغب في فتح الفيديو)
+ad1.onclick = () => {
+  popup1.style.display = "flex";
+  video1.src = "https://www.youtube.com/embed/E0_ezgwtuNs?autoplay=1&mute=0";
+};
+ad2.onclick = () => {
+  popup2.style.display = "flex";
+  video2.src = "https://www.youtube.com/embed/eK4Cra633lA?autoplay=1&mute=1";
+};
+
+function closeAd1() {
+  popup1.style.display = "none";
+  video1.src = "";
+}
+function closeAd2() {
+  popup2.style.display = "none";
+  video2.src = "";
+}
+
+/* ✅ إمكانية السحب والتحريك */
+function makeDraggable(el) {
+  let isDown = false, offsetX, offsetY;
+  el.addEventListener('mousedown', e => {
+    isDown = true;
+    offsetX = e.clientX - el.getBoundingClientRect().left;
+    offsetY = e.clientY - el.getBoundingClientRect().top;
+    el.style.transition = 'none';
+  });
+  window.addEventListener('mouseup', () => isDown = false);
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.transform = 'none';
+  });
+}
+
+makeDraggable(ad1);
+makeDraggable(ad2);
+</script>
+</body>
+</html>
 
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
