@@ -1,3 +1,24 @@
+<!-- 🔹 أيقونة إعلان مصغرة -->
+<div id="adCircle" onclick="openAdVideo()" style="position:fixed;top:20%;left:90%;transform:translateX(-50%);width:80px;height:80px;border-radius:50%;background:url('https://img.youtube.com/vi/E0_ezgwtuNs/hqdefault.jpg') center/cover no-repeat;box-shadow:0 0 15px #ff0000,inset 0 0 15px #ff0000;display:flex;align-items:center;justify-content:center;z-index:9999;cursor:pointer;">
+  <div style="text-align:center;color:#fff;font-weight:bold;font-size:11px;text-shadow:0 0 5px #000;background:rgba(0,0,0,0.5);border-radius:6px;padding:2px 4px;">
+    📢 إعلان<br><span style="color:#ffeb3b;font-size:9px;">Ad Space</span>
+  </div>
+</div>
+
+<!-- 🔹 نافذة الفيديو المنبثقة -->
+<div id="videoPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:10000;">
+  <div style="position:relative;width:80%;max-width:400px;aspect-ratio:16/9;border-radius:15px;overflow:hidden;border:2px solid #fff;box-shadow:0 0 15px #fff;">
+    <iframe id="adVideo" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
+    <button onclick="closeAdVideo()" style="position:absolute;top:4px;right:6px;width:26px;height:26px;border:none;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;font-size:16px;cursor:pointer;">✖</button>
+  </div>
+</div>
+
+<script>
+const adVideoUrl="https://www.youtube.com/embed/E0_ezgwtuNs?autoplay=1&mute=0";
+function openAdVideo(){document.getElementById("adVideo").src=adVideoUrl;document.getElementById("videoPopup").style.display="flex";}
+function closeAdVideo(){document.getElementById("adVideo").src="";document.getElementById("videoPopup").style.display="none";}
+</script>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
