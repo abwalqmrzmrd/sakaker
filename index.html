@@ -1,3 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>abwalqmrzmrd</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Tahoma", sans-serif;
+  }
+
+  /* الفيديو يغطي كامل الشاشة */
+  .video-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .video-bg-container iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+  }
+
+  /* زر تغيير الخلفية */
+  #changeBgBtn {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+    transition: 0.3s;
+  }
+
+  #changeBgBtn:hover {
+    background: rgba(255,255,255,0.85);
+    color: #000;
+  }
+
+  /* زر الصوت */
+  #soundBtn {
+    position: fixed;
+    top: 70px;
+    right: 580px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: 0.3s;
+  }
+
+  #soundBtn:hover {
+    background: rgba(255,255,255,0.85);
+    color: #000;
+  }
+
+  /* مثلث مضيء */
+  #emeraldIcon {
+    width: 0;
+    height: 0;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-bottom: 20px solid #ffffff;
+    cursor: pointer;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
+    animation: glow 1.6s infinite alternate;
+    z-index: 1000;
+  }
+
+  @keyframes glow {
+    0% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255,255,255,0.8)) drop-shadow(0 0 24px rgba(255,255,255,0.7)); }
+    100% { filter: drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 36px rgba(255,255,255,0.9)); }
+  }
+</style>
+</head>
+<body>
+
+<!-- حاوية الفيديو -->
+<div class="video-bg-container">
+  <iframe id="video-bg" 
+    src="https://www.youtube.com/embed/0wEYzY4pvBk?autoplay=1&mute=1&controls=0&loop=1&playlist=0wEYzY4pvBk&modestbranding=1&enablejsapi=1" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- أيقونة الزمرد المضيء -->
+<div id="emeraldIcon"></div>
+
+<!-- زر تغيير الخلفية -->
+<button id="changeBgBtn">تغيير الخلفية | Change Background</button>
+
+<!-- زر التحكم بالصوت -->
+<button id="soundBtn">🔊 تشغيل الصوت | Sound On</button>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  const iframe = document.getElementById('video-bg');
+  const soundBtn = document.getElementById('soundBtn');
+  let isMuted = true;
+
+  // زر التحكم بالصوت
+  soundBtn.addEventListener('click', () => {
+    if(isMuted){
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
+      soundBtn.textContent = "🔈 كتم الصوت | Sound Off";
+      isMuted = false;
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
+      soundBtn.textContent = "🔊 تشغيل الصوت | Sound On";
+      isMuted = true;
+    }
+  });
+
+  // قائمة الفيديوهات
+  const videos = [
+    "0wEYzY4pvBk", // الخلفية الجديدة الأولى
+    "-I6bgeV-h5U", 
+    "FHDtNY2FEWg", 
+    "R1A_kGMc-0A", 
+    "A5NtUCfikZ0", 
+    "RmrM3Vn7Mkw", 
+    "740unnv18_Y"
+  ];
+
+  let current = 0;
+
+  function changeBackground() {
+    current = (current + 1) % videos.length;
+    iframe.src = `https://www.youtube.com/embed/${videos[current]}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videos[current]}&modestbranding=1&enablejsapi=1`;
+  }
+
+  document.getElementById('changeBgBtn').addEventListener('click', changeBackground);
+</script>
+
+</body>
+</html>
+
 <!-- 🌟 أيقونة فيديو جديدة مستقلة -->
 <div id="adCircle2" onclick="openAdVideo2()">
   <div class="adText">
@@ -471,6 +632,134 @@ const quotes = [
 "⚜️ تولستوي: الجمال سيُخلّص العالم.\n⚜️ Tolstoy: Beauty will save the world.",
 "⚜️ الإمام الشافعي: من وعظ أخاه سرًا فقد نصحه وزانه.\n⚜️ Al-Shafi'i: He who advises privately has adorned his brother.",
 "⚜️ المتنبي: إذا غامرت في شرف مروم فلا تقنع بما دون النجوم.\n⚜️ Al-Mutanabbi: Aspire for honor, not less than the stars."
+"⚜️ أفلاطون: المعرفة الحقيقة هي معرفة أن لا تعرف شيئًا.\n⚜️ Plato: True knowledge is knowing that you know nothing.",
+"⚜️ سقراط: لا حياة بدون تساؤل.\n⚜️ Socrates: There is no life without questioning.",
+"⚜️ أرسطو: التربية هي تزيين الروح.\n⚜️ Aristotle: Education is the adornment of the soul.",
+"⚜️ بوذا: السلام يبدأ بابتسامة.\n⚜️ Buddha: Peace begins with a smile.",
+"⚜️ لاوتسو: الطابع الهادئ هو القوة الحقيقية.\n⚜️ Lao Tzu: A calm character is true strength.",
+"⚜️ نيتشه: الإنسان هو شيء يجب أن يتجاوز نفسه.\n⚜️ Nietzsche: Man is something to be surpassed.",
+"⚜️ كانط: اتبع ضميرك دائمًا.\n⚜️ Kant: Always follow your conscience.",
+"⚜️ ديكارت: الحياة بلا تفكير لا تستحق أن تُعاش.\n⚜️ Descartes: A life without thought is not worth living.",
+"⚜️ ابن سينا: العقل هو نور الإنسان.\n⚜️ Avicenna: The intellect is the light of man.",
+"⚜️ الفارابي: الفضيلة ليست إلا علمًا وممارسة.\n⚜️ Al-Farabi: Virtue is nothing but knowledge and practice.",
+"⚜️ ابن رشد: العقل أداة للفهم والتفسير.\n⚜️ Averroes: Reason is a tool for understanding and interpretation.",
+"⚜️ جلال الدين الرومي: كن كالنهر الذي لا يتوقف.\n⚜️ Rumi: Be like a river that never stops.",
+"⚜️ ابن خلدون: العمران هو مرآة البشر.\n⚜️ Ibn Khaldun: Civilization is a mirror of mankind.",
+"⚜️ شكسبير: الفعل أفضل من الكلام.\n⚜️ Shakespeare: Action is better than words.",
+"⚜️ تولستوي: السعادة في فعل الخير.\n⚜️ Tolstoy: Happiness lies in doing good.",
+"⚜️ روسو: الإنسان يولد بريئًا.\n⚜️ Rousseau: Man is born innocent.",
+"⚜️ سبينوزا: كل شيء في الطبيعة مترابط.\n⚜️ Spinoza: Everything in nature is interconnected.",
+"⚜️ جون لوك: العقل صفحة بيضاء عند الولادة.\n⚜️ John Locke: The mind is a blank slate at birth.",
+"⚜️ ماركوس أوريليوس: سيطر على نفسك قبل كل شيء.\n⚜️ Marcus Aurelius: Master yourself before all else.",
+"⚜️ جبران خليل جبران: العطاء هو سر السعادة.\n⚜️ Gibran: Giving is the secret of happiness.",
+"⚜️ علي بن أبي طالب: الكرم أساس العظمة.\n⚜️ Imam Ali: Generosity is the foundation of greatness.",
+"⚜️ المتنبي: كن جريئًا في طلب المجد.\n⚜️ Al-Mutanabbi: Be bold in seeking glory.",
+"⚜️ طاغور: لا تستسلم أبدا للظلام.\n⚜️ Tagore: Never surrender to darkness.",
+"⚜️ تولستوي: الصدق هو الأساس.\n⚜️ Tolstoy: Truthfulness is fundamental.",
+"⚜️ توماس هوبز: القانون ينظم حياة الناس.\n⚜️ Hobbes: Law organizes human life.",
+"⚜️ هيغل: الفكر يتحقق في العالم.\n⚜️ Hegel: Thought realizes itself in the world.",
+"⚜️ فولتير: حرية الفكر لا تقبل القيود.\n⚜️ Voltaire: Freedom of thought admits no bounds.",
+"⚜️ غاندي: الصبر قوة عظيمة.\n⚜️ Gandhi: Patience is a great power.",
+"⚜️ أينشتاين: التعلم لا يتوقف.\n⚜️ Einstein: Learning never stops.",
+"⚜️ ستيف جوبز: اتبع شغفك.\n⚜️ Steve Jobs: Follow your passion.",
+"⚜️ نيلسون مانديلا: حرر عقلك من الخوف.\n⚜️ Mandela: Free your mind from fear.",
+"⚜️ ابن تيمية: فهم الله واجب.\n⚜️ Ibn Taymiyyah: Understanding God is a duty.",
+"⚜️ سقراط: اعرف نفسك.\n⚜️ Socrates: Know thyself.",
+"⚜️ أفلاطون: العدالة أساس المجتمع.\n⚜️ Plato: Justice is the foundation of society.",
+"⚜️ كونفوشيوس: حسن الخلق أساس الحياة.\n⚜️ Confucius: Good character is the foundation of life.",
+"⚜️ ابن عربي: النية الطيبة تغذي الروح.\n⚜️ Ibn Arabi: Good intention nourishes the soul.",
+"⚜️ ميخائيل نعيمة: السعادة في البساطة.\n⚜️ Mikhail Naimy: Happiness is in simplicity.",
+"⚜️ مارك توين: لا تؤجل عمل اليوم.\n⚜️ Mark Twain: Do not postpone today’s work.",
+"⚜️ شكسبير: كل شيء في يد العقل.\n⚜️ Shakespeare: Everything is in the power of the mind.",
+"⚜️ باولو كويلو: القلب يعرف الطريق.\n⚜️ Coelho: The heart knows the way.",
+"⚜️ سقراط: الحكمة في الاعتراف بالجهل.\n⚜️ Socrates: Wisdom is in admitting ignorance.",
+"⚜️ تولستوي: العمل هو طريق الفضيلة.\n⚜️ Tolstoy: Work is the path to virtue.",
+"⚜️ الإمام الشافعي: العلم ينير القلب.\n⚜️ Al-Shafi'i: Knowledge illuminates the heart.",
+"⚜️ المتنبي: السعي وراء المجد لا يضيع.\n⚜️ Al-Mutanabbi: Pursuit of glory is never wasted.",
+"⚜️ أرسطو: الفضيلة هي الطريق إلى السعادة.\n⚜️ Aristotle: Virtue is the path to happiness.",
+"⚜️ بوذا: العقل السليم في الجسد السليم.\n⚜️ Buddha: A sound mind in a sound body.",
+"⚜️ لاوتسو: البساطة قوة.\n⚜️ Lao Tzu: Simplicity is strength.",
+"⚜️ نيتشه: كن نفسك دائمًا.\n⚜️ Nietzsche: Always be yourself.",
+"⚜️ كانط: الحرية الحقيقية في الطاعة للواجب.\n⚜️ Kant: True freedom is obedience to duty."
+"⚜️ ديكارت: العقل هو أساس المعرفة.\n⚜️ Descartes: Reason is the foundation of knowledge.",
+"⚜️ ابن سينا: الصحة تاج على رؤوس الأصحاء.\n⚜️ Avicenna: Health is a crown on the heads of the healthy.",
+"⚜️ الفارابي: العقل زينة الإنسان.\n⚜️ Al-Farabi: Intellect is the ornament of man.",
+"⚜️ ابن رشد: السعادة في فهم الأمور.\n⚜️ Averroes: Happiness lies in understanding things.",
+"⚜️ جلال الدين الرومي: الحب هو روح الحياة.\n⚜️ Rumi: Love is the soul of life.",
+"⚜️ ابن خلدون: المعرفة أساس العمران.\n⚜️ Ibn Khaldun: Knowledge is the foundation of civilization.",
+"⚜️ شكسبير: الوقت هو جوهر الحياة.\n⚜️ Shakespeare: Time is the essence of life.",
+"⚜️ تولستوي: الحب والتسامح أساس السلام.\n⚜️ Tolstoy: Love and forgiveness are the basis of peace.",
+"⚜️ روسو: الطفولة هي البداية.\n⚜️ Rousseau: Childhood is the beginning.",
+"⚜️ سبينوزا: كل ما يحدث له سبب.\n⚜️ Spinoza: Everything that happens has a reason.",
+"⚜️ جون لوك: حرية الفكر أساس الديمقراطية.\n⚜️ John Locke: Freedom of thought is the foundation of democracy.",
+"⚜️ ماركوس أوريليوس: كل شيء زائل.\n⚜️ Marcus Aurelius: Everything is transient.",
+"⚜️ جبران خليل جبران: الفن لغة الروح.\n⚜️ Gibran: Art is the language of the soul.",
+"⚜️ علي بن أبي طالب: الصبر مفتاح الفرج.\n⚜️ Imam Ali: Patience is the key to relief.",
+"⚜️ المتنبي: المجد للجرأة.\n⚜️ Al-Mutanabbi: Glory belongs to the brave.",
+"⚜️ طاغور: نور الأمل لا ينطفئ.\n⚜️ Tagore: The light of hope never goes out.",
+"⚜️ تولستوي: الحكمة في التجربة.\n⚜️ Tolstoy: Wisdom is in experience.",
+"⚜️ توماس هوبز: الإنسان مجبول على الاختلاف.\n⚜️ Hobbes: Man is naturally different.",
+"⚜️ هيغل: العقل يحكم العالم.\n⚜️ Hegel: Reason governs the world.",
+"⚜️ فولتير: المعرفة تحررك.\n⚜️ Voltaire: Knowledge liberates you.",
+"⚜️ غاندي: التسامح قوة.\n⚜️ Gandhi: Tolerance is strength.",
+"⚜️ أينشتاين: الفضول طريق الاكتشاف.\n⚜️ Einstein: Curiosity is the path to discovery.",
+"⚜️ ستيف جوبز: الجرأة تصنع الفارق.\n⚜️ Steve Jobs: Boldness makes the difference.",
+"⚜️ نيلسون مانديلا: الغفران قوة.\n⚜️ Mandela: Forgiveness is power.",
+"⚜️ ابن تيمية: القرب من الله حياة.\n⚜️ Ibn Taymiyyah: Proximity to God is life.",
+"⚜️ سقراط: الحياة الممتحنة أفضل.\n⚜️ Socrates: The examined life is better.",
+"⚜️ أفلاطون: العدالة لا تقدر بثمن.\n⚜️ Plato: Justice is priceless.",
+"⚜️ كونفوشيوس: المعرفة خير من المال.\n⚜️ Confucius: Knowledge is better than wealth.",
+"⚜️ ابن عربي: النور في القلب.\n⚜️ Ibn Arabi: Light is in the heart.",
+"⚜️ ميخائيل نعيمة: السعادة بالسلام الداخلي.\n⚜️ Mikhail Naimy: Happiness lies in inner peace.",
+"⚜️ مارك توين: البداية هي المفتاح.\n⚜️ Mark Twain: The beginning is the key.",
+"⚜️ شكسبير: التفكير يحكم الواقع.\n⚜️ Shakespeare: Thought governs reality.",
+"⚜️ باولو كويلو: الثقة بالقلب.\n⚜️ Coelho: Trust the heart.",
+"⚜️ سقراط: الفعل أهم من القول.\n⚜️ Socrates: Action is more important than words.",
+"⚜️ تولستوي: الفضيلة في العمل.\n⚜️ Tolstoy: Virtue is in action.",
+"⚜️ الإمام الشافعي: العمل الصالح نور.\n⚜️ Al-Shafi'i: Good deeds are light.",
+"⚜️ المتنبي: المجد للجادين.\n⚜️ Al-Mutanabbi: Glory is for the diligent.",
+"⚜️ أرسطو: الفضيلة طريق السعادة.\n⚜️ Aristotle: Virtue is the path to happiness.",
+"⚜️ بوذا: العقل السليم في الجسد السليم.\n⚜️ Buddha: A sound mind in a sound body.",
+"⚜️ لاوتسو: البساطة قوة.\n⚜️ Lao Tzu: Simplicity is strength.",
+"⚜️ نيتشه: كن نفسك.\n⚜️ Nietzsche: Be yourself.",
+"⚜️ كانط: الحرية في الطاعة للواجب.\n⚜️ Kant: Freedom is obedience to duty.",
+"⚜️ ديكارت: المعرفة أساس السعادة.\n⚜️ Descartes: Knowledge is the foundation of happiness.",
+"⚜️ ابن سينا: العقل نور.\n⚜️ Avicenna: The intellect is light.",
+"⚜️ الفارابي: العلم والعمل طريق الفضيلة.\n⚜️ Al-Farabi: Knowledge and action are the path to virtue.",
+"⚜️ ابن رشد: العقل لا يتعارض مع الإيمان.\n⚜️ Averroes: Reason does not contradict faith.",
+"⚜️ جلال الدين الرومي: الحب يفتح الأبواب.\n⚜️ Rumi: Love opens doors.",
+"⚜️ ابن خلدون: التاريخ مرآة البشر.\n⚜️ Ibn Khaldun: History is a mirror of mankind.",
+"⚜️ شكسبير: الكلمة قوة.\n⚜️ Shakespeare: Words are power.",
+"⚜️ تولستوي: السلام يبدأ من الداخل.\n⚜️ Tolstoy: Peace begins within.",
+"⚜️ روسو: الحرية مسؤولية.\n⚜️ Rousseau: Freedom is responsibility.",
+"⚜️ سبينوزا: كل شيء مترابط.\n⚜️ Spinoza: Everything is interconnected.",
+"⚜️ جون لوك: العقل صفحة بيضاء.\n⚜️ John Locke: The mind is a blank slate.",
+"⚜️ ماركوس أوريليوس: تحكم بنفسك أولاً.\n⚜️ Marcus Aurelius: Master yourself first.",
+"⚜️ جبران خليل جبران: العطاء حياة.\n⚜️ Gibran: Giving is life.",
+"⚜️ علي بن أبي طالب: الكرم أساس العظمة.\n⚜️ Imam Ali: Generosity is greatness.",
+"⚜️ المتنبي: السعي وراء المجد واجب.\n⚜️ Al-Mutanabbi: Pursuit of glory is duty.",
+"⚜️ طاغور: الأمل ينير الطريق.\n⚜️ Tagore: Hope lights the way.",
+"⚜️ تولستوي: التجربة تصنع الحكمة.\n⚜️ Tolstoy: Experience creates wisdom.",
+"⚜️ توماس هوبز: النظام أساس المجتمع.\n⚜️ Hobbes: Order is the foundation of society.",
+"⚜️ هيغل: العقل يحكم.\n⚜️ Hegel: Reason rules.",
+"⚜️ فولتير: المعرفة تحررك.\n⚜️ Voltaire: Knowledge frees you.",
+"⚜️ غاندي: التغيير يبدأ بنفسك.\n⚜️ Gandhi: Change begins with yourself.",
+"⚜️ أينشتاين: الخيال يسبق المعرفة.\n⚜️ Einstein: Imagination precedes knowledge.",
+"⚜️ ستيف جوبز: اتبع شغفك.\n⚜️ Steve Jobs: Follow your passion.",
+"⚜️ نيلسون مانديلا: الغفران قوة.\n⚜️ Mandela: Forgiveness is strength.",
+"⚜️ ابن تيمية: القرب من الله حياة.\n⚜️ Ibn Taymiyyah: Closeness to God is life.",
+"⚜️ سقراط: الحياة الممتحنة أفضل.\n⚜️ Socrates: The examined life is best.",
+"⚜️ أفلاطون: العدالة أساس.\n⚜️ Plato: Justice is fundamental.",
+"⚜️ كونفوشيوس: حسن الخلق حياة.\n⚜️ Confucius: Good character is life.",
+"⚜️ ابن عربي: القلب مرآة النور.\n⚜️ Ibn Arabi: The heart is a mirror of light.",
+"⚜️ ميخائيل نعيمة: السلام الداخلي غاية.\n⚜️ Mikhail Naimy: Inner peace is the goal.",
+"⚜️ مارك توين: البداية سر النجاح.\n⚜️ Mark Twain: The beginning is the secret of success.",
+"⚜️ شكسبير: الفكر يصنع الواقع.\n⚜️ Shakespeare: Thought shapes reality.",
+"⚜️ باولو كويلو: القلب يعرف الطريق.\n⚜️ Coelho: The heart knows the way.",
+"⚜️ سقراط: الحكمة في الاعتراف بالجهل.\n⚜️ Socrates: Wisdom is admitting ignorance.",
+"⚜️ تولستوي: الفضيلة في العمل.\n⚜️ Tolstoy: Virtue lies in action.",
+"⚜️ الإمام الشافعي: العلم نور.\n⚜️ Al-Shafi'i: Knowledge is light.",
+"⚜️ المتنبي: السعي وراء المجد لا يضيع.\n⚜️ Al-Mutanabbi: Pursuit of glory is never wasted."
 ];
 
 // ✨ كرر لتصل إلى 150 قول
@@ -505,166 +794,7 @@ function closeQuotes() {
   clearInterval(interval);
 }
 </script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تغيير خلفيات الفيديو | Video Background Switcher</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: "Tahoma", sans-serif;
-  }
 
-  /* الفيديو يغطي كامل الشاشة */
-  .video-bg-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-  }
-
-  .video-bg-container iframe {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 0;
-  }
-
-  /* زر تغيير الخلفية */
-  #changeBgBtn {
-    position: fixed;
-    top: 70px;
-    left: 20px;
-    padding: 12px 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 16px;
-    z-index: 1000;
-    transition: 0.3s;
-  }
-
-  #changeBgBtn:hover {
-    background: rgba(255,255,255,0.85);
-    color: #000;
-  }
-
-  /* زر الصوت */
-  #soundBtn {
-    position: fixed;
-    top: 70px;
-    right: 580px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: 0.3s;
-  }
-
-  #soundBtn:hover {
-    background: rgba(255,255,255,0.85);
-    color: #000;
-  }
-
-  /* مثلث مضيء */
-  #emeraldIcon {
-    width: 0;
-    height: 0;
-    position: fixed;
-    top: 50px;
-    left: 50px;
-    border-left: 90px solid transparent;
-    border-right: 90px solid transparent;
-    border-bottom: 20px solid #ffffff;
-    cursor: pointer;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
-    animation: glow 1.6s infinite alternate;
-    z-index: 1000;
-  }
-
-  @keyframes glow {
-    0% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
-    50% { filter: drop-shadow(0 0 12px rgba(255,255,255,0.8)) drop-shadow(0 0 24px rgba(255,255,255,0.7)); }
-    100% { filter: drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 36px rgba(255,255,255,0.9)); }
-  }
-</style>
-</head>
-<body>
-
-<!-- حاوية الفيديو -->
-<div class="video-bg-container">
-  <iframe id="video-bg" 
-    src="https://www.youtube.com/embed/0wEYzY4pvBk?autoplay=1&mute=1&controls=0&loop=1&playlist=0wEYzY4pvBk&modestbranding=1&enablejsapi=1" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
-</div>
-
-<!-- أيقونة الزمرد المضيء -->
-<div id="emeraldIcon"></div>
-
-<!-- زر تغيير الخلفية -->
-<button id="changeBgBtn">تغيير الخلفية | Change Background</button>
-
-<!-- زر التحكم بالصوت -->
-<button id="soundBtn">🔊 تشغيل الصوت | Sound On</button>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  const iframe = document.getElementById('video-bg');
-  const soundBtn = document.getElementById('soundBtn');
-  let isMuted = true;
-
-  // زر التحكم بالصوت
-  soundBtn.addEventListener('click', () => {
-    if(isMuted){
-      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
-      soundBtn.textContent = "🔈 كتم الصوت | Sound Off";
-      isMuted = false;
-    } else {
-      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-      soundBtn.textContent = "🔊 تشغيل الصوت | Sound On";
-      isMuted = true;
-    }
-  });
-
-  // قائمة الفيديوهات
-  const videos = [
-    "0wEYzY4pvBk", // الخلفية الجديدة الأولى
-    "-I6bgeV-h5U", 
-    "FHDtNY2FEWg", 
-    "R1A_kGMc-0A", 
-    "A5NtUCfikZ0", 
-    "RmrM3Vn7Mkw", 
-    "740unnv18_Y"
-  ];
-
-  let current = 0;
-
-  function changeBackground() {
-    current = (current + 1) % videos.length;
-    iframe.src = `https://www.youtube.com/embed/${videos[current]}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videos[current]}&modestbranding=1&enablejsapi=1`;
-  }
-
-  document.getElementById('changeBgBtn').addEventListener('click', changeBackground);
-</script>
-
-</body>
-</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -789,7 +919,7 @@ body {
 <body>
 
 <div class="iconColumn">
-  <div class="icon" onclick="openChess()">♟️<br>شطرنج البحر</div>
+  <div class="icon" onclick="openChess()">♟️<br>شطرنج اchessر</div>
 </div>
 
 <div id="chessContainer">
