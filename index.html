@@ -124,7 +124,8 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 </script>
 
 </body>
-</html><!DOCTYPE html>
+</html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -159,14 +160,17 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex; /* لجعل الفيديوهات بجانب بعض */
-    z-index: -1;
     overflow: hidden;
+    z-index: -1;
   }
 
   .video-bg-container iframe {
-    flex: 1; /* كل فيديو يغطي ثلث العرض */
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
     border: 0;
     pointer-events: none;
   }
@@ -240,9 +244,11 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 
 <!-- حاوية الفيديو -->
 <div class="video-bg-container">
-  <iframe src="https://www.youtube.com/embed/y-NhjSdtYE8?autoplay=1&mute=1&controls=0&loop=1&playlist=y-NhjSdtYE8&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-  <iframe src="https://www.youtube.com/embed/y-NhjSdtYE8?autoplay=1&mute=1&controls=0&loop=1&playlist=y-NhjSdtYE8&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-  <iframe src="https://www.youtube.com/embed/y-NhjSdtYE8?autoplay=1&mute=1&controls=0&loop=1&playlist=y-NhjSdtYE8&modestbranding=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="video-bg" 
+    src="https://www.youtube.com/embed/ho4a2O5NHnE?autoplay=1&mute=1&controls=0&loop=1&playlist=ho4a2O5NHnE&modestbranding=1&enablejsapi=1" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+  </iframe>
 </div>
 
 <!-- أيقونة الزمرد المضيء -->
@@ -255,21 +261,21 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 <button id="soundBtn">🔊 تشغيل الصوت | Sound On</button>
 
 <script>
-  const iframes = document.querySelectorAll('.video-bg-container iframe');
+  const iframe = document.getElementById('video-bg');
   const soundBtn = document.getElementById('soundBtn');
   let isMuted = true;
 
-  // زر التحكم بالصوت لكل الفيديوهات
+  // زر التحكم بالصوت
   soundBtn.addEventListener('click', () => {
-    iframes.forEach(iframe => {
-      if(isMuted){
-        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
-      } else {
-        iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-      }
-    });
-    soundBtn.textContent = isMuted ? "🔈 كتم الصوت | Sound Off" : "🔊 تشغيل الصوت | Sound On";
-    isMuted = !isMuted;
+    if(isMuted){
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
+      soundBtn.textContent = "🔈 كتم الصوت | Sound Off";
+      isMuted = false;
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
+      soundBtn.textContent = "🔊 تشغيل الصوت | Sound On";
+      isMuted = true;
+    }
   });
 
   // قائمة الفيديوهات التالية
@@ -286,10 +292,8 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 
   function changeBackground() {
     current = (current + 1) % (videos.length + 1);
-    let videoId = current === 0 ? "y-NhjSdtYE8" : videos[current-1];
-    iframes.forEach(iframe => {
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
-    });
+    let videoId = current === 0 ? "ho4a2O5NHnE" : videos[current-1];
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
   }
 
   document.getElementById('changeBgBtn').addEventListener('click', changeBackground);
