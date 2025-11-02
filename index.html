@@ -1,266 +1,3 @@
-<!-- 🌟 أيقونة تبرع باي بال -->
-<div id="paypalIcon" class="adCircle paypal">
-  <div class="adText">💖 دعم الصفحة<br><span class="en">Donate $1</span></div>
-</div>
-
-<script>
-// 🎯 عند الضغط يتم فتح صفحة التبرع
-const paypalIcon = document.getElementById("paypalIcon");
-paypalIcon.onclick = () => {
-  window.open("https://paypal.me/abwalqmrzmrd/1", "_blank");
-};
-
-// 🎨 تغيير اللون كل ثانية
-const colors = ["#0070ba", "#00ffff", "#ff00ff", "#00ff00", "#ffff00", "#ff0000"];
-let i = 0;
-setInterval(() => {
-  paypalIcon.style.background = `radial-gradient(circle, ${colors[i]} 30%, ${colors[(i+1)%colors.length]} 70%)`;
-  paypalIcon.style.boxShadow = `0 0 25px ${colors[i]}, inset 0 0 25px ${colors[(i+1)%colors.length]}`;
-  i = (i + 1) % colors.length;
-}, 1000);
-</script>
-
-<style>
-/* ✅ تصميم الأيقونة */
-#paypalIcon {
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 3px solid #fff;
-  border-radius: 20%; /* 💠 مربعة بحواف ناعمة */
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  z-index: 1000;
-  cursor: pointer;
-  width: 200px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.5s ease, background 0.5s ease;
-}
-#paypalIcon:hover {
-  transform: scale(1.08);
-}
-
-/* نص الأيقونة */
-.adText {
-  font-size: 13px;
-  text-shadow: 0 0 6px #000;
-}
-.adText .en {
-  display: block;
-  color: #ffeb3b;
-  font-size: 11px;
-}
-</style>
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>أيقونات تبرع وحجز</title>
-<style>, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000;
-}
-
-/* 🌟 تصميم الأيقونات */
-.adCircle {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: grab;
-  border: 3px solid #fff;
-  box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000;
-  animation: glow 4s infinite alternate;
-  z-index: 9999;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-.adCircle:active { cursor: grabbing; transform: scale(1.05); }
-
-.adText {
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-weight: bold;
-  font-size: 13px;
-  text-align: center;
-  padding: 5px 8px;
-  border-radius: 10px;
-}
-.adText .en {
-  display: block;
-  color: #ffeb3b;
-  font-size: 11px;
-}
-
-/* ✨ تأثير الإضاءة */
-@keyframes glow {
-  0% { box-shadow: 0 0 25px #ff0000, inset 0 0 25px #ff0000; }
-  25% { box-shadow: 0 0 25px #00ffff, inset 0 0 25px #00ffff; }
-  50% { box-shadow: 0 0 25px #00ff00, inset 0 0 25px #00ff00; }
-  75% { box-shadow: 0 0 25px #ff00ff, inset 0 0 25px #ff00ff; }
-  100% { box-shadow: 0 0 25px #ffff00, inset 0 0 25px #ffff00; }
-}
-
-/* ✅ الأيقونات في المنتصف */
-#adCircle1 {
-  top: 20%;
-  left: 30%;
-  transform: translate(-130%, -50%);
-  background-image: url('https://img.youtube.com/vi/E0_ezgwtuNs/hqdefault.jpg');
-}
-#adCircle2 {
-  top: 20%;
-  left: 70%;
-  transform: translate(30%, -50%);
-  background-image: url('https://img.youtube.com/vi/eK4Cra633lA/hqdefault.jpg');
-}
-
-/* 🟢 النوافذ المنبثقة */
-.videoPopup {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-}
-
-.popupFrame {
-  width: 85%;
-  max-width: 600px;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 3px solid #fff;
-  box-shadow: 0 0 30px #fff;
-  position: relative;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.closeBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-}
-.closeBtn:hover { background: red; }
-
-/* 📱 للجوال */
-@media (max-width: 600px) {
-  .adCircle {
-    width: 90px;
-    height: 90px;
-  }
-  #adCircle1 { transform: translate(-115%, -50%); }
-  #adCircle2 { transform: translate(15%, -50%); }
-}
-</style>
-</head>
-<body>
-
-<!-- أيقونات -->
-<div id="adCircle1" class="adCircle">
-  <div class="adText">💰 يمكن تحويل مبلغ للصفحة وحجز الأيقونة <span class="en">You can donate to the page & book the icon</span></div>
-</div>
-
-<div id="adCircle2" class="adCircle">
-  <div class="adText">💰 يمكن تحويل مبلغ للصفحة وحجز الأيقونة <span class="en">You can donate to the page & book the icon</span></div>
-</div>
-
-<!-- نوافذ الفيديو -->
-<div id="videoPopup1" class="videoPopup">
-  <div class="popupFrame">
-    <iframe id="adVideo1" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button class="closeBtn" onclick="closeAd1()">✖</button>
-  </div>
-</div>
-
-<div id="videoPopup2" class="videoPopup">
-  <div class="popupFrame">
-    <iframe id="adVideo2" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button class="closeBtn" onclick="closeAd2()">✖</button>
-  </div>
-</div>
-
-<script>
-const ad1 = document.getElementById("adCircle1");
-const ad2 = document.getElementById("adCircle2");
-const popup1 = document.getElementById("videoPopup1");
-const popup2 = document.getElementById("videoPopup2");
-const video1 = document.getElementById("adVideo1");
-const video2 = document.getElementById("adVideo2");
-
-// فتح الفيديو عند النقر (يمكن تغييره لاحقًا إذا لم ترغب في فتح الفيديو)
-ad1.onclick = () => {
-  popup1.style.display = "flex";
-  video1.src = "https://www.youtube.com/embed/E0_ezgwtuNs?autoplay=1&mute=0";
-};
-ad2.onclick = () => {
-  popup2.style.display = "flex";
-  video2.src = "https://www.youtube.com/embed/eK4Cra633lA?autoplay=1&mute=1";
-};
-
-function closeAd1() {
-  popup1.style.display = "none";
-  video1.src = "";
-}
-function closeAd2() {
-  popup2.style.display = "none";
-  video2.src = "";
-}
-
-/* ✅ إمكانية السحب والتحريك */
-function makeDraggable(el) {
-  let isDown = false, offsetX, offsetY;
-  el.addEventListener('mousedown', e => {
-    isDown = true;
-    offsetX = e.clientX - el.getBoundingClientRect().left;
-    offsetY = e.clientY - el.getBoundingClientRect().top;
-    el.style.transition = 'none';
-  });
-  window.addEventListener('mouseup', () => isDown = false);
-  window.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    const x = e.clientX - offsetX;
-    const y = e.clientY - offsetY;
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-    el.style.transform = 'none';
-  });
-}
-
-makeDraggable(ad1);
-makeDraggable(ad2);
-</script>
-</body>
-</html>
 
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
@@ -1158,8 +895,8 @@ pongBtn.addEventListener('mouseleave', () => {
   /* أيقونة المعلقات */
   #mainIcon {
     position: fixed;
-    bottom: 75%;
-    left: 50%;
+    bottom: 60%;
+    left: 90%;
     transform: translateX(-50%);
     background: 
     border: 1px solid rgba(0,255,255,0.5);
@@ -1432,7 +1169,7 @@ pongBtn.addEventListener('mouseleave', () => {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(0,0,0,0.7);
+    background:
     border-bottom: 2px solid #00ff99;
     z-index: 9999;
     display: flex;
@@ -1494,7 +1231,7 @@ pongBtn.addEventListener('mouseleave', () => {
     position: fixed;
     top: 60px;
     right: 10px;
-    background: rgba(0,0,0,0.7);
+    background:
     border: 1px solid #00ff99;
     border-radius: 15px;
     padding: 6px 12px;
@@ -1515,7 +1252,7 @@ pongBtn.addEventListener('mouseleave', () => {
     position: fixed;
     top: 100px;
     width: 100%;
-    background: rgba(0,0,0,0.8);
+    background:
     color: #00ff99;
     font-size: 16px;
     padding: 8px;
@@ -6089,17 +5826,20 @@ setInterval(updateText, 25000);
 </div>
 
 <script>
-  // 🌀 جلب حالة الطقس
+  // 🌀 جلب حالة الطقس من OpenWeatherMap
+  const apiKey = "c3e6e3fdac4b6b9fb8c61b3cc51c6f7b";
+
   function fetchWeather(lat, lon) {
-    const apiKey = "c3e6e3fdac4b6b9fb8c61b3cc51c6f7b";
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=ar&appid=${apiKey}`)
       .then(res => res.json())
       .then(data => {
+        if (!data.main) throw new Error("No data");
         const temp = data.main.temp.toFixed(1);
         const weather = data.weather[0].description;
         const wind = data.wind.speed;
         const humidity = data.main.humidity;
-        const text = `🌤️ الطقس الآن: ${weather} | 🌡️ ${temp}°C | 💨 الرياح: ${wind} م/ث | 💧 الرطوبة: ${humidity}% ⎯ `;
+        const city = data.name;
+        const text = `📍 ${city} | 🌤️ الطقس الآن: ${weather} | 🌡️ ${temp}°C | 💨 الرياح: ${wind} م/ث | 💧 الرطوبة: ${humidity}% ⎯ `;
         document.getElementById("weatherInfo").innerHTML = text.repeat(8);
       })
       .catch(() => {
@@ -6107,11 +5847,24 @@ setInterval(updateText, 25000);
       });
   }
 
-  navigator.geolocation.getCurrentPosition(pos => {
-    fetchWeather(pos.coords.latitude, pos.coords.longitude);
-  }, () => {
-    document.getElementById("weatherInfo").textContent = "🌍 الرجاء السماح بتحديد الموقع";
-  });
+  // 🧭 تحديد الموقع وتشغيل التحديث الدوري
+  function initWeather() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          fetchWeather(pos.coords.latitude, pos.coords.longitude);
+          setInterval(() => fetchWeather(pos.coords.latitude, pos.coords.longitude), 300000); // كل 5 دقائق
+        },
+        () => {
+          document.getElementById("weatherInfo").textContent = "🌍 الرجاء السماح بتحديد الموقع";
+        }
+      );
+    } else {
+      document.getElementById("weatherInfo").textContent = "⚠️ المتصفح لا يدعم تحديد الموقع";
+    }
+  }
+
+  initWeather();
 
   // 💰 جلب أسعار العملات
   async function fetchPrices() {
@@ -6148,7 +5901,7 @@ setInterval(updateText, 25000);
   }
 
   fetchPrices();
-  setInterval(fetchPrices, 60000); // تحديث كل دقيقة
+  setInterval(fetchPrices, 60000); // تحديث العملات كل دقيقة
 </script>
 
 </body>
@@ -7058,6 +6811,82 @@ function changeJoke() {
 
 setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 </script>
+<!-- 🎂 كيك متوهج بألوان متغيرة -->
+<div id="cakeWrapper">
+  <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
+    <div class="cakeContent">
+      🎂<br>
+      <span class="label">يسعدني إعجابك 💖</span>
+      <span class="en">It makes me happy you liked it 💖</span>
+      <span class="usd">(coffee 1$)</span>
+    </div>
+  </div>
+</div>
 
-</body>
-</html>
+<style>
+/* 📦 الغلاف العام */
+#cakeWrapper {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* 🎂 الكيكة */
+#cakeButton {
+  position: relative;
+  width: 120px;
+  height: 70px;
+  background: radial-gradient(circle at 30% 30%, #ff0, #00f, #f00, #0f0);
+  border-radius: 50% 50% 10% 10%;
+  border: 2px solid #fff;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6),
+              0 0 30px 10px rgba(255, 255, 0, 0.3);
+  transition: all 0.2s ease;
+  animation: glowShift 0.8s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎉 محتوى الكيكة مرفوع قليلًا */
+.cakeContent {
+  margin-top: -6px; /* 🔼 رفع المحتوى */
+}
+
+/* ✨ وميض متغيّر للألوان */
+@keyframes glowShift {
+  0%   { background: radial-gradient(circle at 20% 20%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 15px 3px #ff0; }
+  25%  { background: radial-gradient(circle at 70% 20%, #0f0, #f00, #00f, #ff0); box-shadow: 0 0 20px 5px #0f0; }
+  50%  { background: radial-gradient(circle at 30% 70%, #00f, #ff0, #0f0, #f00); box-shadow: 0 0 25px 7px #00f; }
+  75%  { background: radial-gradient(circle at 70% 70%, #f00, #0f0, #ff0, #00f); box-shadow: 0 0 25px 7px #f00; }
+  100% { background: radial-gradient(circle at 50% 50%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 20px 5px #ff0; }
+}
+
+/* 💛 النصوص */
+#cakeButton .label {
+  display: block;
+  font-size: 11px;
+}
+
+#cakeButton .en {
+  display: block;
+  color: #ffff99;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
+#cakeButton .usd {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+  margin-top: 3px;
+  text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
+}
+</style>
