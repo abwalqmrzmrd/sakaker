@@ -62,8 +62,7 @@ setInterval(() => {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>أيقونات تبرع وحجز</title>
-<style>
-body, html {
+<style>, html {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -1008,7 +1007,7 @@ pongBtn.addEventListener('mouseleave', () => {
 <html lang="ar" dir="rtl">
 <head>
 <!-- 🔹 حاوية اللعبة -->
-<div id="pongGame-container" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:
+<div id="pongGame-container" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:black;z-index:10000;overflow:hidden;">
 
   <!-- ✅ فيديو الخلفية لا يلتقط النقرات -->
   <iframe id="pongGame-video"
@@ -1493,7 +1492,7 @@ pongBtn.addEventListener('mouseleave', () => {
   /* ✅ إشعار المصدر الحالي */
   #sourceLabel {
     position: fixed;
-    top: 30px;
+    top: 60px;
     right: 10px;
     background: rgba(0,0,0,0.7);
     border: 1px solid #00ff99;
