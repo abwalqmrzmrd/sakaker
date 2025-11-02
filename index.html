@@ -1,3 +1,58 @@
+<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
+  position: fixed;
+  top: 80px; /* مرفوعة حوالي خمس أسطر */
+  right: 25px;
+  width: 75px;
+  height: 75px;
+  background: radial-gradient(circle at 30% 30%, #00ffcc, #006666);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
+  z-index: 1001;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+  🐦
+</div>
+
+<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
+<audio id="bird-sound" loop playsinline>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<script>
+const birdBtn = document.getElementById('bird-sound-btn');
+const birdAudio = document.getElementById('bird-sound');
+
+// حالة أولية
+birdBtn.textContent = "🐦";
+
+// عند النقر على الأيقونة
+birdBtn.addEventListener('click', async () => {
+  try {
+    if (birdAudio.paused) {
+      await birdAudio.play();
+      birdBtn.textContent = "🔊";
+      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
+      birdBtn.style.transform = "scale(1.1)";
+    } else {
+      birdAudio.pause();
+      birdBtn.textContent = "🐦";
+      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
+      birdBtn.style.transform = "scale(1)";
+    }
+  } catch (err) {
+    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
+    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
+  }
+});
+</script>
 
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
@@ -5748,164 +5803,6 @@ function updateText() {
 updateText();
 setInterval(updateText, 25000);
 </script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطقس والعملات - أبو القمر زمرد</title>
-<style>
-  body {
-    margin: 0;
-    background: transparent;
-    overflow-x: hidden;
-    font-family: "Tajawal", sans-serif;
-  }
-
-  /* 🌦️ شريط الطقس */
-  .weather-bar {
-    position: fixed;
-    bottom: 40px; /* فوق شريط العملات */
-    right: 0;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    color: #00ffff;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #00ffff;
-    z-index: 9999;
-  }
-
-  .weather-content {
-    display: inline-block;
-    animation: scrollWeather 40s linear infinite;
-  }
-
-  @keyframes scrollWeather {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-
-  /* 💰 شريط العملات */
-  .ticker {
-    position: fixed;
-    bottom: 15px;
-    right: 0;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    color: #ff66cc;
-    font-size: 20px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #ff66cc;
-    z-index: 9998;
-  }
-
-  .ticker-content {
-    display: inline-block;
-    animation: scrollCoins 700s linear infinite;
-  }
-
-  @keyframes scrollCoins {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-</style>
-</head>
-<body>
-
-<!-- 🌦️ شريط الطقس -->
-<div class="weather-bar">
-  <div class="weather-content" id="weatherInfo">🌍 جاري تحميل حالة الطقس...</div>
-</div>
-
-<!-- 💰 شريط العملات -->
-<div class="ticker">
-  <div class="ticker-content" id="ticker">💰 جاري تحميل أسعار العملات...</div>
-</div>
-
-<script>
-  // 🌀 جلب حالة الطقس من OpenWeatherMap
-  const apiKey = "c3e6e3fdac4b6b9fb8c61b3cc51c6f7b";
-
-  function fetchWeather(lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=ar&appid=${apiKey}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data.main) throw new Error("No data");
-        const temp = data.main.temp.toFixed(1);
-        const weather = data.weather[0].description;
-        const wind = data.wind.speed;
-        const humidity = data.main.humidity;
-        const city = data.name;
-        const text = `📍 ${city} | 🌤️ الطقس الآن: ${weather} | 🌡️ ${temp}°C | 💨 الرياح: ${wind} م/ث | 💧 الرطوبة: ${humidity}% ⎯ `;
-        document.getElementById("weatherInfo").innerHTML = text.repeat(8);
-      })
-      .catch(() => {
-        document.getElementById("weatherInfo").textContent = "⚠️ تعذر تحميل الطقس";
-      });
-  }
-
-  // 🧭 تحديد الموقع وتشغيل التحديث الدوري
-  function initWeather() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          fetchWeather(pos.coords.latitude, pos.coords.longitude);
-          setInterval(() => fetchWeather(pos.coords.latitude, pos.coords.longitude), 300000); // كل 5 دقائق
-        },
-        () => {
-          document.getElementById("weatherInfo").textContent = "🌍 الرجاء السماح بتحديد الموقع";
-        }
-      );
-    } else {
-      document.getElementById("weatherInfo").textContent = "⚠️ المتصفح لا يدعم تحديد الموقع";
-    }
-  }
-
-  initWeather();
-
-  // 💰 جلب أسعار العملات
-  async function fetchPrices() {
-    try {
-      const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,dogecoin,tron,gold,silver,crude-oil,eur,gbp,jpy,sar,nasdaq-100,s-p-500&vs_currencies=usd");
-      const data = await res.json();
-
-      const names = {
-        bitcoin: "بيتكوين",
-        ethereum: "إيثيريوم",
-        ripple: "ريبل",
-        dogecoin: "دوجكوين",
-        tron: "ترون",
-        gold: "ذهب",
-        silver: "فضة",
-        "crude-oil": "نفط",
-        eur: "يورو",
-        gbp: "جنيه إسترليني",
-        jpy: "ين ياباني",
-        sar: "ريال سعودي",
-        "nasdaq-100": "ناسداك",
-        "s-p-500": "S&P 500"
-      };
-
-      let html = "";
-      for (let key in names) {
-        if (data[key]) html += `${names[key]}: ${data[key].usd} $ ⎯ `;
-      }
-
-      document.getElementById("ticker").innerHTML = html.repeat(6);
-    } catch {
-      document.getElementById("ticker").textContent = "⚠️ تعذر تحميل بيانات العملات";
-    }
-  }
-
-  fetchPrices();
-  setInterval(fetchPrices, 60000); // تحديث العملات كل دقيقة
-</script>
-
-</body>
-</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -6890,3 +6787,162 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
   text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
 }
 </style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطقس والعملات - أبو القمر زمرد</title>
+<style>
+  body {
+    margin: 0;
+    background: transparent;
+    overflow-x: hidden;
+    font-family: "Tajawal", sans-serif;
+  }
+
+  /* 🌦️ شريط الطقس */
+  .weather-bar {
+    position: fixed;
+    bottom: 40px;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #00ffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ffff;
+    z-index: 9999;
+  }
+
+  .weather-content {
+    display: inline-block;
+    animation: scrollWeather 40s linear infinite;
+  }
+
+  @keyframes scrollWeather {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* 💰 شريط العملات */
+  .ticker {
+    position: fixed;
+    bottom: 15px;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ff66cc;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff66cc;
+    z-index: 9998;
+  }
+
+  .ticker-content {
+    display: inline-block;
+    animation: scrollCoins 700s linear infinite;
+  }
+
+  @keyframes scrollCoins {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 🌦️ شريط الطقس -->
+<div class="weather-bar">
+  <div class="weather-content" id="weatherInfo">🌍 جاري تحميل حالة الطقس...</div>
+</div>
+
+<!-- 💰 شريط العملات -->
+<div class="ticker">
+  <div class="ticker-content" id="ticker">💰 جاري تحميل أسعار العملات...</div>
+</div>
+
+<script>
+// 🔑 مفتاح OpenWeatherMap
+const apiKey = "c3e6e3fdac4b6b9fb8c61b3cc51c6f7b";
+
+// 🌦️ جلب الطقس حسب موقع المستخدم
+function fetchWeather(lat, lon) {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=ar&appid=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.main) throw new Error("No data");
+      const temp = data.main.temp.toFixed(1);
+      const weather = data.weather[0].description;
+      const wind = data.wind.speed;
+      const humidity = data.main.humidity;
+      const city = data.name;
+      const text = `📍 ${city} | 🌤️ الطقس الآن: ${weather} | 🌡️ ${temp}°C | 💨 الرياح: ${wind} م/ث | 💧 الرطوبة: ${humidity}% ⎯ `;
+      document.getElementById("weatherInfo").innerHTML = text.repeat(8);
+    })
+    .catch(() => {
+      document.getElementById("weatherInfo").textContent = "⚠️ تعذر تحميل الطقس";
+    });
+}
+
+function initWeather() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        fetchWeather(pos.coords.latitude, pos.coords.longitude);
+        setInterval(() => fetchWeather(pos.coords.latitude, pos.coords.longitude), 300000); // كل 5 دقائق
+      },
+      () => {
+        document.getElementById("weatherInfo").textContent = "⚠️ الرجاء السماح بالوصول للموقع";
+      },
+      { timeout: 10000 }
+    );
+  } else {
+    document.getElementById("weatherInfo").textContent = "⚠️ المتصفح لا يدعم تحديد الموقع";
+  }
+}
+
+initWeather();
+
+// 💰 جلب أسعار العملات
+async function fetchPrices() {
+  try {
+    const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,dogecoin,tron,gold,silver,crude-oil,eur,gbp,jpy,sar,nasdaq-100,s-p-500&vs_currencies=usd");
+    const data = await res.json();
+
+    const names = {
+      bitcoin: "بيتكوين",
+      ethereum: "إيثيريوم",
+      ripple: "ريبل",
+      dogecoin: "دوجكوين",
+      tron: "ترون",
+      gold: "ذهب",
+      silver: "فضة",
+      "crude-oil": "نفط",
+      eur: "يورو",
+      gbp: "جنيه إسترليني",
+      jpy: "ين ياباني",
+      sar: "ريال سعودي",
+      "nasdaq-100": "ناسداك",
+      "s-p-500": "S&P 500"
+    };
+
+    let html = "";
+    for (let key in names) {
+      if (data[key]) html += `${names[key]}: ${data[key].usd} $ ⎯ `;
+    }
+
+    document.getElementById("ticker").innerHTML = html.repeat(6);
+  } catch {
+    document.getElementById("ticker").textContent = "⚠️ تعذر تحميل بيانات العملات";
+  }
+}
+
+fetchPrices();
+setInterval(fetchPrices, 60000);
+</script>
+
+</body>
+</html>
