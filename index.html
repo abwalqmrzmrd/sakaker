@@ -1,3 +1,61 @@
+<!-- 🌟 أيقونة تبرع باي بال -->
+<div id="paypalIcon" class="adCircle paypal">
+  <div class="adText">💖 دعم الصفحة<br><span class="en">Donate $1</span></div>
+</div>
+
+<script>
+// 🎯 عند الضغط يتم فتح صفحة التبرع
+const paypalIcon = document.getElementById("paypalIcon");
+paypalIcon.onclick = () => {
+  window.open("https://paypal.me/abwalqmrzmrd/1", "_blank");
+};
+
+// 🎨 تغيير اللون كل ثانية
+const colors = ["#0070ba", "#00ffff", "#ff00ff", "#00ff00", "#ffff00", "#ff0000"];
+let i = 0;
+setInterval(() => {
+  paypalIcon.style.background = `radial-gradient(circle, ${colors[i]} 30%, ${colors[(i+1)%colors.length]} 70%)`;
+  paypalIcon.style.boxShadow = `0 0 25px ${colors[i]}, inset 0 0 25px ${colors[(i+1)%colors.length]}`;
+  i = (i + 1) % colors.length;
+}, 1000);
+</script>
+
+<style>
+/* ✅ تصميم الأيقونة */
+#paypalIcon {
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid #fff;
+  border-radius: 20%; /* 💠 مربعة بحواف ناعمة */
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1000;
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.5s ease, background 0.5s ease;
+}
+#paypalIcon:hover {
+  transform: scale(1.08);
+}
+
+/* نص الأيقونة */
+.adText {
+  font-size: 13px;
+  text-shadow: 0 0 6px #000;
+}
+.adText .en {
+  display: block;
+  color: #ffeb3b;
+  font-size: 11px;
+}
+</style>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,7 +63,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>أيقونات تبرع وحجز</title>
 <style>
-, html {
+body, html {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -60,14 +118,14 @@
 
 /* ✅ الأيقونات في المنتصف */
 #adCircle1 {
-  top: 50%;
-  left: 50%;
+  top: 20%;
+  left: 30%;
   transform: translate(-130%, -50%);
   background-image: url('https://img.youtube.com/vi/E0_ezgwtuNs/hqdefault.jpg');
 }
 #adCircle2 {
-  top: 50%;
-  left: 50%;
+  top: 20%;
+  left: 70%;
   transform: translate(30%, -50%);
   background-image: url('https://img.youtube.com/vi/eK4Cra633lA/hqdefault.jpg');
 }
@@ -207,7 +265,7 @@ makeDraggable(ad2);
 
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
-style="position:fixed;top:30%;left:90px;transform:translateY(-50%);
+style="position:fixed;top:40%;left:90px;transform:translateY(-50%);
 z-index:9999;background:linear-gradient(45deg,#00f,#00ffff);
 color:#fff;border:none;border-radius:50%;width:80px;height:80px;
 font-size:16px;cursor:pointer;box-shadow:0 0 15px #00f,0 0 25px #00ffff,0 0 35px #00f;
@@ -6740,7 +6798,7 @@ items.forEach(item => {
   #adIcon {
     position: fixed;
     bottom: 70px;
-    left: 35%;
+    left: 10%;
     transform: translateX(-50%);
     z-index: 9999;
     min-width: 260px;
@@ -6944,8 +7002,8 @@ body {
   left: 10px;
   top: 63%;
   transform: translateY(-50%);
-  width: 400px;
-  height: 90px;
+  width: 200px;
+  height: 60px;
   color: #fff;
   font-size: 17px;
   font-weight: bold;
@@ -6974,8 +7032,8 @@ body {
   direction: ltr; /* من اليسار إلى اليمين */
   white-space: nowrap;
   display: inline-block;
-  font-size: 18px;
-  animation: moveAR 30s linear infinite;
+  font-size: 10px;
+  animation: moveAR 100s linear infinite;
 }
 
 /* النص الإنجليزي */
@@ -6983,9 +7041,9 @@ body {
   direction: rtl; /* من اليمين إلى اليسار */
   white-space: nowrap;
   display: inline-block;
-  font-size: 15px;
+  font-size: 10px;
   color: #0ff;
-  animation: moveEN 30s linear infinite;
+  animation: moveEN 100s linear infinite;
 }
 
 /* حركة النصوص */
