@@ -3,20 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ألعاب منبثقة</title>
+<title>ألعاب منبثقة مع خلفية فيديو</title>
 <style>
-body {
+html, body {
     margin:0;
+    padding:0;
+    height:100%;
     font-family:sans-serif;
-    background:white;
-    height:100vh;
+    overflow:hidden;
+}
+
+/* فيديو الخلفية */
+#bgVideoContainer {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    overflow:hidden;
+}
+
+#bgVideo {
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 /* أيقونة الألعاب الرئيسية */
 #mainGamesIcon {
     position:fixed;
-    top:20%;
-    left:70%;
+    top:30%;
+    left:10%;
     transform:translate(-50%, -50%);
     z-index:1000;
     padding:20px 30px;
@@ -42,11 +60,11 @@ body {
     left:50%;
     transform:translate(-50%, -50%);
     z-index:9999;
-    background: 
+    background: rgba(0,0,0,0.8);
     padding:10px;
     border-radius:20px;
-    width:95vw;    /* عرض 95% من الشاشة */
-    height:95vh;   /* ارتفاع 95% من الشاشة */
+    width:75vw;
+    height:75vh;
     max-width:1400px;
     max-height:900px;
     box-sizing:border-box;
@@ -85,15 +103,34 @@ body {
     cursor:pointer;
     border-radius:10px;
     border:none;
-    background:
+    background:#333;
     color:white;
     font-weight:bold;
+}
+
+/* أزرار التحكم بالفيديو أسفل القائمة */
+#videoControls {
+    text-align:center;
+    margin-bottom:10px;
+    z-index:10000;
+}
+
+#videoControls button {
+    margin:0 5px;
+    padding:6px 12px;
+    font-size:14px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    background:#555;
+    color:white;
 }
 
 /* iframe اللعبة */
 #gameFrame {
     width:100%;
-    height:calc(100% - 60px); /* يغطي باقي الإطار مع ترك مكان للقائمة */
+    height:calc(100% - 110px); /* يغطي باقي الإطار مع ترك مكان للقائمة وأزرار التحكم */
     border:none;
 }
 
@@ -107,17 +144,33 @@ body {
 </head>
 <body>
 
+<!-- فيديو الخلفية -->
+<div id="bgVideoContainer">
+    <iframe id="bgVideo" src="https://www.youtube.com/embed/fH-D8eQ6NQo?autoplay=1&mute=1&loop=1&playlist=fH-D8eQ6NQo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
 <!-- أيقونة الألعاب الرئيسية -->
 <div id="mainGamesIcon">🎮 ألعاب</div>
 
 <!-- نافذة الألعاب -->
 <div id="gameContainer">
     <button id="closeBtn">×</button>
+    
+    <!-- قائمة الألعاب -->
     <div id="gameSelect">
         <button onclick="loadGame('chess')">♟️ شطرنج</button>
         <button onclick="loadGame('sudoku')">🧩 سودوكو</button>
         <button onclick="loadGame('billiards')">🎱 بلياردو</button>
     </div>
+    
+    <!-- أزرار التحكم بالفيديو تحت القائمة -->
+    <div id="videoControls">
+        <button id="playPauseBtn">⏯️ تشغيل/إيقاف</button>
+        <button id="muteBtn">🔇 كتم/إلغاء كتم</button>
+        <button id="changeVideoBtn">🎬 تبديل الفيديو</button>
+    </div>
+    
+    <!-- iframe اللعبة -->
     <div id="gameFrame">
         <iframe src="https://playpager.com/embed/chess/index.html" title="شطرنج"></iframe>
     </div>
@@ -128,6 +181,14 @@ const mainIcon = document.getElementById("mainGamesIcon");
 const container = document.getElementById("gameContainer");
 const closeBtn = document.getElementById("closeBtn");
 const frameDiv = document.getElementById("gameFrame");
+const bgVideo = document.getElementById("bgVideo");
+
+let videos = [
+    "https://www.youtube.com/embed/fH-D8eQ6NQo?autoplay=1&mute=1&loop=1&playlist=fH-D8eQ6NQo",
+    "https://www.youtube.com/embed/8VNU1tzWt5I?autoplay=1&mute=1&loop=1&playlist=8VNU1tzWt5I"
+];
+let currentVideo = 0;
+let isMuted = true;
 
 // فتح/غلق نافذة الألعاب
 mainIcon.addEventListener("click",()=>{ container.style.display="block"; });
@@ -150,19 +211,27 @@ function loadGame(game){
     frameDiv.innerHTML = `<iframe src="${url}" title="${game}"></iframe>`;
 }
 
-// تصغير/تكبير ديناميكي (اختياري)
+// التحكم بالفيديو
+document.getElementById("changeVideoBtn").addEventListener("click", ()=>{
+    currentVideo = (currentVideo+1) % videos.length;
+    bgVideo.src = videos[currentVideo];
+});
+
+document.getElementById("muteBtn").addEventListener("click", ()=>{
+    isMuted = !isMuted;
+    bgVideo.src = bgVideo.src.replace(/&mute=\d/, "&mute=" + (isMuted?1:0));
+});
+
+// تصغير/تكبير ديناميكي
 window.addEventListener("resize", () => {
-    // يبقي الإطار بنسبة 95% من الشاشة دائمًا
-    container.style.width = Math.min(window.innerWidth*0.95, 1400)+"px";
-    container.style.height = Math.min(window.innerHeight*0.95, 900)+"px";
+    container.style.width = Math.min(window.innerWidth*0.95, 1000)+"px";
+    container.style.height = Math.min(window.innerHeight*0.95, 600)+"px";
 });
 </script>
 
 </body>
 </html>
 
-</body>
-</html>
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
@@ -419,7 +488,7 @@ function closeWisdom() {
   #soundBtn {
     position: fixed;
     top: 70px;
-    right: 800px;
+    right: 20px;
     background: rgba(0,0,0,0.6);
     color: #fff;
     border: none;
@@ -464,7 +533,7 @@ function closeWisdom() {
 <!-- حاوية الفيديو -->
 <div class="video-bg-container">
   <iframe id="video-bg" 
-    src="https://www.youtube.com/embed/jf2Dqa0pM6E?autoplay=1&mute=1&controls=0&loop=1&playlist=jf2Dqa0pM6E&modestbranding=1&enablejsapi=1" 
+    src="https://www.youtube.com/embed/QxS6PpMArMU?autoplay=1&mute=1&controls=0&loop=1&playlist=QxS6PpMArMU&modestbranding=1&enablejsapi=1" 
     allow="autoplay; encrypted-media" 
     allowfullscreen>
   </iframe>
@@ -497,9 +566,10 @@ function closeWisdom() {
     }
   });
 
-  // قائمة الفيديوهات (الفيديو الجديد أولًا)
+  // قائمة الفيديوهات مع الفيديو الجديد أولًا
   const videos = [
-    "jf2Dqa0pM6E", // الفيديو الجديد
+    "QxS6PpMArMU", // الفيديو الجديد أولًا
+    "jf2Dqa0pM6E", 
     "ho4a2O5NHnE", 
     "I6bgeV-h5U", 
     "FHDtNY2FEWg", 
@@ -760,160 +830,6 @@ body {
 </head>
 <body>
 
-<div class="iconColumn">
-  <div class="icon" onclick="openChess()">♟️<br>شطرنج اchessر</div>
-</div>
-
-<div id="chessContainer">
-  <div id="chess-wrap">
-    <iframe id="chessVideo"
-      src="https://www.youtube.com/embed/_2A12E8Tk0g?autoplay=1&mute=1&loop=1&playlist=_2A12E8Tk0g&controls=0&showinfo=0&modestbranding=1&rel=0"
-      allow="autoplay; fullscreen" frameborder="0"></iframe>
-
-    <div id="chess-board"></div>
-
-    <button class="closeBtn" onclick="closeChess()">🔙 إغلاق</button>
-    <button class="playVideoBtn" onclick="toggleVideo()">▶️ تشغيل/إيقاف الفيديو</button>
-    <button class="muteAudioBtn" onclick="toggleAudio()">🔊 تشغيل/إيقاف الصوت</button>
-  </div>
-</div>
-
-<script>
-const symbols={w:{p:'♙',r:'♖',n:'♘',b:'♗',q:'♕',k:'♔'},b:{p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'}};
-let board=[],turn='w',selected=null;
-const boardEl=document.getElementById('chess-board');
-const video=document.getElementById('chessVideo');
-let audioMuted=true;
-
-function openChess(){ document.getElementById('chessContainer').style.display='flex'; resetGame(); aiAutoPlay(); }
-function closeChess(){ document.getElementById('chessContainer').style.display='none'; }
-function toggleVideo(){ const src = video.src; video.src = src.includes('autoplay=1') ? src.replace('autoplay=1','autoplay=0') : src.replace('autoplay=0','autoplay=1'); }
-function toggleAudio(){ audioMuted = !audioMuted; video.src = video.src.replace(/&mute=\d/,'&mute='+(audioMuted?1:0)); }
-
-function resetGame(){
-  board=Array.from({length:8},()=>Array(8).fill(null));
-  for(let c=0;c<8;c++){ board[1][c]={type:'p',color:'b'}; board[6][c]={type:'p',color:'w'}; }
-  const order=['r','n','b','q','k','b','n','r'];
-  for(let c=0;c<8;c++){ board[0][c]={type:order[c],color:'b'}; board[7][c]={type:order[c],color:'w'}; }
-  turn='w'; selected=null; renderBoard();
-}
-
-function renderBoard(){
-  boardEl.innerHTML='';
-  for(let r=0;r<8;r++){
-    for(let c=0;c<8;c++){
-      const sq=document.createElement('div');
-      sq.className='square '+(((r+c)%2===0)?'sq-light':'sq-dark');
-      sq.dataset.row=r; sq.dataset.col=c;
-      const p=board[r][c];
-      if(p){ const el=document.createElement('div');
-        el.className='piece '+(p.color==='w'?'white':'black');
-        el.textContent=symbols[p.color][p.type]; sq.appendChild(el);
-      }
-      sq.addEventListener('mousedown',()=>onSquareClick(r,c));
-      boardEl.appendChild(sq);
-    }
-  }
-}
-
-function legalMoves(r,c){
-  const p=board[r][c]; if(!p) return [];
-  let moves=[]; const dirs={r:[[1,0],[-1,0],[0,1],[0,-1]],b:[[1,1],[1,-1],[-1,1],[-1,-1]],q:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]],k:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]};
-  if(p.type==='p'){
-    const d=p.color==='w'?-1:1; const r1=r+d;
-    if(r1>=0&&r1<8&&!board[r1][c]) moves.push({to:{row:r1,col:c}});
-    for(const dc of[-1,1]){ const c1=c+dc;
-      if(c1>=0&&c1<8&&board[r1][c1]&&board[r1][c1].color!==p.color)
-        moves.push({to:{row:r1,col:c1},capture:true});
-    }
-  } else if(['r','b','q'].includes(p.type)){
-    dirs[p.type].forEach(d=>{
-      let rr=r+d[0],cc=c+d[1];
-      while(rr>=0&&rr<8&&cc>=0&&cc<8){
-        if(!board[rr][cc]) moves.push({to:{row:rr,col:cc}});
-        else{ if(board[rr][cc].color!==p.color) moves.push({to:{row:rr,col:cc},capture:true}); break; }
-        rr+=d[0]; cc+=d[1];
-      }
-    });
-  } else if(p.type==='n'){
-    const d=[[2,1],[1,2],[-1,2],[-2,1],[-2,-1],[-1,-2],[1,-2],[2,-1]];
-    d.forEach(v=>{
-      const rr=r+v[0],cc=c+v[1];
-      if(rr>=0&&rr<8&&cc>=0&&cc<8){
-        if(!board[rr][cc]||board[rr][cc].color!==p.color)
-          moves.push({to:{row:rr,col:cc},capture:!!board[rr][cc]});
-      }
-    });
-  } else if(p.type==='k'){
-    dirs.k.forEach(v=>{
-      const rr=r+v[0],cc=c+v[1];
-      if(rr>=0&&rr<8&&cc>=0&&cc<8){
-        if(!board[rr][cc]||board[rr][cc].color!==p.color)
-          moves.push({to:{row:rr,col:cc},capture:!!board[rr][cc]});
-      }
-    });
-  }
-  return moves;
-}
-
-function makeMove(r1,c1,r2,c2){
-  const p=board[r1][c1]; board[r1][c1]=null; board[r2][c2]=p;
-  if(p.type==='p'&&(r2===0||r2===7)) p.type='q';
-  renderBoard();
-}
-
-function onSquareClick(r,c){
-  const p=board[r][c];
-  if(selected){
-    const legal=legalMoves(selected.row,selected.col);
-    const mv=legal.find(m=>m.to.row===r&&m.to.col===c);
-    if(mv){ makeMove(selected.row,selected.col,r,c); selected=null; turn='b'; setTimeout(aiSmartPlay,400); return; }
-  }
-  if(p&&p.color===turn){ selected={row:r,col:c}; renderBoard(); }
-  else{ selected=null; renderBoard(); }
-}
-
-// الذكاء الاصطناعي: تحريك الجنود أولًا ثم باقي القطع بشكل ذكي
-function aiAutoPlay(){
-  if(turn!=='b') return;
-  const pawns=[];
-  for(let c=0;c<8;c++) pawns.push({r:1,c});
-  let index=0;
-  function moveNextPawn(){
-    if(index<pawns.length){
-      const p=pawns[index]; const r1=p.r, c1=p.c;
-      const r2=r1+1;
-      if(!board[r2][c1]) makeMove(r1,c1,r2,c1);
-      index++; setTimeout(moveNextPawn,400);
-    } else {
-      turn='w'; renderBoard();
-    }
-  }
-  moveNextPawn();
-}
-
-function aiSmartPlay(){
-  if(turn!=='b') return;
-  let moves=[];
-  for(let r=0;r<8;r++){
-    for(let c=0;c<8;c++){
-      if(board[r][c]&&board[r][c].color==='b'){
-        const legal=legalMoves(r,c);
-        legal.forEach(m=>moves.push({from:{r,c},to:m.to}));
-      }
-    }
-  }
-  if(moves.length>0){
-    const choice=moves[Math.floor(Math.random()*moves.length)];
-    makeMove(choice.from.r,choice.from.c,choice.to.row,choice.to.col);
-    turn='w';
-  }
-}
-
-resetGame();
-</script>
-</body>
-</html>
 <!-- 🔹 زر فتح اللعبة مع ألوان متغيرة -->
 <button id="pongGame-btn" style="
   z-index: 9999;
