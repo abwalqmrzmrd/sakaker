@@ -3,124 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎮 قائمة الألعاب</title>
+<title>ألعاب منبثقة</title>
 <style>
-  body {
-    margin: 0;
-    font-family: "Tajawal", sans-serif;
-    background-color: #000;
-    color: white;
-    overflow-x: hidden;
-  }
+body {
+    margin:0;
+    font-family:sans-serif;
+    background:
+    color:white;
+    height:200vh;
+}
 
-  /* أيقونة الألعاب */
-  #gamesIcon {
-    position: fixed;
-    top: 140px;    /* ← غيّر الرقم للأعلى أو الأسفل */
-    left: 655px;   /* ← غيّر الرقم لليمين أو اليسار */
-    width: 70px;
-    height: 70px;
-    background: radial-gradient(circle, #00ff9d, #006644);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #00ff9d;
+/* أيقونة الألعاب الرئيسية */
+#mainGamesIcon {
+    position:fixed;
+    top:20%;   /* تعديل الموقع: الأعلى/الأسفل */
+    left:70%;  /* تعديل الموقع: اليمين/اليسار */
+    transform:translate(-50%, -50%);
+    z-index:2000;
+    padding:40px 40px;
+    font-size:44px;
+    border-radius:80px;
+    cursor:pointer;
+    box-shadow:0 0 30px #fff;
+    color:white;
+    font-weight:bold;
+    text-align:center;
+    background:
     transition: transform 0.2s;
-    z-index: 1000;
-  }
-  #gamesIcon:hover {
+}
+#mainGamesIcon:hover {
     transform: scale(1.1);
-  }
+}
 
-  /* النافذة المنبثقة */
-  #gamePopup {
-    display: none;
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 900px;
-    height: 80%;
-    background: rgba(0, 0, 0, 0.95);
-    border: 2px solid #00ff9d;
-    border-radius: 20px;
-    box-shadow: 0 0 25px #00ff9d;
-    z-index: 2000;
-    overflow: hidden;
-  }
+/* نافذة الألعاب المنبثقة */
+#gameContainer {
+    display:none;
+    position:fixed;
+    top:90%; left:50%;
+    transform:translate(-50%, -50%);
+    z-index:2000;
+    background:
+    padding:15px;
+    border-radius:20px;
+    width:600px;
+    height:600px;
+    box-sizing:border-box;
+}
 
-  /* شريط الألعاب */
-  #gameList {
-    display: flex;
-    justify-content: space-around;
-    background: #003322;
-    padding: 10px;
-  }
+/* زر الإغلاق */
+#closeBtn {
+    position:absolute;
+    top:-10px; right:-10px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:30px; height:30px;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-  .gameButton {
-    background: #00aa66;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .gameButton:hover {
-    background: #00ff9d;
-  }
+/* قائمة الألعاب داخل النافذة */
+#gameSelect {
+    margin-bottom:50px;
+    text-align:center;
+}
 
-  iframe {
-    width: 100%;
-    height: calc(100% - 60px);
-    border: none;
-  }
+#gameSelect button {
+    margin:0 5px;
+    padding:14px 10px;
+    font-size:14px;
+    cursor:pointer;
+}
 
-  /* زر الإغلاق */
-  #closeBtn {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    color: #00ff9d;
-    cursor: pointer;
-    font-size: 22px;
-    background: none;
-    border: none;
-  }
+/* iframe اللعبة */
+#gameFrame iframe {
+    width:100%;
+    height:calc(300% - 200px);
+    border:none;
+}
 </style>
 </head>
 <body>
 
-<!-- أيقونة الألعاب -->
-<div id="gamesIcon" onclick="togglePopup()">🎮</div>
+<!-- أيقونة الألعاب الرئيسية -->
+<div id="mainGamesIcon">🎮 ألعاب</div>
 
-<!-- النافذة المنبثقة -->
-<div id="gamePopup">
-  <button id="closeBtn" onclick="togglePopup()">✖</button>
-  <div id="gameList">
-    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/8-ball-billiards-classic')">🎱 بلياردو</button>
-    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/chess-online')">♟️ شطرنج</button>
-    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/soccer-skills-world-cup')">⚽ كرة القدم</button>
-    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/madalin-stunt-cars-3')">🚗 سيارات</button>
-    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/brain-test-tricky-puzzles')">🧩 ذكاء</button>
-  </div>
-  <iframe id="gameFrame" src=""></iframe>
+<!-- نافذة الألعاب -->
+<div id="gameContainer">
+    <button id="closeBtn">×</button>
+    <div id="gameSelect">
+        <button onclick="loadGame('chess')">♟️ شطرنج</button>
+        <button onclick="loadGame('sudoku')">🧩 سودوكو</button>
+        <button onclick="loadGame('billiards')">🎱 بلياردو</button>
+    </div>
+    <div id="gameFrame">
+        <iframe src="https://playpager.com/embed/chess/index.html" title="شطرنج"></iframe>
+    </div>
 </div>
 
 <script>
-  function togglePopup() {
-    const popup = document.getElementById("gamePopup");
-    popup.style.display = popup.style.display === "block" ? "none" : "block";
-  }
+const mainIcon = document.getElementById("mainGamesIcon");
+const container = document.getElementById("gameContainer");
+const closeBtn = document.getElementById("closeBtn");
+const frameDiv = document.getElementById("gameFrame");
 
-  function loadGame(url) {
-    document.getElementById("gameFrame").src = url;
-  }
+// فتح/غلق نافذة الألعاب
+mainIcon.addEventListener("click",()=>{ container.style.display="block"; });
+closeBtn.addEventListener("click",()=>{ container.style.display="none"; });
+
+// تحميل اللعبة في iframe
+function loadGame(game){
+    let url="";
+    switch(game){
+        case "chess": 
+            url="https://playpager.com/embed/chess/index.html"; 
+            break;
+        case "sudoku": 
+            url="https://playpager.com/embed/sudoku/index.html"; 
+            break;
+        case "billiards": 
+            url="https://www.crazygames.com/embed/8-ball-billiards-classic"; 
+            break;
+    }
+    frameDiv.innerHTML = `<iframe src="${url}" title="${game}"></iframe>`;
+}
 </script>
 
 </body>
