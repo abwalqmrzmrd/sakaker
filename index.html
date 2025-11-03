@@ -10,7 +10,7 @@ body {
     font-family:sans-serif;
     background:
     color:white;
-    height:200vh;
+    height:100vh;
 }
 
 /* أيقونة الألعاب الرئيسية */
@@ -19,12 +19,12 @@ body {
     top:20%;   /* تعديل الموقع: الأعلى/الأسفل */
     left:70%;  /* تعديل الموقع: اليمين/اليسار */
     transform:translate(-50%, -50%);
-    z-index:2000;
-    padding:40px 40px;
-    font-size:44px;
-    border-radius:80px;
+    z-index:1000;
+    padding:20px 30px;
+    font-size:24px;
+    border-radius:50px;
     cursor:pointer;
-    box-shadow:0 0 30px #fff;
+    box-shadow:0 0 15px #fff;
     color:white;
     font-weight:bold;
     text-align:center;
@@ -41,7 +41,7 @@ body {
     position:fixed;
     top:90%; left:50%;
     transform:translate(-50%, -50%);
-    z-index:2000;
+    z-index:999;
     background:
     padding:15px;
     border-radius:20px;
@@ -65,13 +65,13 @@ body {
 
 /* قائمة الألعاب داخل النافذة */
 #gameSelect {
-    margin-bottom:50px;
+    margin-bottom:10px;
     text-align:center;
 }
 
 #gameSelect button {
     margin:0 5px;
-    padding:14px 10px;
+    padding:5px 10px;
     font-size:14px;
     cursor:pointer;
 }
@@ -79,7 +79,7 @@ body {
 /* iframe اللعبة */
 #gameFrame iframe {
     width:100%;
-    height:calc(300% - 200px);
+    height:calc(100% - 50px);
     border:none;
 }
 </style>
@@ -132,328 +132,6 @@ function loadGame(game){
 
 </body>
 </html>
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بلياردو - Billiards</title>
-<style>
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #2b2b2b;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* أيقونة Billiards */
-#billiardsWrapper {
-    padding: 5px 10px;
-    display: inline-block;
-}
-#billiardsIcon {
-    padding: 15px 25px;
-    font-size: 20px;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 15px #fff;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* الطاولة */
-#poolContainer {
-    display: none;
-    position: fixed;       /* لتثبيت الطاولة بالنسبة للصفحة */
-    top: 50%;              /* منتصف عمودي */
-    left: 50%;             /* منتصف أفقي */
-    transform: translate(-50%, -50%); /* مركز الطاولة بالضبط */
-    z-index: 999;
-}
-#poolWrapper {
-    background: #1a1a1a;
-    padding: 10px;
-    border-radius: 20px;
-    position: relative;
-}
-#closeBtn {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 10;
-}
-canvas {
-    background: #006400;
-    border-radius: 20px;
-    cursor: crosshair;
-    display: block;
-}
-#scoreboard {
-    margin-top: 10px;
-    font-size: 18px;
-    text-align: center;
-}
-</style>
-</head>
-<body>
-
-<!-- أيقونة Billiards -->
-<div id="billiardsWrapper">
-    <div id="billiardsIcon">Billiards</div>
-</div>
-
-<!-- طاولة البلياردو -->
-<div id="poolContainer">
-    <div id="poolWrapper">
-        <button id="closeBtn">×</button>
-        <div id="scoreboard"></div>
-        <canvas id="poolTable" width="600" height="300"></canvas>
-    </div>
-</div>
-
-<script>
-// ===== إعداد موقع الأيقونة من الكود =====
-let iconX = 200; // إحداثي X من اليسار
-let iconY = 100; // إحداثي Y من الأعلى
-const wrapper = document.getElementById("billiardsWrapper");
-wrapper.style.position = "absolute";
-wrapper.style.left = iconX + "px";
-wrapper.style.top = iconY + "px";
-wrapper.style.zIndex = 1000;
-
-// ===== السحب بالماوس للأيقونة =====
-let isDragging = false;
-let offsetX = 0, offsetY = 0;
-wrapper.addEventListener("mousedown", e=>{
-    isDragging = true;
-    const rect = wrapper.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-});
-document.addEventListener("mousemove", e=>{
-    if(isDragging){
-        wrapper.style.left = (e.clientX - offsetX) + "px";
-        wrapper.style.top = (e.clientY - offsetY) + "px";
-    }
-});
-document.addEventListener("mouseup", ()=>{ isDragging=false; });
-
-// ===== تلوين الأيقونة بشكل متغير =====
-const icon = document.getElementById("billiardsIcon");
-const colors = ["yellow","blue","green","red"];
-let colorIndex = 0;
-setInterval(()=>{
-    icon.style.background = colors[colorIndex];
-    colorIndex = (colorIndex+1)%colors.length;
-}, 200);
-
-// ===== لعبة البلياردو =====
-const poolContainerEl = document.getElementById("poolContainer");
-const closeBtnEl = document.getElementById("closeBtn");
-const canvas = document.getElementById("poolTable");
-const ctx = canvas.getContext("2d");
-
-const friction = 0.98;
-const ballRadius = 12;
-const balls = [];
-const pockets = [];
-let currentPlayer = 0;
-
-const players = [
-    {name: "اللاعب", score:0, isComputer:false},
-    {name: "الكمبيوتر", score:0, isComputer:true}
-];
-
-// الحفر
-pockets.push({x:0,y:0});
-pockets.push({x:canvas.width/2,y:0});
-pockets.push({x:canvas.width,y:0});
-pockets.push({x:0,y:canvas.height});
-pockets.push({x:canvas.width/2,y:canvas.height});
-pockets.push({x:canvas.width,y:canvas.height});
-
-// الكرة
-class Ball {
-    constructor(x,y,color){
-        this.x=x; this.y=y; this.vx=0; this.vy=0;
-        this.color=color; this.inPocket=false;
-    }
-    draw(){
-        if(this.inPocket && this.color!=="white") return;
-        ctx.beginPath();
-        ctx.arc(this.x,this.y,ballRadius,0,Math.PI*2);
-        ctx.fillStyle=this.color;
-        ctx.fill();
-        ctx.strokeStyle="black"; ctx.stroke();
-    }
-    update(){
-        if(this.inPocket && this.color!=="white") return;
-        this.x += this.vx; this.y += this.vy;
-        this.vx *= friction; this.vy *= friction;
-
-        // الجدران
-        if(this.x<ballRadius){this.x=ballRadius;this.vx*=-1;}
-        if(this.x>canvas.width-ballRadius){this.x=canvas.width-ballRadius;this.vx*=-1;}
-        if(this.y<ballRadius){this.y=ballRadius;this.vy*=-1;}
-        if(this.y>canvas.height-ballRadius){this.y=canvas.height-ballRadius;this.vy*=-1;}
-
-        // الحفر
-        for(let p of pockets){
-            let dx=this.x-p.x, dy=this.y-p.y;
-            if(Math.hypot(dx,dy)<20){
-                if(this.color==="white"){
-                    this.x = 150; this.y = 150; this.vx=0; this.vy=0;
-                } else {
-                    this.inPocket=true; this.vx=0; this.vy=0; updateScore();
-                }
-            }
-        }
-    }
-}
-
-// إعداد الكرات
-function setupBalls(){
-    balls.length=0;
-    balls.push(new Ball(150,150,"white")); // الكرة البيضاء
-    const colorsArr=["yellow","blue","red","purple","orange","green","maroon","black","yellow","blue","red","purple","orange","green","maroon"];
-    let startX=450, startY=150, index=0;
-    for(let row=0; row<5; row++){
-        for(let i=0;i<=row;i++){
-            let x=startX+row*(ballRadius*2+1);
-            let y=startY-row*ballRadius+i*ballRadius*2;
-            balls.push(new Ball(x,y,colorsArr[index]));
-            index++; if(index>=15) break;
-        }
-        if(index>=15) break;
-    }
-}
-
-// لوحة النقاط
-function updateScore(){
-    players[currentPlayer].score++;
-    let html="";
-    players.forEach((p,i)=>{html+=`<b>${p.name}</b>: ${p.score} `; if(i===currentPlayer) html+="&#x25B6; ";});
-    document.getElementById("scoreboard").innerHTML=html;
-}
-
-// رسم الطاولة
-function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="#006400"; ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.font="24px Arial Black"; ctx.fillStyle="silver";
-    ctx.shadowColor="white"; ctx.shadowBlur=15; ctx.textAlign="center";
-    ctx.fillText("abwalqmrzmrd",canvas.width/2,30); ctx.shadowBlur=0;
-
-    ctx.fillStyle="black"; for(let p of pockets){ctx.beginPath(); ctx.arc(p.x,p.y,20,0,Math.PI*2); ctx.fill();}
-    balls.forEach(b=>b.draw());
-}
-
-// الاصطدام
-function handleCollision(b1,b2){
-    if(b1.inPocket || b2.inPocket) return;
-    let dx=b2.x-b1.x, dy=b2.y-b1.y;
-    let dist=Math.hypot(dx,dy);
-    if(dist<ballRadius*2){
-        let angle=Math.atan2(dy,dx);
-        let speed1=Math.hypot(b1.vx,b1.vy);
-        let speed2=Math.hypot(b2.vx,b2.vy);
-        let dir1=Math.atan2(b1.vy,b1.vx);
-        let dir2=Math.atan2(b2.vy,b2.vx);
-
-        let vx1=speed2*Math.cos(dir2-angle);
-        let vy1=speed1*Math.sin(dir1-angle);
-        let vx2=speed1*Math.cos(dir1-angle);
-        let vy2=speed2*Math.sin(dir2-angle);
-
-        b1.vx=Math.cos(angle)*vx1+Math.cos(angle+Math.PI/2)*vy1;
-        b1.vy=Math.sin(angle)*vx1+Math.sin(angle+Math.PI/2)*vy1;
-        b2.vx=Math.cos(angle)*vx2+Math.cos(angle+Math.PI/2)*vy2;
-        b2.vy=Math.sin(angle)*vx2+Math.sin(angle+Math.PI/2)*vy2;
-
-        let overlap=ballRadius*2-dist;
-        b1.x-=(overlap/2)*(dx/dist); b1.y-=(overlap/2)*(dy/dist);
-        b2.x+=(overlap/2)*(dx/dist); b2.y+=(overlap/2)*(dy/dist);
-    }
-}
-
-// تسديد اللاعب
-let isAiming=false, aimX, aimY;
-canvas.addEventListener("mousedown", e=>{
-    if(players[currentPlayer].isComputer) return;
-    let rect=canvas.getBoundingClientRect();
-    let mouseX=e.clientX-rect.left, mouseY=e.clientY-rect.top;
-    let white=balls[0];
-    if(Math.hypot(mouseX-white.x, mouseY-white.y)<ballRadius*2) isAiming=true;
-});
-canvas.addEventListener("mousemove", e=>{if(isAiming){let rect=canvas.getBoundingClientRect(); aimX=e.clientX-rect.left; aimY=e.clientY-rect.top;}});
-canvas.addEventListener("mouseup", e=>{
-    if(isAiming){
-        isAiming=false;
-        let white=balls[0];
-        let dx=white.x-aimX, dy=white.y-aimY;
-        white.vx=dx/5; white.vy=dy/5;
-        nextTurn();
-    }
-});
-
-function nextTurn(){ currentPlayer=(currentPlayer+1)%players.length; updateScore(); }
-
-function computerPlay(){
-    let white=balls[0];
-    let targets=balls.filter(b=>!b.inPocket && b!==white);
-    if(targets.length>0){
-        let bestScore=Infinity, bestPocket=pockets[0];
-        for(let ball of targets){
-            for(let pocket of pockets){
-                let score=Math.hypot(ball.x-pocket.x,ball.y-pocket.y);
-                if(score<bestScore){bestScore=score; bestPocket=pocket;}
-            }
-        }
-        let dx=white.x-bestPocket.x, dy=white.y-bestPocket.y;
-        white.vx=-dx/5; white.vy=-dy/5;
-    }
-    nextTurn();
-}
-
-function update(){
-    balls.forEach(b=>b.update());
-    for(let i=0;i<balls.length;i++){for(let j=i+1;j<balls.length;j++){handleCollision(balls[i],balls[j]);}}
-    let white=balls[0];
-    if(players[currentPlayer].isComputer){
-        let moving=Math.abs(white.vx)>0.1 || Math.abs(white.vy)>0.1;
-        if(!moving && !isAiming){setTimeout(()=>computerPlay(),500);}
-    }
-}
-
-function gameLoop(){ update(); draw(); requestAnimationFrame(gameLoop); }
-
-setupBalls();
-gameLoop();
-
-// فتح الطاولة عند الضغط على الأيقونة
-icon.addEventListener("click", ()=>{ poolContainerEl.style.display="block"; });
-
-// زر الإغلاق
-closeBtnEl.addEventListener("click", ()=>{ poolContainerEl.style.display="none"; });
-
-</script>
-</body>
-</html>
-
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
