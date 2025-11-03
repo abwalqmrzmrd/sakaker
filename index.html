@@ -316,7 +316,8 @@ function closeWisdom() {
   document.getElementById('wisdom-box').style.display = 'none';
   clearInterval(interval);
 }
-</script><!DOCTYPE html>
+</script>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -387,7 +388,7 @@ function closeWisdom() {
   #soundBtn {
     position: fixed;
     top: 70px;
-    right: 860px;
+    right: 20px;
     background: rgba(0,0,0,0.6);
     color: #fff;
     border: none;
@@ -432,7 +433,7 @@ function closeWisdom() {
 <!-- حاوية الفيديو -->
 <div class="video-bg-container">
   <iframe id="video-bg" 
-    src="https://www.youtube.com/embed/ho4a2O5NHnE?autoplay=1&mute=1&controls=0&loop=1&playlist=ho4a2O5NHnE&modestbranding=1&enablejsapi=1" 
+    src="https://www.youtube.com/embed/jf2Dqa0pM6E?autoplay=1&mute=1&controls=0&loop=1&playlist=jf2Dqa0pM6E&modestbranding=1&enablejsapi=1" 
     allow="autoplay; encrypted-media" 
     allowfullscreen>
   </iframe>
@@ -465,9 +466,11 @@ function closeWisdom() {
     }
   });
 
-  // قائمة الفيديوهات التالية
+  // قائمة الفيديوهات (الفيديو الجديد أولًا)
   const videos = [
-    "-I6bgeV-h5U", 
+    "jf2Dqa0pM6E", // الفيديو الجديد
+    "ho4a2O5NHnE", 
+    "I6bgeV-h5U", 
     "FHDtNY2FEWg", 
     "R1A_kGMc-0A", 
     "A5NtUCfikZ0", 
@@ -478,8 +481,8 @@ function closeWisdom() {
   let current = 0;
 
   function changeBackground() {
-    current = (current + 1) % (videos.length + 1);
-    let videoId = current === 0 ? "ho4a2O5NHnE" : videos[current-1];
+    current = (current + 1) % videos.length;
+    let videoId = videos[current];
     iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
   }
 
@@ -488,6 +491,7 @@ function closeWisdom() {
 
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
