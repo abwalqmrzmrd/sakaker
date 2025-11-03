@@ -8,16 +8,15 @@
 body {
     margin:0;
     font-family:sans-serif;
-    background:
-    color:white;
+    background:white;
     height:100vh;
 }
 
 /* أيقونة الألعاب الرئيسية */
 #mainGamesIcon {
     position:fixed;
-    top:20%;   /* تعديل الموقع: الأعلى/الأسفل */
-    left:70%;  /* تعديل الموقع: اليمين/اليسار */
+    top:20%;
+    left:70%;
     transform:translate(-50%, -50%);
     z-index:1000;
     padding:20px 30px;
@@ -28,7 +27,7 @@ body {
     color:white;
     font-weight:bold;
     text-align:center;
-    background:
+    background: linear-gradient(135deg,#ff4e50,#f9d423);
     transition: transform 0.2s;
 }
 #mainGamesIcon:hover {
@@ -39,48 +38,70 @@ body {
 #gameContainer {
     display:none;
     position:fixed;
-    top:90%; left:50%;
+    top:50%;
+    left:50%;
     transform:translate(-50%, -50%);
-    z-index:999;
-    background:
-    padding:15px;
+    z-index:9999;
+    background: 
+    padding:10px;
     border-radius:20px;
-    width:600px;
-    height:600px;
+    width:95vw;    /* عرض 95% من الشاشة */
+    height:95vh;   /* ارتفاع 95% من الشاشة */
+    max-width:1400px;
+    max-height:900px;
     box-sizing:border-box;
+    box-shadow:0 0 25px #fff;
+    overflow:hidden;
 }
 
 /* زر الإغلاق */
 #closeBtn {
     position:absolute;
-    top:-10px; right:-10px;
+    top:10px; 
+    right:10px;
     background:red;
     color:white;
     border:none;
     border-radius:50%;
-    width:30px; height:30px;
+    width:40px; 
+    height:40px;
     cursor:pointer;
     font-weight:bold;
+    font-size:24px;
+    z-index:10000;
 }
 
 /* قائمة الألعاب داخل النافذة */
 #gameSelect {
     margin-bottom:10px;
     text-align:center;
+    z-index:10000;
 }
 
 #gameSelect button {
     margin:0 5px;
-    padding:5px 10px;
-    font-size:14px;
+    padding:8px 15px;
+    font-size:16px;
     cursor:pointer;
+    border-radius:10px;
+    border:none;
+    background:
+    color:white;
+    font-weight:bold;
 }
 
 /* iframe اللعبة */
+#gameFrame {
+    width:100%;
+    height:calc(100% - 60px); /* يغطي باقي الإطار مع ترك مكان للقائمة */
+    border:none;
+}
+
 #gameFrame iframe {
     width:100%;
-    height:calc(100% - 50px);
+    height:100%;
     border:none;
+    border-radius:15px;
 }
 </style>
 </head>
@@ -128,7 +149,17 @@ function loadGame(game){
     }
     frameDiv.innerHTML = `<iframe src="${url}" title="${game}"></iframe>`;
 }
+
+// تصغير/تكبير ديناميكي (اختياري)
+window.addEventListener("resize", () => {
+    // يبقي الإطار بنسبة 95% من الشاشة دائمًا
+    container.style.width = Math.min(window.innerWidth*0.95, 1400)+"px";
+    container.style.height = Math.min(window.innerHeight*0.95, 900)+"px";
+});
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
