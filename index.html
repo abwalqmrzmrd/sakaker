@@ -3,6 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 قائمة الألعاب</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Tajawal", sans-serif;
+    background-color: #000;
+    color: white;
+    overflow-x: hidden;
+  }
+
+  /* أيقونة الألعاب */
+  #gamesIcon {
+    position: fixed;
+    top: 140px;    /* ← غيّر الرقم للأعلى أو الأسفل */
+    left: 655px;   /* ← غيّر الرقم لليمين أو اليسار */
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle, #00ff9d, #006644);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #00ff9d;
+    transition: transform 0.2s;
+    z-index: 1000;
+  }
+  #gamesIcon:hover {
+    transform: scale(1.1);
+  }
+
+  /* النافذة المنبثقة */
+  #gamePopup {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 900px;
+    height: 80%;
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #00ff9d;
+    border-radius: 20px;
+    box-shadow: 0 0 25px #00ff9d;
+    z-index: 2000;
+    overflow: hidden;
+  }
+
+  /* شريط الألعاب */
+  #gameList {
+    display: flex;
+    justify-content: space-around;
+    background: #003322;
+    padding: 10px;
+  }
+
+  .gameButton {
+    background: #00aa66;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .gameButton:hover {
+    background: #00ff9d;
+  }
+
+  iframe {
+    width: 100%;
+    height: calc(100% - 60px);
+    border: none;
+  }
+
+  /* زر الإغلاق */
+  #closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    color: #00ff9d;
+    cursor: pointer;
+    font-size: 22px;
+    background: none;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- أيقونة الألعاب -->
+<div id="gamesIcon" onclick="togglePopup()">🎮</div>
+
+<!-- النافذة المنبثقة -->
+<div id="gamePopup">
+  <button id="closeBtn" onclick="togglePopup()">✖</button>
+  <div id="gameList">
+    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/8-ball-billiards-classic')">🎱 بلياردو</button>
+    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/chess-online')">♟️ شطرنج</button>
+    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/soccer-skills-world-cup')">⚽ كرة القدم</button>
+    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/madalin-stunt-cars-3')">🚗 سيارات</button>
+    <button class="gameButton" onclick="loadGame('https://www.crazygames.com/embed/brain-test-tricky-puzzles')">🧩 ذكاء</button>
+  </div>
+  <iframe id="gameFrame" src=""></iframe>
+</div>
+
+<script>
+  function togglePopup() {
+    const popup = document.getElementById("gamePopup");
+    popup.style.display = popup.style.display === "block" ? "none" : "block";
+  }
+
+  function loadGame(url) {
+    document.getElementById("gameFrame").src = url;
+  }
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بلياردو - Billiards</title>
 <style>
 body {
@@ -503,8 +631,7 @@ function closeWisdom() {
   document.getElementById('wisdom-box').style.display = 'none';
   clearInterval(interval);
 }
-</script>
-<!DOCTYPE html>
+</script><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -517,7 +644,15 @@ function closeWisdom() {
     height: 100%;
     overflow: hidden;
     font-family: "Tahoma", sans-serif;
-    background: black; /* لون خلفية افتراضي قبل الفيديو */
+  }
+
+  /* خلفية صورة الماء */
+  body {
+    background-image: url('https://img.pikbest.com/backgrounds/water-surface-texture-glistening-blue-ripples-a-summer-sea-background-with-textured_9906007.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   /* حاوية الفيديو */
@@ -528,7 +663,7 @@ function closeWisdom() {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0;
+    z-index: -1;
   }
 
   .video-bg-container iframe {
@@ -542,29 +677,7 @@ function closeWisdom() {
     pointer-events: none;
   }
 
-  /* أيقونة الزمرد المضيء */
-  #emeraldIcon {
-    width: 0;
-    height: 0;
-    position: fixed;
-    top: 50px;
-    left: 50px;
-    border-left: 90px solid transparent;
-    border-right: 90px solid transparent;
-    border-bottom: 20px solid #ffffff;
-    cursor: pointer;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
-    animation: glow 1.6s infinite alternate;
-    z-index: 1000;
-  }
-
-  @keyframes glow {
-    0% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
-    50% { filter: drop-shadow(0 0 12px rgba(255,255,255,0.8)) drop-shadow(0 0 24px rgba(255,255,255,0.7)); }
-    100% { filter: drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 36px rgba(255,255,255,0.9)); }
-  }
-
-  /* زر تغيير الفيديو */
+  /* زر تغيير الخلفية */
   #changeBgBtn {
     position: fixed;
     top: 70px;
@@ -606,24 +719,45 @@ function closeWisdom() {
     color: #000;
   }
 
+  /* مثلث مضيء */
+  #emeraldIcon {
+    width: 0;
+    height: 0;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-bottom: 20px solid #ffffff;
+    cursor: pointer;
+    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
+    animation: glow 1.6s infinite alternate;
+    z-index: 1000;
+  }
+
+  @keyframes glow {
+    0% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255,255,255,0.8)) drop-shadow(0 0 24px rgba(255,255,255,0.7)); }
+    100% { filter: drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 36px rgba(255,255,255,0.9)); }
+  }
 </style>
 </head>
 <body>
 
-<!-- أيقونة الزمرد المضيء -->
-<div id="emeraldIcon"></div>
-
 <!-- حاوية الفيديو -->
-<div class="video-bg-container" id="videoContainer">
+<div class="video-bg-container">
   <iframe id="video-bg" 
-    src="https://www.youtube.com/embed/WPoe9JMCG0Y?autoplay=1&mute=1&controls=0&loop=1&playlist=WPoe9JMCG0Y&modestbranding=1&enablejsapi=1" 
+    src="https://www.youtube.com/embed/ho4a2O5NHnE?autoplay=1&mute=1&controls=0&loop=1&playlist=ho4a2O5NHnE&modestbranding=1&enablejsapi=1" 
     allow="autoplay; encrypted-media" 
     allowfullscreen>
   </iframe>
 </div>
 
-<!-- زر تغيير الفيديو -->
-<button id="changeBgBtn">تغيير الفيديو | Change Video</button>
+<!-- أيقونة الزمرد المضيء -->
+<div id="emeraldIcon"></div>
+
+<!-- زر تغيير الخلفية -->
+<button id="changeBgBtn">تغيير الخلفية | Change Background</button>
 
 <!-- زر التحكم بالصوت -->
 <button id="soundBtn">🔊 تشغيل الصوت | Sound On</button>
@@ -632,26 +766,6 @@ function closeWisdom() {
   const iframe = document.getElementById('video-bg');
   const soundBtn = document.getElementById('soundBtn');
   let isMuted = true;
-
-  // قائمة الفيديوهات (أول فيديو هو الفيديو المرسل)
-  const videos = [
-    "WPoe9JMCG0Y", // الفيديو الحالي الجديد
-    "-I6bgeV-h5U", 
-    "FHDtNY2FEWg", 
-    "R1A_kGMc-0A", 
-    "A5NtUCfikZ0", 
-    "RmrM3Vn7Mkw", 
-    "740unnv18_Y"
-  ];
-
-  let current = 0; // مؤشر الفيديو الحالي
-
-  // زر تغيير الفيديو
-  document.getElementById('changeBgBtn').addEventListener('click', () => {
-    current = (current + 1) % videos.length;
-    const videoId = videos[current];
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
-  });
 
   // زر التحكم بالصوت
   soundBtn.addEventListener('click', () => {
@@ -665,6 +779,26 @@ function closeWisdom() {
       isMuted = true;
     }
   });
+
+  // قائمة الفيديوهات التالية
+  const videos = [
+    "-I6bgeV-h5U", 
+    "FHDtNY2FEWg", 
+    "R1A_kGMc-0A", 
+    "A5NtUCfikZ0", 
+    "RmrM3Vn7Mkw", 
+    "740unnv18_Y"
+  ];
+
+  let current = 0;
+
+  function changeBackground() {
+    current = (current + 1) % (videos.length + 1);
+    let videoId = current === 0 ? "ho4a2O5NHnE" : videos[current-1];
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
+  }
+
+  document.getElementById('changeBgBtn').addEventListener('click', changeBackground);
 </script>
 
 </body>
