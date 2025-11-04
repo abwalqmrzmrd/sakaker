@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -319,26 +320,6 @@ showBtn.addEventListener('click', () => {
     color: #000;
   }
 
-  /* أيقونة الزمرد المضيء */
-  #emeraldIcon {
-    width: 0;
-    height: 0;
-    position: fixed;
-    top: 50px;
-    left: 50px;
-    border-left: 90px solid transparent;
-    border-right: 90px solid transparent;
-    border-bottom: 20px solid #ffffff;
-    cursor: pointer;
-    filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
-    animation: glow 1.6s infinite alternate;
-    z-index: 950;
-  }
-  @keyframes glow {
-    0% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 12px rgba(255,255,255,0.5)); }
-    50% { filter: drop-shadow(0 0 12px rgba(255,255,255,0.8)) drop-shadow(0 0 24px rgba(255,255,255,0.7)); }
-    100% { filter: drop-shadow(0 0 18px rgba(255,255,255,1)) drop-shadow(0 0 36px rgba(255,255,255,0.9)); }
-  }
 
   /* أيقونة الألعاب */
   #mainGamesIcon {
@@ -3053,8 +3034,8 @@ poet-Afraa-al-Udhriyyah@
   height: 0;
   /* مكان المثلث على الصفحة */
   position: fixed; /* ثابت على الشاشة */
-  top: 30px;    /* من الأعلى، يمكن تغييره */
-  left: 400px;   /* من اليسار، يمكن تغييره */
+  top: 150px;    /* من الأعلى، يمكن تغييره */
+  left: 600px;   /* من اليسار، يمكن تغييره */
   border-left: 90px solid transparent;
   border-right: 90px solid transparent;
   border-bottom: 20px solid #ffffff; /* اللون الأبيض */
@@ -3080,8 +3061,8 @@ poet-Afraa-al-Udhriyyah@
   #emeraldIcon::after{
     content: "";
     position:absolute;
-    left:-48px;
-    top: -20px;
+    left:100px;
+    top: 50px;
     width: 0; height:0;
     border-left: 48px solid transparent;
     border-right: 48px solid transparent;
@@ -3779,8 +3760,8 @@ toggleVideoBtn.addEventListener('click', () => {
 <style>
 #floating-videos-container {
   position: fixed;
-  top: 15%;
-  right: 20px;
+  top: 30%;
+  right: 560px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -8881,6 +8862,99 @@ function setLanguage(lang) {
     title.textContent = "📻 اختر إذاعتك";
   }
 }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار أيقونة الفيديو والخريطة</title>
+</head>
+<body style="margin:0; background:#111; height:100vh;">
+
+<!-- ✅ مكوّن Sakaker Popup -->
+<script>
+class SakakerPopup extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.innerHTML = `
+      <style>
+        .launcher {
+          position: fixed;
+          right: 40%;
+          bottom: 30%;
+          width: 80px;
+          height: 80px;
+          background: radial-gradient(circle, #00ffff, #0066ff);
+          border-radius: 50%;
+          color: #fff;
+          font-size: 35px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          box-shadow: 0 0 25px #0ff;
+          z-index: 999999;
+        }
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.8);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 999998;
+        }
+        .box {
+          background: #000;
+          border-radius: 20px;
+          padding: 10px;
+          box-shadow: 0 0 30px #0ff;
+        }
+        iframe {
+          width: 560px;
+          height: 315px;
+          border-radius: 10px;
+          border: none;
+        }
+        .close {
+          color: white;
+          background: red;
+          border: none;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+        }
+      </style>
+      <div class="launcher" title="فتح الفيديو والخريطة">▶</div>
+      <div class="overlay">
+        <div class="box">
+          <button class="close">×</button>
+          <iframe src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"></iframe>
+        </div>
+      </div>
+    `;
+
+    const launcher = shadow.querySelector('.launcher');
+    const overlay = shadow.querySelector('.overlay');
+    const closeBtn = shadow.querySelector('.close');
+
+    launcher.onclick = () => overlay.style.display = "flex";
+    closeBtn.onclick = () => overlay.style.display = "none";
+  }
+}
+
+customElements.define('sakaker-popup', SakakerPopup);
+document.body.appendChild(document.createElement('sakaker-popup'));
 </script>
 
 </body>
