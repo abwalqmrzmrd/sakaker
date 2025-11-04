@@ -250,69 +250,85 @@ showBtn.addEventListener('click', () => {
 
 </body>
 </html>
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة ألعاب مع خلفية فيديو</title>
+<title>Sakaker Game</title>
 <style>
-  body, html {
+  , html {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: sans-serif;
   }
 
-  /* خلفية الفيديو */
-  #backgroundVideo {
+  /* 🎥 خلفية الفيديو */
+  .video-bg-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
+    z-index: -1;
   }
 
-  iframe {
+  .video-bg-container iframe {
+    width: 100%;
+    height: 100%;
     border: none;
   }
 
-  /* زر الصوت */
-  #soundButton {
+  /* 🔘 أزرار التحكم */
+  #pageControls {
     position: fixed;
-    top: 90px; /* نزل بمقدار 3 أسطر تقريبا */
-    right: 120px;
+    top: 80px;
+    right: 200px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .controlBtn {
     background: rgba(255,255,255,0.8);
     border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    border-radius: 10px;
+    padding: 10px 15px;
     cursor: pointer;
-    font-size: 20px;
-    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+    transition: 0.3s;
   }
 
-  /* أيقونة الألعاب */
-  #gameIcon {
+  .controlBtn:hover {
+    background: rgba(0,255,255,0.9);
+  }
+
+  /* 🎮 أيقونة الألعاب */
+  #mainGamesIcon {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 25px;
+    left: 25px;
     background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
     border-radius: 50%;
-    box-shadow: 0 0 20px 5px rgba(255,255,255,0.8);
+    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
     width: 70px;
     height: 70px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 28px;
+    font-size: 30px;
     text-shadow: 0 0 10px black;
-    z-index: 20;
+    cursor: pointer;
     animation: glow 2s infinite alternate;
+    z-index: 20;
   }
 
   @keyframes glow {
@@ -320,22 +336,30 @@ showBtn.addEventListener('click', () => {
     to { box-shadow: 0 0 25px 15px #00ffff; }
   }
 
-  /* الإطار المنبثق للعبة */
-  #gameFrame {
+  /* 🧩 الإطار المنبثق للعبة */
+  #gameContainer {
     position: fixed;
-    top: 25%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%; /* صغر للنصف */
-    height: 40%;
-    display: none;
-    border: 4px solid #00ffff;
+    width: 45%;
+    height: 45%;
+    background: rgba(0,0,0,0.85);
+    border: 3px solid #0ff;
     border-radius: 15px;
-    overflow: hidden;
+    display: none;
     z-index: 30;
     box-shadow: 0 0 30px rgba(0,255,255,0.8);
   }
 
+  #gameContainer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+  }
+
+  /* زر إغلاق اللعبة */
   #closeBtn {
     position: absolute;
     top: 5px;
@@ -347,56 +371,84 @@ showBtn.addEventListener('click', () => {
     border-radius: 5px;
     cursor: pointer;
     z-index: 35;
+    padding: 2px 7px;
   }
 
 </style>
 </head>
-<body>
 
-<!-- خلفية الفيديو -->
-<!-- زر الصوت -->
-<button id="soundButton">🔊</button>
+<!-- 🎥 خلفية الفيديو -->
+<div class="video-bg-container">
+  <iframe id="video-bg" 
+    src="https://www.youtube.com/embed/UxKTw5StiKs?autoplay=1&mute=1&controls=0&loop=1&playlist=UxKTw5StiKs&modestbranding=1&enablejsapi=1" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+  </iframe>
+</div>
 
-<!-- أيقونة الألعاب -->
-<div id="gameIcon">🎮</div>
+<!-- 🔘 أزرار التحكم -->
+<div id="pageControls">
+  <button id="soundBtn" class="controlBtn">🔊 تشغيل صوت الخلفية</button>
+  <button id="changeBgBtn" class="controlBtn">تغيير الخلفية | Change Background</button>
+</div>
 
-<!-- الإطار المنبثق للعبة -->
-<div id="gameFrame">
+<!-- 🎮 أيقونة الألعاب -->
+<div id="mainGamesIcon">🎮</div>
+
+<!-- 🧩 نافذة اللعبة -->
+<div id="gameContainer">
   <button id="closeBtn">X</button>
-  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" width="100%" height="100%"></iframe>
+  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
 </div>
 
 <script>
-  const gameIcon = document.getElementById('gameIcon');
-  const gameFrame = document.getElementById('gameFrame');
-  const closeBtn = document.getElementById('closeBtn');
-  const soundButton = document.getElementById('soundButton');
+const iframe = document.getElementById('video-bg');
+const soundBtn = document.getElementById('soundBtn');
+const changeBgBtn = document.getElementById('changeBgBtn');
+let isMuted = true;
 
-  // فتح اللعبة
-  gameIcon.onclick = () => {
-    gameFrame.style.display = 'block';
-  };
+// 🎥 قائمة الخلفيات
+const videos = [
+  "UxKTw5StiKs",
+  "a0pPZTnDuF0",
+  "r6wtfX5vk6A"
+];
+let current = 0;
 
-  // إغلاق اللعبة
-  closeBtn.onclick = () => {
-    gameFrame.style.display = 'none';
-  };
+// 🔊 زر تشغيل/إيقاف صوت الخلفية
+soundBtn.addEventListener('click', () => {
+  if (isMuted) {
+    iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
+    soundBtn.textContent = "🔈 إيقاف صوت الخلفية";
+    isMuted = false;
+  } else {
+    iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
+    soundBtn.textContent = "🔊 تشغيل صوت الخلفية";
+    isMuted = true;
+  }
+});
 
-  // تشغيل/إيقاف الصوت
-  let muted = true;
-  soundButton.onclick = () => {
-    const iframe = document.querySelector("#backgroundVideo iframe");
-    const src = iframe.src.split("?")[0];
-    if (muted) {
-      iframe.src = src + "?autoplay=1&mute=0&loop=1&playlist=a0pPZTnDuF0";
-      muted = false;
-      soundButton.textContent = "🔈";
-    } else {
-      iframe.src = src + "?autoplay=1&mute=1&loop=1&playlist=a0pPZTnDuF0";
-      muted = true;
-      soundButton.textContent = "🔊";
-    }
-  };
+// 🎬 تغيير الخلفية
+changeBgBtn.addEventListener('click', () => {
+  current = (current + 1) % videos.length;
+  const videoId = videos[current];
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
+});
+
+// 🎮 التحكم في اللعبة
+const mainIcon = document.getElementById('mainGamesIcon');
+const gameContainer = document.getElementById('gameContainer');
+const closeBtn = document.getElementById('closeBtn');
+
+// فتح اللعبة
+mainIcon.addEventListener('click', () => {
+  gameContainer.style.display = 'block';
+});
+
+// إغلاق اللعبة
+closeBtn.addEventListener('click', () => {
+  gameContainer.style.display = 'none';
+});
 </script>
 
 </body>
