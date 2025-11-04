@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>all u thanks</title>
+<title>أابوالقمرزمرد فنان شامل</title>
 <style>
   body {
     margin: 0;
@@ -13,7 +13,7 @@
     overflow: hidden;
   }
 
-  /* أيقونة الفيديو الصامتة */
+  /* الأيقونة */
   #customVideoIcon {
     position: fixed;
     top: 20px;
@@ -72,7 +72,7 @@
     z-index: 10000;
   }
 
-  /* الفيديو المربع المشع */
+  /* الفيديو */
   #customVideoContent {
     width: 60%;
     max-width: 600px;
@@ -86,7 +86,6 @@
     box-shadow: 0 0 25px 5px #fff;
   }
 
-  /* التوهج المتعدد الألوان حول الإطار */
   #customVideoContent::before {
     content: "";
     position: absolute;
@@ -117,7 +116,7 @@
     border-radius: 20px;
   }
 
-  /* زر الإغلاق */
+  /* زر الإغلاق داخل المنبثق */
   #customCloseBtn {
     position: absolute;
     top: 10%;
@@ -140,11 +139,44 @@
     background: #ff4444;
     transform: scale(1.1);
   }
+
+  /* زر إخفاء الأيقونة */
+  #hideIconBtn {
+    position: fixed;
+    top: 135px;
+    right: 370px;
+    background: linear-gradient(45deg, #f00, #0ff, #ff0);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+
+  /* زر إظهار الأيقونة */
+  #showIconBtn {
+    display: none;
+    position: fixed;
+    top: 135px;
+    right: 370px;
+    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
 </style>
 </head>
 <body>
 
-<!-- أيقونة الفيديو (صامتة) -->
+<!-- أيقونة الفيديو -->
 <div id="customVideoIcon">
   <iframe 
     src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
@@ -152,6 +184,12 @@
     allowfullscreen>
   </iframe>
 </div>
+
+<!-- زر إخفاء الأيقونة -->
+<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
+
+<!-- زر إظهار الأيقونة -->
+<button id="showIconBtn">🔄 إظهار الأيقونة</button>
 
 <!-- الإطار المنبثق -->
 <div id="customVideoPopup">
@@ -170,26 +208,42 @@ const icon = document.getElementById('customVideoIcon');
 const popup = document.getElementById('customVideoPopup');
 const content = document.getElementById('customVideoContent');
 const close = document.getElementById('customCloseBtn');
+const hideBtn = document.getElementById('hideIconBtn');
+const showBtn = document.getElementById('showIconBtn');
 
-// فتح المنبثق
+// فتح الفيديو المنبثق
 icon.addEventListener('click', () => {
   popup.style.display = 'flex';
   content.style.animation = 'popupScale 0.4s forwards';
 });
 
-// إغلاق عند الضغط على الزر
+// إغلاق الفيديو المنبثق
 close.addEventListener('click', (e) => {
   e.stopPropagation();
   popup.style.display = 'none';
   content.style.transform = 'scale(0)';
 });
 
-// إغلاق عند الضغط خارج الإطار
+// الضغط خارج الإطار يغلق المنبثق
 popup.addEventListener('click', (e) => {
   if(e.target === popup){
     popup.style.display = 'none';
     content.style.transform = 'scale(0)';
   }
+});
+
+// إخفاء الأيقونة
+hideBtn.addEventListener('click', () => {
+  icon.style.display = 'none';
+  hideBtn.style.display = 'none';
+  showBtn.style.display = 'block';
+});
+
+// إظهار الأيقونة
+showBtn.addEventListener('click', () => {
+  icon.style.display = 'flex';
+  hideBtn.style.display = 'block';
+  showBtn.style.display = 'none';
 });
 </script>
 
