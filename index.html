@@ -8425,3 +8425,99 @@ setInterval(fetchPrices, 60000);
 
 </body>
 </html>
+<script>
+// تشغيل كل الوظائف بعد تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  /* 🎯 1. إصلاح أيقونة المعلّقات */
+  const mainIcon = document.getElementById("mainIcon");
+  const namesList = document.getElementById("namesList");
+
+  if (mainIcon && namesList) {
+    mainIcon.addEventListener("click", () => {
+      namesList.style.display = namesList.style.display === "block" ? "none" : "block";
+    });
+  }
+
+  document.querySelectorAll("#namesList span[data-target]").forEach(span => {
+    span.addEventListener("click", () => {
+      const targetId = span.getAttribute("data-target");
+      const poemDiv = document.getElementById(targetId);
+      if (poemDiv) {
+        poemDiv.style.display = "block";
+        namesList.style.display = "none";
+      }
+    });
+  });
+
+  window.closePoem = function(id) {
+    const poemDiv = document.getElementById(id);
+    if (poemDiv) poemDiv.style.display = "none";
+  };
+
+  /* 🩺 2. إصلاح قسم الطب الشعبي والنبوي */
+  const medicineBtn = document.getElementById('medicineBtn');
+  const medicineBox = document.getElementById('medicineBox');
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  if (medicineBtn && medicineBox) {
+    medicineBtn.addEventListener('click', () => {
+      medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
+    });
+  }
+
+  window.closeBox = function() {
+    if (medicineBox) medicineBox.style.display = 'none';
+  }
+
+  if (tabs.length > 0) {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        tabContents.forEach(c => c.classList.remove('active'));
+        const currentTab = document.getElementById(tab.dataset.tab);
+        if (currentTab) currentTab.classList.add('active');
+      });
+    });
+  }
+
+  /* 📰 3. إصلاح شريط الأخبار المتحرك */
+  const newsBar = document.getElementById('newsBar');
+  if (newsBar) {
+    let scroll = 0;
+    setInterval(() => {
+      scroll += 1;
+      newsBar.scrollLeft = scroll;
+      if (scroll >= newsBar.scrollWidth - newsBar.clientWidth) scroll = 0;
+    }, 40);
+  }
+
+  /* ❌ 4. إصلاح أزرار الإغلاق العامة */
+  const closeBtn = document.getElementById("closeBtn");
+  const gameContainer = document.getElementById("gameContainer");
+  if (closeBtn && gameContainer) {
+    closeBtn.addEventListener("click", () => {
+      gameContainer.style.display = "none";
+    });
+  }
+});
+</script>
+<script>
+// إصلاح زر الطب الشعبي إذا لم يعمل بعد الدمج
+document.addEventListener("DOMContentLoaded", () => {
+  const medicineBtn = document.querySelector("#medicineBtn");
+  const medicineBox = document.querySelector("#medicineBox");
+
+  if (medicineBtn && medicineBox) {
+    console.log("✅ تم التعرف على زر الطب والنافذة.");
+    medicineBtn.onclick = () => {
+      const isVisible = medicineBox.style.display === "block";
+      medicineBox.style.display = isVisible ? "none" : "block";
+      console.log(isVisible ? "🔒 تم الإغلاق" : "📖 تم الفتح");
+    };
+  } else {
+    console.warn("⚠️ لم يتم العثور على عناصر الطب في الصفحة.");
+  }
+});
+</script>
