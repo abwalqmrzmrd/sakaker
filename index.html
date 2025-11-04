@@ -8871,11 +8871,10 @@ function setLanguage(lang) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار أيقونة الفيديو والخريطة</title>
+<title>🎬 فيديو + 🗺️ خريطة</title>
 </head>
 <body style="margin:0; background:#111; height:100vh;">
 
-<!-- ✅ مكوّن Sakaker Popup -->
 <script>
 class SakakerPopup extends HTMLElement {
   constructor() {
@@ -8883,27 +8882,37 @@ class SakakerPopup extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
     shadow.innerHTML = `
       <style>
+        /* شكل الأيقونة (نجمة مشعة متعددة الألوان) */
         .launcher {
           position: fixed;
-          right: 40%;
-          bottom: 30%;
-          width: 80px;
-          height: 80px;
-          background: radial-gradient(circle, #00ffff, #0066ff);
+          right: 30%;
+          bottom: 35%;
+          width: 85px;
+          height: 85px;
+          background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+                            79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+                            2% 35%, 39% 35%);
           border-radius: 50%;
-          color: #fff;
-          font-size: 35px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          box-shadow: 0 0 25px #fff, 0 0 50px #0ff;
+          animation: rotateColors 3s linear infinite, pulse 2s ease-in-out infinite;
           cursor: pointer;
-          box-shadow: 0 0 25px #0ff;
           z-index: 999999;
         }
+        @keyframes rotateColors {
+          0% { filter: hue-rotate(0deg); }
+          100% { filter: hue-rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%,100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+
+        /* الإطار المنبثق */
         .overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.8);
+          background: rgba(0,0,0,0.85);
           display: none;
           justify-content: center;
           align-items: center;
@@ -8912,34 +8921,58 @@ class SakakerPopup extends HTMLElement {
         .box {
           background: #000;
           border-radius: 20px;
-          padding: 10px;
           box-shadow: 0 0 30px #0ff;
+          padding: 15px;
+          text-align: center;
+          position: relative;
+          width: 90%;
+          max-width: 680px;
         }
+
         iframe {
-          width: 560px;
-          height: 315px;
-          border-radius: 10px;
+          width: 100%;
           border: none;
+          border-radius: 12px;
+          margin-top: 8px;
         }
+
+        iframe.video {
+          height: 315px;
+        }
+
+        iframe.map {
+          height: 250px;
+        }
+
         .close {
           color: white;
           background: red;
           border: none;
           border-radius: 50%;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: -15px;
+          right: -15px;
           cursor: pointer;
+          font-size: 18px;
+          box-shadow: 0 0 10px white;
         }
       </style>
-      <div class="launcher" title="فتح الفيديو والخريطة">▶</div>
+
+      <div class="launcher" title="فتح الفيديو والخريطة"></div>
       <div class="overlay">
         <div class="box">
           <button class="close">×</button>
-          <iframe src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"></iframe>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"></iframe>
+          <iframe class="video"
+            src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <iframe class="map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"
+            loading="lazy">
+          </iframe>
         </div>
       </div>
     `;
