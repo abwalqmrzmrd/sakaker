@@ -1,3 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أيقونة فيديو منبثق دائرية كبيرة</title>
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* أيقونة الفيديو الصامتة - أعلى يمين الصفحة */
+  #customVideoIcon {
+    position: fixed;
+    top: 20px;
+    right: 350px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 500;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+  }
+
+  #customVideoIcon::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
+    animation: glow 2s linear infinite alternate;
+    z-index: -1;
+  }
+
+  @keyframes glow {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+  }
+
+  #customVideoIcon iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* الخلفية المنبثقة */
+  #customVideoPopup {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  /* الفيديو المنبثق الكبير */
+  #customVideoContent {
+    width: 70%; /* تكبير الحجم */
+    max-width: 800px; /* أقصى عرض */
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transform: scale(0);
+    animation: popupScale 0.4s forwards;
+  }
+
+  @keyframes popupScale {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  #customVideoContent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* زر الإغلاق الأحمر فوق الإطار */
+  #customCloseBtn {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    transform: translate(50%, -50%);
+    background: red;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 43px;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  #customCloseBtn:hover {
+    background: #ff4444;
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 600px) {
+    #customVideoContent {
+      width: 90%;
+      max-width: none;
+    }
+    #customCloseBtn {
+      top: 12%;
+      right: 12%;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- أيقونة الفيديو -->
+<div id="customVideoIcon">
+  <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen></iframe>
+</div>
+
+<!-- الفيديو المنبثق -->
+<div id="customVideoPopup">
+  <button id="customCloseBtn">&times;</button>
+  <div id="customVideoContent">
+    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+const icon = document.getElementById('customVideoIcon');
+const popup = document.getElementById('customVideoPopup');
+const content = document.getElementById('customVideoContent');
+const close = document.getElementById('customCloseBtn');
+
+// فتح المنبثق
+icon.addEventListener('click', () => {
+  popup.style.display = 'flex';
+  content.style.animation = 'popupScale 0.4s forwards';
+});
+
+// إغلاق عند الضغط على الزر
+close.addEventListener('click', (e) => {
+  e.stopPropagation();
+  popup.style.display = 'none';
+  content.style.transform = 'scale(0)';
+});
+
+// إغلاق عند الضغط خارج الإطار
+popup.addEventListener('click', (e) => {
+  if(e.target === popup){
+    popup.style.display = 'none';
+    content.style.transform = 'scale(0)';
+  }
+});
+</script>
+
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -8225,136 +8415,6 @@ setInterval(fetchPrices, 60000);
     🌙 قصيدة 5 بالعربية وترجمتها
   </div>
 </div>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة فيديو صامتة ومستقلة</title>
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #111;
-    height: 100vh;
-  }
-
-  /* أيقونة الفيديو الصامتة */
-  #videoIcon {
-    position: fixed;
-    top: 10%;
-    right: 350px; /* وضع قريب من حافة الصفحة لتجنب التعارض */
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    z-index: 10000; /* أعلى من أيقونات الخلفية والألعاب */
-    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.5); /* نصف شفاف لتجنب التعارض مع الخلفية */
-  }
-
-  /* تأثير التوهج */
-  #videoIcon::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    border-radius: 50%;
-    top: -10%;
-    left: -10%;
-    background: radial-gradient(circle, #ff0, #0ff, #f0f, #0f0, #f00);
-    animation: glow 2s linear infinite alternate;
-    z-index: -1;
-  }
-
-  @keyframes glow {
-    0% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.7; }
-  }
-
-  #videoIcon iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 50%;
-    pointer-events: none; /* حتى لا يمنع الضغط على الأيقونة */
-  }
-
-  /* نافذة الفيديو المنبثقة */
-  #videoPopup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* أعلى من كل العناصر */
-  }
-
-  #videoPopup iframe {
-    width: 80%;
-    height: 60%;
-    border: none;
-    border-radius: 10px;
-  }
-
-  #closeBtn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-  }
-
-</style>
-</head>
-<body>
-
-<!-- أيقونة الفيديو الصامتة والمعاينة الحية -->
-<div id="videoIcon">
-  <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-<!-- نافذة الفيديو المنبثقة عند الضغط -->
-<div id="videoPopup">
-  <div id="closeBtn">&times;</div>
-  <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-<script>
-  const videoIcon = document.getElementById('videoIcon');
-  const videoPopup = document.getElementById('videoPopup');
-  const closeBtn = document.getElementById('closeBtn');
-
-  // الضغط على الأيقونة لفتح الفيديو المنبثق
-  videoIcon.addEventListener('click', () => {
-    videoPopup.style.display = 'flex';
-  });
-
-  // إغلاق الفيديو عند الضغط على زر الإغلاق
-  closeBtn.addEventListener('click', () => {
-    videoPopup.style.display = 'none';
-  });
-
-  // إغلاق الفيديو عند النقر خارج الإطار
-  videoPopup.addEventListener('click', (e) => {
-    if(e.target === videoPopup){
-      videoPopup.style.display = 'none';
-    }
-  });
-</script>
 
 </body>
 </html>
