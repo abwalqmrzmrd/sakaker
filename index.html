@@ -8655,7 +8655,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>راديو | Radio</title>
+<title>🎧 راديو | Radio</title>
 <style>
 body {
   margin: 0;
@@ -8665,11 +8665,11 @@ body {
   font-family: "Tahoma", sans-serif;
 }
 
-/* الأيقونة */
+/* أيقونة الراديو */
 #radioIcon {
   position: fixed;
-  bottom: 90px;
-  right: 50px;
+  bottom: 100px;
+  right: 60px;
   width: 80px;
   height: 80px;
   background: radial-gradient(circle, #ff0000, #00ffea, #00ff00, #ff00ff);
@@ -8695,14 +8695,14 @@ body {
 #radioModal {
   display: none;
   position: fixed;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.95);
   border-radius: 20px;
   padding: 20px;
-  width: 320px;
-  max-height: 70vh;
+  width: 340px;
+  max-height: 80vh;
   overflow-y: auto;
   text-align: center;
   box-shadow: 0 0 40px #fff;
@@ -8713,11 +8713,43 @@ body {
 /* زر الإغلاق */
 .closeBtn {
   position: absolute;
-  top: 8px;
+  top: 10px;
   right: 12px;
-  font-size: 22px;
+  font-size: 26px;
   color: #fff;
   cursor: pointer;
+  background: rgba(255, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 28px;
+  text-align: center;
+  transition: 0.3s;
+}
+.closeBtn:hover {
+  background: rgba(255, 50, 50, 0.9);
+}
+
+/* أزرار اللغة */
+#langButtons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.langBtn {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  box-shadow: 0 0 8px #fff;
+  transition: 0.3s;
+}
+.langBtn:hover {
+  transform: scale(1.1);
 }
 
 /* قائمة الإذاعات */
@@ -8748,23 +8780,32 @@ audio {
 <!-- الإطار المنبثق -->
 <div id="radioModal">
   <span class="closeBtn" onclick="closeRadio()">×</span>
-  <h2>📻 اختر إذاعتك</h2>
 
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 القرآن الكريم - السعودية</div>
-  <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
-  <div class="radioItem" onclick="playRadio('https://radio.quraan.org/stream')">🕋 إذاعة القرآن - قطر</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0tpy1h0kqtwuv')">🕌 إذاعة السنة النبوية</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8k8r0dmpqtwuv')">🧘 أناشيد إسلامية</div>
-  <div class="radioItem" onclick="playRadio('https://radioalgerie.dz/radios/chaine1.mp3')">🇩🇿 إذاعة الجزائر</div>
-  <div class="radioItem" onclick="playRadio('https://n07.radiojar.com/0g4yt0kqtwzuv')">🇸🇦 روتانا إف إم</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8uh0g0kqtwzuv')">🎵 Mix FM Jordan</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/7h0g0kqtwzuv')">🎶 Melody FM</div>
-  <div class="radioItem" onclick="playRadio('https://bbcmedia.ic.llnwd.net/stream/bbcmedia_arabic_radio_mf_p')">🗞️ BBC Arabic</div>
-  <div class="radioItem" onclick="playRadio('https://live.aljazeera.net/ajarabic/live/arabic.aac')">📰 الجزيرة مباشر صوت</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0uv4g0kqtwzuv')">🌍 Sky News Arabia</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/9h0g0kqtwzuv')">🎤 MBC FM</div>
-  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8g0g0kqtwzuv')">🎧 Monte Carlo Doualiya</div>
-  <div class="radioItem" onclick="playRadio('https://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps')">🇷🇺 Vesti FM (روسيا)</div>
+  <!-- 🔹 أزرار تغيير اللغة -->
+  <div id="langButtons">
+    <button class="langBtn" onclick="setLanguage('ar')">🇸🇦 عربي</button>
+    <button class="langBtn" onclick="setLanguage('en')">🇬🇧 English</button>
+  </div>
+
+  <h2 id="radioTitle">📻 اختر إذاعتك</h2>
+
+  <div id="radioList">
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 القرآن الكريم - السعودية</div>
+    <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8uh0g0kqtwzuv')">🎵 Mix FM الأردن</div>
+    <div class="radioItem" onclick="playRadio('https://bbcmedia.ic.llnwd.net/stream/bbcmedia_arabic_radio_mf_p')">🗞️ BBC العربية</div>
+    <div class="radioItem" onclick="playRadio('https://live.aljazeera.net/ajarabic/live/arabic.aac')">📰 الجزيرة مباشر صوت</div>
+    <div class="radioItem" onclick="playRadio('https://n07.radiojar.com/0g8wqf3r97hvv?rj-ttl=5&rj-tok=AAABihcMbnYAmW9fF5h')">🕋 إذاعة مكة المكرمة</div>
+    <div class="radioItem" onclick="playRadio('https://n02.radiojar.com/0g8wqf3r97hvv?rj-ttl=5&rj-tok=AAABihcMbnYAmW9fF5h')">🕌 المدينة المنورة</div>
+    <div class="radioItem" onclick="playRadio('https://stream-151.zeno.fm/hz7m0r7f7rhvv?zs=bEgoMEzIRb-w_Yg4h7CMOQ')">🎤 إذاعة السودان</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0g8wqf3r97hvv')">📻 إذاعة الكويت</div>
+    <div class="radioItem" onclick="playRadio('https://radio.dubairadio.ae/stream')">🎶 دبي FM</div>
+    <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream2')">📖 إذاعة المجد للقرآن</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8m5v3pdtwzuv')">🎧 نجوم FM - مصر</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0z4p9pdtwzuv')">🎶 مونت كارلو الدولية</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8vqz2pdtwzuv')">🎼 Rotana FM</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8ybv3pdtwzuv')">🌍 إذاعة العربية العامة</div>
+  </div>
 
   <audio id="radioPlayer" controls></audio>
 </div>
@@ -8781,6 +8822,18 @@ function playRadio(url) {
   const player = document.getElementById("radioPlayer");
   player.src = url;
   player.play();
+}
+
+/* تغيير اللغة */
+function setLanguage(lang) {
+  const title = document.getElementById("radioTitle");
+  const items = document.querySelectorAll(".radioItem");
+
+  if (lang === "en") {
+    title.textContent = "📻 Choose Your Station";
+  } else {
+    title.textContent = "📻 اختر إذاعتك";
+  }
 }
 </script>
 
