@@ -196,7 +196,7 @@
   <button id="customCloseBtn">&times;</button>
   <div id="customVideoContent">
     <iframe 
-      src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+      src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&controls=1&modestbranding=1"
       allow="autoplay; encrypted-media; picture-in-picture"
       allowfullscreen>
     </iframe>
@@ -343,8 +343,8 @@ showBtn.addEventListener('click', () => {
   /* أيقونة الألعاب */
   #mainGamesIcon {
     position: fixed;
-    top: 25%;
-    left: 10%;
+    top: 12%;
+    left: 25%;
     transform: translate(-50%, -50%);
     z-index: 1000;
     padding: 20px 30px;
@@ -650,7 +650,7 @@ birdBtn.addEventListener('click', async () => {
 
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
-style="position:fixed;top:40%;left:20px;transform:translateY(-50%);
+style="position:fixed;top:30%;left:20px;transform:translateY(-50%);
 z-index:9999;background:linear-gradient(45deg,#00f,#00ffff);
 color:#fff;border:none;border-radius:50%;width:80px;height:80px;
 font-size:16px;cursor:pointer;box-shadow:0 0 15px #00f,0 0 25px #00ffff,0 0 35px #00f;
@@ -793,8 +793,8 @@ function closeWisdom() {
   /* ✅ الأيقونة */
   .story-btn {
     position: fixed;
-    bottom: 100px;
-    left:20%;
+    bottom: 500px;
+    left:10%;
     transform: translateX(-50%);
     background: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -1213,8 +1213,8 @@ pongBtn.addEventListener('mouseleave', () => {
   /* أيقونة المعلقات */
   #mainIcon {
     position: fixed;
-    bottom: 10%;
-    left: 25%;
+    bottom: 7%;
+    left:45%;
     transform: translateX(-50%);
     background:
     border: 1px solid rgba(0,255,255,0.5);
@@ -6914,7 +6914,7 @@ setInterval(changeQuote, 6000);
 <div id="support-toggle-btn" style="
   position: fixed;
   top: 55%;
-  right: 20px;
+  right:100px;
   width: 65px;
   height: 65px;
   background: linear-gradient(45deg, #007bff, #ff69b4);
@@ -6936,7 +6936,7 @@ setInterval(changeQuote, 6000);
 <div id="support-section" style="
   position: fixed;
   top: 43%;
-  right: 300px;
+  right: 370px;
   background: rgba(0, 0, 30, 0.85);
   padding: 18px;
   border-radius: 14px;
@@ -8116,8 +8116,8 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 /* 📦 الغلاف العام */
 #cakeWrapper {
   position: fixed;
-  bottom: 250px;
-  left: 78%;
+  bottom: 240px;
+  left:70%;
   transform: translateX(50%);
   z-index: 1000;
 }
@@ -8840,21 +8840,16 @@ audio {
   <h2 id="radioTitle">📻 اختر إذاعتك</h2>
 
   <div id="radioList">
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 القرآن الكريم - السعودية</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 إذاعة القرآن الكريم - السعودية</div>
     <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8uh0g0kqtwzuv')">🎵 Mix FM الأردن</div>
-    <div class="radioItem" onclick="playRadio('https://bbcmedia.ic.llnwd.net/stream/bbcmedia_arabic_radio_mf_p')">🗞️ BBC العربية</div>
-    <div class="radioItem" onclick="playRadio('https://live.aljazeera.net/ajarabic/live/arabic.aac')">📰 الجزيرة مباشر صوت</div>
-    <div class="radioItem" onclick="playRadio('https://n07.radiojar.com/0g8wqf3r97hvv?rj-ttl=5&rj-tok=AAABihcMbnYAmW9fF5h')">🕋 إذاعة مكة المكرمة</div>
-    <div class="radioItem" onclick="playRadio('https://n02.radiojar.com/0g8wqf3r97hvv?rj-ttl=5&rj-tok=AAABihcMbnYAmW9fF5h')">🕌 المدينة المنورة</div>
-    <div class="radioItem" onclick="playRadio('https://stream-151.zeno.fm/hz7m0r7f7rhvv?zs=bEgoMEzIRb-w_Yg4h7CMOQ')">🎤 إذاعة السودان</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0g8wqf3r97hvv')">📻 إذاعة الكويت</div>
-    <div class="radioItem" onclick="playRadio('https://radio.dubairadio.ae/stream')">🎶 دبي FM</div>
-    <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream2')">📖 إذاعة المجد للقرآن</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8m5v3pdtwzuv')">🎧 نجوم FM - مصر</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0z4p9pdtwzuv')">🎶 مونت كارلو الدولية</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8vqz2pdtwzuv')">🎼 Rotana FM</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8ybv3pdtwzuv')">🌍 إذاعة العربية العامة</div>
+    <div class="radioItem" onclick="playRadio('https://n0a.radiojar.com/8vqz2pdtwzuv')">🎶 Rotana FM</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0z4p9pdtwzuv')">🎵 مونت كارلو الدولية</div>
+    <div class="radioItem" onclick="playRadio('https://stream-uk1.radioparadise.com/mp3-192')">🎧 Radio Paradise</div>
+    <div class="radioItem" onclick="playRadio('https://bbcwssc.ic.llnwd.net/stream/bbcwssc_mp1_ws-araba')">📰 BBC Arabic</div>
+    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/f8m0r7f7rhvv')">📻 إذاعة السودان</div>
+    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/hz7m0r7f7rhvv')">🕋 مكة المكرمة</div>
+    <div class="radioItem" onclick="playRadio('https://icecast1.play.cz/cro1-128.mp3')">🎼 Classical Radio</div>
+    <div class="radioItem" onclick="playRadio('https://us2.internet-radio.com/proxy/partyviberadio?mp=/stream')">🎉 Party Vibe Radio</div>
   </div>
 
   <audio id="radioPlayer" controls></audio>
@@ -8871,14 +8866,15 @@ function closeRadio() {
 function playRadio(url) {
   const player = document.getElementById("radioPlayer");
   player.src = url;
-  player.play();
+  player.load();
+  player.play().catch(() => {
+    alert("🔇 يرجى النقر مرة أخرى لتشغيل الإذاعة (منع المتصفح التشغيل التلقائي)");
+  });
 }
 
 /* تغيير اللغة */
 function setLanguage(lang) {
   const title = document.getElementById("radioTitle");
-  const items = document.querySelectorAll(".radioItem");
-
   if (lang === "en") {
     title.textContent = "📻 Choose Your Station";
   } else {
