@@ -288,11 +288,17 @@ const gameSoundBtn = document.getElementById('gameSoundBtn');
 const gameChangeBgBtn = document.getElementById('gameChangeBgBtn');
 let gameIsMuted = true;
 
-// فيديوهات الألعاب
+// فيديوهات الألعاب (تم إضافة كل فيديوهات الصفحة وإزالة الفيديو الثاني السابق)
 const gameVideos = [
-  "n_M-0Ac9_t4",
-  "RmrM3Vn7Mkw",
-  "740unnv18_Y"
+   "QxS6PpMArMU", // الفيديو الجديد أولًا
+    "jf2Dqa0pM6E", 
+    "ho4a2O5NHnE", 
+    "I6bgeV-h5U", 
+    "FHDtNY2FEWg", 
+    "R1A_kGMc-0A", 
+    "A5NtUCfikZ0", 
+    "RmrM3Vn7Mkw", 
+    "740unnv18_Y"
 ];
 let gameCurrent = 0;
 
@@ -342,7 +348,6 @@ function loadGame(game){
 
 </body>
 </html>
-
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
