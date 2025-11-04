@@ -8650,3 +8650,139 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>راديو | Radio</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  overflow: hidden;
+  font-family: "Tahoma", sans-serif;
+}
+
+/* الأيقونة */
+#radioIcon {
+  position: fixed;
+  bottom: 90px;
+  right: 50px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #ff0000, #00ffea, #00ff00, #ff00ff);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 25px #fff;
+  animation: glow 2s infinite alternate;
+  z-index: 1000;
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #ff0, 0 0 20px #f00, 0 0 30px #0f0; }
+  50% { box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff, 0 0 60px #00ff00; }
+  100% { box-shadow: 0 0 30px #00f, 0 0 50px #ff0, 0 0 80px #f00; }
+}
+
+/* الإطار المنبثق */
+#radioModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 0 40px #fff;
+  z-index: 2000;
+  color: white;
+}
+
+/* زر الإغلاق */
+.closeBtn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* قائمة الإذاعات */
+.radioItem {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.radioItem:hover {
+  background: rgba(0,255,200,0.3);
+}
+
+/* مشغل الصوت */
+audio {
+  width: 100%;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<!-- أيقونة الراديو -->
+<div id="radioIcon" onclick="openRadio()">🎧<br>راديو<br>Radio</div>
+
+<!-- الإطار المنبثق -->
+<div id="radioModal">
+  <span class="closeBtn" onclick="closeRadio()">×</span>
+  <h2>📻 اختر إذاعتك</h2>
+
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 القرآن الكريم - السعودية</div>
+  <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
+  <div class="radioItem" onclick="playRadio('https://radio.quraan.org/stream')">🕋 إذاعة القرآن - قطر</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0tpy1h0kqtwuv')">🕌 إذاعة السنة النبوية</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8k8r0dmpqtwuv')">🧘 أناشيد إسلامية</div>
+  <div class="radioItem" onclick="playRadio('https://radioalgerie.dz/radios/chaine1.mp3')">🇩🇿 إذاعة الجزائر</div>
+  <div class="radioItem" onclick="playRadio('https://n07.radiojar.com/0g4yt0kqtwzuv')">🇸🇦 روتانا إف إم</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8uh0g0kqtwzuv')">🎵 Mix FM Jordan</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/7h0g0kqtwzuv')">🎶 Melody FM</div>
+  <div class="radioItem" onclick="playRadio('https://bbcmedia.ic.llnwd.net/stream/bbcmedia_arabic_radio_mf_p')">🗞️ BBC Arabic</div>
+  <div class="radioItem" onclick="playRadio('https://live.aljazeera.net/ajarabic/live/arabic.aac')">📰 الجزيرة مباشر صوت</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0uv4g0kqtwzuv')">🌍 Sky News Arabia</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/9h0g0kqtwzuv')">🎤 MBC FM</div>
+  <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8g0g0kqtwzuv')">🎧 Monte Carlo Doualiya</div>
+  <div class="radioItem" onclick="playRadio('https://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_192kbps')">🇷🇺 Vesti FM (روسيا)</div>
+
+  <audio id="radioPlayer" controls></audio>
+</div>
+
+<script>
+function openRadio() {
+  document.getElementById("radioModal").style.display = "block";
+}
+function closeRadio() {
+  document.getElementById("radioModal").style.display = "none";
+  document.getElementById("radioPlayer").pause();
+}
+function playRadio(url) {
+  const player = document.getElementById("radioPlayer");
+  player.src = url;
+  player.play();
+}
+</script>
+
+</body>
+</html>
