@@ -256,323 +256,156 @@ showBtn.addEventListener('click', () => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>abwalqmrzmrd</title>
+<title>أيقونة ألعاب مع خلفية فيديو</title>
 <style>
-  html, body {
+  body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
     overflow: hidden;
-    font-family: "Tahoma", sans-serif;
+    height: 100%;
   }
 
-  /* خلفية الصفحة */
-  body {
-    background-image: url('https://img.pikbest.com/backgrounds/water-surface-texture-glistening-blue-ripples-a-summer-sea-background-with-textured_9906007.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-
-  /* حاوية الفيديو الخلفية */
-  .video-bg-container {
+  /* خلفية الفيديو */
+  #backgroundVideo {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: -1;
-  }
-  .video-bg-container iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120%;
-    height: 120%;
-    transform: translate(-50%, -50%);
-    border: 0;
-    pointer-events: none;
+    z-index: -2;
   }
 
-  /* أزرار التحكم بالصفحة */
-  #pageControls {
-    position: fixed;
-    top: 60px;
-    left: 70px;
-    display: flex;
-    gap: 30px;
-    z-index: 900;
-  }
-  .controlBtn {
-    padding: 12px 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
+  iframe {
     border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  .controlBtn:hover {
-    background: rgba(255,255,255,0.85);
-    color: #000;
   }
 
+  /* زر الصوت */
+  #soundButton {
+    position: fixed;
+    top: 90px; /* نزل بمقدار 3 أسطر تقريبا */
+    right: 120px;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10;
+  }
 
   /* أيقونة الألعاب */
-  #mainGamesIcon {
+  #gameIcon {
     position: fixed;
-    top: 12%;
-    left: 25%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    padding: 20px 30px;
-    font-size: 24px;
-    border-radius: 50px;
+    top: 20px;
+    left: 20px;
+    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
+    border-radius: 50%;
+    box-shadow: 0 0 20px 5px rgba(255,255,255,0.8);
+    width: 70px;
+    height: 70px;
     cursor: pointer;
-    box-shadow: 0 0 15px #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
-    font-weight: bold;
-    text-align: center;
-    background: linear-gradient(135deg,#ff4e50,#f9d423);
-    transition: transform 0.2s;
-  }
-  #mainGamesIcon:hover {
-    transform: scale(1.1);
+    font-size: 28px;
+    text-shadow: 0 0 10px black;
+    z-index: 20;
+    animation: glow 2s infinite alternate;
   }
 
-  /* نافذة الألعاب */
-  #gameContainer {
-    display: none;
+  @keyframes glow {
+    from { box-shadow: 0 0 10px 5px #fff; }
+    to { box-shadow: 0 0 25px 15px #00ffff; }
+  }
+
+  /* الإطار المنبثق للعبة */
+  #gameFrame {
     position: fixed;
-    top: 50%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1001;
-    background: rgba(0,0,0,0.95);
-    padding: 10px;
-    border-radius: 20px;
-    width: 65vw;
-    height: 65vh;
-    max-width: 1400px;
-    max-height: 900px;
-    box-sizing: border-box;
-    box-shadow: 0 0 25px #fff;
+    width: 50%; /* صغر للنصف */
+    height: 40%;
+    display: none;
+    border: 4px solid #00ffff;
+    border-radius: 15px;
     overflow: hidden;
+    z-index: 30;
+    box-shadow: 0 0 30px rgba(0,255,255,0.8);
   }
 
-  /* أزرار التحكم داخل نافذة الألعاب */
-  #gameControls {
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  #gameControls button {
-    margin: 0 5px;
-    padding: 8px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-    border: none;
-    background: #444;
-    color: white;
-    font-weight: bold;
-  }
-
-  /* زر الإغلاق */
   #closeBtn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 8px;
     background: red;
     color: white;
     border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 24px;
-    z-index: 1002;
-  }
-
-  /* قائمة الألعاب */
-  #gameSelect {
-    margin-bottom: 10px;
-    text-align: center;
-    z-index: 1002;
-  }
-  #gameSelect button {
-    margin: 0 5px;
-    padding: 8px 15px;
     font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 10px;
-    border: none;
-    background: #444;
-    color: white;
-    font-weight: bold;
+    z-index: 35;
   }
 
-  /* iframe اللعبة */
-  #gameFrame {
-    width: 100%;
-    height: calc(100% - 100px);
-    border: none;
-  }
-  #gameFrame iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 15px;
-  }
 </style>
 </head>
 <body>
 
-<!-- فيديو خلفية الصفحة -->
-<div class="video-bg-container">
-  <iframe id="video-bg" 
-    src="https://www.youtube.com/embed/a0pPZTnDuF0?autoplay=1&mute=1&controls=0&loop=1&playlist=a0pPZTnDuF0&modestbranding=1&enablejsapi=1" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
+<!-- خلفية الفيديو -->
+<div id="backgroundVideo">
+  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/a0pPZTnDuF0?autoplay=1&mute=1&loop=1&playlist=a0pPZTnDuF0" allow="autoplay"></iframe>
 </div>
 
-<!-- أزرار التحكم بالصفحة -->
-<div id="pageControls">
-  <button id="soundBtn" class="controlBtn">🔊 تشغيل الصوت | Sound On</button>
-  <button id="changeBgBtn" class="controlBtn">تغيير الخلفية | Change Background</button>
-</div>
-
-<!-- أيقونة الزمرد -->
-<div id="emeraldIcon"></div>
+<!-- زر الصوت -->
+<button id="soundButton">🔊</button>
 
 <!-- أيقونة الألعاب -->
-<div id="mainGamesIcon">🎮 ألعاب</div>
+<div id="gameIcon">🎮</div>
 
-<!-- نافذة الألعاب -->
-<div id="gameContainer">
-    <button id="closeBtn">×</button>
-    
-    <!-- أزرار تحكم خلفية الألعاب -->
-    <div id="gameControls">
-        <button id="gameSoundBtn">🔊 تشغيل الصوت | Sound On</button>
-        <button id="gameChangeBgBtn">تغيير الخلفية | Change Background</button>
-    </div>
-
-    <!-- اختيار اللعبة -->
-    <div id="gameSelect">
-        <button onclick="loadGame('chess')">♟️ شطرنج</button>
-        <button onclick="loadGame('sudoku')">🧩 سودوكو</button>
-        <button onclick="loadGame('billiards')">🎱 بلياردو</button>
-    </div>
-
-    <div id="gameFrame">
-        <iframe src="https://playpager.com/embed/chess/index.html" title="شطرنج"></iframe>
-    </div>
+<!-- الإطار المنبثق للعبة -->
+<div id="gameFrame">
+  <button id="closeBtn">X</button>
+  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" width="100%" height="100%"></iframe>
 </div>
 
 <script>
-const iframe = document.getElementById('video-bg');
-const soundBtn = document.getElementById('soundBtn');
-const changeBgBtn = document.getElementById('changeBgBtn');
-let isMuted = true;
+  const gameIcon = document.getElementById('gameIcon');
+  const gameFrame = document.getElementById('gameFrame');
+  const closeBtn = document.getElementById('closeBtn');
+  const soundButton = document.getElementById('soundButton');
 
-// فيديوهات الصفحة
-const videos = [
-  "a0pPZTnDuF0",
-  "8VNU1tzWt5I",
-   "r6wtfX5vk6A", // 🎥 الفيديو الجديد
-];
-let current = 0;
+  // فتح اللعبة
+  gameIcon.onclick = () => {
+    gameFrame.style.display = 'block';
+  };
 
-// التحكم بالصوت للصفحة
-soundBtn.addEventListener('click', () => {
-  if(isMuted){
-    iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
-    soundBtn.textContent = "🔈 كتم الصوت | Sound Off";
-    isMuted = false;
-  } else {
-    iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-    soundBtn.textContent = "🔊 تشغيل الصوت | Sound On";
-    isMuted = true;
-  }
-});
+  // إغلاق اللعبة
+  closeBtn.onclick = () => {
+    gameFrame.style.display = 'none';
+  };
 
-// تغيير خلفية الصفحة
-changeBgBtn.addEventListener('click', () => {
-  current = (current + 1) % videos.length;
-  const videoId = videos[current];
-  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted?1:0}&controls=0&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1`;
-});
-
-// التحكم بنوافذ الألعاب
-const mainIcon = document.getElementById("mainGamesIcon");
-const container = document.getElementById("gameContainer");
-const closeBtn = document.getElementById("closeBtn");
-const frameDiv = document.getElementById("gameFrame");
-
-// أزرار الفيديو داخل الألعاب
-const gameSoundBtn = document.getElementById('gameSoundBtn');
-const gameChangeBgBtn = document.getElementById('gameChangeBgBtn');
-let gameIsMuted = true;
-
-// فيديوهات الألعاب (تم إضافة كل فيديوهات الصفحة وإزالة الفيديو الثاني السابق)
-const gameVideos = [
-   "QxS6PpMArMU", // الفيديو الجديد أولًا
-    "jf2Dqa0pM6E", 
-  
-];
-let gameCurrent = 0;
-
-// فتح/غلق نافذة الألعاب
-mainIcon.addEventListener("click",()=>{ container.style.display="block"; });
-closeBtn.addEventListener("click",()=>{ container.style.display="none"; });
-
-// التحكم بالصوت داخل نافذة الألعاب
-gameSoundBtn.addEventListener('click', () => {
-  const gameIframe = frameDiv.querySelector('iframe');
-  if(!gameIframe) return;
-  if(gameIsMuted){
-    gameIframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}','*');
-    gameSoundBtn.textContent = "🔈 كتم الصوت | Sound Off";
-    gameIsMuted = false;
-  } else {
-    gameIframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-    gameSoundBtn.textContent = "🔊 تشغيل الصوت | Sound On";
-    gameIsMuted = true;
-  }
-});
-
-// تغيير خلفية الألعاب
-gameChangeBgBtn.addEventListener('click', () => {
-  gameCurrent = (gameCurrent + 1) % gameVideos.length;
-  const videoId = gameVideos[gameCurrent];
-  frameDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${gameIsMuted?1:0}&controls=1&loop=1&playlist=${videoId}&modestbranding=1&enablejsapi=1" title="game-bg"></iframe>`;
-});
-
-// تحميل اللعبة
-function loadGame(game){
-    let url="";
-    switch(game){
-        case "chess": 
-            url="https://playpager.com/embed/chess/index.html"; 
-            break;
-        case "sudoku": 
-            url="https://playpager.com/embed/sudoku/index.html"; 
-            break;
-        case "billiards": 
-            url="https://www.crazygames.com/embed/8-ball-billiards-classic"; 
-            break;
+  // تشغيل/إيقاف الصوت
+  let muted = true;
+  soundButton.onclick = () => {
+    const iframe = document.querySelector("#backgroundVideo iframe");
+    const src = iframe.src.split("?")[0];
+    if (muted) {
+      iframe.src = src + "?autoplay=1&mute=0&loop=1&playlist=a0pPZTnDuF0";
+      muted = false;
+      soundButton.textContent = "🔈";
+    } else {
+      iframe.src = src + "?autoplay=1&mute=1&loop=1&playlist=a0pPZTnDuF0";
+      muted = true;
+      soundButton.textContent = "🔊";
     }
-    frameDiv.innerHTML = `<iframe src="${url}" title="${game}"></iframe>`;
-}
+  };
 </script>
 
 </body>
 </html>
+
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
@@ -999,8 +832,8 @@ body {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom: 500px;
-  right: 900px;
+  bottom: 550px;
+  right: 1000px;
   padding: 12px 22px;
   border: none;
   border-radius: 14px;
