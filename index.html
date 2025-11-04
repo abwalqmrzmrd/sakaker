@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة فيديو منبثق دائرية مصغّرة</title>
+<title>فيديو منبثق مربع مشع</title>
 <style>
   body {
     margin: 0;
@@ -13,7 +13,7 @@
     overflow: hidden;
   }
 
-  /* أيقونة الفيديو الصامتة - أعلى يمين الصفحة */
+  /* أيقونة الفيديو الصامتة */
   #customVideoIcon {
     position: fixed;
     top: 20px;
@@ -72,20 +72,37 @@
     z-index: 10000;
   }
 
-  /* الفيديو المنبثق المصغّر */
+  /* الفيديو المربع المشع */
   #customVideoContent {
-    width: 30%;
-    max-width: 250px;
+    width: 60%;
+    max-width: 600px;
     aspect-ratio: 1/1;
-    border-radius: 50%;
+    border-radius: 20px;
     overflow: hidden;
     background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
     transform: scale(0);
     animation: popupScale 0.4s forwards;
+    box-shadow: 0 0 25px 5px #fff;
+  }
+
+  /* التوهج المتعدد الألوان حول الإطار */
+  #customVideoContent::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(15px);
+    animation: rainbowGlow 5s linear infinite;
+  }
+
+  @keyframes rainbowGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   @keyframes popupScale {
@@ -97,23 +114,22 @@
     width: 100%;
     height: 100%;
     border: none;
+    border-radius: 20px;
   }
 
-  /* زر الإغلاق الأحمر أعلى الإطار */
+  /* زر الإغلاق */
   #customCloseBtn {
     position: absolute;
-    top: calc(50% - 160px); /* وضعه فوق الإطار في المنتصف */
-    right: calc(50% - 160px);
+    top: 10%;
+    right: 20%;
     background: red;
     color: white;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 38px;
+    width: 45px;
+    height: 45px;
     cursor: pointer;
     z-index: 10001;
     box-shadow: 0 0 10px rgba(255,255,255,0.7);
@@ -124,40 +140,28 @@
     background: #ff4444;
     transform: scale(1.1);
   }
-
-  @media (max-width: 600px) {
-    #customVideoContent {
-      width: 60%;
-      max-width: none;
-    }
-    #customCloseBtn {
-      top: calc(50% - 110px);
-      right: calc(50% - 110px);
-    }
-  }
-
 </style>
 </head>
 <body>
 
-<!-- أيقونة الفيديو -->
+<!-- أيقونة الفيديو (صامتة) -->
 <div id="customVideoIcon">
   <iframe 
     src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
-    title="preview"
-    frameborder="0"
     allow="autoplay; encrypted-media; picture-in-picture"
     allowfullscreen>
   </iframe>
 </div>
 
-<!-- الفيديو المنبثق -->
+<!-- الإطار المنبثق -->
 <div id="customVideoPopup">
   <button id="customCloseBtn">&times;</button>
   <div id="customVideoContent">
-    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen></iframe>
+    <iframe 
+      src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&controls=1&modestbranding=1"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
   </div>
 </div>
 
