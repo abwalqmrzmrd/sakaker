@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة فيديو منبثق دائرية كبيرة</title>
+<title>أيقونة فيديو منبثق دائرية مصغّرة</title>
 <style>
   body {
     margin: 0;
@@ -58,7 +58,7 @@
     pointer-events: none;
   }
 
-  /* الخلفية المنبثقة */
+  /* الإطار المنبثق */
   #customVideoPopup {
     display: none;
     position: fixed;
@@ -72,10 +72,10 @@
     z-index: 10000;
   }
 
-  /* الفيديو المنبثق الكبير */
+  /* الفيديو المنبثق المصغّر */
   #customVideoContent {
-    width: 70%; /* تكبير الحجم */
-    max-width: 800px; /* أقصى عرض */
+    width: 30%;
+    max-width: 250px;
     aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
@@ -99,22 +99,21 @@
     border: none;
   }
 
-  /* زر الإغلاق الأحمر فوق الإطار */
+  /* زر الإغلاق الأحمر أعلى الإطار */
   #customCloseBtn {
     position: absolute;
-    top: 10%;
-    right: 15%;
-    transform: translate(50%, -50%);
+    top: calc(50% - 160px); /* وضعه فوق الإطار في المنتصف */
+    right: calc(50% - 160px);
     background: red;
     color: white;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     border: none;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     text-align: center;
-    line-height: 43px;
+    line-height: 38px;
     cursor: pointer;
     z-index: 10001;
     box-shadow: 0 0 10px rgba(255,255,255,0.7);
@@ -128,12 +127,12 @@
 
   @media (max-width: 600px) {
     #customVideoContent {
-      width: 90%;
+      width: 60%;
       max-width: none;
     }
     #customCloseBtn {
-      top: 12%;
-      right: 12%;
+      top: calc(50% - 110px);
+      right: calc(50% - 110px);
     }
   }
 
