@@ -964,8 +964,8 @@ body {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom: 150px;
-  right: 20px;
+  bottom: 500px;
+  right: 900px;
   padding: 12px 22px;
   border: none;
   border-radius: 14px;
@@ -6192,62 +6192,6 @@ async function initChatConnection(){
   }
 </style>
 
-<!-- 🔹 أزرار اللغة -->
-<div id="langSwitcher">
-  <button id="btnAR" onclick="setLanguage('ar')">🇸🇦 العربية</button>
-  <button id="btnEN" onclick="setLanguage('en')">🇬🇧 English</button>
-</div>
-
-<!-- 🔹 الأيقونة الثابتة -->
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">
-  SV أبوالقمر زمرد
-</div>
-
-<!-- 🔹 نافذة التعريف -->
-<div id="cvPage">
-  <div class="cv-content">
-    <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
-    <p data-i18n="cvText">
-      الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)
-    </p>
-    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
-  </div>
-</div>
-
-<script>
-  // النصوص باللغتين
-  const translations = {
-    ar: {
-      cvButton: "SV أبوالقمر زمرد",
-      cvTitle: "التعريف بالموقع",
-      cvText: "الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)",
-      cvClose: "خروج"
-    },
-    en: {
-      cvButton: "SV Abualqmr Zomorrod",
-      cvTitle: "About the Website",
-      cvText: "The name I chose for my writings, poetry, and Facebook posts is (Abualqmr Zomorrod). It has been with me for 25 years, and now I continue my work by designing this website with the help of artificial intelligence — aiming to make it purposeful, constructive, and different from ordinary content. It includes useful, entertaining, and meaningful materials selected from the web or written by me. Thanks to everyone who contributed, even through a simple prayer. (11/9/2025 Abualqmr Zomorrod)",
-      cvClose: "Close"
-    }
-  };
-
-  // دالة لتغيير اللغة (بدون تحريك الأيقونة أو العناصر)
-  function setLanguage(lang) {
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      el.innerText = translations[lang][key];
-      if (el.id === "cvIcon") return; // الأيقونة تبقى ثابتة
-      el.style.textAlign = (lang === "ar") ? "right" : "left";
-    });
-
-    // لا نغيّر اتجاه الصفحة كليًا لتفادي تحرك العناصر
-    document.querySelector(".cv-content").dir = (lang === "ar") ? "rtl" : "ltr";
-  }
-
-  // اللغة الافتراضية العربية
-  setLanguage('ar');
-</script>
-
 
 <style>
 /* 🔹 الحاوية العامة */
@@ -8521,3 +8465,188 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التعريف بالموقع</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* 🔹 أزرار اللغة */
+  #langSwitcher {
+    position: fixed;
+    top: 590px;
+    left: 1000px;
+    z-index: 999;
+  }
+
+  #langSwitcher button {
+    background: #111;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 3px 7px;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 13px;
+  }
+
+  #langSwitcher button:hover {
+    background: #333;
+  }
+
+  /* 🔹 الأيقونة المضيئة الصغيرة */
+  #cvIcon {
+    position: fixed;
+    bottom: 60px;
+    right: 200px;
+    background: linear-gradient(45deg, red, orange, yellow, lime, cyan, blue, magenta);
+    background-size: 400% 400%;
+    animation: glow 4s linear infinite;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    z-index: 998;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  @keyframes glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  #cvIcon:hover {
+    transform: scale(1.05);
+  }
+
+  /* 🔹 الإطار المنبثق المصغر */
+  #cvPage {
+    display: none;
+    position: fixed;
+    top: 30;
+    left: 50;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .cv-content {
+    background: radial-gradient(circle at center, #1e1e1e, #000);
+    border-radius: 25px;
+    padding: 20px;
+    width: 80%;
+    max-width: 350px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.6);
+    text-align: right;
+    animation: popup 0.4s ease;
+  }
+
+  @keyframes popup {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .cv-content h1 {
+    color: #00ffff;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .cv-content p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+
+  .closeCV {
+    background: linear-gradient(45deg, #00ffff, #0088ff);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+    margin: auto;
+    font-size: 13px;
+  }
+
+  .closeCV:hover {
+    background: linear-gradient(45deg, #00ffaa, #00ffff);
+  }
+</style>
+</head>
+<body>
+
+<!-- 🔹 أزرار اللغة -->
+<div id="langSwitcher">
+  <button onclick="setLanguage('ar')">🇸🇦 العربية</button>
+  <button onclick="setLanguage('en')">🇬🇧 English</button>
+</div>
+
+<!-- 🔹 الأيقونة المضيئة -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">
+  SV أبوالقمر زمرد
+</div>
+
+<!-- 🔹 الإطار المنبثق -->
+<div id="cvPage">
+  <div class="cv-content" id="cvContent">
+    <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
+    <p data-i18n="cvText">
+      الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)
+    </p>
+    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
+  </div>
+</div>
+
+<script>
+  const translations = {
+    ar: {
+      cvButton: "SV أبوالقمر زمرد",
+      cvTitle: "التعريف بالموقع",
+      cvText: "الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)",
+      cvClose: "خروج"
+    },
+    en: {
+      cvButton: "SV Abualqmr Zomorrod",
+      cvTitle: "About the Website",
+      cvText: "The name I chose for my writings, poetry, and Facebook posts is (Abualqmr Zomorrod). It has been with me for 25 years, and now I continue my work by designing this website with the help of artificial intelligence — aiming to make it purposeful, constructive, and different from ordinary content. It includes useful, entertaining, and meaningful materials selected from the web or written by me. Thanks to everyone who contributed, even through a simple prayer. (11/9/2025 Abualqmr Zomorrod)",
+      cvClose: "Close"
+    }
+  };
+
+  function setLanguage(lang) {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      el.innerText = translations[lang][key];
+    });
+    const cvContent = document.getElementById('cvContent');
+    cvContent.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    cvContent.style.textAlign = (lang === 'ar') ? 'right' : 'left';
+  }
+
+  setLanguage('ar');
+</script>
+
+</body>
+</html>
