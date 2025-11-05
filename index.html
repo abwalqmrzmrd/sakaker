@@ -8661,3 +8661,42 @@ document.body.appendChild(document.createElement('sakaker-popup'));
   });
 })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    // أيقونات مهمة تبقى فوق الخلفية
+    const importantSelectors = [
+      '#mainGamesIcon',
+      '#emeraldIcon',
+      '#hideBtn',
+      '.floatingIcon',
+      '#customVideoIcon',     // 🎥 أيقونة الفيديو
+      '#hideIconBtn',         // ❌ زر الإخفاء
+      '#showIconBtn',         // 🔄 زر الإظهار
+      '#customVideoPopup',    // 📺 الإطار المنبثق
+      '#customCloseBtn'       // زر الإغلاق داخل الإطار
+    ];
+
+    importantSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.style.position = 'fixed';
+        el.style.zIndex = '2500';  // فوق الخلفية وأي عناصر أخرى
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+        el.style.visibility = 'visible';
+      });
+    });
+
+    // تصحيح طبقة الخلفية
+    const bg = document.querySelector('#backgroundVideoIndependent, #backgroundLayer');
+    if (bg) {
+      bg.style.zIndex = '-1';
+      bg.style.pointerEvents = 'none';
+    }
+
+    console.log("🎬 تم تصحيح ظهور أيقونة الفيديو والنافذة المنبثقة بنجاح");
+  } catch (err) {
+    console.warn("⚠️ لم يتم تنفيذ كود تصحيح الفيديو:", err);
+  }
+});
+</script>
