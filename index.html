@@ -1855,21 +1855,29 @@ toggleVideoBtn.addEventListener('click', () => {
 <div id="livePopup">
   <button id="closePopup" onclick="toggleLivePopup()">❌</button>
   <div id="liveVideosContainer">
-    <div class="live-video">
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/LuKwFajn37U')">
       <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
     </div>
-    <div class="live-video">
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/zi9knajcejY')">
       <iframe src="https://www.youtube.com/embed/zi9knajcejY?mute=1" allowfullscreen></iframe>
     </div>
-    <div class="live-video">
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/daqB3i9WYIY')">
       <iframe src="https://www.youtube.com/embed/daqB3i9WYIY?mute=1" allowfullscreen></iframe>
     </div>
-    <div class="live-video">
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/FFkOEautPBs')">
       <iframe src="https://www.youtube.com/embed/FFkOEautPBs?mute=1" allowfullscreen></iframe>
     </div>
-    <div class="live-video">
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/n7eQejkXbnM')">
       <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe>
     </div>
+  </div>
+</div>
+
+<!-- 🎥 الإطار المنبثق الكبير للفيديو -->
+<div id="videoOverlay">
+  <div id="videoBox">
+    <button id="closeVideo" onclick="closeVideo()">❌</button>
+    <iframe id="mainVideo" src="" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -1877,8 +1885,8 @@ toggleVideoBtn.addEventListener('click', () => {
 /* ⚪ أيقونة فليشر */
 #liveFlasher {
   position: fixed;
-  top: 15%;
-  right: 170px;
+  top: 20%;
+  right: 300px;
   transform: translateY(-50%);
   width: 150px;
   height: 150px;
@@ -1908,23 +1916,11 @@ toggleVideoBtn.addEventListener('click', () => {
   transform: translateY(-50%) scale(1.1);
 }
 
-/* ✨ خلفية تعتيم عند ظهور النافذة */
-#livePopup::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(6px);
-  z-index: -1;
-  border-radius: inherit;
-}
-
-/* 🎬 النافذة المنبثقة */
+/* 🎬 نافذة الفيديوهات */
 #livePopup {
   display: none;
   position: fixed;
-  top: 30%; /* 👈 أقرب للأعلى */
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -30%);
   width: 80vw;
@@ -1963,7 +1959,7 @@ toggleVideoBtn.addEventListener('click', () => {
   background: #ff5555;
 }
 
-/* الفيديوهات داخل النافذة */
+/* الفيديوهات المصغّرة */
 #liveVideosContainer {
   display: flex;
   flex-wrap: wrap;
@@ -1979,18 +1975,64 @@ toggleVideoBtn.addEventListener('click', () => {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(255,255,255,0.6);
   transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
-
 .live-video:hover {
   transform: scale(1.05);
   box-shadow: 0 0 20px rgba(255,255,255,0.9);
 }
-
 .live-video iframe {
   width: 100%;
   height: 100%;
   border: none;
-  pointer-events: auto;
+  pointer-events: none;
+}
+
+/* 🎥 الإطار المنبثق الكبير */
+#videoOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 10002;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+}
+#videoBox {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255,255,255,0.8);
+}
+#videoBox iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#closeVideo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: crimson;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#closeVideo:hover {
+  background: #ff5555;
 }
 
 /* 📱 للجوال */
@@ -2019,8 +2061,23 @@ function toggleLivePopup() {
   const popup = document.getElementById("livePopup");
   popup.style.display = (popup.style.display === "flex" || popup.style.display === "block") ? "none" : "block";
 }
-</script>
 
+// فتح الفيديو في الإطار المنبثق الكبير
+function openVideo(url) {
+  const overlay = document.getElementById("videoOverlay");
+  const iframe = document.getElementById("mainVideo");
+  iframe.src = url + "?autoplay=1";
+  overlay.style.display = "flex";
+}
+
+// إغلاق الفيديو المنبثق
+function closeVideo() {
+  const overlay = document.getElementById("videoOverlay");
+  const iframe = document.getElementById("mainVideo");
+  iframe.src = "";
+  overlay.style.display = "none";
+}
+</script>
 
 <script>
 const beethovenIcon = document.getElementById('beethovenIcon');
@@ -7265,4 +7322,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   mv.content = `width=${forcedWidth}, initial-scale=1`;
 </script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
