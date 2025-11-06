@@ -1846,136 +1846,181 @@ toggleVideoBtn.addEventListener('click', () => {
     playing = true;
   }
 });
-</script><div id="floating-videos-container">
-  <div id="floating-videos-btn" onclick="toggleVideos()">
-    <span id="liveText">قنوات مباشرة | Live Channels</span>
-  </div>
-
-  <div id="floating-videos-row">
-    <div class="floating-video" data-video="https://www.youtube.com/embed/LuKwFajn37U?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
-    </div>
-   
-    <div class="floating-video" data-video="https://www.youtube.com/embed/zi9knajcejY?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/zi9knajcejY?mute=1" allowfullscreen></iframe>
-    </div>
-   
-    <div class="floating-video" data-video="https://www.youtube.com/embed/daqB3i9WYIY?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/daqB3i9WYIY?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="floating-video" data-video="https://www.youtube.com/embed/FFkOEautPBs?autoplay=1">
-      <iframe src="https://www.youtube.com/embed/FFkOEautPBs?mute=1" allowfullscreen></iframe>
-    </div>
-  </div>
+</script><!-- 🌟 أيقونة فليشر القنوات المباشرة -->
+<div id="liveFlasher" onclick="toggleLivePopup()">
+  <span>قنوات مباشرة<br>Live Channels</span>
 </div>
 
-<div id="videoPopup">
-  <div id="popupContent">
-    <span id="closePopup">&times;</span>
-    <iframe id="popupFrame" src="" allowfullscreen></iframe>
+<!-- 🎬 النافذة المنبثقة للفيديوهات -->
+<div id="livePopup">
+  <button id="closePopup" onclick="toggleLivePopup()">❌</button>
+  <div id="liveVideosContainer">
+    <div class="live-video">
+      <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video">
+      <iframe src="https://www.youtube.com/embed/zi9knajcejY?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video">
+      <iframe src="https://www.youtube.com/embed/daqB3i9WYIY?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video">
+      <iframe src="https://www.youtube.com/embed/FFkOEautPBs?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video">
+      <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe>
+    </div>
   </div>
 </div>
 
 <style>
-#floating-videos-container {
+/* ⚪ أيقونة فليشر */
+#liveFlasher {
   position: fixed;
-  top: 30%;
-  right: 560px;
-  z-index: 9999;
+  top: 15%;
+  right: 170px;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ffffff 70%, #f5f5f5 100%);
+  color: #000;
+  font-weight: bold;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 15px;
-}
-#floating-videos-btn {
-  padding: 14px 24px;
-  border-radius: 40px;
-  background: rgba(0, 255, 170, 0.25);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 25px rgba(0, 255, 170, 0.4);
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-  cursor: pointer;
-  animation: spin 6s linear infinite;
-  transition: all 0.3s ease;
-  text-align: center;
-}
-#floating-videos-btn:hover { transform: scale(1.1); }
-#floating-videos-row { display: none; flex-direction: column; gap: 10px; align-items: flex-end; }
-#floating-videos-row.active { display: flex; }
-.floating-video {
-  width: 120px; height: 68px; border-radius: 10px;
-  background: rgba(0, 255, 170, 0.12);
-  box-shadow: 0 0 15px rgba(0, 255, 170, 0.3);
-  overflow: hidden; cursor: pointer;
-  transition: all 0.3s ease;
-}
-.floating-video iframe { width: 100%; height: 100%; pointer-events: none; }
-.floating-video:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 255, 170, 0.6); }
-
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-#videoPopup {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px rgba(255,255,255,0.7);
+  cursor: pointer;
   z-index: 10000;
+  transition: transform 0.3s ease;
+  font-family: "Cairo", sans-serif;
+  animation: flashGlow 2s infinite ease-in-out;
 }
-#popupContent {
-  position: relative;
-  width: 80%; max-width: 800px;
-  background: rgba(255,255,255,0.95);
-  border-radius: 15px;
-  overflow: hidden;
+
+@keyframes flashGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.7), 0 0 80px rgba(255,255,255,0.5); }
+  50% { box-shadow: 0 0 70px rgba(255,255,255,1), 0 0 120px rgba(255,255,255,0.9); }
 }
-#popupFrame { width: 100%; height: 450px; border: none; }
+
+#liveFlasher:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ✨ خلفية تعتيم عند ظهور النافذة */
+#livePopup::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+/* 🎬 النافذة المنبثقة */
+#livePopup {
+  display: none;
+  position: fixed;
+  top: 30%; /* 👈 أقرب للأعلى */
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: 80vw;
+  max-width: 420px;
+  background: rgba(255,255,255,0.97);
+  border-radius: 30px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.9);
+  padding: 15px 10px 25px;
+  z-index: 10001;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -40%); }
+  to { opacity: 1; transform: translate(-50%, -30%); }
+}
+
+/* زر الإغلاق */
 #closePopup {
-  position: absolute; top: 8px; right: 12px;
-  font-size: 34px; cursor: pointer;
-  color: #333; font-weight: bold;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
 }
-#closePopup:hover { color: red; transform: scale(1.2); }
+#closePopup:hover {
+  background: #ff5555;
+}
+
+/* الفيديوهات داخل النافذة */
+#liveVideosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+.live-video {
+  width: 130px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.live-video:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.9);
+}
+
+.live-video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: auto;
+}
+
+/* 📱 للجوال */
 @media (max-width: 768px) {
-  #popupContent { width: 95%; height: auto; }
-  #popupFrame { height: 260px; }
-  #floating-videos-container { top: 18%; right: 10px; }
+  #liveFlasher {
+    width: 110px;
+    height: 110px;
+    right: 15px;
+    font-size: 13px;
+  }
+  #livePopup {
+    width: 90vw;
+    max-width: 340px;
+    top: 25%;
+    transform: translate(-50%, -25%);
+  }
+  .live-video {
+    width: 110px;
+    height: 65px;
+  }
 }
 </style>
 
 <script>
-function toggleVideos() {
-  document.getElementById("floating-videos-row").classList.toggle("active");
+function toggleLivePopup() {
+  const popup = document.getElementById("livePopup");
+  popup.style.display = (popup.style.display === "flex" || popup.style.display === "block") ? "none" : "block";
 }
-
-// 🔹 فتح الفيديو المنبثق عند الضغط على عنصر الفيديو
-document.querySelectorAll('.floating-video').forEach(video => {
-  video.addEventListener('click', () => {
-    const videoUrl = video.getAttribute('data-video');
-    const popup = document.getElementById('videoPopup');
-    const frame = document.getElementById('popupFrame');
-    frame.src = videoUrl;
-    popup.style.display = 'flex';
-  });
-});
-
-// 🔹 غلق النافذة
-document.getElementById("closePopup").addEventListener("click", () => {
-  document.getElementById("videoPopup").style.display = "none";
-  document.getElementById("popupFrame").src = "";
-});
-window.addEventListener("click", e => {
-  if (e.target === document.getElementById("videoPopup")) {
-    document.getElementById("videoPopup").style.display = "none";
-    document.getElementById("popupFrame").src = "";
-  }
-});
 </script>
 
-</script>
 
 <script>
 const beethovenIcon = document.getElementById('beethovenIcon');
@@ -7220,3 +7265,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   mv.content = `width=${forcedWidth}, initial-scale=1`;
 </script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
