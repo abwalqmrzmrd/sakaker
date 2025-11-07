@@ -6882,3 +6882,117 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+<!-- 🚀 كود تسريع الصفحة مع شاشة تحميل بإسم "أبو القمر زمرد" -->
+<style>
+/* 🌙 شاشة التحميل */
+#pageLoader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #000 60%, #050505);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  color: silver;
+  font-family: "Tajawal", sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-align: center;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loaderSpinner {
+  width: 80px; height: 80px;
+  border: 5px solid #333;
+  border-top: 5px solid silver;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.3);
+}
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+#pageLoader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+#loaderText {
+  font-size: 22px;
+  color: #c0ffc0;
+  text-shadow: 0 0 10px #00ff99;
+}
+</style>
+
+<!-- 🎬 شاشة التحميل -->
+<div id="pageLoader">
+  <div id="loaderSpinner"></div>
+  <div id="loaderText">إنتاج أبو القمر زمرد<br>جارٍ تحميل الصفحة...</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  // 💤 1. تأجيل تحميل الفيديوهات الخلفية
+  const bgVideos = document.querySelectorAll("video, iframe.bg-video");
+  bgVideos.forEach(v => {
+    const src = v.getAttribute("src");
+    if (src) {
+      v.setAttribute("data-src", src);
+      v.removeAttribute("src");
+    }
+  });
+
+  // 📺 2. تأجيل تحميل القنوات المباشرة (iframes)
+  const iframes = document.querySelectorAll("iframe");
+  iframes.forEach(iframe => {
+    const src = iframe.getAttribute("src");
+    if (src) {
+      iframe.setAttribute("data-src", src);
+      iframe.removeAttribute("src");
+    }
+  });
+
+  // 🖼️ 3. تفعيل التحميل البطيء للصور والأيقونات
+  const imgs = document.querySelectorAll("img");
+  imgs.forEach(img => {
+    if (!img.hasAttribute("loading"))
+      img.setAttribute("loading", "lazy");
+  });
+
+  // ✅ 4. بعد تحميل الصفحة بالكامل
+  window.addEventListener("load", function() {
+
+    // تحميل الفيديوهات المؤجلة
+    bgVideos.forEach(v => {
+      const dataSrc = v.getAttribute("data-src");
+      if (dataSrc) v.setAttribute("src", dataSrc);
+      if (v.tagName.toLowerCase() === "video") {
+        v.play().catch(()=>{});
+      }
+    });
+
+    // تحميل القنوات المؤجلة
+    iframes.forEach(iframe => {
+      const dataSrc = iframe.getAttribute("data-src");
+      if (dataSrc) iframe.setAttribute("src", dataSrc);
+    });
+
+    // 🔮 إخفاء شاشة التحميل بسلاسة
+    const loader = document.getElementById("pageLoader");
+    setTimeout(() => {
+      loader.classList.add("hidden");
+    }, 800);
+  });
+
+  // 🌟 5. سلاسة التمرير
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => {
+      document.body.style.scrollBehavior = "smooth";
+    });
+  }
+
+});
+</script>
