@@ -1,5 +1,101 @@
 
 
+<!-- ✅ كود خلفيات فيديو مستقلة -->
+<div id="backgroundVideoIndependent">
+  <iframe id="bgVid0" src="https://www.youtube.com/embed/3E20r534TjU?autoplay=1&mute=1&controls=0&loop=1&playlist=3E20r534TjU&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="bgVid1" src="https://www.youtube.com/embed/843Rpqza_6o?autoplay=1&mute=1&controls=0&loop=1&playlist=843Rpqza_6o&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="bgVid2" src="https://www.youtube.com/embed/yLuEx-XH3Uc?autoplay=1&mute=1&controls=0&loop=1&playlist=yLuEx-XH3Uc&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="bgVid3" src="https://www.youtube.com/embed/r6wtfX5vk6A?autoplay=1&mute=1&controls=0&loop=1&playlist=r6wtfX5vk6A&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="bgVid4" src="https://www.youtube.com/embed/WPX2SniBqDU?autoplay=1&mute=1&controls=0&loop=1&playlist=WPX2SniBqDU&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<div id="backgroundControlsIndependent">
+  <button id="bgChangeBtn">🎬 تغيير الخلفية</button>
+  <button id="bgSoundBtn">🔊 تشغيل الصوت</button>
+</div>
+
+<style>
+  /* 🌌 تنسيق الخلفيات */
+  #backgroundVideoIndependent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -9999; /* خلف كل العناصر */
+    pointer-events: none;
+  }
+
+  #backgroundVideoIndependent iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+    border: none;
+    display: none;
+  }
+
+  /* 🎛️ أزرار التحكم */
+  #backgroundControlsIndependent {
+    position: fixed;
+    bottom: 580px;
+    left: 120px;
+    display: flex;
+    gap: 10px;
+    z-index: 99999; /* فوق كل شيء */
+  }
+
+  #backgroundControlsIndependent button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.85);
+    transition: 0.3s;
+  }
+
+  #backgroundControlsIndependent button:hover {
+    background: rgba(0, 255, 255, 0.8);
+  }
+</style>
+
+<script>
+(function(){
+  // 🎥 جمع الفيديوهات
+  const vids = [
+    document.getElementById('bgVid0'),
+    document.getElementById('bgVid1'),
+    document.getElementById('bgVid2'),
+    document.getElementById('bgVid3'),
+    document.getElementById('bgVid4')
+  ];
+  let current = 0;
+  let muted = true;
+
+  // عرض أول فيديو
+  vids[current].style.display = 'block';
+
+  // 🎬 زر تغيير الخلفية
+  document.getElementById('bgChangeBtn').addEventListener('click', () => {
+    vids[current].style.display = 'none';
+    current = (current + 1) % vids.length;
+    vids[current].style.display = 'block';
+    vids[current].src = vids[current].src.replace(/mute=\d/, 'mute=' + (muted ? '1' : '0'));
+  });
+
+  // 🔊 زر الصوت
+  document.getElementById('bgSoundBtn').addEventListener('click', () => {
+    muted = !muted;
+    document.getElementById('bgSoundBtn').textContent = muted ? "🔊 تشغيل الصوت" : "🔈 إيقاف الصوت";
+    vids[current].src = vids[current].src.replace(/mute=\d/, 'mute=' + (muted ? '1' : '0'));
+  });
+})();
+</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -3116,531 +3212,6 @@ function showSection(id){ document.getElementById(id).style.display='block'; }
 function closeSection(btn){ btn.parentElement.style.display='none'; }
 </script>
 
-</html>
-  </div>
-</div>
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>موقعي</title>
-<style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-      text-align:center;
-    }
-    .video-section {
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-      margin-top:20px;
-    }
-    .video-icon iframe {
-      width:250px;
-      height:150px;
-      border-radius:12px;
-      border:2px solid #fff;
-    }
-    #pongContainer {
-  position: relative;
-  width: 90%;
-  max-width: 400px;
-  margin: 40px auto;
-  border: 2px solid #333;
-  border-radius: 12px;
-  overflow: hidden;
-  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px auto;
-      border: 2px solid #333;
-      border-radius: 10px;
-      overflow: hidden;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-    #pongCanvas {
-  width: 100%;
-  height: 300px;
-  display: block;
-  background: #000;
-
-      width: 100%;
-      height: 400px;
-      display: block;
-    }
-    .footer-left {
-      margin: 20px;
-      text-align:left;
-      background: rgba(0,0,0,0.6);
-      padding: 15px;
-      border-radius: 10px;
-      color:#fff;
-      max-width:250px;
-    }
-    .footer-left a { color:#ffd700; text-decoration:none; }
-    #cvIcon {
-      margin-top:10px;
-      padding:8px;
-      background:rgba(255,255,255,0.1);
-      border:1px solid #fff;
-      border-radius:6px;
-      cursor:pointer;
-    }
-    #cvPage { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; overflow:auto; padding:20px; z-index:1000; color:#fff; }
-
-/* تحسين استجابة لعبة بينج بونج */
-#pongCanvas {
-  width: 100%;
-  height: 400px; /* للحواسب */
-  display: block;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-}
-
-@media(max-width:600px){
-  #pongCanvas {
-    height: 220px; /* حجم أصغر للجوال */
-  }
-  #pongContainer {
-    max-width: 95%;
-  }
-}
-
-.hidden-icons {
-  display: none !important;
-}
-</style>
-</head>
-
-
-<!-- اللعبة -->
-
-
-</div>
-<canvas id="pongCanvas"></canvas>
-</div>
-<!-- إدخال المحتوى الأصلي -->
-<div style="margin:20px; text-align:right;">
-<style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خلفية فيديو ممتدة</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    #player {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120%;
-      height: 120%;
-      pointer-events: none;
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      z-index: 999;
-    }
-
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-     #pongCanvas {
-  background: transparent !important;
-}
-
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    }
-
-    @media (max-width: 600px) {
-      button {
-        font-size: 12px;
-        padding: 5px 8px;
-      }
-      .controls {
-        gap: 4px;
-        bottom: 8px;
-      }
-    }
-  </style>
-  
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  let player;
-  let currentVolume = 50;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      videoId: 'YFmV_MRSD7M', // الفيديو الجديد
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: 'YFmV_MRSD7M',
-        controls: 0,
-        showinfo: 0,
-        modestbranding: 1
-      },
-      events: {
-        onReady: (event) => {
-          player.setVolume(currentVolume);
-          event.target.playVideo();
-        }
-      }
-    });
-  }
-
-  function playPause() {
-    if (player.getPlayerState() === 1) {
-      player.pauseVideo();
-    } else {
-      player.playVideo();
-    }
-  }
-
-  function muteUnmute() {
-    if (player.isMuted()) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
-  }
-
-  function volumeUp() {
-    if (currentVolume < 100) {
-      currentVolume += 10;
-      player.setVolume(currentVolume);
-    }
-  }
-
-  function volumeDown() {
-    if (currentVolume > 0) {
-      currentVolume -= 10;
-      player.setVolume(currentVolume);
-    }
-  }
-</script>
-
-<!-- 🔧 إصلاح عرض الفيديو في الأيقونات الفرعية -->
-<style>
-.video-modal,
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.85);
-  z-index: 9999;
-}
-
-.video-modal iframe,
-.video-content iframe,
-.modal-content iframe {
-  width: 100% !important;
-  height: 80vh !important;
-  display: block;
-  background: #000;
-  border: none;
-  border-radius: 10px;
-}
-
-.close, .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-.close:hover, .close-btn:hover {
-  color: #ff5555;
-}
-
-</body>
-</div>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صفحة البحر - أبوالقمر زمرد (محدث)</title>
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center fixed;
-#pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-
-    color: #fff;
-    text-align:center;
-}
-
-/* فيديو دائري */
-.video-icon {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    border: 3px solid #fff;
-    margin: 20px auto 10px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.video-icon img { width:100%; height:100%; object-fit:cover; }
-.play-button { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:36px; color:white; text-shadow:1px 1px 3px #000; pointer-events:none; }
-
-/* مودال الفيديو */
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:999;}
-.modal-content { width:90%; max-width:900px; }
-.modal-content iframe { width:100%; height:80vh; border:none; }
-.close { color:#fff; font-size:30px; font-weight:bold; position:absolute; top:20px; right:30px; cursor:pointer; }
-
-/* أيقونات المكتبات */
-.icons-row { display:flex; flex-wrap: wrap; justify-content:center; gap:15px; margin:20px auto; }
-.library-col { display:flex; flex-direction:column; align-items:center; }
-.icon-circle { width:100px; height:100px; border-radius:50%; background: rgba(255,255,255,0.12); display:flex; justify-content:center; align-items:center; text-align:center; font-size:12px; font-weight:bold; cursor:pointer; transition:0.2s; padding:8px; box-sizing:border-box; color: green; }
-.icon-circle:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
-
-/* أيقونات مكتبة فرعية */
-.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
-/* أيقونات مكتبة فرعية */
-.library-content { display:none; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:10px; }
-
-/* سيرة ذاتية */
-#cvIcon { text-align:center; margin:20px auto; width:150px; height:120px; #pongCanvas {
-  background: transparent !important;   /* شفاف */
-}
-border:2px solid #fff; border-radius:15px; display:flex; justify-content:center; align-items:center; text-align:center; font-weight:bold; cursor:pointer; transition:0.3s; }
-#cvIcon:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
-#pongCanvas {
-  background: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/beach-1993704_1280.jpg') no-repeat center center;
-  background-size: cover;
-}
-
-/* زر صوت الطيور */
-#bird-sound-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; text-align:center; }
-
-/* قائمة الدعم */
-.footer-menu { text-align:center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 10px; margin:20px; color:#fff; }
-.footer-menu a { color:#ffd700; text-decoration:none; }
-
-
-<!-- بداية تعديلات الاستجابة الأفقية للموبايل -->
-<style>
-/* Force horizontal scrollable icons on small screens and centered wrap on larger */
-.icons-row{
-  display:flex;
-  gap:12px;
-  justify-content:flex-start;
-  align-items:center;
-  margin:12px;
-  padding:8px 6px;
-  overflow-x:auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.icons-row::-webkit-scrollbar { display: none; }
-
-.icon-circle{ flex: 0 0 auto; }
-
-/* Make sure library-content subicons appear below when opened and are touch-friendly */
-.library-content{ display:none; gap:10px; margin-top:10px; }
-
-/* Larger screens: center and allow wrap */
-@media(min-width:601px){
-  .icons-row{ justify-content:center; flex-wrap:wrap; overflow:visible; }
-  .icon-circle{ width:100px; height:100px; }
-}
-
-/* Mobile screens: keep icons horizontal, slightly smaller and easier to tap */
-@media(max-width:600px){
-  .icon-circle{ width:80px; height:80px; font-size:11px; padding:6px; }
-  .video-icon{ width:120px; height:120px; }
-  .modal-content iframe{ height:60vh; }
-  #cvIcon{ width:90%; }
-  .footer-menu{ width:90%; margin:10px auto; }
-  /* When sub-library opens, show as a horizontal row under the icons area */
-  .library-content{ display:flex; flex-wrap:nowrap; gap:8px; padding:6px; .footer-menu {
-  background: transparent !important;
-}
-); border-radius:10px; margin-top:8px; }
-  .library-content .icon-circle{ width:68px; height:68px; font-size:10px; }
-}
-</style>
-</script>
-
-</script>
-
-<style>
-.icon-circle {
-  transition: all 2s ease-in-out;
-}
-.sub-icons {
-  transition: all 0.5s ease-in-out;
-}
-</style>
-<script>
-(function(){
-  const canvas = document.getElementById('pongCanvas');
-  const ctx = canvas.getContext('2d');
-
-// نظام المستويات
-let level = 1;
-function updateLevel() {
-  const playerScore = parseInt(scoreP_el.textContent);
-  const aiScore = parseInt(scoreA_el.textContent);
-  const total = playerScore + aiScore;
-  let newLevel = Math.floor(total / 5) + 1;
-  if (newLevel !== level) {
-    level = newLevel;
-    document.getElementById('levelLabel').textContent = "المستوى: " + level;
-    showLevelMessage("🎯 مستوى جديد: " + level);
-  }
-}
-
-function showLevelMessage(msg) {
-  const levelMsg = document.getElementById('levelMsg');
-  levelMsg.textContent = msg;
-  levelMsg.style.display = 'block';
-  levelMsg.style.background = 'rgba(0,0,0,0.7)';
-  levelMsg.style.padding = '8px 12px';
-  levelMsg.style.margin = '10px auto';
-  levelMsg.style.borderRadius = '8px';
-  setTimeout(() => { levelMsg.style.display = 'none'; }, 2000);
-}
-
-  const scoreP_el = document.getElementById('scoreP');
-  const scoreA_el = document.getElementById('scoreA');
-  const pauseBtn = document.getElementById('pongPauseBtn');
-  const closeBtn = document.getElementById('pongCloseBtn');
-  const startBtn = document.getElementById('startBtn');
-  const ui = document.getElementById('pongUi');
-  const levelMsg = document.getElementById('levelMsg');
-
-  let state = { running: false, playerScore: 0, aiScore: 0, level: 1 };
-  const paddle = { w: 80, h: 10, x: 0, y: 0 };
-  const ai = { w: 80, h: 10, x: 0, y: 0, speed: 5 };
-  const ball = { x:0,y:0,r:7,vx:0,vy:0,speed:4 };
-
-  function fitCanvas(){ canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight; }
-  fitCanvas();
-  window.addEventListener('resize', fitCanvas);
-
-  function resetPositions(){
-    paddle.x = (canvas.width-paddle.w)/2;
-    paddle.y = canvas.height-20;
-    ai.x = (canvas.width-ai.w)/2;
-    ai.y = 10;
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
-    const dirX = (Math.random()<0.5?-1:1);
-    const dirY = (Math.random()<0.5?-1:1);
-    ball.vx = dirX * ball.speed;
-    ball.vy = dirY * ball.speed;
-  }
-
-  function pointerMove(x){
-    const rect = canvas.getBoundingClientRect();
-    const cx = x-rect.left;
-    const half = paddle.w/2;
-    paddle.x = Math.min(Math.max(0, cx-half), canvas.width-paddle.w);
-  }
-
-  canvas.addEventListener('touchmove', e=>{ e.preventDefault(); pointerMove(e.touches[0].clientX); }, {passive:false});
-  canvas.addEventListener('mousemove', e=>pointerMove(e.clientX));
-
-  function update(){
-    if(!state.running) return;
-    ball.x += ball.vx; ball.y += ball.vy;
-    if(ball.x-ball.r<0||ball.x+ball.r>canvas.width) ball.vx*=-1;
-
-    if(ball.y+ball.r>=paddle.y && ball.x>=paddle.x && ball.x<=paddle.x+paddle.w){ ball.vy = -Math.abs(ball.vy); }
-    if(ball.y-ball.r<=ai.y+ai.h && ball.x>=ai.x && ball.x<=ai.x+ai.w){ ball.vy = Math.abs(ball.vy); }
-
-    if(ball.y-ball.r>canvas.height){ state.aiScore++; scoreA_el.textContent=state.aiScore; resetPositions(); }
-    if(ball.y+ball.r<0){ state.playerScore++; scoreP_el.textContent=state.playerScore; if(state.playerScore % 5 === 0){ state.level++; paddle.w = Math.max(30, paddle.w * 0.85); ball.speed *= 1.15; showLevel(state.level); } resetPositions(); }
-
-    ai.x += Math.sign(ball.x-(ai.x+ai.w/2))*ai.speed;
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#4dd0e1'; ctx.fillRect(paddle.x,paddle.y,paddle.w,paddle.h);
-    ctx.fillStyle='#ff5252'; ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
-    ctx.beginPath(); ctx.fillStyle='#ffeb3b'; ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
-  }
-
-  function loop(){ if(state.running){ update(); draw(); requestAnimationFrame(loop);} }
-
-  pauseBtn.addEventListener('click', ()=>{ state.running=!state.running; if(state.running) loop(); });
-  closeBtn.addEventListener('click', ()=>{ state.running=false; ui.style.display="none"; startBtn.style.display="block"; });
-  startBtn.addEventListener('click', ()=>{ startBtn.style.display="none"; ui.style.display="flex"; state.running=true; state.playerScore=0; state.aiScore=0; state.level=1; paddle.w=80; ball.speed=4; fitCanvas(); resetPositions(); loop(); });
-
-  function showLevel(lvl){ levelMsg.textContent = "المستوى " + lvl; levelMsg.style.display="block"; setTimeout(()=>{ levelMsg.style.display="none"; },2000); }
-})();
-</script>
 
 </script>
 <!-- 🔹 أيقونة الدردشة -->
