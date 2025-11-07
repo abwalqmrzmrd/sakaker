@@ -2421,42 +2421,6 @@ endGameBtn.onclick = () => { cancelAnimationFrame(animFrame); initGame(); menu.s
 
 </html>
 
-<!DOCTYPE html><!-- 🌌 خلفية فيديو متوهجة بالزمرد -->
-<div id="video-background">
-  <div id="player"></div>
-  <div class="emerald-glow"></div>
-</div>
-
-<script>
-  // تحميل YouTube API
-  let tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.body.appendChild(tag);
-
-  let player;
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      videoId: 'mWp02s6Mjhs', // 🎬 الفيديو الجديد
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: 'mWp02s6Mjhs', // نفس المعرّف للتكرار
-        controls: 0,
-        showinfo: 0,
-        modestbranding: 1,
-        rel: 0
-      },
-      events: {
-        onReady: function (event) {
-          event.target.mute();
-          event.target.playVideo();
-        }
-      }
-    });
-  }
-</script>
-
 <style>
 /* خلفية الفيديو */
 #video-background {
