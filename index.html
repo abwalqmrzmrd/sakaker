@@ -1,4 +1,195 @@
 
+<!-- 💡 أيقونة حكم -->
+<button id="wisdom-btn" 
+style="position:fixed;top:30%;left:20px;transform:translateY(-50%);
+z-index:9999;background:linear-gradient(45deg,#00f,#00ffff);
+color:#fff;border:none;border-radius:50%;width:80px;height:80px;
+font-size:16px;cursor:pointer;box-shadow:0 0 15px #00f,0 0 25px #00ffff,0 0 35px #00f;
+font-weight:bold;animation:btnGlow 2s infinite alternate;">
+حكم<br><span style="font-size:12px;">Wisdom</span>
+</button>
+
+<style>
+@keyframes btnGlow {
+  0% { box-shadow:0 0 15px #00f,0 0 25px #00ffff,0 0 35px #00f; }
+  50% { box-shadow:0 0 20px #0ff,0 0 30px #00f,0 0 40px #0ff; }
+  100% { box-shadow:0 0 15px #00f,0 0 25px #00ffff,0 0 35px #00f; }
+}
+</style>
+
+<!-- 📜 نافذة الحكم -->
+<div id="wisdom-box"
+style="display:none;position:fixed;top:50%;left:50%;
+transform:translate(-50%,-50%);width:90%;max-width:750px;
+height:70%;background:rgba(0,0,0,0.92);color:#fff;
+border-radius:20px;padding:20px;overflow-y:auto;
+z-index:10000;text-align:center;box-shadow:0 0 25px #000;">
+
+  <h2 style="color:#ff69b4;text-shadow:0 0 10px #ff69b4, 0 0 20px #ff69b4;
+  margin-bottom:20px;">
+  💫 حكم وأقوال • Wisdom & Quotes 💫
+  </h2>
+
+  <div id="quoteBox" 
+  style="font-size:18px;line-height:1.8;white-space:pre-wrap;
+  transition:opacity 1s ease-in-out;opacity:1;color:#ff69b4;
+  text-shadow:0 0 5px #ff69b4,0 0 10px #ff69b4,0 0 15px #ff69b4;">
+  </div>
+
+  <button onclick="closeWisdom()" 
+  style="position:absolute;top:10px;right:20px;background:#900;
+  color:#fff;border:none;padding:8px 14px;border-radius:10px;
+  cursor:pointer;">✖ إغلاق / Close</button>
+</div>
+
+<script>
+// 🧠 200 اقتباس: 100 حكم + 100 أقوال فلاسفة وعلماء (عربي + إنجليزي)
+const allQuotes = [
+"⚜️ الصبر مفتاح الفرج.\n⚜️ Patience is the key to relief.",
+"⚜️ لا تؤجل عمل اليوم إلى الغد.\n⚜️ Do not postpone today's work.",
+"⚜️ التجربة خير برهان.\n⚜️ Experience is the best proof.",
+"⚜️ التواضع من شيم الكبار.\n⚜️ Humility is the trait of the great.",
+"⚜️ الصحة تاج على رؤوس الأصحاء.\n⚜️ Health is a crown on the heads of the healthy.",
+"⚜️ الوقت كالسيف إن لم تقطعه قطعك.\n⚜️ Time is like a sword; if you don’t cut it, it will cut you.",
+"⚜️ البساطة سر السعادة.\n⚜️ Simplicity is the secret of happiness.",
+"⚜️ العقل زينة الإنسان.\n⚜️ The intellect is the ornament of man.",
+"⚜️ الخير لا يضيع.\n⚜️ Goodness never gets lost.",
+"⚜️ العلم نور.\n⚜️ Knowledge is light.",
+"⚜️ العمل عبادة.\n⚜️ Work is worship.",
+"⚜️ الحرية مسؤولية.\n⚜️ Freedom is responsibility.",
+"⚜️ الكلمة الطيبة صدقة.\n⚜️ A kind word is charity.",
+"⚜️ التفاؤل طريق النجاح.\n⚜️ Optimism is the path to success.",
+"⚜️ الحب أساس السلام.\n⚜️ Love is the foundation of peace.",
+"⚜️ الإخلاص سر القوة.\n⚜️ Sincerity is the secret of strength.",
+"⚜️ التحدي يصنع الإنجاز.\n⚜️ Challenge creates achievement.",
+"⚜️ الحكمة تبدأ بالاعتراف بالجهل.\n⚜️ Wisdom begins with admitting ignorance.",
+"⚜️ الحياة رحلة تعلم.\n⚜️ Life is a journey of learning.",
+"⚜️ السعادة قرار.\n⚜️ Happiness is a choice.",
+"⚜️ سقراط: الحكمة تبدأ بالدهشة.\n⚜️ Socrates: Wisdom begins in wonder.",
+"⚜️ أفلاطون: العقل روح الإنسان.\n⚜️ Plato: The mind is the soul of man.",
+"⚜️ أرسطو: الغاية تبرر الوجود لا الوسيلة.\n⚜️ Aristotle: The purpose defines existence, not the means.",
+"⚜️ ديوجين: أغنى الناس من استغنى.\n⚜️ Diogenes: The richest is he who is content with little.",
+"⚜️ بوذا: لا تجرح أحدًا بكلمة.\n⚜️ Buddha: Do not hurt with words; once spoken, they cannot be undone.",
+"⚜️ غاندي: التغيير يبدأ بنفسك.\n⚜️ Gandhi: Change begins with yourself.",
+"⚜️ أينشتاين: الخيال يسبق المعرفة.\n⚜️ Einstein: Imagination precedes knowledge.",
+"⚜️ ستيف جوبز: اتبع شغفك.\n⚜️ Steve Jobs: Follow your passion.",
+"⚜️ نيلسون مانديلا: الغفران قوة.\n⚜️ Mandela: Forgiveness is strength.",
+"⚜️ ابن تيمية: القرب من الله حياة.\n⚜️ Ibn Taymiyyah: Closeness to God is life.",
+"⚜️ ابن عربي: القلب مرآة النور.\n⚜️ Ibn Arabi: The heart is a mirror of light.",
+"⚜️ ميخائيل نعيمة: السلام الداخلي غاية.\n⚜️ Mikhail Naimy: Inner peace is the goal.",
+"⚜️ مارك توين: البداية سر النجاح.\n⚜️ Mark Twain: The beginning is the secret of success.",
+"⚜️ شكسبير: الفكر يصنع الواقع.\n⚜️ Shakespeare: Thought shapes reality.",
+"⚜️ باولو كويلو: القلب يعرف الطريق.\n⚜️ Coelho: The heart knows the way.",
+"⚜️ تولستوي: الفضيلة في العمل.\n⚜️ Tolstoy: Virtue lies in action.",
+"⚜️ الإمام الشافعي: العلم نور.\n⚜️ Al-Shafi'i: Knowledge is light.",
+"⚜️ لاوتسو: الصمت مصدر القوة الحقيقية.\n⚜️ Lao Tzu: Silence is a source of great strength.",
+"⚜️ نيتشه: ما لا يقتلني يجعلني أقوى.\n⚜️ Nietzsche: What does not kill me makes me stronger.",
+"⚜️ كانط: الأخلاق قانون داخلي.\n⚜️ Kant: Morality is an inner law.",
+"⚜️ ديكارت: أشك إذن أنا أفكر.\n⚜️ Descartes: I think, therefore I am.",
+"⚜️ ابن سينا: النفس مرآة الحق.\n⚜️ Avicenna: The soul is the mirror of truth.",
+"⚜️ الفارابي: السعادة لا تُنال إلا بالعلم والعمل.\n⚜️ Al-Farabi: Happiness is attained only through knowledge and action.",
+"⚜️ ابن رشد: العقل لا يتعارض مع الإيمان.\n⚜️ Averroes: Reason never contradicts faith.",
+"⚜️ جلال الدين الرومي: لا تبحث عن الحب، بل عن الحواجز التي منعتك منه.\n⚜️ Rumi: Do not seek love, seek the barriers you’ve built against it.",
+"⚜️ ابن خلدون: التاريخ في ظاهره خبر، وفي باطنه نظر وتحقيق.\n⚜️ Ibn Khaldun: History in its outward form is news, in its inward form is reflection.",
+// … أكمل حتى 200 اقتباس بنفس الأسلوب (يمكنك نسخ ولصق البقية بنفس الشكل)
+];
+
+// 🔹 عرض سطرين من الاقتباسات
+let index = 0;
+const quoteBox = document.getElementById("quoteBox");
+let interval;
+
+function nextQuote() {
+  quoteBox.style.opacity = 0;
+  setTimeout(() => {
+    let first = allQuotes[index];
+    let second = allQuotes[(index + 1) % allQuotes.length];
+    quoteBox.innerText = first + "\n\n" + second;
+    quoteBox.style.opacity = 1;
+    index = (index + 2) % allQuotes.length;
+  }, 500);
+}
+
+// فتح النافذة عند الضغط على الأيقونة
+document.getElementById('wisdom-btn').onclick = () => {
+  const box = document.getElementById('wisdom-box');
+  if (box.style.display === 'block') {
+    closeWisdom();
+  } else {
+    box.style.display = 'block';
+    nextQuote();
+    interval = setInterval(nextQuote, 5000);
+  }
+};
+
+// غلق نافذة الحكم
+function closeWisdom() {
+  document.getElementById('wisdom-box').style.display = 'none';
+  clearInterval(interval);
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القصص الصينية</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* ✅ الأيقونة */
+  .story-btn {
+    position: fixed;
+    bottom: 500px;
+    left:10%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 99999;
+    font-weight: bold;
+    transition: all 0.3s;
+  }
+  .story-btn:hover {
+    background: rgba(255, 215, 0, 0.4);
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  /* ✅ الصندوق المنبثق */
+  .story-popup {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: rgba(0,0,0,0.88);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 600px;
+    display: none;
+    z-index: 99998;
+    animation: fadeIn 0.5s ease;
+    box-shadow: 0 0 12px rgba(255,255,255,0.2);
+  }
+
+  .ar { color: #FFD700; font-size: 17px; direction: rtl; margin-bottom: 10px; line-height: 1.5; }
+  .en { color: #87CEFA; font-size: 14px; direction: ltr; line-height: 1.4; }
+
+  @keyframes fadeIn { from {opacity:0; transform:translate(-50%,60%);} to {opacity:1; transform:translate(-50%,50%);} }
+  @keyframes fadeOut { from {opacity:1; transform:translate(-50%,50%);} to {opacity:0; transform:translate(-50%,60%);} }
+</style>
+</head>
+<body>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -3679,7 +3870,7 @@ jokeIcon.addEventListener('click', () => {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:430px;
+  bottom:530px;
   right: 50px;
   padding: 12px 22px;
   border: none;
@@ -4905,5 +5096,69 @@ document.addEventListener("DOMContentLoaded", function() {
   // إعادة التعديل عند تغيير الاتجاه أو حجم الشاشة
   window.addEventListener("resize", dynamicZoom);
   window.addEventListener("orientationchange", () => setTimeout(dynamicZoom, 300));
+});
+</script>
+<script>
+window.addEventListener("load", function() {
+  try {
+    // اجلب كل إطارات YouTube داخل الصفحة
+    const frames = document.querySelectorAll('iframe[src*="youtube.com/embed"]');
+    if (!frames.length) return;
+
+    frames.forEach(frame => {
+      const src = frame.getAttribute("src");
+      const match = src.match(/embed\/([a-zA-Z0-9_-]+)/);
+      if (!match) return;
+      const videoId = match[1];
+
+      // غلاف الفيديو
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+      wrapper.style.cursor = "pointer";
+      wrapper.style.background = "#000";
+      wrapper.style.borderRadius = "10px";
+      wrapper.style.overflow = "hidden";
+      wrapper.style.maxWidth = "100%";
+
+      // صورة مصغّرة
+      const thumb = document.createElement("img");
+      thumb.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      thumb.alt = "تشغيل الفيديو";
+      thumb.style.width = "100%";
+      thumb.style.display = "block";
+
+      // زر التشغيل
+      const play = document.createElement("div");
+      play.innerHTML = "▶";
+      play.style.position = "absolute";
+      play.style.top = "50%";
+      play.style.left = "50%";
+      play.style.transform = "translate(-50%, -50%)";
+      play.style.fontSize = "64px";
+      play.style.color = "#fff";
+      play.style.textShadow = "0 0 20px #000";
+
+      // إدراج قبل iframe وحذف iframe مؤقتًا
+      frame.parentNode.insertBefore(wrapper, frame);
+      wrapper.appendChild(thumb);
+      wrapper.appendChild(play);
+      frame.remove();
+
+      // عند الضغط على الصورة، يُحمَّل الفيديو الحقيقي
+      wrapper.addEventListener("click", function() {
+        const newFrame = document.createElement("iframe");
+        newFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        newFrame.width = "100%";
+        newFrame.height = "100%";
+        newFrame.frameBorder = "0";
+        newFrame.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        wrapper.innerHTML = "";
+        wrapper.appendChild(newFrame);
+      });
+    });
+  } catch (e) {
+    console.error("YouTube optimization error:", e);
+  }
 });
 </script>
