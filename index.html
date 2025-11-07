@@ -739,7 +739,7 @@ beethovenIcon.addEventListener('click', () => {
 }
 </style><!-- زر فتح مكتبة الفيديو الزمردية -->
 <div id="emeraldLibraryButton" 
-     style="position:fixed; right:470; top:75%; z-index:9500; cursor:pointer;
+     style="position:fixed; right:470; top:85%; z-index:9500; cursor:pointer;
             padding:10px 15px; background: 
             font-weight:bold; border-radius:12px; text-align:center;">
   🎥 مكتبة الفيديو الزمردية<br>Emerald Video Library
@@ -2104,7 +2104,7 @@ body {
 .joke-bar {
   position: fixed;
   left: 10px;
-  top: 63%;
+  top: 53%;
   transform: translateY(-50%);
   width: 200px;
   height: 60px;
@@ -2212,8 +2212,8 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 /* 📦 الغلاف العام */
 #cakeWrapper {
   position: fixed;
-  bottom: 240px;
-  left:70%;
+  bottom: 70px;
+  left:30%;
   transform: translateX(50%);
   z-index: 1000;
 }
@@ -2741,8 +2741,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /* أيقونة الراديو */
 #radioIcon {
   position: fixed;
-  bottom: 140px;
-  right: 260px;
+  bottom: 100px;
+  right: 400px;
   width: 80px;
   height: 80px;
   background: 
@@ -2927,7 +2927,7 @@ class SakakerPopup extends HTMLElement {
         /* شكل الأيقونة (نجمة مشعة متعددة الألوان) */
         .launcher {
           position: fixed;
-          right: 30%;
+          right: 70%;
           bottom: 15%;
           width: 85px;
           height: 85px;
@@ -3738,7 +3738,7 @@ jokeIcon.addEventListener('click', () => {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:530px;
+  bottom:170px;
   right: 50px;
   padding: 12px 22px;
   border: none;
@@ -4474,241 +4474,6 @@ showBtn.addEventListener('click', () => {
   showBtn.style.display = 'none';
 });
 </script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ألعاب أبو القمر زمرد 🎮</title>
-<style> {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    font-family: sans-serif;
-    overflow: hidden;
-  }
-
-  /* 🎬 خلفية الفيديو */
-  #backgroundVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  /* 🎮 أيقونات الألعاب */
-  .gameIcon {
-    position: fixed;
-    top: 180px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
-    animation: glow 2s infinite alternate;
-    z-index: 5000;
-  }
-
-  /* 🎱 بلياردو */
-  #billiardsIcon {
-    left: 160px;
-    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
-  }
-
-  /* ♟️ شطرنج */
-  #chessIcon {
-    left: 260px;
-    background: radial-gradient(circle, #00ffff, #0000ff, #ff00ff, #ffff00, #00ff00);
-  }
-
-  @keyframes glow {
-    from { box-shadow: 0 0 10px 5px #fff; }
-    to   { box-shadow: 0 0 25px 15px #00ffff; }
-  }
-
-  /* 🧩 الإطارات المنبثقة (مشتركة) */
-  .gameContainer {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: 65%;
-    background: rgba(0,0,0,0.95);
-    border: 3px solid #0ff;
-    border-radius: 20px;
-    display: none;
-    z-index: 9999;
-    box-shadow: 0 0 30px rgba(0,255,255,0.8);
-    cursor: move;
-  }
-
-  /* بلياردو في منتصف الصفحة كما قبل */
-  #billiardsContainer {
-    top: 58%;
-  }
-
-  /* شطرنج — نزلناه بمقدار ~100px (حوالي 10 أسطر) */
-  #chessContainer {
-    top: calc(50% + 70px) !important;
-  }
-
-  .gameContainer iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 15px;
-  }
-
-  /* زر الإغلاق */
-  .closeBtn {
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    background: red;
-    color: white;
-    border: none;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 10000;
-    padding: 3px 8px;
-  }
-
-  /* تحسين استجابة على شاشات أصغر */
-  @media (max-width: 800px) {
-    .gameContainer { width: 90%; height: 60%; }
-    .gameIcon { width: 60px; height: 60px; font-size: 24px; }
-  }
-</style>
-</head>
-<body>
-
-<!-- 🎬 خلفية الفيديو -->
-<video id="backgroundVideo" autoplay muted loop>
-  <source src="https://cdn.pixabay.com/video/2024/06/21/178568-955862780_large.mp4" type="video/mp4">
-</video>
-
-<!-- 🎱 أيقونة بلياردو -->
-<div id="billiardsIcon" class="gameIcon" title="بلياردو">🎱</div>
-
-<!-- ♟️ أيقونة الشطرنج -->
-<div id="chessIcon" class="gameIcon" title="شطرنج">♟️</div>
-
-<!-- 🎱 نافذة بلياردو -->
-<div id="billiardsContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeBilliards">X</button>
-  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
-</div>
-
-<!-- ♟️ نافذة الشطرنج (منزلة 10 أسطر تقريباً) -->
-<div id="chessContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeChess">X</button>
-  <iframe src="https://www.crazygames.com/embed/master-chess" title="لعبة شطرنج"></iframe>
-</div>
-
-<script>
-/* العناصر */
-const billiardsIcon = document.getElementById('billiardsIcon');
-const chessIcon = document.getElementById('chessIcon');
-const billiardsContainer = document.getElementById('billiardsContainer');
-const chessContainer = document.getElementById('chessContainer');
-const closeBilliards = document.getElementById('closeBilliards');
-const closeChess = document.getElementById('closeChess');
-
-/* فتح وإغلاق */
-billiardsIcon.addEventListener('click', () => {
-  billiardsContainer.style.display = 'block';
-  chessContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'false');
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-chessIcon.addEventListener('click', () => {
-  chessContainer.style.display = 'block';
-  billiardsContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'false');
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-
-closeBilliards.addEventListener('click', () => {
-  billiardsContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-closeChess.addEventListener('click', () => {
-  chessContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-/* ======= draggable (سحب) مشترك ======= */
-function makeDraggable(el) {
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  el.addEventListener('mousedown', (e) => {
-    // فقط عند الضغط على العنصر نفسه (ليس على iframe داخله أو أزراره)
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const rect = el.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    el.style.transform = 'none'; // نلغي translate أثناء السحب
-    document.body.style.userSelect = 'none';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    el.style.left = `${e.clientX - offsetX}px`;
-    el.style.top = `${e.clientY - offsetY}px`;
-  });
-
-  document.addEventListener('mouseup', () => {
-    dragging = false;
-    document.body.style.userSelect = '';
-  });
-
-  // دعم لمس الشاشة (mobile)
-  el.addEventListener('touchstart', (e) => {
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const touch = e.touches[0];
-    const rect = el.getBoundingClientRect();
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-  }, {passive: true});
-
-  document.addEventListener('touchmove', (e) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    el.style.left = `${touch.clientX - offsetX}px`;
-    el.style.top = `${touch.clientY - offsetY}px`;
-  }, {passive: true});
-
-  document.addEventListener('touchend', () => { dragging = false; });
-}
-
-/* تفعيل السحب لكل الإطارات */
-makeDraggable(billiardsContainer);
-makeDraggable(chessContainer);
-
-/* تأكد أن وضع top للـ chessContainer يعمل حتى لو كانت خصائص سابقة */
-window.addEventListener('load', () => {
-  chessContainer.style.top = chessContainer.style.top || getComputedStyle(chessContainer).top;
-});
-</script>
-
-</body>
-</html>
-
 
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
