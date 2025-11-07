@@ -1102,8 +1102,8 @@ function closeWisdom() {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom: 380px;
-  right: 1100px;
+  bottom:50px;
+  right: 170px;
   padding: 12px 22px;
   border: none;
   border-radius: 14px;
@@ -1510,343 +1510,7 @@ pongBtn.addEventListener('mouseleave', () => {
 </script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pong Bong Bong مصغر مع زر إغلاق وزر رجوع</title>
-<style>
-
-  margin:0; padding:0; height:100%; background:black; overflow:hidden;
-  font-family: 'Tajawal', sans-serif;
-}
-
-#pongButton {
-  position: fixed;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  z-index: 1000;
-  padding: 12px 18px;
-  font-size: 15px;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid #fff;
-  color: #fff;
-  border-radius: 12px;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-}
-
-#pongContainer {
-  display: none;
-  position: fixed;
-  top: 25%;
-  left: 25%;
-  width: 50vw;
-  height: 50vh;
-  z-index: 9999;
-  border-radius: 10px;
-  overflow: hidden;
-  background: rgba(0,0,0,0.25);
-  box-shadow: 0 0 25px rgba(0,255,255,0.4);
-  cursor: move;
-}
-
-#bgVideo {
-  position: absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  pointer-events: none;
-}
-
-#menu {
-  position:absolute;
-  top:10px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  align-items:center;
-  background:rgba(255,255,255,0.15);
-  padding:10px;
-  border-radius:10px;
-  color:#fff;
-  z-index:10001;
-  text-align:center;
-  font-size:12px;
-}
-
-#pong {
-  position: absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:1;
-  display:block;
-}
-
-#closeBtn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: rgba(255,0,0,0.8);
-  color:white;
-  width: 35px;
-  height: 35px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10003;
-}
-
-.videoControls {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  z-index: 10002;
-  display: flex;
-  gap: 6px;
-}
-.controlBtn {
-  width: 35px;
-  height: 35px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-#playVideoBtn { background: #00BFFF; color: white; }
-#muteVideoBtn { background: #FFD700; color: black; }
-
-#backBtn {
-  margin-top:6px;
-  padding:4px 10px;
-  border:none;
-  border-radius:6px;
-  background:red;
-  color:white;
-  cursor:pointer;
-}
-</style>
-</head>
-<style>
-
-#floating-videos-container {
-  position: fixed;
-  top: 110px; /* lowered slightly (about 3–5 lines) */
-  right: 25px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-  pointer-events: none;
-}
-
-#floating-videos-btn {
-  width: auto;
-  padding: 12px 22px;
-  border-radius: 35px;
-  background: rgba(0, 255, 170, 0.25);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 255, 170, 0.4), 0 0 40px rgba(0, 255, 170, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-  cursor: pointer;
-  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-  pointer-events: auto;
-}
-#floating-videos-btn:hover {
-  transform: scale(1.1);
-  background: rgba(0, 255, 170, 0.35);
-  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 60px rgba(0, 255, 170, 0.3);
-}
-
-#floating-videos-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.floating-video {
-  width: 180px;
-  height: 110px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: rgba(0, 255, 170, 0.12);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.35s, opacity 0.35s, box-shadow 0.35s;
-  pointer-events: auto;
-}
-.floating-video iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-.floating-video.active {
-  transform: scale(1);
-  opacity: 1;
-}
-.floating-video:hover {
-  box-shadow: 0 0 30px rgba(0, 255, 170, 0.6), 0 0 50px rgba(0, 255, 170, 0.3);
-}
-
-@media (max-width: 768px) {
-  #floating-videos-container { top: 90px; }
-  #floating-videos-row { justify-content: center; }
-  .floating-video { width: 140px; height: 85px; }
-}
-</style>
-
-<script>
-// === Change text automatically based on language ===
-function updateLanguage() {
-  const lang = document.documentElement.lang || "en";
-  const text = document.getElementById("liveText");
-  if (lang.startsWith("ar")) {
-    text.textContent = "قنوات مباشرة";
-  } else {
-    text.textContent = "Live Channels";
-  }
-}
-
-updateLanguage();
-
-</style>
-
-<!-- 🎵 أيقونة تشغيل الصوت والفيديو المصغر على يمين الصفحة -->
-<div id="beethovenContainer" style="
-  position: fixed;
-  top: 90px; 
-  right: 70px; /* تحريكها إلى اليمين */
-  z-index: 1000; /* أقل من أيقونات الأعلى */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  pointer-events: none; /* السماح بتمرير النقرات للعناصر أعلى الصفحة */
-">
-
-  <!-- أيقونة التحكم -->
-  <div id="beethovenIcon" title="تشغيل الموسيقى" style="
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg,#4a148c,#8e24aa);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(142,36,170,0.8);
-    transition: all 0.3s ease;
-    animation: float 2s ease-in-out infinite;
-    pointer-events: auto; /* السماح بالنقر على الأيقونة */
-  ">🎵</div>
-
-  <!-- الفيديو المصغر -->
-  <div id="videoWrapper" style="
-    display:none; 
-    position: relative; 
-    width: 180px; 
-    height: 101px; 
-    border-radius:10px; 
-    overflow:hidden; 
-    box-shadow:0 0 15px rgba(0,0,0,0.5);
-    pointer-events: auto; /* السماح بالنقر على الفيديو */
-  ">
-    <iframe 
-      id="beethovenPlayer"
-      width="180"  
-      height="101"
-      src=""
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin"
-      style="pointer-events: auto;"
-    ></iframe>
-    <!-- زر تشغيل/إيقاف داخل الفيديو -->
-    <button id="toggleVideoBtn" style="
-      position: absolute;
-      bottom: 50px;
-      right: 50px;
-      padding: 4px 8px;
-      background: 
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 12px;
-      pointer-events: auto; /* السماح بالنقر على الزر */
-    ">إيقاف</button>
-  </div>
-</div>
-
-<style>
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
-}
-</style>
-
-<script>
-const beethovenIcon = document.getElementById('beethovenIcon');
-const videoWrapper = document.getElementById('videoWrapper');
-const beethovenPlayer = document.getElementById('beethovenPlayer');
-const toggleVideoBtn = document.getElementById('toggleVideoBtn');
-let playing = false;
-
-// تشغيل/إيقاف عند الضغط على الأيقونة
-beethovenIcon.addEventListener('click', () => {
-  if (!playing) {
-    beethovenPlayer.src = "https://www.youtube.com/embed/RmrM3Vn7Mkw?autoplay=1&si=x1l1cfiAlXO_P7c9";
-    videoWrapper.style.display = "block";
-    beethovenIcon.style.boxShadow = "0 0 25px #fff";
-    beethovenIcon.style.transform = "scale(1.1)";
-    beethovenIcon.style.background = "linear-gradient(135deg,#8e24aa,#ce93d8)";
-    toggleVideoBtn.textContent = "إيقاف";
-    playing = true;
-  } else {
-    beethovenPlayer.src = "";
-    videoWrapper.style.display = "none";
-    beethovenIcon.style.boxShadow = "0 0 15px rgba(142,36,170,0.8)";
-    beethovenIcon.style.transform = "scale(1)";
-    beethovenIcon.style.background = "linear-gradient(135deg,#4a148c,#8e24aa)";
-    playing = false;
-  }
-});
-
-// زر تشغيل/إيقاف داخل الفيديو
-toggleVideoBtn.addEventListener('click', () => {
-  if (playing) {
-    beethovenPlayer.src = "";
-    toggleVideoBtn.textContent = "تشغيل";
-    playing = false;
-  } else {
-    beethovenPlayer.src = "https://www.youtube.com/embed/RmrM3Vn7Mkw?autoplay=1&si=x1l1cfiAlXO_P7c9";
-    toggleVideoBtn.textContent = "إيقاف";
-    playing = true;
-  }
-});
-</script><!-- 🌟 أيقونة فليشر القنوات المباشرة -->
+<!-- 🌟 أيقونة فليشر القنوات المباشرة -->
 <div id="liveFlasher" onclick="toggleLivePopup()">
   <span>قنوات مباشرة<br>Live Channels</span>
 </div>
@@ -1855,6 +1519,8 @@ toggleVideoBtn.addEventListener('click', () => {
 <div id="livePopup">
   <button id="closePopup" onclick="toggleLivePopup()">❌</button>
   <div id="liveVideosContainer">
+
+    <!-- القنوات الأصلية -->
     <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/LuKwFajn37U')">
       <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
     </div>
@@ -1870,6 +1536,18 @@ toggleVideoBtn.addEventListener('click', () => {
     <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/n7eQejkXbnM')">
       <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe>
     </div>
+
+    <!-- القنوات الجديدة -->
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/iTtkHlvMRzw')">
+      <iframe src="https://www.youtube.com/embed/iTtkHlvMRzw?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/BEgQdyuWhDQ')">
+      <iframe src="https://www.youtube.com/embed/BEgQdyuWhDQ?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/77mDQNA84uI')">
+      <iframe src="https://www.youtube.com/embed/77mDQNA84uI?mute=1" allowfullscreen></iframe>
+    </div>
+
   </div>
 </div>
 
@@ -1885,8 +1563,8 @@ toggleVideoBtn.addEventListener('click', () => {
 /* ⚪ أيقونة فليشر */
 #liveFlasher {
   position: fixed;
-  top: 20%;
-  right: 300px;
+  top: 10%;
+  right: 250px;
   transform: translateY(-50%);
   width: 150px;
   height: 150px;
