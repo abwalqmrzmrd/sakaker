@@ -3679,8 +3679,8 @@ jokeIcon.addEventListener('click', () => {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:530px;
-  right: 1050px;
+  bottom:430px;
+  right: 50px;
   padding: 12px 22px;
   border: none;
   border-radius: 14px;
@@ -4185,8 +4185,8 @@ pongBtn.addEventListener('mouseleave', () => {
   /* الأيقونة */
   #customVideoIcon {
     position: fixed;
-    top: 80px;
-    right: 650px;
+    top: 40px;
+    right: 250px;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -4313,7 +4313,7 @@ pongBtn.addEventListener('mouseleave', () => {
   #hideIconBtn {
     position: fixed;
     top: 135px;
-    right: 550px;
+    right: 250px;
     background: linear-gradient(45deg, #f00, #0ff, #ff0);
     color: white;
     border: none;
@@ -4876,4 +4876,34 @@ async function initChatConnection(){
     document.removeEventListener("touchend",end);
   }
 })();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  function dynamicZoom() {
+    const w = window.innerWidth;
+    let zoomLevel = 1;
+
+    // إذا كان العرض أقل من 500 بكسل (≈ 3 بوصة)
+    if (w < 500) {
+      zoomLevel = w / 1920;
+      if (zoomLevel < 0.20) zoomLevel = 0.20; // أقل تصغير ممكن
+    }
+
+    // تطبيق التصغير التدريجي الناعم
+    document.body.style.transition = "zoom 1s ease";
+    document.body.style.zoom = zoomLevel;
+
+    // ضبط الحواف ومنع الفراغات السوداء
+    document.body.style.overflowX = "hidden";
+    document.body.style.backgroundColor = "#000";
+  }
+
+  // تشغيل عند التحميل
+  dynamicZoom();
+
+  // إعادة التعديل عند تغيير الاتجاه أو حجم الشاشة
+  window.addEventListener("resize", dynamicZoom);
+  window.addEventListener("orientationchange", () => setTimeout(dynamicZoom, 300));
+});
 </script>
