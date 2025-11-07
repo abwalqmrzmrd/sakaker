@@ -1568,7 +1568,7 @@ pongBtn.addEventListener('mouseleave', () => {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #ffffff 70%, #f5f5f5 100%);
+  background:
   color: #000;
   font-weight: bold;
   text-align: center;
@@ -1602,7 +1602,7 @@ pongBtn.addEventListener('mouseleave', () => {
   transform: translate(-50%, -30%);
   width: 80vw;
   max-width: 420px;
-  background: rgba(255,255,255,0.97);
+  background: 
   border-radius: 30px;
   box-shadow: 0 0 40px rgba(255,255,255,0.9);
   padding: 15px 10px 25px;
@@ -6240,7 +6240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     position: fixed;
     bottom: 60px;
     right: 200px;
-    background: linear-gradient(45deg, red, orange, yellow, lime, cyan, blue, magenta);
+    background:
     background-size: 400% 400%;
     animation: glow 4s linear infinite;
     color: white;
@@ -6273,14 +6273,14 @@ document.addEventListener("DOMContentLoaded", () => {
     left: 50;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.85);
+    background: 
     justify-content: center;
     align-items: center;
     z-index: 1000;
   }
 
   .cv-content {
-    background: radial-gradient(circle at center, #1e1e1e, #000);
+    background: 
     border-radius: 25px;
     padding: 20px;
     width: 80%;
@@ -6310,7 +6310,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   .closeCV {
-    background: linear-gradient(45deg, #00ffff, #0088ff);
+    background:
     border: none;
     padding: 6px 14px;
     border-radius: 15px;
@@ -6323,17 +6323,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   .closeCV:hover {
-    background: linear-gradient(45deg, #00ffaa, #00ffff);
+    background:
   }
 </style>
 </head>
 <body>
-
-<!-- 🔹 أزرار اللغة -->
-<div id="langSwitcher">
-  <button onclick="setLanguage('ar')">🇸🇦 العربية</button>
-  <button onclick="setLanguage('en')">🇬🇧 English</button>
-</div>
 
 <!-- 🔹 الأيقونة المضيئة -->
 <div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">
