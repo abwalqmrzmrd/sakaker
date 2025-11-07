@@ -6853,3 +6853,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+<!-- 🚀 كود تحسين سرعة الصفحة -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 🌙 تأجيل تحميل iframes (مثل YouTube)
+  const iframes = document.querySelectorAll("iframe");
+  iframes.forEach(iframe => {
+    const src = iframe.getAttribute("src");
+    if (src) {
+      iframe.setAttribute("data-src", src);
+      iframe.removeAttribute("src");
+    }
+  });
+
+  // عندما ينتهي تحميل الصفحة بالكامل نعيد تحميلها بشكل متأخر
+  window.addEventListener("load", function() {
+    iframes.forEach(iframe => {
+      const dataSrc = iframe.getAttribute("data-src");
+      if (dataSrc) iframe.setAttribute("src", dataSrc);
+    });
+  });
+
+  // 📦 تحسين الصور الكبيرة بإضافة lazy-loading تلقائيًا
+  const imgs = document.querySelectorAll("img");
+  imgs.forEach(img => {
+    if (!img.hasAttribute("loading"))
+      img.setAttribute("loading", "lazy");
+  });
+});
+</script>
