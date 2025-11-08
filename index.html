@@ -1395,115 +1395,7 @@ updateText();
 setInterval(updateText, 25000);
 </script>
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<title>شريط نكت بترجمة بطيئة</title>
-<style>
-body {
-  margin: 0;
-  background: #000;
-  font-family: "Tajawal", sans-serif;
-  overflow: hidden;
-}
 
-/* حاوية الشريط */
-.joke-bar {
-  position: fixed;
-  left: 10px;
-  top: 13%;
-  transform: translateY(-50%);
-  width: 200px;
-  height: 60px;
-  color: #fff;
-  font-size: 17px;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid #0ff;
-  border-radius: 20px;
-  box-shadow: 0 0 15px #0ff;
-  text-align: center;
-  overflow: hidden;
-  padding: 5px;
-  animation: glow 2s infinite alternate;
-}
-
-/* توهج الإطار */
-@keyframes glow {
-  from { box-shadow: 0 0 10px #0ff; border-color: #0ff; }
-  to   { box-shadow: 0 0 25px #0ff; border-color: #0ff; }
-}
-
-/* النص العربي */
-.joke-ar {
-  direction: ltr; /* من اليسار إلى اليمين */
-  white-space: nowrap;
-  display: inline-block;
-  font-size: 25px;
-  animation: moveAR 100s linear infinite;
-}
-
-/* النص الإنجليزي */
-.joke-en {
-  direction: rtl; /* من اليمين إلى اليسار */
-  white-space: nowrap;
-  display: inline-block;
-  font-size: 25px;
-  color: #0ff;
-  animation: moveEN 100s linear infinite;
-}
-
-/* حركة النصوص */
-@keyframes moveAR {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-@keyframes moveEN {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-</style>
-</head>
-<body>
-
-<div class="joke-bar">
-  <div class="joke-ar" id="jokeAr">😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات</div>
-  <div class="joke-en" id="jokeEn">(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)</div>
-</div>
-
-<script>
-// النكت (عربي + إنجليزي) – نكتة واحدة فقط
-const jokes = [
-  ["😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات", 
-   "(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)"]
-];
-
-let index = 0;
-
-function changeJoke() {
-  index = (index + 1) % jokes.length;
-  const jokeAr = document.getElementById("jokeAr");
-  const jokeEn = document.getElementById("jokeEn");
-  
-  // تغيير النص
-  jokeAr.textContent = jokes[index][0];
-  jokeEn.textContent = jokes[index][1];
-  
-  // إعادة تشغيل الأنيميشن لضمان ظهور الحركة الجديدة
-  jokeAr.style.animation = "none";
-  jokeEn.style.animation = "none";
-  void jokeAr.offsetWidth; // إعادة ضبط الأنيميشن
-  jokeAr.style.animation = "moveAR 30s linear infinite";
-  jokeEn.style.animation = "moveEN 30s linear infinite";
-}
-
-setInterval(changeJoke, 32000); // بعد كل 32 ثانية
-</script>
 <!-- 🎂 كيك متوهج بألوان متغيرة -->
 <div id="cakeWrapper">
   <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
@@ -3276,12 +3168,12 @@ body {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:300px;
+  bottom:270px;
   right: 50px;
   padding: 12px 22px;
   border: none;
   border-radius: 14px;
-  background:
+  background: linear-gradient(45deg, #007bff, #00ffff);
   color: #fff;
   font-size: 18px;
   font-weight: bold;
@@ -3320,7 +3212,7 @@ pongBtn.addEventListener('mouseleave', () => {
 <html lang="ar" dir="rtl">
 <head>
 <!-- 🔹 حاوية اللعبة -->
-<div id="pongGame-container" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:
+<div id="pongGame-container" style="display:none;position:fixed;top:0;left:0;width:100vw;height:90vh;background:black;z-index:10000;overflow:hidden;">
 
   <!-- ✅ فيديو الخلفية لا يلتقط النقرات -->
   <iframe id="pongGame-video"
@@ -3453,6 +3345,7 @@ pongBtn.addEventListener('mouseleave', () => {
 
 </body>
 </html>
+
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
