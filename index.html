@@ -101,6 +101,7 @@
 
 </body>
 </html>
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1702,25 +1703,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <script>
-  const translations = {
-    ar: {
-      cvButton: "SV أبوالقمر زمرد",
-      cvTitle: "التعريف بالموقع",
-      cvText: "الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)",
-      cvClose: "خروج"
-    },
-  };
-
-  function setLanguage(lang) {
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      el.innerText = translations[lang][key];
-    });
-    const cvContent = document.getElementById('cvContent');
-    cvContent.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    cvContent.style.textAlign = (lang === 'ar') ? 'right' : 'left';
-  }
-
   setLanguage('ar');
 </script>
 
@@ -2646,14 +2628,14 @@ jokeIcon.addEventListener('click', () => {
 
 </body>
 </html>
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>أابوالقمرزمرد فنان شامل</title>
-<style> {
+<style>
+  body {
     margin: 0;
     font-family: sans-serif;
     background: #111;
@@ -2827,7 +2809,7 @@ jokeIcon.addEventListener('click', () => {
 <!-- أيقونة الفيديو -->
 <div id="customVideoIcon">
   <iframe 
-    src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+    src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
     allow="autoplay; encrypted-media; picture-in-picture"
     allowfullscreen>
   </iframe>
@@ -2844,7 +2826,7 @@ jokeIcon.addEventListener('click', () => {
   <button id="customCloseBtn">&times;</button>
   <div id="customVideoContent">
     <iframe 
-     src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+     src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&loop=1&playlist=n7eQejkXbnM&controls=1&modestbranding=1&playsinline=1"
       allow="autoplay; encrypted-media; picture-in-picture"
       allowfullscreen>
     </iframe>
@@ -2894,6 +2876,9 @@ showBtn.addEventListener('click', () => {
   showBtn.style.display = 'none';
 });
 </script>
+
+</body>
+</html>
 
 <!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
