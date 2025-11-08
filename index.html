@@ -1884,13 +1884,12 @@ items.forEach(item => {
 </script>
 
 </body>
-</html>
-<!DOCTYPE html>
+</html><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مساحة إعلانية مضيئة مع فيديو</title>
+<title>مساحة إعلانية مضيئة</title>
 <style>
   body {
     background: #000;
@@ -1905,13 +1904,13 @@ items.forEach(item => {
     left: 10%;
     transform: translateX(-50%);
     z-index: 9999;
-    min-width: 100px;
-    padding: 10px 14px;
-    border-radius: 16px;
+    min-width: 200px;
+    padding: 12px 16px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 0 25px rgba(0,0,0,0.5);
@@ -1925,7 +1924,7 @@ items.forEach(item => {
   .ad-text {
     color: #ff0000;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.3;
   }
 
@@ -1949,57 +1948,8 @@ items.forEach(item => {
     cursor: pointer;
   }
 
-  /* 🔹 الفيديو المصغر داخل الأيقونة */
-  #miniVideo {
-    width: 60px;
-    height: 40px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #fff;
-    box-shadow: 0 0 10px rgba(255,255,255,0.3);
-    flex-shrink: 0;
-  }
-
-  #miniVideo iframe {
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* حتى لا يمنع النقر على الأيقونة */
-  }
-
-  /* 🔹 نافذة الفيديو المنبثقة */
-  #videoPopup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-  }
-
-  #videoPopup iframe {
-    width: 80%;
-    height: 70%;
-    border-radius: 12px;
-    border: none;
-  }
-
-  #popupClose {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    background: red;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 18px;
-  }
-
   @media (max-width: 480px) {
-    #adIcon { min-width: 200px; font-size: 13px; padding: 8px; }
-    #miniVideo { width: 45px; height: 30px; }
+    #adIcon { min-width: 180px; font-size: 13px; padding: 8px; }
   }
 </style>
 </head>
@@ -2007,30 +1957,17 @@ items.forEach(item => {
 
 <!-- 🔸 أيقونة الإعلان -->
 <div id="adIcon" role="button" aria-label="مساحة إعلانية متوفرة">
-  <div id="miniVideo">
-    <iframe src="https://www.youtube.com/embed/nxRggx-1GEc?controls=0&mute=1" 
-      title="Video preview" frameborder="0" allow="autoplay; encrypted-media"></iframe>
-  </div>
   <div>
-    <span class="ad-text">📢 مساحة إعلانية متوفرة</span>
-    <span class="ad-text-en">Ad Space Available</span>
+    <span class="ad-text">📢 تستطيع وضع إعلانك أو مشروعك هنا</span>
+    <span class="ad-text-en">Place your ad or project here</span>
   </div>
   <button id="adClose">✖</button>
-</div>
-
-<!-- 🔸 نافذة الفيديو المنبثقة -->
-<div id="videoPopup">
-  <button id="popupClose">✖</button>
-  <iframe src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 
 <script>
 (function() {
   const el = document.getElementById("adIcon");
   const closeBtn = document.getElementById("adClose");
-  const popup = document.getElementById("videoPopup");
-  const popupFrame = popup.querySelector("iframe");
-  const popupClose = document.getElementById("popupClose");
 
   // 🔹 الألوان المتغيرة
   const colors = [
@@ -2053,16 +1990,10 @@ items.forEach(item => {
   // 🔹 رابط التواصل
   const adLink = "https://wa.me/message/BJUPAGNVGZ2KI1";
 
-  // عند النقر على الأيقونة (وليس الزر أو الفيديو) يفتح الرابط
+  // عند النقر على الأيقونة يفتح الرابط
   el.addEventListener("click", (e) => {
     if (e.target === closeBtn) return;
-    if (e.target.closest("#miniVideo")) {
-      // فتح الفيديو المنبثق عند الضغط على الفيديو المصغر
-      popupFrame.src = "https://www.youtube.com/embed/nxRggx-1GEc?autoplay=1";
-      popup.style.display = "flex";
-    } else {
-      window.open(adLink, "_blank");
-    }
+    window.open(adLink, "_blank");
   });
 
   // إغلاق الإعلان
@@ -2074,14 +2005,10 @@ items.forEach(item => {
     el.style.transform = "translateX(-50%) scale(0.8)";
     setTimeout(() => el.remove(), 400);
   });
-
-  // إغلاق الفيديو المنبثق
-  popupClose.addEventListener("click", () => {
-    popup.style.display = "none";
-    popupFrame.src = "";
-  });
 })();
 </script>
+</body>
+</html>
 
 </body>
 </html>
