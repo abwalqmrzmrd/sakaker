@@ -357,8 +357,8 @@ function closeWisdom() {
   /* ✅ الساعة والتاريخ أسفل الشريط */
   #clock {
     position: fixed;
-    top: 52px;
-    left: 50%;
+    top: 12px;
+    left: 70%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.6);
     padding: 6px 18px;
@@ -1521,7 +1521,7 @@ setInterval(changeJoke, 32000); // بعد كل 32 ثانية
 #cakeWrapper {
   position: fixed;
   bottom: 120px;
-  left:30%;
+  left:50%;
   transform: translateX(50%);
   z-index: 1000;
 }
@@ -2043,8 +2043,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /* أيقونة الراديو */
 #radioIcon {
   position: fixed;
-  bottom: 150px;
-  right: 200px;
+  bottom: 95px;
+  right: 100px;
   width: 80px;
   height: 80px;
   background: 
@@ -2411,7 +2411,7 @@ setInterval(changeQuote, 6000);
 <div id="support-section" style="
   position: fixed;
   top: 43%;
-  right: 370px;
+  right: 170px;
   background: rgba(0, 0, 30, 0.85);
   padding: 18px;
   border-radius: 14px;
@@ -2654,8 +2654,8 @@ jokeIcon.addEventListener('click', () => {
 /* ===== أيقونة التشغيل ===== */
 #scrollbox-icon {
   position: fixed;
-  bottom: 290px;
-  left: 50%;
+  bottom: 220px;
+  left: 20%;
   transform: translateX(-50%);
   width: 80px;
   height: 80px;
@@ -3271,1073 +3271,12 @@ body {
   overflow-x: hidden;
 }
 </style>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مستودع أيقونات مضيء</title>
-<style>
-/* ===== إعدادات الصفحة الأساسية ===== */
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    font-family: sans-serif;
-    overflow-x: hidden;
-}
-
-/* ===== أيقونة المستودع المضيئة ===== */
-#icon-toggle {
-  position: fixed;
-  bottom: 180px;
-  right: 20px;
-  z-index: 1000;
-  cursor: pointer;
-  background: radial-gradient(circle, #ff5f6d, #ffc371);
-  color:#fff;
-  padding:15px 20px;
-  border-radius:50%;
-  font-weight:bold;
-  font-size:16px;
-  text-align:center;
-  box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d;
-  white-space: nowrap;
-  transition: all 0.3s ease;
-  animation: glowIcon 1.5s infinite alternate;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@keyframes glowIcon {
-  0% { box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d; }
-  50% { box-shadow: 0 0 25px #ff5f6d, 0 0 35px #ffc371, 0 0 45px #ff5f6d; }
-  100% { box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d; }
-}
-
-/* ===== المستودع ===== */
-#icon-repo {
-  position: fixed;
-  bottom: 90px; /* فوق الأيقونة مباشرة */
-  right: 20px;
-  background: rgba(0,0,0,0.85);
-  padding: 15px;
-  border-radius: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  z-index: 999;
-  max-width: 90vw;
-  box-shadow: 0 0 15px #000;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-#icon-repo.show {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ===== أيقونات داخل المستودع ===== */
-#icon-repo .icon {
-  width: 60px;
-  height: 60px;
-  background: #666;
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-#icon-repo .icon:hover {
-  transform: scale(1.2);
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 480px){
-  #icon-repo .icon { width: 50px; height: 50px; font-size: 20px; }
-}
-</style>
-</head>
-<body>
-
-<!-- أيقونة المستودع المضيئة -->
-<div id="icon-toggle">تفضل / Here</div>
-
-<!-- المستودع مع أيقونات داخلها -->
-<div id="icon-repo">
-  <div class="icon">🏠</div>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ألعاب أبو القمر زمرد 🎮</title>
-<style> {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    font-family: sans-serif;
-    overflow: hidden;
-  }
-
-  /* 🎬 خلفية الفيديو */
-  #backgroundVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  /* 🎮 أيقونات الألعاب */
-  .gameIcon {
-    position: fixed;
-    top: 180px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
-    animation: glow 2s infinite alternate;
-    z-index: 5000;
-  }
-
-  /* 🎱 بلياردو */
-  #billiardsIcon {
-    left: 160px;
-    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
-  }
-
-  /* ♟️ شطرنج */
-  #chessIcon {
-    left: 260px;
-    background: radial-gradient(circle, #00ffff, #0000ff, #ff00ff, #ffff00, #00ff00);
-  }
-
-  @keyframes glow {
-    from { box-shadow: 0 0 10px 5px #fff; }
-    to   { box-shadow: 0 0 25px 15px #00ffff; }
-  }
-
-  /* 🧩 الإطارات المنبثقة (مشتركة) */
-  .gameContainer {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: 65%;
-    background: rgba(0,0,0,0.95);
-    border: 3px solid #0ff;
-    border-radius: 20px;
-    display: none;
-    z-index: 9999;
-    box-shadow: 0 0 30px rgba(0,255,255,0.8);
-    cursor: move;
-  }
-
-  /* بلياردو في منتصف الصفحة كما قبل */
-  #billiardsContainer {
-    top: 58%;
-  }
-
-  /* شطرنج — نزلناه بمقدار ~100px (حوالي 10 أسطر) */
-  #chessContainer {
-    top: calc(50% + 70px) !important;
-  }
-
-  .gameContainer iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 15px;
-  }
-
-  /* زر الإغلاق */
-  .closeBtn {
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    background: red;
-    color: white;
-    border: none;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 10000;
-    padding: 3px 8px;
-  }
-
-  /* تحسين استجابة على شاشات أصغر */
-  @media (max-width: 800px) {
-    .gameContainer { width: 90%; height: 60%; }
-    .gameIcon { width: 60px; height: 60px; font-size: 24px; }
-  }
-</style>
-</head>
-<body>
-
-<!-- 🎬 خلفية الفيديو -->
-<video id="backgroundVideo" autoplay muted loop>
-  <source src="https://cdn.pixabay.com/video/2024/06/21/178568-955862780_large.mp4" type="video/mp4">
-</video>
-
-<!-- 🎱 أيقونة بلياردو -->
-<div id="billiardsIcon" class="gameIcon" title="بلياردو">🎱</div>
-
-<!-- ♟️ أيقونة الشطرنج -->
-<div id="chessIcon" class="gameIcon" title="شطرنج">♟️</div>
-
-<!-- 🎱 نافذة بلياردو -->
-<div id="billiardsContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeBilliards">X</button>
-  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
-</div>
-
-<!-- ♟️ نافذة الشطرنج (منزلة 10 أسطر تقريباً) -->
-<div id="chessContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeChess">X</button>
-  <iframe src="https://www.crazygames.com/embed/master-chess" title="لعبة شطرنج"></iframe>
-</div>
-
-<script>
-/* العناصر */
-const billiardsIcon = document.getElementById('billiardsIcon');
-const chessIcon = document.getElementById('chessIcon');
-const billiardsContainer = document.getElementById('billiardsContainer');
-const chessContainer = document.getElementById('chessContainer');
-const closeBilliards = document.getElementById('closeBilliards');
-const closeChess = document.getElementById('closeChess');
-
-/* فتح وإغلاق */
-billiardsIcon.addEventListener('click', () => {
-  billiardsContainer.style.display = 'block';
-  chessContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'false');
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-chessIcon.addEventListener('click', () => {
-  chessContainer.style.display = 'block';
-  billiardsContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'false');
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-
-closeBilliards.addEventListener('click', () => {
-  billiardsContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-closeChess.addEventListener('click', () => {
-  chessContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-/* ======= draggable (سحب) مشترك ======= */
-function makeDraggable(el) {
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  el.addEventListener('mousedown', (e) => {
-    // فقط عند الضغط على العنصر نفسه (ليس على iframe داخله أو أزراره)
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const rect = el.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    el.style.transform = 'none'; // نلغي translate أثناء السحب
-    document.body.style.userSelect = 'none';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    el.style.left = `${e.clientX - offsetX}px`;
-    el.style.top = `${e.clientY - offsetY}px`;
-  });
-
-  document.addEventListener('mouseup', () => {
-    dragging = false;
-    document.body.style.userSelect = '';
-  });
-
-  // دعم لمس الشاشة (mobile)
-  el.addEventListener('touchstart', (e) => {
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const touch = e.touches[0];
-    const rect = el.getBoundingClientRect();
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-  }, {passive: true});
-
-  document.addEventListener('touchmove', (e) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    el.style.left = `${touch.clientX - offsetX}px`;
-    el.style.top = `${touch.clientY - offsetY}px`;
-  }, {passive: true});
-
-  document.addEventListener('touchend', () => { dragging = false; });
-}
-
-/* تفعيل السحب لكل الإطارات */
-makeDraggable(billiardsContainer);
-makeDraggable(chessContainer);
-
-/* تأكد أن وضع top للـ chessContainer يعمل حتى لو كانت خصائص سابقة */
-window.addEventListener('load', () => {
-  chessContainer.style.top = chessContainer.style.top || getComputedStyle(chessContainer).top;
-});
-</script>
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌿 مكتبة الطب الشعبي والنبوي</title>
-<style>
-  body {
-    margin: 0;
-    font-family: "Tahoma", sans-serif;
-    background: #000;
-    color: #fff;
-  }
-
-  /* 🌿 زر الطب الموحد شفاف */
-  #medicineBtn {
-    position: fixed;
-    bottom: 150px;
-    left: 20px;
-    z-index: 9999;
-    background: rgba(34,139,34,0.2);
-    color: #fff;
-    padding: 12px 18px;
-    border: 2px solid #228b22;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    text-align:center;
-    transition: transform 0.3s, background 0.3s;
-  }
-
-  #medicineBtn:hover {
-    transform: scale(1.1);
-    background: rgba(34,139,34,0.4);
-  }
-
-  /* 📜 نافذة المحتوى المنبثقة في الوسط */
-  #medicineBox {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(34,139,34,0.95);
-    color: #fff;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.7);
-    padding: 20px;
-    text-align: center;
-    z-index: 9999;
-    overflow-y: auto;
-    max-height: 80vh;
-    animation: fadeIn 0.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from {opacity: 0; transform: translate(-50%, -40%);}
-    to {opacity: 1; transform: translate(-50%, -50%);}
-  }
-
-  /* 🔹 تبويبات الأقسام */
-  .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-    gap:5px;
-  }
-
-  .tab {
-    background: rgba(255,255,255,0.2);
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-
-  .tab.active {
-    background: #FFD700;
-    color: #000;
-  }
-
-  /* 🔸 محتوى كل قسم */
-  .tab-content {
-    display: none;
-    text-align: right;
-  }
-
-  .tab-content.active {
-    display: block;
-  }
-
-  .herb {
-    background: rgba(255,255,255,0.1);
-    border-radius: 12px;
-    padding: 10px;
-    margin: 10px 0;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .herb img {
-    width: 70px;
-    height: 70px;
-    border-radius: 10px;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
-
-  .herb-info h3 {
-    color: #ffeb3b;
-    margin: 0 0 4px 0;
-  }
-
-  .herb-info p {
-    font-size: 14px;
-    color: #f8f8f8;
-    margin:0;
-  }
-
-  /* زر الإغلاق */
-  .closeBtn {
-    background: #fff;
-    color: #2e8b57;
-    border: none;
-    border-radius: 7px;
-    padding: 3px 4px;
-    margin-top: 12px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  h3.section-title {
-    color: #FFD700;
-    margin-top: 7px; 
-  }
-
-  /* نصائح عامة */
-  .tip {
-    background: rgba(255,255,255,0.05);
-    border-left: 4px solid #FFD700;
-    padding: 8px;
-    margin: 8px 0;
-  }
-</style>
-</head>
-<body>
-
-<!-- 🌿 زر الطب الموحد -->
-<button id="medicineBtn">🌿 الطب الشعبي والنبوي<br><span style="font-size:13px;">Traditional & Prophetic Medicine</span></button>
-
-<!-- 📜 نافذة المحتوى -->
-<div id="medicineBox">
-  <h2>🌿 مكتبة الطب الشعبي والنبوي</h2>
-
-  <!-- تبويبات الأقسام -->
-  <div class="tabs">
-    <div class="tab active" data-tab="herbs">الأعشاب | Herbs</div>
-    <div class="tab" data-tab="alternative">الطب البديل | Alternative</div>
-    <div class="tab" data-tab="prophetic">الطب النبوي | Prophetic</div>
-    <div class="tab" data-tab="ruqyah">الرقية الشرعية | Ruqyah</div>
-    <div class="tab" data-tab="tips">نصائح الصحة | Health Tips</div>
-  </div>
-
-  <!-- محتوى تبويب الأعشاب -->
-  <div class="tab-content active" id="herbs">
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Honey_%28white_background%29.jpg" alt="العسل">
-      <div class="herb-info">
-        <h3>🍯 العسل | Honey</h3>
-        <p>العسل يقوّي المناعة ويُستخدم لعلاج الجروح والسعال.<br><i>Honey boosts immunity and helps heal wounds and coughs.</i></p>
-      </div>
-    </div>
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Ginger.jpg" alt="الزنجبيل">
-      <div class="herb-info">
-        <h3>🫚 الزنجبيل | Ginger</h3>
-        <p>الزنجبيل يساعد على الهضم ويخفف الالتهابات والبرد.<br><i>Ginger aids digestion and relieves inflammation and colds.</i></p>
-      </div>
-    </div>
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Mentha_spicata_leaves.jpg" alt="النعناع">
-      <div class="herb-info">
-        <h3>🌿 النعناع | Mint</h3>
-        <p>النعناع يهدئ المعدة والصداع.<br><i>Mint soothes the stomach and relieves headaches.</i></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- محتوى تبويب الطب البديل -->
-  <div class="tab-content" id="alternative">
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Turmeric.jpg" alt="الكركم">
-      <div class="herb-info">
-        <h3>🌟 الكركم | Turmeric</h3>
-        <p>الكركم مضاد للالتهابات ويحسن المناعة.<br><i>Turmeric is anti-inflammatory and boosts immunity.</i></p>
-      </div>
-    </div>
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/FenugreekSeeds.jpg" alt="الحلبة">
-      <div class="herb-info">
-        <h3>🌱 الحلبة | Fenugreek</h3>
-        <p>الحلبة تقوي الجسم وتحسن الهضم.<br><i>Fenugreek strengthens the body and improves digestion.</i></p>
-      </div>
-    </div>
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Chamomile_flower.jpg" alt="البابونج">
-      <div class="herb-info">
-        <h3>🌼 البابونج | Chamomile</h3>
-        <p>البابونج يهدئ الأعصاب ويحسن النوم.<br><i>Chamomile calms the nerves and improves sleep.</i></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- محتوى تبويب الطب النبوي -->
-  <div class="tab-content" id="prophetic">
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Nigella_sativa_seeds.jpg" alt="الحبة السوداء">
-      <div class="herb-info">
-        <h3>⚫ الحبة السوداء | Black Seed</h3>
-        <p>الحبة السوداء تقوي المناعة وتساعد في مقاومة الأمراض.<br><i>Black seed strengthens the immune system and fights diseases.</i></p>
-      </div>
-    </div>
-    <div class="herb">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Honey_%28white_background%29.jpg" alt="العسل">
-      <div class="herb-info">
-        <h3>🍯 العسل | Honey</h3>
-        <p>العسل من أفضل العلاجات النبوية للشفاء والطاقة.<br><i>Honey is one of the best prophetic remedies for healing and energy.</i></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- محتوى تبويب الرقية الشرعية -->
-  <div class="tab-content" id="ruqyah">
-    <p>الرقية الشرعية جزء من الطب النبوي، وهي آيات وأدعية شرعية للحماية والشفاء.</p>
-    <p><b>Prophetic Ruqyah</b> is part of Prophetic medicine, using Quranic verses and prayers for protection and healing.</p>
-    <h3>أمثلة على الرقية:</h3>
-    <p>1️⃣ قراءة سور الفاتحة وآية الكرسي<br><i>Recitation of Al-Fatihah and Ayat Al-Kursi</i></p>
-    <p>2️⃣ قراءة المعوذات ثلاث مرات<br><i>Recitation of Al-Mu'awwidhat (three times)</i></p>
-    <p>3️⃣ الدعاء والأذكار المشروعة للشفاء<br><i>Supplications and prophetic invocations for healing</i></p>
-    <p>4️⃣ النفث على الماء ومسح الجسم به<br><i>Blowing over water and wiping it on the body</i></p>
-  </div>
-
-  <!-- محتوى تبويب نصائح الصحة -->
-  <div class="tab-content" id="tips">
-    <div class="tip">
-      🥗 تناول طعام صحي ومتوازن يوميًا.<br><i>Eat a healthy and balanced diet daily.</i>
-    </div>
-    <div class="tip">
-      🚶‍♂️ مارس الرياضة بانتظام للحفاظ على اللياقة.<br><i>Exercise regularly to maintain fitness.</i>
-    </div>
-    <div class="tip">
-      🛌 الحصول على نوم كافٍ وهادئ.<br><i>Get sufficient and peaceful sleep.</i>
-    </div>
-    <div class="tip">
-      💧 شرب كمية كافية من الماء يوميًا.<br><i>Drink enough water daily.</i>
-    </div>
-  </div>
-
-  <button class="closeBtn" onclick="closeBox()">إغلاق ✖</button>
-</div>
-
-<script>
-  const medicineBtn = document.getElementById('medicineBtn');
-  const medicineBox = document.getElementById('medicineBox');
-
-  medicineBtn.addEventListener('click', () => {
-    medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
-  });
-
-  function closeBox() {
-    medicineBox.style.display = 'none';
-  }
-
-  // التبويبات
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      tabContents.forEach(c => c.classList.remove('active'));
-      document.getElementById(tab.dataset.tab).classList.add('active');
-    });
-  });
-</script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الديانات السماوية - موسوعة الأنبياء والرسل</title>
-<style>
-body { font-family: Tahoma, sans-serif; margin:0; padding:0; background:#121212; color:#fff; }
-#prophetsBtn {
-    position: fixed;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    z-index: 9999;
-    background: rgba(255,165,0,0.2);
-    color: #fff;
-    padding: 4px 12px;
-    border: 2px solid orange;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align:center;
-    transition: transform 0.3s, background 0.3s;
-}
-#prophetsBtn:hover { background: rgba(255,165,0,0.4); transform: scale(1.05); }
-
-#prophetsBox {
-    display:none;
-    position: fixed;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    background: rgba(255,255,255,0.95);
-    color:#000;
-    width:90%;
-    max-width:1000px;
-    border-radius:15px;
-    box-shadow:0 0 25px rgba(0,0,0,0.7);
-    padding:20px;
-    text-align:right;
-    z-index:9999;
-    max-height:85vh;
-    overflow-y:auto;
-}
-#prophetsBox h2 { color:#8B0000; text-align:center; margin-bottom:15px; }
-
-#prophetsBox ul { list-style:none; padding:0; margin:0 0 15px 0; display:flex; flex-wrap:wrap; }
-#prophetsBox ul li { background:#000; color:#fff; margin:4px; padding:6px 12px; border-radius:8px; cursor:pointer; transition:0.3s; flex:1; text-align:center; min-width:100px; font-size:14px; }
-#prophetsBox ul li:hover { background:#8B0000; }
-
-.prophet-detail { display:none; margin-bottom:12px; padding:8px; border-bottom:1px solid rgba(0,0,0,0.3); font-size:14px; line-height:1.5; }
-.prophet-detail.active { display:block; }
-.prophet-detail i { color:#555; font-size:13px; display:block; margin-top:6px; }
-
-#prophetsBox button.closeBtn { background:#8B0000; color:#fff; border:none; border-radius:10px; padding:6px 12px; margin-top:12px; cursor:pointer; font-weight:bold; }
-
-@media(max-width:500px){ #prophetsBtn { padding:10px 14px; font-size:14px; } #prophetsBox { padding:15px; } }
-</style>
-</head>
-<body>
-
-<button id="prophetsBtn">📜 الديانات السماوية<br><span style="font-size:13px;">Heavenly Religions</span></button>
-
-<div id="prophetsBox">
-<h2>📜 موسوعة الأنبياء والرسل — Prophets Encyclopedia</h2>
-
-<ul>
-<li data-id="prophet1">آدم<br><small>Adam</small></li>
-<li data-id="prophet2">شيث<br><small>Seth</small></li>
-<li data-id="prophet3">إدريس<br><small>Enoch</small></li>
-<li data-id="prophet4">نوح<br><small>Noah</small></li>
-<li data-id="prophet5">هود<br><small>Hud</small></li>
-<li data-id="prophet6">صالح<br><small>Salih</small></li>
-<li data-id="prophet7">لوط<br><small>Lot</small></li>
-<li data-id="prophet8">إبراهيم<br><small>Abraham</small></li>
-<li data-id="prophet9">إسماعيل<br><small>Ishmael</small></li>
-<li data-id="prophet10">إسحاق<br><small>Isaac</small></li>
-<li data-id="prophet11">يعقوب<br><small>Jacob</small></li>
-<li data-id="prophet12">يوسف<br><small>Joseph</small></li>
-<li data-id="prophet13">أيوب<br><small>Job</small></li>
-<li data-id="prophet14">ذو الكفل<br><small>Dhul-Kifl</small></li>
-<li data-id="prophet15">يونس<br><small>Jonah</small></li>
-<li data-id="prophet16">موسى<br><small>Moses</small></li>
-<li data-id="prophet17">هارون<br><small>Aaron</small></li>
-<li data-id="prophet18">داوود<br><small>David</small></li>
-<li data-id="prophet19">سليمان<br><small>Solomon</small></li>
-<li data-id="prophet20">زكريا<br><small>Zechariah</small></li>
-<li data-id="prophet21">يحيى<br><small>John</small></li>
-<li data-id="prophet22">عيسى<br><small>Jesus</small></li>
-<li data-id="prophet23">محمد ﷺ<br><small>Muhammad</small></li>
-</ul>
-
-<!-- تفاصيل جميع الأنبياء -->
-<div class="prophet-detail" id="prophet1">
-<h3>آدم (Adam)</h3>
-<p>💡 <b>القصة:</b> أول البشر، خُلق من تراب وعلَّم أسماء كل شيء. عاش في الجنة ثم نزل إلى الأرض بعد المعصية. علم البشر أساسيات الحياة وطرق العبادة.<br>
-<b>التشريع:</b> العبادة والطاعة لله، تعليم أولاده التوحيد، تأسيس الأسرة الأولى.<br>
-<b>القوم:</b> أول البشر.<br>
-<i>First human and Prophet, created from clay, taught the names of all things. Lived in Paradise then descended to Earth. Commanded to worship Allah alone, taught family and social guidance.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet2">
-<h3>شيث (Seth)</h3>
-<p>💡 <b>القصة:</b> ابن آدم، واصل الهداية بعد وفاة والده، دعا الناس لعبادة الله وتجنب الشرك، أسس أجيالًا صالحة.<br>
-<b>التشريع:</b> الدعوة للتوحيد، تعليم الأجيال.<br>
-<b>القوم:</b> نسل آدم.<br>
-<i>Son of Adam, Prophet after his father, continued guidance, called people to worship Allah and avoid polytheism, guided righteous generations.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet3">
-<h3>إدريس (Enoch)</h3>
-<p>💡 <b>القصة:</b> نبي علم الناس الكتابة، الحساب، العلوم، وكان مثالاً للعبادة والتقوى.<br>
-<b>التشريع:</b> التقوى وطلب العلم، نشر المعرفة.<br>
-<b>القوم:</b> البشر الأوائل.<br>
-<i>Prophet who taught writing, mathematics, sciences, an example of righteousness. Commanded seeking knowledge and piety. People: early humans.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet4">
-<h3>نوح (Noah)</h3>
-<p>💡 <b>القصة:</b> أرسل لقوم عبدوا الأصنام، دعاهم للتوحيد، بنى السفينة وأنقذ المؤمنين من الطوفان.<br>
-<b>التشريع:</b> التوحيد وترك الشرك، الصبر على الكفر.<br>
-<b>القوم:</b> قوم نوح.<br>
-<i>Sent to the idol-worshipping people, called to monotheism, built the Ark, saved believers. Commanded patience and monotheism. People: Noah's people.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet5">
-<h3>هود (Hud)</h3>
-<p>💡 <b>القصة:</b> أرسل إلى قوم عاد، دعاهم للتوحيد والصبر على البلاء.<br>
-<b>التشريع:</b> عبادة الله وحده، الصبر والعدل.<br>
-<b>القوم:</b> قوم عاد.<br>
-<i>Sent to the people of 'Ad, called to worship Allah alone, known for patience and justice. People: 'Ad.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet6">
-<h3>صالح (Salih)</h3>
-<p>💡 <b>القصة:</b> أرسل إلى قوم ثمود، جاء بمعجزة الناقة، دعوته للتوحيد والعدل.<br>
-<b>التشريع:</b> عبادة الله وحده، اتباع المعجزات والحق.<br>
-<b>القوم:</b> قوم ثمود.<br>
-<i>Sent to Thamud, brought the miracle of the she-camel, called to worship Allah alone and follow truth. People: Thamud.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet7">
-<h3>لوط (Lot)</h3>
-<p>💡 <b>القصة:</b> أرسل لقوم سدوم، دعاهم للتوحيد والأخلاق، نجى هو وأهله.<br>
-<b>التشريع:</b> التوحيد والأخلاق، رفض الفساد.<br>
-<b>القوم:</b> قوم سدوم.<br>
-<i>Sent to Sodom, called to monotheism and moral conduct, condemned corruption. People: Sodom.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet8">
-<h3>إبراهيم (Abraham)</h3>
-<p>💡 <b>القصة:</b> خليل الله، دعا للتوحيد، بنى الكعبة، ابتُلي بالكثير ليكون قدوة.<br>
-<b>التشريع:</b> الحج، التوحيد، الدعوة للأمم.<br>
-<b>القوم:</b> العرب وبني إسرائيل.<br>
-<i>Friend of Allah, called to monotheism, built the Kaaba, faced trials to serve as a model. Commanded Hajj, monotheism, guidance to nations. People: Arabs and Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet9">
-<h3>إسماعيل (Ishmael)</h3>
-<p>💡 <b>القصة:</b> ابن إبراهيم، ساعده في بناء الكعبة، دعا للعبادة والتوحيد.<br>
-<b>التشريع:</b> الصلاة والزكاة، التوحيد.<br>
-<b>القوم:</b> العرب.<br>
-<i>Son of Abraham, helped build the Kaaba, called to worship Allah. Commanded prayer, almsgiving. People: Arabs.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet10">
-<h3>إسحاق (Isaac)</h3>
-<p>💡 <b>القصة:</b> ابن إبراهيم، أب يعقوب، دعا للتوحيد، واصل رسالة أبيه.<br>
-<b>التشريع:</b> التوحيد، التربية الصالحة.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Son of Abraham, father of Jacob, continued his father's message, called to worship Allah alone. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet11">
-<h3>يعقوب (Jacob)</h3>
-<p>💡 <b>القصة:</b> ابن إسحاق، أب بني إسرائيل، دعاهم لعبادة الله.<br>
-<b>التشريع:</b> التوحيد، تعليم الأبناء.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Son of Isaac, father of the Children of Israel, called them to worship Allah alone. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet12">
-<h3>يوسف (Joseph)</h3>
-<p>💡 <b>القصة:</b> ابن يعقوب، بيع كعبد وأصبح وزيرًا في مصر، صبر على المحن.<br>
-<b>التشريع:</b> التوحيد والإحسان، الصبر على البلاء.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Son of Jacob, sold as a slave then became minister in Egypt, exemplified patience. Commanded worship and righteousness. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet13">
-<h3>أيوب (Job)</h3>
-<p>💡 <b>القصة:</b> صبر على الابتلاءات العظيمة وفقد ماله وعائلته وصحته، وعوضه الله.<br>
-<b>التشريع:</b> الصبر والشكر، الثقة بالله.<br>
-<b>القوم:</b> قومه.<br>
-<i>Endured great trials, lost wealth, family, and health, and was rewarded. Commanded patience and gratitude. People: his people.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet14">
-<h3>ذو الكفل (Dhul-Kifl)</h3>
-<p>💡 <b>القصة:</b> نبي معروف بالعدل والصبر، دعا قومه لعبادة الله، كان مثالاً للإخلاص والتحمل.<br>
-<b>التشريع:</b> التوحيد، العدل، الصبر.<br>
-<b>القوم:</b> قومه.<br>
-<i>Prophet known for justice and patience, called his people to worship Allah, exemplified devotion and endurance. Commanded monotheism, justice, and patience. People: his people.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet15">
-<h3>يونس (Jonah)</h3>
-<p>💡 <b>القصة:</b> أرسل إلى قوم نينوى، ابتلعه الحوت بعد هجرانه لقومه ثم تاب ونجا، عاد لدعوته وصبر على الصعاب.<br>
-<b>التشريع:</b> التوبة، الصبر، الرجوع إلى الله.<br>
-<b>القوم:</b> قوم نينوى.<br>
-<i>Sent to the people of Nineveh, swallowed by a whale after leaving his people, repented and survived, returned to his mission. Commanded repentance, patience, and returning to Allah. People: Nineveh.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet16">
-<h3>موسى (Moses)</h3>
-<p>💡 <b>القصة:</b> أرسل لبني إسرائيل، كلم الله على الطور، أنزل التوراة، أخرج بني إسرائيل من مصر، واجه فرعون وجنوده.<br>
-<b>التشريع:</b> التوراة، الصلاة، الصوم، القوانين، العدالة.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Sent to the Children of Israel, spoke to Allah on Mount Sinai, given the Torah, led Israelites out of Egypt, confronted Pharaoh. Commanded Torah, worship, fasting, laws, and justice. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet17">
-<h3>هارون (Aaron)</h3>
-<p>💡 <b>القصة:</b> أخو موسى، ناصر رسالته، ساعده في الدعوة وتثبيت قلوب الناس.<br>
-<b>التشريع:</b> دعم الدعوة، التعليم، العدالة.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Brother of Moses, supported his message, helped in calling people to Allah and stabilizing hearts. Commanded support for guidance, teaching, and justice. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet18">
-<h3>داوود (David)</h3>
-<p>💡 <b>القصة:</b> ملك ونبي، أنزل الله عليه الزبور، عرف بالحكمة والشجاعة، حكم بالعدل.<br>
-<b>التشريع:</b> الزبور، الصلاة، الصدق، العدل.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>King and Prophet, given the Psalms, known for wisdom and courage, ruled with justice. Commanded Psalms, prayer, truthfulness, and justice. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet19">
-<h3>سليمان (Solomon)</h3>
-<p>💡 <b>القصة:</b> ابن داوود، نبي وملك، آتاه الله حكمة عظيمة وسلطان على الجن والطير.<br>
-<b>التشريع:</b> الحكمة، العدالة، الحكم بالمعرفة.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Son of David, Prophet and King, granted great wisdom and control over jinn and birds. Commanded wisdom, justice, and governance by knowledge. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet20">
-<h3>زكريا (Zechariah)</h3>
-<p>💡 <b>القصة:</b> دعا قومه لعبادة الله، والد يحيى، معروف بالصبر والدعاء.<br>
-<b>التشريع:</b> التوحيد، الصبر، الدعاء.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Prophet who called his people to worship Allah, father of John, known for patience and prayer. Commanded monotheism, patience, and supplication. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet21">
-<h3>يحيى (John)</h3>
-<p>💡 <b>القصة:</b> أيد بالروح القدس، دعا للبر والتقوى، معروف بالزهد والتقوى.<br>
-<b>التشريع:</b> التوحيد، الأخلاق، التقوى.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Supported by the Holy Spirit, called for righteousness and piety, known for asceticism and devotion. Commanded monotheism, ethics, and piety. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet22">
-<h3>عيسى (Jesus)</h3>
-<p>💡 <b>القصة:</b> ابن مريم، أيد بالروح القدس، جاء بالإنجيل، أجرى المعجزات، دعا للتوحيد والأخلاق.<br>
-<b>التشريع:</b> الإنجيل، الصلاة، الصيام، الأخلاق، الرحمة.<br>
-<b>القوم:</b> بني إسرائيل.<br>
-<i>Son of Mary, supported by the Holy Spirit, brought the Gospel, performed miracles, called to monotheism and ethics. Commanded Gospel, prayer, fasting, morality, and compassion. People: Israelites.</i></p>
-</div>
-
-<div class="prophet-detail" id="prophet23">
-<h3>محمد ﷺ (Muhammad)</h3>
-<p>💡 <b>القصة:</b> خاتم الأنبياء، أرسل لجميع البشر، أنزل الله عليه القرآن، أسس مجتمعاً عادلًا، جاهد لنشر الحق.<br>
-<b>التشريع:</b> القرآن، الصلاة، الزكاة، الصيام، الحج، الأخلاق، العدل، الدعوة لجميع البشر.<br>
-<b>القوم:</b> جميع البشر.<br>
-<i>Seal of the Prophets, sent to all humanity, Quran revealed to him, established a just society, strove to spread the truth. Commanded Quran, prayer, almsgiving, fasting, Hajj, ethics, justice, and universal guidance. People: all humans.</i></p>
-</div>
-
-<button class="closeBtn" onclick="closeProphets()">إغلاق ✖</button>
-</div>
-
-<script> 
-const btn = document.getElementById('prophetsBtn');
-const box = document.getElementById('prophetsBox');
-btn.addEventListener('click', ()=>{ box.style.display = (box.style.display==='block')?'none':'block'; });
-function closeProphets(){ box.style.display='none'; }
-
-const items = document.querySelectorAll('#prophetsBox ul li');
-const details = document.querySelectorAll('.prophet-detail');
-items.forEach(item => {
-    item.addEventListener('click', ()=>{
-        details.forEach(d=>d.classList.remove('active'));
-        const id = item.getAttribute('data-id');
-        document.getElementById(id).classList.add('active');
-    });
-});
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مساحة إعلانية مضيئة</title>
-<style>
-  body {
-    background: #000;
-    margin: 0;
-    font-family: "Tahoma", sans-serif;
-  }
-
-  /* 🔹 الأيقونة العامة */
-  #adIcon {
-    position: fixed;
-    bottom: 80px;
-    left: 10%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    min-width: 200px;
-    padding: 12px 16px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-  }
-
-  #adIcon:hover {
-    transform: translateX(-50%) scale(1.05);
-  }
-
-  .ad-text {
-    color: #ff0000;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 1.3;
-  }
-
-  .ad-text-en {
-    color: #fff;
-    font-size: 12px;
-    display: block;
-    opacity: 0.8;
-  }
-
-  #adClose {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    background: rgba(0,0,0,0.3);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 3px 6px;
-    font-size: 11px;
-    cursor: pointer;
-  }
-
-  @media (max-width: 480px) {
-    #adIcon { min-width: 180px; font-size: 13px; padding: 8px; }
-  }
-</style>
-</head>
-<body>
-
-<!-- 🔸 أيقونة الإعلان -->
-<div id="adIcon" role="button" aria-label="مساحة إعلانية متوفرة">
-  <div>
-    <span class="ad-text">📢 تستطيع وضع إعلانك أو مشروعك هنا</span>
-    <span class="ad-text-en">Place your ad or project here</span>
-  </div>
-  <button id="adClose">✖</button>
-</div>
-
-<script>
-(function() {
-  const el = document.getElementById("adIcon");
-  const closeBtn = document.getElementById("adClose");
-
-  // 🔹 الألوان المتغيرة
-  const colors = [
-    ["#ff0066", "#ff6600"],
-    ["#00e6ff", "#0066ff"],
-    ["#8b00ff", "#ff00ff"],
-    ["#00ff66", "#00ffcc"],
-    ["#ffd400", "#ff7a00"],
-    ["#ff0066", "#ff2b2b"]
-  ];
-
-  let i = 0;
-  const interval = setInterval(() => {
-    const c = colors[i % colors.length];
-    el.style.background = `linear-gradient(90deg, ${c[0]}, ${c[1]})`;
-    el.style.boxShadow = `0 0 25px ${c[1]}`;
-    i++;
-  }, 1000);
-
-  // 🔹 رابط التواصل
-  const adLink = "https://wa.me/message/BJUPAGNVGZ2KI1";
-
-  // عند النقر على الأيقونة يفتح الرابط
-  el.addEventListener("click", (e) => {
-    if (e.target === closeBtn) return;
-    window.open(adLink, "_blank");
-  });
-
-  // إغلاق الإعلان
-  closeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    clearInterval(interval);
-    el.style.transition = "opacity 0.4s, transform 0.4s";
-    el.style.opacity = "0";
-    el.style.transform = "translateX(-50%) scale(0.8)";
-    setTimeout(() => el.remove(), 400);
-  });
-})();
-</script>
-</body>
-</html>
-
-</body>
-</html>
-</body>
-</html>
-</body>
-</html>
 
 <!-- 🔹 زر فتح اللعبة مع ألوان متغيرة -->
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:170px;
+  bottom:300px;
   right: 50px;
   padding: 12px 22px;
   border: none;
@@ -4641,19 +3580,827 @@ document.body.appendChild(document.createElement('sakaker-popup'));
 
 </body>
 </html>
-  <div class="icon">📺</div>
-  <div class="icon">🎵</div>
-  <div class="icon">💬</div>
-  <div class="icon">⚙️</div>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ألعاب أبو القمر زمرد 🎮</title>
+<style> {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    font-family: sans-serif;
+    overflow: hidden;
+  }
+
+  /* 🎬 خلفية الفيديو */
+  #backgroundVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  /* 🎮 أيقونات الألعاب */
+  .gameIcon {
+    position: fixed;
+    top: 150px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
+    animation: glow 2s infinite alternate;
+    z-index: 5000;
+  }
+
+  /* 🎱 بلياردو */
+  #billiardsIcon {
+    left: 130px;
+    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
+  }
+
+  /* ♟️ شطرنج */
+  #chessIcon {
+    left: 210px;
+    background: radial-gradient(circle, #00ffff, #0000ff, #ff00ff, #ffff00, #00ff00);
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 10px 5px #fff; }
+    to   { box-shadow: 0 0 25px 15px #00ffff; }
+  }
+
+  /* 🧩 الإطارات المنبثقة (مشتركة) */
+  .gameContainer {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 65%;
+    background: rgba(0,0,0,0.95);
+    border: 3px solid #0ff;
+    border-radius: 20px;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 0 30px rgba(0,255,255,0.8);
+    cursor: move;
+  }
+
+  /* بلياردو في منتصف الصفحة كما قبل */
+  #billiardsContainer {
+    top: 8%;
+  }
+
+  /* شطرنج — نزلناه بمقدار ~100px (حوالي 10 أسطر) */
+  #chessContainer {
+    top: calc(50% + 70px) !important;
+  }
+
+  .gameContainer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 15px;
+  }
+
+  /* زر الإغلاق */
+  .closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    background: red;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 3px 8px;
+  }
+
+  /* تحسين استجابة على شاشات أصغر */
+  @media (max-width: 800px) {
+    .gameContainer { width: 90%; height: 60%; }
+    .gameIcon { width: 60px; height: 60px; font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 🎬 خلفية الفيديو -->
+<video id="backgroundVideo" autoplay muted loop>
+  <source src="https://cdn.pixabay.com/video/2024/06/21/178568-955862780_large.mp4" type="video/mp4">
+</video>
+
+<!-- 🎱 أيقونة بلياردو -->
+<div id="billiardsIcon" class="gameIcon" title="بلياردو">🎱</div>
+
+<!-- ♟️ أيقونة الشطرنج -->
+<div id="chessIcon" class="gameIcon" title="شطرنج">♟️</div>
+
+<!-- 🎱 نافذة بلياردو -->
+<div id="billiardsContainer" class="gameContainer" aria-hidden="true">
+  <button class="closeBtn" id="closeBilliards">X</button>
+  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
+</div>
+
+<!-- ♟️ نافذة الشطرنج (منزلة 10 أسطر تقريباً) -->
+<div id="chessContainer" class="gameContainer" aria-hidden="true">
+  <button class="closeBtn" id="closeChess">X</button>
+  <iframe src="https://www.crazygames.com/embed/master-chess" title="لعبة شطرنج"></iframe>
 </div>
 
 <script>
-// فتح/إغلاق المستودع عند الضغط على الأيقونة
-const toggleBtn = document.getElementById('icon-toggle');
-const repo = document.getElementById('icon-repo');
+/* العناصر */
+const billiardsIcon = document.getElementById('billiardsIcon');
+const chessIcon = document.getElementById('chessIcon');
+const billiardsContainer = document.getElementById('billiardsContainer');
+const chessContainer = document.getElementById('chessContainer');
+const closeBilliards = document.getElementById('closeBilliards');
+const closeChess = document.getElementById('closeChess');
 
-toggleBtn.addEventListener('click', () => {
-  repo.classList.toggle('show');
+/* فتح وإغلاق */
+billiardsIcon.addEventListener('click', () => {
+  billiardsContainer.style.display = 'block';
+  chessContainer.style.display = 'none';
+  billiardsContainer.setAttribute('aria-hidden', 'false');
+  chessContainer.setAttribute('aria-hidden', 'true');
+});
+
+chessIcon.addEventListener('click', () => {
+  chessContainer.style.display = 'block';
+  billiardsContainer.style.display = 'none';
+  chessContainer.setAttribute('aria-hidden', 'false');
+  billiardsContainer.setAttribute('aria-hidden', 'true');
+});
+
+closeBilliards.addEventListener('click', () => {
+  billiardsContainer.style.display = 'none';
+  billiardsContainer.setAttribute('aria-hidden', 'true');
+});
+closeChess.addEventListener('click', () => {
+  chessContainer.style.display = 'none';
+  chessContainer.setAttribute('aria-hidden', 'true');
+});
+
+/* ======= draggable (سحب) مشترك ======= */
+function makeDraggable(el) {
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  el.addEventListener('mousedown', (e) => {
+    // فقط عند الضغط على العنصر نفسه (ليس على iframe داخله أو أزراره)
+    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
+    dragging = true;
+    const rect = el.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    el.style.transform = 'none'; // نلغي translate أثناء السحب
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    el.style.left = `${e.clientX - offsetX}px`;
+    el.style.top = `${e.clientY - offsetY}px`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    dragging = false;
+    document.body.style.userSelect = '';
+  });
+
+  // دعم لمس الشاشة (mobile)
+  el.addEventListener('touchstart', (e) => {
+    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
+    dragging = true;
+    const touch = e.touches[0];
+    const rect = el.getBoundingClientRect();
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+  }, {passive: true});
+
+  document.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    const touch = e.touches[0];
+    el.style.left = `${touch.clientX - offsetX}px`;
+    el.style.top = `${touch.clientY - offsetY}px`;
+  }, {passive: true});
+
+  document.addEventListener('touchend', () => { dragging = false; });
+}
+
+/* تفعيل السحب لكل الإطارات */
+makeDraggable(billiardsContainer);
+makeDraggable(chessContainer);
+
+/* تأكد أن وضع top للـ chessContainer يعمل حتى لو كانت خصائص سابقة */
+window.addEventListener('load', () => {
+  chessContainer.style.top = chessContainer.style.top || getComputedStyle(chessContainer).top;
+});
+</script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 مكتبة الطب الشعبي والنبوي</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Tahoma", sans-serif;
+    background: #000;
+    color: #fff;
+  }
+
+  /* 🌿 زر الطب الموحد شفاف */
+  #medicineBtn {
+    position: fixed;
+    bottom: 160px;
+    left: 20px;
+    z-index: 9999;
+    background: rgba(34,139,34,0.2);
+    color: #fff;
+    padding: 12px 18px;
+    border: 2px solid #228b22;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    text-align:center;
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  #medicineBtn:hover {
+    transform: scale(1.1);
+    background: rgba(34,139,34,0.4);
+  }
+
+  /* 📜 نافذة المحتوى المنبثقة في الوسط */
+  #medicineBox {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(34,139,34,0.95);
+    color: #fff;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    padding: 20px;
+    text-align: center;
+    z-index: 9999;
+    overflow-y: auto;
+    max-height: 80vh;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translate(-50%, -40%);}
+    to {opacity: 1; transform: translate(-50%, -50%);}
+  }
+
+  /* 🔹 تبويبات الأقسام */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap:5px;
+  }
+
+  .tab {
+    background: rgba(255,255,255,0.2);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .tab.active {
+    background: #FFD700;
+    color: #000;
+  }
+
+  /* 🔸 محتوى كل قسم */
+  .tab-content {
+    display: none;
+    text-align: right;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .herb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .herb img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .herb-info h3 {
+    color: #ffeb3b;
+    margin: 0 0 4px 0;
+  }
+
+  .herb-info p {
+    font-size: 14px;
+    color: #f8f8f8;
+    margin:0;
+  }
+
+  /* زر الإغلاق */
+  .closeBtn {
+    background: #fff;
+    color: #2e8b57;
+    border: none;
+    border-radius: 7px;
+    padding: 3px 4px;
+    margin-top: 12px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  h3.section-title {
+    color: #FFD700;
+    margin-top: 7px; 
+  }
+
+  /* نصائح عامة */
+  .tip {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #FFD700;
+    padding: 8px;
+    margin: 8px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- 🌿 زر الطب الموحد -->
+<button id="medicineBtn">🌿 الطب الشعبي والنبوي<br><span style="font-size:13px;">Traditional & Prophetic Medicine</span></button>
+
+<!-- 📜 نافذة المحتوى -->
+<div id="medicineBox">
+  <h2>🌿 مكتبة الطب الشعبي والنبوي</h2>
+
+  <!-- تبويبات الأقسام -->
+  <div class="tabs">
+    <div class="tab active" data-tab="herbs">الأعشاب | Herbs</div>
+    <div class="tab" data-tab="alternative">الطب البديل | Alternative</div>
+    <div class="tab" data-tab="prophetic">الطب النبوي | Prophetic</div>
+    <div class="tab" data-tab="ruqyah">الرقية الشرعية | Ruqyah</div>
+    <div class="tab" data-tab="tips">نصائح الصحة | Health Tips</div>
+  </div>
+
+  <!-- محتوى تبويب الأعشاب -->
+  <div class="tab-content active" id="herbs">
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Honey_%28white_background%29.jpg" alt="العسل">
+      <div class="herb-info">
+        <h3>🍯 العسل | Honey</h3>
+        <p>العسل يقوّي المناعة ويُستخدم لعلاج الجروح والسعال.<br><i>Honey boosts immunity and helps heal wounds and coughs.</i></p>
+      </div>
+    </div>
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Ginger.jpg" alt="الزنجبيل">
+      <div class="herb-info">
+        <h3>🫚 الزنجبيل | Ginger</h3>
+        <p>الزنجبيل يساعد على الهضم ويخفف الالتهابات والبرد.<br><i>Ginger aids digestion and relieves inflammation and colds.</i></p>
+      </div>
+    </div>
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Mentha_spicata_leaves.jpg" alt="النعناع">
+      <div class="herb-info">
+        <h3>🌿 النعناع | Mint</h3>
+        <p>النعناع يهدئ المعدة والصداع.<br><i>Mint soothes the stomach and relieves headaches.</i></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- محتوى تبويب الطب البديل -->
+  <div class="tab-content" id="alternative">
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Turmeric.jpg" alt="الكركم">
+      <div class="herb-info">
+        <h3>🌟 الكركم | Turmeric</h3>
+        <p>الكركم مضاد للالتهابات ويحسن المناعة.<br><i>Turmeric is anti-inflammatory and boosts immunity.</i></p>
+      </div>
+    </div>
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/FenugreekSeeds.jpg" alt="الحلبة">
+      <div class="herb-info">
+        <h3>🌱 الحلبة | Fenugreek</h3>
+        <p>الحلبة تقوي الجسم وتحسن الهضم.<br><i>Fenugreek strengthens the body and improves digestion.</i></p>
+      </div>
+    </div>
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Chamomile_flower.jpg" alt="البابونج">
+      <div class="herb-info">
+        <h3>🌼 البابونج | Chamomile</h3>
+        <p>البابونج يهدئ الأعصاب ويحسن النوم.<br><i>Chamomile calms the nerves and improves sleep.</i></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- محتوى تبويب الطب النبوي -->
+  <div class="tab-content" id="prophetic">
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Nigella_sativa_seeds.jpg" alt="الحبة السوداء">
+      <div class="herb-info">
+        <h3>⚫ الحبة السوداء | Black Seed</h3>
+        <p>الحبة السوداء تقوي المناعة وتساعد في مقاومة الأمراض.<br><i>Black seed strengthens the immune system and fights diseases.</i></p>
+      </div>
+    </div>
+    <div class="herb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Honey_%28white_background%29.jpg" alt="العسل">
+      <div class="herb-info">
+        <h3>🍯 العسل | Honey</h3>
+        <p>العسل من أفضل العلاجات النبوية للشفاء والطاقة.<br><i>Honey is one of the best prophetic remedies for healing and energy.</i></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- محتوى تبويب الرقية الشرعية -->
+  <div class="tab-content" id="ruqyah">
+    <p>الرقية الشرعية جزء من الطب النبوي، وهي آيات وأدعية شرعية للحماية والشفاء.</p>
+    <p><b>Prophetic Ruqyah</b> is part of Prophetic medicine, using Quranic verses and prayers for protection and healing.</p>
+    <h3>أمثلة على الرقية:</h3>
+    <p>1️⃣ قراءة سور الفاتحة وآية الكرسي<br><i>Recitation of Al-Fatihah and Ayat Al-Kursi</i></p>
+    <p>2️⃣ قراءة المعوذات ثلاث مرات<br><i>Recitation of Al-Mu'awwidhat (three times)</i></p>
+    <p>3️⃣ الدعاء والأذكار المشروعة للشفاء<br><i>Supplications and prophetic invocations for healing</i></p>
+    <p>4️⃣ النفث على الماء ومسح الجسم به<br><i>Blowing over water and wiping it on the body</i></p>
+  </div>
+
+  <!-- محتوى تبويب نصائح الصحة -->
+  <div class="tab-content" id="tips">
+    <div class="tip">
+      🥗 تناول طعام صحي ومتوازن يوميًا.<br><i>Eat a healthy and balanced diet daily.</i>
+    </div>
+    <div class="tip">
+      🚶‍♂️ مارس الرياضة بانتظام للحفاظ على اللياقة.<br><i>Exercise regularly to maintain fitness.</i>
+    </div>
+    <div class="tip">
+      🛌 الحصول على نوم كافٍ وهادئ.<br><i>Get sufficient and peaceful sleep.</i>
+    </div>
+    <div class="tip">
+      💧 شرب كمية كافية من الماء يوميًا.<br><i>Drink enough water daily.</i>
+    </div>
+  </div>
+
+  <button class="closeBtn" onclick="closeBox()">إغلاق ✖</button>
+</div>
+
+<script>
+  const medicineBtn = document.getElementById('medicineBtn');
+  const medicineBox = document.getElementById('medicineBox');
+
+  medicineBtn.addEventListener('click', () => {
+    medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
+  });
+
+  function closeBox() {
+    medicineBox.style.display = 'none';
+  }
+
+  // التبويبات
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      tabContents.forEach(c => c.classList.remove('active'));
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الديانات السماوية - موسوعة الأنبياء والرسل</title>
+<style>
+body { font-family: Tahoma, sans-serif; margin:0; padding:0; background:#121212; color:#fff; }
+#prophetsBtn {
+    position: fixed;
+    top: 40%;
+    left: 70px;
+    transform: translateY(-50%);
+    z-index: 9999;
+    background: rgba(255,165,0,0.2);
+    color: #fff;
+    padding: 4px 12px;
+    border: 2px solid orange;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align:center;
+    transition: transform 0.3s, background 0.3s;
+}
+#prophetsBtn:hover { background: rgba(255,165,0,0.4); transform: scale(1.05); }
+
+#prophetsBox {
+    display:none;
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background: rgba(255,255,255,0.95);
+    color:#000;
+    width:90%;
+    max-width:1000px;
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(0,0,0,0.7);
+    padding:20px;
+    text-align:right;
+    z-index:9999;
+    max-height:85vh;
+    overflow-y:auto;
+}
+#prophetsBox h2 { color:#8B0000; text-align:center; margin-bottom:15px; }
+
+#prophetsBox ul { list-style:none; padding:0; margin:0 0 15px 0; display:flex; flex-wrap:wrap; }
+#prophetsBox ul li { background:#000; color:#fff; margin:4px; padding:6px 12px; border-radius:8px; cursor:pointer; transition:0.3s; flex:1; text-align:center; min-width:100px; font-size:14px; }
+#prophetsBox ul li:hover { background:#8B0000; }
+
+.prophet-detail { display:none; margin-bottom:12px; padding:8px; border-bottom:1px solid rgba(0,0,0,0.3); font-size:14px; line-height:1.5; }
+.prophet-detail.active { display:block; }
+.prophet-detail i { color:#555; font-size:13px; display:block; margin-top:6px; }
+
+#prophetsBox button.closeBtn { background:#8B0000; color:#fff; border:none; border-radius:10px; padding:6px 12px; margin-top:12px; cursor:pointer; font-weight:bold; }
+
+@media(max-width:500px){ #prophetsBtn { padding:10px 14px; font-size:14px; } #prophetsBox { padding:15px; } }
+</style>
+</head>
+<body>
+
+<button id="prophetsBtn">📜 الديانات السماوية<br><span style="font-size:13px;">Heavenly Religions</span></button>
+
+<div id="prophetsBox">
+<h2>📜 موسوعة الأنبياء والرسل — Prophets Encyclopedia</h2>
+
+<ul>
+<li data-id="prophet1">آدم<br><small>Adam</small></li>
+<li data-id="prophet2">شيث<br><small>Seth</small></li>
+<li data-id="prophet3">إدريس<br><small>Enoch</small></li>
+<li data-id="prophet4">نوح<br><small>Noah</small></li>
+<li data-id="prophet5">هود<br><small>Hud</small></li>
+<li data-id="prophet6">صالح<br><small>Salih</small></li>
+<li data-id="prophet7">لوط<br><small>Lot</small></li>
+<li data-id="prophet8">إبراهيم<br><small>Abraham</small></li>
+<li data-id="prophet9">إسماعيل<br><small>Ishmael</small></li>
+<li data-id="prophet10">إسحاق<br><small>Isaac</small></li>
+<li data-id="prophet11">يعقوب<br><small>Jacob</small></li>
+<li data-id="prophet12">يوسف<br><small>Joseph</small></li>
+<li data-id="prophet13">أيوب<br><small>Job</small></li>
+<li data-id="prophet14">ذو الكفل<br><small>Dhul-Kifl</small></li>
+<li data-id="prophet15">يونس<br><small>Jonah</small></li>
+<li data-id="prophet16">موسى<br><small>Moses</small></li>
+<li data-id="prophet17">هارون<br><small>Aaron</small></li>
+<li data-id="prophet18">داوود<br><small>David</small></li>
+<li data-id="prophet19">سليمان<br><small>Solomon</small></li>
+<li data-id="prophet20">زكريا<br><small>Zechariah</small></li>
+<li data-id="prophet21">يحيى<br><small>John</small></li>
+<li data-id="prophet22">عيسى<br><small>Jesus</small></li>
+<li data-id="prophet23">محمد ﷺ<br><small>Muhammad</small></li>
+</ul>
+
+<!-- تفاصيل جميع الأنبياء -->
+<div class="prophet-detail" id="prophet1">
+<h3>آدم (Adam)</h3>
+<p>💡 <b>القصة:</b> أول البشر، خُلق من تراب وعلَّم أسماء كل شيء. عاش في الجنة ثم نزل إلى الأرض بعد المعصية. علم البشر أساسيات الحياة وطرق العبادة.<br>
+<b>التشريع:</b> العبادة والطاعة لله، تعليم أولاده التوحيد، تأسيس الأسرة الأولى.<br>
+<b>القوم:</b> أول البشر.<br>
+<i>First human and Prophet, created from clay, taught the names of all things. Lived in Paradise then descended to Earth. Commanded to worship Allah alone, taught family and social guidance.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet2">
+<h3>شيث (Seth)</h3>
+<p>💡 <b>القصة:</b> ابن آدم، واصل الهداية بعد وفاة والده، دعا الناس لعبادة الله وتجنب الشرك، أسس أجيالًا صالحة.<br>
+<b>التشريع:</b> الدعوة للتوحيد، تعليم الأجيال.<br>
+<b>القوم:</b> نسل آدم.<br>
+<i>Son of Adam, Prophet after his father, continued guidance, called people to worship Allah and avoid polytheism, guided righteous generations.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet3">
+<h3>إدريس (Enoch)</h3>
+<p>💡 <b>القصة:</b> نبي علم الناس الكتابة، الحساب، العلوم، وكان مثالاً للعبادة والتقوى.<br>
+<b>التشريع:</b> التقوى وطلب العلم، نشر المعرفة.<br>
+<b>القوم:</b> البشر الأوائل.<br>
+<i>Prophet who taught writing, mathematics, sciences, an example of righteousness. Commanded seeking knowledge and piety. People: early humans.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet4">
+<h3>نوح (Noah)</h3>
+<p>💡 <b>القصة:</b> أرسل لقوم عبدوا الأصنام، دعاهم للتوحيد، بنى السفينة وأنقذ المؤمنين من الطوفان.<br>
+<b>التشريع:</b> التوحيد وترك الشرك، الصبر على الكفر.<br>
+<b>القوم:</b> قوم نوح.<br>
+<i>Sent to the idol-worshipping people, called to monotheism, built the Ark, saved believers. Commanded patience and monotheism. People: Noah's people.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet5">
+<h3>هود (Hud)</h3>
+<p>💡 <b>القصة:</b> أرسل إلى قوم عاد، دعاهم للتوحيد والصبر على البلاء.<br>
+<b>التشريع:</b> عبادة الله وحده، الصبر والعدل.<br>
+<b>القوم:</b> قوم عاد.<br>
+<i>Sent to the people of 'Ad, called to worship Allah alone, known for patience and justice. People: 'Ad.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet6">
+<h3>صالح (Salih)</h3>
+<p>💡 <b>القصة:</b> أرسل إلى قوم ثمود، جاء بمعجزة الناقة، دعوته للتوحيد والعدل.<br>
+<b>التشريع:</b> عبادة الله وحده، اتباع المعجزات والحق.<br>
+<b>القوم:</b> قوم ثمود.<br>
+<i>Sent to Thamud, brought the miracle of the she-camel, called to worship Allah alone and follow truth. People: Thamud.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet7">
+<h3>لوط (Lot)</h3>
+<p>💡 <b>القصة:</b> أرسل لقوم سدوم، دعاهم للتوحيد والأخلاق، نجى هو وأهله.<br>
+<b>التشريع:</b> التوحيد والأخلاق، رفض الفساد.<br>
+<b>القوم:</b> قوم سدوم.<br>
+<i>Sent to Sodom, called to monotheism and moral conduct, condemned corruption. People: Sodom.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet8">
+<h3>إبراهيم (Abraham)</h3>
+<p>💡 <b>القصة:</b> خليل الله، دعا للتوحيد، بنى الكعبة، ابتُلي بالكثير ليكون قدوة.<br>
+<b>التشريع:</b> الحج، التوحيد، الدعوة للأمم.<br>
+<b>القوم:</b> العرب وبني إسرائيل.<br>
+<i>Friend of Allah, called to monotheism, built the Kaaba, faced trials to serve as a model. Commanded Hajj, monotheism, guidance to nations. People: Arabs and Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet9">
+<h3>إسماعيل (Ishmael)</h3>
+<p>💡 <b>القصة:</b> ابن إبراهيم، ساعده في بناء الكعبة، دعا للعبادة والتوحيد.<br>
+<b>التشريع:</b> الصلاة والزكاة، التوحيد.<br>
+<b>القوم:</b> العرب.<br>
+<i>Son of Abraham, helped build the Kaaba, called to worship Allah. Commanded prayer, almsgiving. People: Arabs.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet10">
+<h3>إسحاق (Isaac)</h3>
+<p>💡 <b>القصة:</b> ابن إبراهيم، أب يعقوب، دعا للتوحيد، واصل رسالة أبيه.<br>
+<b>التشريع:</b> التوحيد، التربية الصالحة.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Son of Abraham, father of Jacob, continued his father's message, called to worship Allah alone. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet11">
+<h3>يعقوب (Jacob)</h3>
+<p>💡 <b>القصة:</b> ابن إسحاق، أب بني إسرائيل، دعاهم لعبادة الله.<br>
+<b>التشريع:</b> التوحيد، تعليم الأبناء.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Son of Isaac, father of the Children of Israel, called them to worship Allah alone. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet12">
+<h3>يوسف (Joseph)</h3>
+<p>💡 <b>القصة:</b> ابن يعقوب، بيع كعبد وأصبح وزيرًا في مصر، صبر على المحن.<br>
+<b>التشريع:</b> التوحيد والإحسان، الصبر على البلاء.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Son of Jacob, sold as a slave then became minister in Egypt, exemplified patience. Commanded worship and righteousness. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet13">
+<h3>أيوب (Job)</h3>
+<p>💡 <b>القصة:</b> صبر على الابتلاءات العظيمة وفقد ماله وعائلته وصحته، وعوضه الله.<br>
+<b>التشريع:</b> الصبر والشكر، الثقة بالله.<br>
+<b>القوم:</b> قومه.<br>
+<i>Endured great trials, lost wealth, family, and health, and was rewarded. Commanded patience and gratitude. People: his people.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet14">
+<h3>ذو الكفل (Dhul-Kifl)</h3>
+<p>💡 <b>القصة:</b> نبي معروف بالعدل والصبر، دعا قومه لعبادة الله، كان مثالاً للإخلاص والتحمل.<br>
+<b>التشريع:</b> التوحيد، العدل، الصبر.<br>
+<b>القوم:</b> قومه.<br>
+<i>Prophet known for justice and patience, called his people to worship Allah, exemplified devotion and endurance. Commanded monotheism, justice, and patience. People: his people.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet15">
+<h3>يونس (Jonah)</h3>
+<p>💡 <b>القصة:</b> أرسل إلى قوم نينوى، ابتلعه الحوت بعد هجرانه لقومه ثم تاب ونجا، عاد لدعوته وصبر على الصعاب.<br>
+<b>التشريع:</b> التوبة، الصبر، الرجوع إلى الله.<br>
+<b>القوم:</b> قوم نينوى.<br>
+<i>Sent to the people of Nineveh, swallowed by a whale after leaving his people, repented and survived, returned to his mission. Commanded repentance, patience, and returning to Allah. People: Nineveh.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet16">
+<h3>موسى (Moses)</h3>
+<p>💡 <b>القصة:</b> أرسل لبني إسرائيل، كلم الله على الطور، أنزل التوراة، أخرج بني إسرائيل من مصر، واجه فرعون وجنوده.<br>
+<b>التشريع:</b> التوراة، الصلاة، الصوم، القوانين، العدالة.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Sent to the Children of Israel, spoke to Allah on Mount Sinai, given the Torah, led Israelites out of Egypt, confronted Pharaoh. Commanded Torah, worship, fasting, laws, and justice. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet17">
+<h3>هارون (Aaron)</h3>
+<p>💡 <b>القصة:</b> أخو موسى، ناصر رسالته، ساعده في الدعوة وتثبيت قلوب الناس.<br>
+<b>التشريع:</b> دعم الدعوة، التعليم، العدالة.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Brother of Moses, supported his message, helped in calling people to Allah and stabilizing hearts. Commanded support for guidance, teaching, and justice. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet18">
+<h3>داوود (David)</h3>
+<p>💡 <b>القصة:</b> ملك ونبي، أنزل الله عليه الزبور، عرف بالحكمة والشجاعة، حكم بالعدل.<br>
+<b>التشريع:</b> الزبور، الصلاة، الصدق، العدل.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>King and Prophet, given the Psalms, known for wisdom and courage, ruled with justice. Commanded Psalms, prayer, truthfulness, and justice. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet19">
+<h3>سليمان (Solomon)</h3>
+<p>💡 <b>القصة:</b> ابن داوود، نبي وملك، آتاه الله حكمة عظيمة وسلطان على الجن والطير.<br>
+<b>التشريع:</b> الحكمة، العدالة، الحكم بالمعرفة.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Son of David, Prophet and King, granted great wisdom and control over jinn and birds. Commanded wisdom, justice, and governance by knowledge. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet20">
+<h3>زكريا (Zechariah)</h3>
+<p>💡 <b>القصة:</b> دعا قومه لعبادة الله، والد يحيى، معروف بالصبر والدعاء.<br>
+<b>التشريع:</b> التوحيد، الصبر، الدعاء.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Prophet who called his people to worship Allah, father of John, known for patience and prayer. Commanded monotheism, patience, and supplication. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet21">
+<h3>يحيى (John)</h3>
+<p>💡 <b>القصة:</b> أيد بالروح القدس، دعا للبر والتقوى، معروف بالزهد والتقوى.<br>
+<b>التشريع:</b> التوحيد، الأخلاق، التقوى.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Supported by the Holy Spirit, called for righteousness and piety, known for asceticism and devotion. Commanded monotheism, ethics, and piety. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet22">
+<h3>عيسى (Jesus)</h3>
+<p>💡 <b>القصة:</b> ابن مريم، أيد بالروح القدس، جاء بالإنجيل، أجرى المعجزات، دعا للتوحيد والأخلاق.<br>
+<b>التشريع:</b> الإنجيل، الصلاة، الصيام، الأخلاق، الرحمة.<br>
+<b>القوم:</b> بني إسرائيل.<br>
+<i>Son of Mary, supported by the Holy Spirit, brought the Gospel, performed miracles, called to monotheism and ethics. Commanded Gospel, prayer, fasting, morality, and compassion. People: Israelites.</i></p>
+</div>
+
+<div class="prophet-detail" id="prophet23">
+<h3>محمد ﷺ (Muhammad)</h3>
+<p>💡 <b>القصة:</b> خاتم الأنبياء، أرسل لجميع البشر، أنزل الله عليه القرآن، أسس مجتمعاً عادلًا، جاهد لنشر الحق.<br>
+<b>التشريع:</b> القرآن، الصلاة، الزكاة، الصيام، الحج، الأخلاق، العدل، الدعوة لجميع البشر.<br>
+<b>القوم:</b> جميع البشر.<br>
+<i>Seal of the Prophets, sent to all humanity, Quran revealed to him, established a just society, strove to spread the truth. Commanded Quran, prayer, almsgiving, fasting, Hajj, ethics, justice, and universal guidance. People: all humans.</i></p>
+</div>
+
+<button class="closeBtn" onclick="closeProphets()">إغلاق ✖</button>
+</div>
+
+<script> 
+const btn = document.getElementById('prophetsBtn');
+const box = document.getElementById('prophetsBox');
+btn.addEventListener('click', ()=>{ box.style.display = (box.style.display==='block')?'none':'block'; });
+function closeProphets(){ box.style.display='none'; }
+
+const items = document.querySelectorAll('#prophetsBox ul li');
+const details = document.querySelectorAll('.prophet-detail');
+items.forEach(item => {
+    item.addEventListener('click', ()=>{
+        details.forEach(d=>d.classList.remove('active'));
+        const id = item.getAttribute('data-id');
+        document.getElementById(id).classList.add('active');
+    });
 });
 </script>
 
