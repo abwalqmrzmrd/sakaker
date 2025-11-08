@@ -1,238 +1,4 @@
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ألعاب أبو القمر زمرد 🎮</title>
-<style> {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #000;
-    font-family: sans-serif;
-    overflow: hidden;
-  }
-
-  /* 🎬 خلفية الفيديو */
-  #backgroundVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  /* 🎮 أيقونات الألعاب */
-  .gameIcon {
-    position: fixed;
-    top: 180px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
-    animation: glow 2s infinite alternate;
-    z-index: 5000;
-  }
-
-  /* 🎱 بلياردو */
-  #billiardsIcon {
-    left: 160px;
-    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
-  }
-
-  /* ♟️ شطرنج */
-  #chessIcon {
-    left: 260px;
-    background: radial-gradient(circle, #00ffff, #0000ff, #ff00ff, #ffff00, #00ff00);
-  }
-
-  @keyframes glow {
-    from { box-shadow: 0 0 10px 5px #fff; }
-    to   { box-shadow: 0 0 25px 15px #00ffff; }
-  }
-
-  /* 🧩 الإطارات المنبثقة (مشتركة) */
-  .gameContainer {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70%;
-    height: 65%;
-    background: rgba(0,0,0,0.95);
-    border: 3px solid #0ff;
-    border-radius: 20px;
-    display: none;
-    z-index: 9999;
-    box-shadow: 0 0 30px rgba(0,255,255,0.8);
-    cursor: move;
-  }
-
-  /* بلياردو في منتصف الصفحة كما قبل */
-  #billiardsContainer {
-    top: 58%;
-  }
-
-  /* شطرنج — نزلناه بمقدار ~100px (حوالي 10 أسطر) */
-  #chessContainer {
-    top: calc(50% + 70px) !important;
-  }
-
-  .gameContainer iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 15px;
-  }
-
-  /* زر الإغلاق */
-  .closeBtn {
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    background: red;
-    color: white;
-    border: none;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 10000;
-    padding: 3px 8px;
-  }
-
-  /* تحسين استجابة على شاشات أصغر */
-  @media (max-width: 800px) {
-    .gameContainer { width: 90%; height: 60%; }
-    .gameIcon { width: 60px; height: 60px; font-size: 24px; }
-  }
-</style>
-</head>
-<body>
-
-<!-- 🎬 خلفية الفيديو -->
-<video id="backgroundVideo" autoplay muted loop>
-  <source src="https://cdn.pixabay.com/video/2024/06/21/178568-955862780_large.mp4" type="video/mp4">
-</video>
-
-<!-- 🎱 أيقونة بلياردو -->
-<div id="billiardsIcon" class="gameIcon" title="بلياردو">🎱</div>
-
-<!-- ♟️ أيقونة الشطرنج -->
-<div id="chessIcon" class="gameIcon" title="شطرنج">♟️</div>
-
-<!-- 🎱 نافذة بلياردو -->
-<div id="billiardsContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeBilliards">X</button>
-  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
-</div>
-
-<!-- ♟️ نافذة الشطرنج (منزلة 10 أسطر تقريباً) -->
-<div id="chessContainer" class="gameContainer" aria-hidden="true">
-  <button class="closeBtn" id="closeChess">X</button>
-  <iframe src="https://www.crazygames.com/embed/master-chess" title="لعبة شطرنج"></iframe>
-</div>
-
-<script>
-/* العناصر */
-const billiardsIcon = document.getElementById('billiardsIcon');
-const chessIcon = document.getElementById('chessIcon');
-const billiardsContainer = document.getElementById('billiardsContainer');
-const chessContainer = document.getElementById('chessContainer');
-const closeBilliards = document.getElementById('closeBilliards');
-const closeChess = document.getElementById('closeChess');
-
-/* فتح وإغلاق */
-billiardsIcon.addEventListener('click', () => {
-  billiardsContainer.style.display = 'block';
-  chessContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'false');
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-chessIcon.addEventListener('click', () => {
-  chessContainer.style.display = 'block';
-  billiardsContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'false');
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-
-closeBilliards.addEventListener('click', () => {
-  billiardsContainer.style.display = 'none';
-  billiardsContainer.setAttribute('aria-hidden', 'true');
-});
-closeChess.addEventListener('click', () => {
-  chessContainer.style.display = 'none';
-  chessContainer.setAttribute('aria-hidden', 'true');
-});
-
-/* ======= draggable (سحب) مشترك ======= */
-function makeDraggable(el) {
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  el.addEventListener('mousedown', (e) => {
-    // فقط عند الضغط على العنصر نفسه (ليس على iframe داخله أو أزراره)
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const rect = el.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    el.style.transform = 'none'; // نلغي translate أثناء السحب
-    document.body.style.userSelect = 'none';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    el.style.left = `${e.clientX - offsetX}px`;
-    el.style.top = `${e.clientY - offsetY}px`;
-  });
-
-  document.addEventListener('mouseup', () => {
-    dragging = false;
-    document.body.style.userSelect = '';
-  });
-
-  // دعم لمس الشاشة (mobile)
-  el.addEventListener('touchstart', (e) => {
-    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
-    dragging = true;
-    const touch = e.touches[0];
-    const rect = el.getBoundingClientRect();
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-  }, {passive: true});
-
-  document.addEventListener('touchmove', (e) => {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    el.style.left = `${touch.clientX - offsetX}px`;
-    el.style.top = `${touch.clientY - offsetY}px`;
-  }, {passive: true});
-
-  document.addEventListener('touchend', () => { dragging = false; });
-}
-
-/* تفعيل السحب لكل الإطارات */
-makeDraggable(billiardsContainer);
-makeDraggable(chessContainer);
-
-/* تأكد أن وضع top للـ chessContainer يعمل حتى لو كانت خصائص سابقة */
-window.addEventListener('load', () => {
-  chessContainer.style.top = chessContainer.style.top || getComputedStyle(chessContainer).top;
-});
-</script>
-
-</body>
-</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -241,7 +7,7 @@ window.addEventListener('load', () => {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>خلفية فيديو متغيرة</title>
 <style>
-  body {
+   {
     margin: 0;
     height: 100vh;
     overflow: hidden;
@@ -607,8 +373,8 @@ function closeWisdom() {
   /* ✅ إشعار المصدر الحالي */
   #sourceLabel {
     position: fixed;
-    top: 60px;
-    right: 60px;
+    top: 80px;
+    right: 10px;
     background:
     border: 1px solid #00ff99;
     border-radius: 15px;
@@ -1633,6 +1399,2219 @@ setInterval(updateText, 25000);
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<title>شريط نكت بترجمة بطيئة</title>
+<style>
+body {
+  margin: 0;
+  background: #000;
+  font-family: "Tajawal", sans-serif;
+  overflow: hidden;
+}
+
+/* حاوية الشريط */
+.joke-bar {
+  position: fixed;
+  left: 10px;
+  top: 13%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 60px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #0ff;
+  border-radius: 20px;
+  box-shadow: 0 0 15px #0ff;
+  text-align: center;
+  overflow: hidden;
+  padding: 5px;
+  animation: glow 2s infinite alternate;
+}
+
+/* توهج الإطار */
+@keyframes glow {
+  from { box-shadow: 0 0 10px #0ff; border-color: #0ff; }
+  to   { box-shadow: 0 0 25px #0ff; border-color: #0ff; }
+}
+
+/* النص العربي */
+.joke-ar {
+  direction: ltr; /* من اليسار إلى اليمين */
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 25px;
+  animation: moveAR 100s linear infinite;
+}
+
+/* النص الإنجليزي */
+.joke-en {
+  direction: rtl; /* من اليمين إلى اليسار */
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 25px;
+  color: #0ff;
+  animation: moveEN 100s linear infinite;
+}
+
+/* حركة النصوص */
+@keyframes moveAR {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes moveEN {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+</head>
+<body>
+
+<div class="joke-bar">
+  <div class="joke-ar" id="jokeAr">😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات</div>
+  <div class="joke-en" id="jokeEn">(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)</div>
+</div>
+
+<script>
+// النكت (عربي + إنجليزي) – نكتة واحدة فقط
+const jokes = [
+  ["😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات", 
+   "(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)"]
+];
+
+let index = 0;
+
+function changeJoke() {
+  index = (index + 1) % jokes.length;
+  const jokeAr = document.getElementById("jokeAr");
+  const jokeEn = document.getElementById("jokeEn");
+  
+  // تغيير النص
+  jokeAr.textContent = jokes[index][0];
+  jokeEn.textContent = jokes[index][1];
+  
+  // إعادة تشغيل الأنيميشن لضمان ظهور الحركة الجديدة
+  jokeAr.style.animation = "none";
+  jokeEn.style.animation = "none";
+  void jokeAr.offsetWidth; // إعادة ضبط الأنيميشن
+  jokeAr.style.animation = "moveAR 30s linear infinite";
+  jokeEn.style.animation = "moveEN 30s linear infinite";
+}
+
+setInterval(changeJoke, 32000); // بعد كل 32 ثانية
+</script>
+<!-- 🎂 كيك متوهج بألوان متغيرة -->
+<div id="cakeWrapper">
+  <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
+    <div class="cakeContent">
+      🎂<br>
+      <span class="label">يسعدني إعجابك 💖</span>
+      <span class="en">It makes me happy you liked it 💖</span>
+      <span class="usd">(coffee 1$)</span>
+    </div>
+  </div>
+</div>
+
+<style>
+/* 📦 الغلاف العام */
+#cakeWrapper {
+  position: fixed;
+  bottom: 120px;
+  left:30%;
+  transform: translateX(50%);
+  z-index: 1000;
+}
+
+/* 🎂 الكيكة */
+#cakeButton {
+  position: relative;
+  width: 120px;
+  height: 70px;
+  background: radial-gradient(circle at 30% 30%, #ff0, #00f, #f00, #0f0);
+  border-radius: 50% 50% 10% 10%;
+  border: 2px solid #fff;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6),
+              0 0 30px 10px rgba(255, 255, 0, 0.3);
+  transition: all 0.2s ease;
+  animation: glowShift 0.8s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎉 محتوى الكيكة مرفوع قليلًا */
+.cakeContent {
+  margin-top: -6px; /* 🔼 رفع المحتوى */
+}
+
+/* ✨ وميض متغيّر للألوان */
+@keyframes glowShift {
+  0%   { background: radial-gradient(circle at 20% 20%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 15px 3px #ff0; }
+  25%  { background: radial-gradient(circle at 70% 20%, #0f0, #f00, #00f, #ff0); box-shadow: 0 0 20px 5px #0f0; }
+  50%  { background: radial-gradient(circle at 30% 70%, #00f, #ff0, #0f0, #f00); box-shadow: 0 0 25px 7px #00f; }
+  75%  { background: radial-gradient(circle at 70% 70%, #f00, #0f0, #ff0, #00f); box-shadow: 0 0 25px 7px #f00; }
+  100% { background: radial-gradient(circle at 50% 50%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 20px 5px #ff0; }
+}
+
+/* 💛 النصوص */
+#cakeButton .label {
+  display: block;
+  font-size: 11px;
+}
+
+#cakeButton .en {
+  display: block;
+  color: #ffff99;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
+#cakeButton .usd {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+  margin-top: 3px;
+  text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
+}
+</style>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شريط أسعار متحرك</title>
+<style>
+  /* الشريط المتحرك */
+ #ticker-container {
+  position: fixed;
+  bottom: 40px; /* رفع الشريط بمقدار سطرين عن أسفل الصفحة */
+  left: 0;
+  width: 100%;
+  background: 
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 9999;
+  padding: 8px 0;
+  font-family: Tahoma, sans-serif;
+  color: #c0c0c0; /* خط فضي */
+  font-size: 16px;
+}
+
+  #ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker-scroll 30s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .ticker-item {
+    margin: 0 30px;
+    display: inline-block;
+  }
+
+  @media (max-width: 600px) {
+    #ticker-container { font-size: 14px; }
+    .ticker-item { margin: 0 20px; }
+  }
+</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطقس والأسعار - أبو القمر زمرد</title>
+<style>
+#ticker-container {
+  position: fixed;
+  bottom: 10px; /* مرفوع سطر واحد عن الأسفل */
+  left: 0;
+  width: 100%;
+  background: 
+  color: #c0c0c0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Tahoma", sans-serif;
+  font-size: 16px;
+  z-index: 9999;
+  padding: 8px 0;
+  border-top: 2px solid #444;
+  direction: rtl;
+}
+
+#ticker-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 500s linear infinite;
+}
+
+#ticker-content span {
+  display: inline-block;
+  margin-right: 60px;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+</head>
+<body>
+
+<div id="ticker-container">
+  <div id="ticker-content">جاري تحميل البيانات...</div>
+</div>
+
+<script>
+// جلب الطقس بناءً على الموقع
+async function fetchWeather() {
+  try {
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    );
+
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const weatherResponse = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode`
+    );
+    const weatherData = await weatherResponse.json();
+    const temp = weatherData.current.temperature_2m;
+    const weatherCode = weatherData.current.weathercode;
+    // تحويل الكود إلى وصف
+    const weatherText = {
+      0: "☀️ مشمس",
+      1: "🌤️ صافي",
+      2: "🌥️ غائم جزئياً",
+      3: "☁️ غائم",
+      45: "🌫️ ضباب",
+      48: "🌫️ ضباب كثيف",
+      51: "🌦️ رذاذ خفيف",
+      61: "🌧️ مطر",
+      71: "🌨️ ثلوج",
+      95: "⛈️ عواصف"
+    }[weatherCode] || "🌡️ حالة جوية غير معروفة";
+
+    return `${weatherText} ${temp}°C`;
+  } catch (error) {
+    return "🌍 لم يتم تحديد الموقع أو حالة الطقس.";
+  }
+}
+
+// جلب الأسعار
+async function fetchPrices() {
+  try {
+    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold,oil,usd,eur,gbp&vs_currencies=usd,sar");
+    const data = await response.json();
+
+    const btc = data.bitcoin?.usd ? `${data.bitcoin.usd} دولار` : "غير متاح";
+    const eth = data.ethereum?.usd ? `${data.ethereum.usd} دولار` : "غير متاح";
+    const usd = data.usd?.sar ? `${data.usd.sar} ريال` : "3.75 ريال";
+    const eur = data.eur?.sar ? `${data.eur.sar} ريال` : "4.10 ريال";
+    const gbp = data.gbp?.sar ? `${data.gbp.sar} ريال` : "4.80 ريال";
+    const gold = data.gold?.usd ? `${data.gold.usd} دولار` : "2350 دولار";
+    const oil = data.oil?.usd ? `${data.oil.usd} دولار` : "89 دولار";
+    const silver = "28.5 دولار";
+
+    const weather = await fetchWeather();
+
+    const ticker = document.getElementById("ticker-content");
+    ticker.innerHTML = `
+      <span>${weather}</span>
+      <span>💰 الدولار الأمريكي: ${usd}</span>
+      <span>💶 اليورو: ${eur}</span>
+      <span>💷 الجنيه الإسترليني: ${gbp}</span>
+      <span>💎 الذهب: ${gold}</span>
+      <span>🥈 الفضة: ${silver}</span>
+      <span>🛢️ النفط: ${oil}</span>
+      <span>📈 بيتكوين: ${btc}</span>
+      <span>💹 إيثيريوم: ${eth}</span>
+    `;
+    ticker.innerHTML += ticker.innerHTML; // تكرار للتمرير المستمر
+  } catch (error) {
+    document.getElementById("ticker-content").innerText = "⚠️ تعذر جلب الأسعار أو الطقس.";
+  }
+}
+
+// تحميل عند البداية وتحديث كل دقيقة
+fetchPrices();
+setInterval(fetchPrices, 60000);
+</script>
+
+</body>
+</html>
+<script>
+// تشغيل كل الوظائف بعد تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  /* 🎯 1. إصلاح أيقونة المعلّقات */
+  const mainIcon = document.getElementById("mainIcon");
+  const namesList = document.getElementById("namesList");
+
+  if (mainIcon && namesList) {
+    mainIcon.addEventListener("click", () => {
+      namesList.style.display = namesList.style.display === "block" ? "none" : "block";
+    });
+  }
+
+  document.querySelectorAll("#namesList span[data-target]").forEach(span => {
+    span.addEventListener("click", () => {
+      const targetId = span.getAttribute("data-target");
+      const poemDiv = document.getElementById(targetId);
+      if (poemDiv) {
+        poemDiv.style.display = "block";
+        namesList.style.display = "none";
+      }
+    });
+  });
+
+  window.closePoem = function(id) {
+    const poemDiv = document.getElementById(id);
+    if (poemDiv) poemDiv.style.display = "none";
+  };
+
+  /* 🩺 2. إصلاح قسم الطب الشعبي والنبوي */
+  const medicineBtn = document.getElementById('medicineBtn');
+  const medicineBox = document.getElementById('medicineBox');
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  if (medicineBtn && medicineBox) {
+    medicineBtn.addEventListener('click', () => {
+      medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
+    });
+  }
+
+  window.closeBox = function() {
+    if (medicineBox) medicineBox.style.display = 'none';
+  }
+
+  if (tabs.length > 0) {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        tabContents.forEach(c => c.classList.remove('active'));
+        const currentTab = document.getElementById(tab.dataset.tab);
+        if (currentTab) currentTab.classList.add('active');
+      });
+    });
+  }
+
+  /* 📰 3. إصلاح شريط الأخبار المتحرك */
+  const newsBar = document.getElementById('newsBar');
+  if (newsBar) {
+    let scroll = 0;
+    setInterval(() => {
+      scroll += 1;
+      newsBar.scrollLeft = scroll;
+      if (scroll >= newsBar.scrollWidth - newsBar.clientWidth) scroll = 0;
+    }, 40);
+  }
+
+  /* ❌ 4. إصلاح أزرار الإغلاق العامة */
+  const closeBtn = document.getElementById("closeBtn");
+  const gameContainer = document.getElementById("gameContainer");
+  if (closeBtn && gameContainer) {
+    closeBtn.addEventListener("click", () => {
+      gameContainer.style.display = "none";
+    });
+  }
+});
+</script>
+
+<script>
+// إصلاح زر الطب الشعبي إذا لم يعمل بعد الدمج
+document.addEventListener("DOMContentLoaded", () => {
+  const medicineBtn = document.querySelector("#medicineBtn");
+  const medicineBox = document.querySelector("#medicineBox");
+
+  if (medicineBtn && medicineBox) {
+    console.log("✅ تم التعرف على زر الطب والنافذة.");
+    medicineBtn.onclick = () => {
+      const isVisible = medicineBox.style.display === "block";
+      medicineBox.style.display = isVisible ? "none" : "block";
+      console.log(isVisible ? "🔒 تم الإغلاق" : "📖 تم الفتح");
+    };
+  } else {
+    console.warn("⚠️ لم يتم العثور على عناصر الطب في الصفحة.");
+  }
+});
+</script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التعريف بالموقع</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Cairo", sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* 🔹 أزرار اللغة */
+  #langSwitcher {
+    position: fixed;
+    top: 590px;
+    left: 1000px;
+    z-index: 999;
+  }
+
+  #langSwitcher button {
+    background: #111;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 3px 7px;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 13px;
+  }
+
+  #langSwitcher button:hover {
+    background: #333;
+  }
+
+  /* 🔹 الأيقونة المضيئة الصغيرة */
+  #cvIcon {
+    position: fixed;
+    bottom: 60px;
+    right: 200px;
+    background:
+    background-size: 400% 400%;
+    animation: glow 4s linear infinite;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    z-index: 998;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  @keyframes glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  #cvIcon:hover {
+    transform: scale(1.05);
+  }
+
+  /* 🔹 الإطار المنبثق المصغر */
+  #cvPage {
+    display: none;
+    position: fixed;
+    top: 30;
+    left: 50;
+    width: 100%;
+    height: 100%;
+    background: 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .cv-content {
+    background: 
+    border-radius: 25px;
+    padding: 20px;
+    width: 80%;
+    max-width: 350px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.6);
+    text-align: right;
+    animation: popup 0.4s ease;
+  }
+
+  @keyframes popup {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .cv-content h1 {
+    color: #00ffff;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .cv-content p {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+
+  .closeCV {
+    background:
+    border: none;
+    padding: 6px 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+    display: block;
+    margin: auto;
+    font-size: 13px;
+  }
+
+  .closeCV:hover {
+    background:
+  }
+</style>
+</head>
+<body>
+
+<!-- 🔹 الأيقونة المضيئة -->
+<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">
+  SV أبوالقمر زمرد
+</div>
+
+<!-- 🔹 الإطار المنبثق -->
+<div id="cvPage">
+  <div class="cv-content" id="cvContent">
+    <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
+    <p data-i18n="cvText">
+      الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)
+    </p>
+    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
+  </div>
+</div>
+
+<script>
+  const translations = {
+    ar: {
+      cvButton: "SV أبوالقمر زمرد",
+      cvTitle: "التعريف بالموقع",
+      cvText: "الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)",
+      cvClose: "خروج"
+    },
+  };
+
+  function setLanguage(lang) {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      el.innerText = translations[lang][key];
+    });
+    const cvContent = document.getElementById('cvContent');
+    cvContent.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    cvContent.style.textAlign = (lang === 'ar') ? 'right' : 'left';
+  }
+
+  setLanguage('ar');
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎧 راديو | Radio</title>
+<style> {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  overflow: hidden;
+  font-family: "Tahoma", sans-serif;
+}
+
+/* أيقونة الراديو */
+#radioIcon {
+  position: fixed;
+  bottom: 150px;
+  right: 200px;
+  width: 80px;
+  height: 80px;
+  background: 
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 25px #fff;
+  animation: glow 2s infinite alternate;
+  z-index: 1000;
+}
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #ff0, 0 0 20px #f00, 0 0 30px #0f0; }
+  50% { box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff, 0 0 60px #00ff00; }
+  100% { box-shadow: 0 0 30px #00f, 0 0 50px #ff0, 0 0 80px #f00; }
+}
+
+/* الإطار المنبثق */
+#radioModal {
+  display: none;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  width: 340px;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 0 40px #fff;
+  z-index: 2000;
+  color: white;
+}
+
+/* زر الإغلاق */
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 28px;
+  text-align: center;
+  transition: 0.3s;
+}
+.closeBtn:hover {
+  background: rgba(255, 50, 50, 0.9);
+}
+
+/* أزرار اللغة */
+#langButtons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.langBtn {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  box-shadow: 0 0 8px #fff;
+  transition: 0.3s;
+}
+.langBtn:hover {
+  transform: scale(1.1);
+}
+
+/* قائمة الإذاعات */
+.radioItem {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.radioItem:hover {
+  background: rgba(0,255,200,0.3);
+}
+
+/* مشغل الصوت */
+audio {
+  width: 100%;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<!-- أيقونة الراديو -->
+<div id="radioIcon" onclick="openRadio()">🎧<br>راديو<br>Radio</div>
+
+<!-- الإطار المنبثق -->
+<div id="radioModal">
+  <span class="closeBtn" onclick="closeRadio()">×</span>
+
+  <!-- 🔹 أزرار تغيير اللغة -->
+  <div id="langButtons">
+    <button class="langBtn" onclick="setLanguage('ar')">🇸🇦 عربي</button>
+    <button class="langBtn" onclick="setLanguage('en')">🇬🇧 English</button>
+  </div>
+
+  <h2 id="radioTitle">📻 اختر إذاعتك</h2>
+
+  <div id="radioList">
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 إذاعة القرآن الكريم - السعودية</div>
+    <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
+    <div class="radioItem" onclick="playRadio('https://n0a.radiojar.com/8vqz2pdtwzuv')">🎶 Rotana FM</div>
+    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0z4p9pdtwzuv')">🎵 مونت كارلو الدولية</div>
+    <div class="radioItem" onclick="playRadio('https://stream-uk1.radioparadise.com/mp3-192')">🎧 Radio Paradise</div>
+    <div class="radioItem" onclick="playRadio('https://bbcwssc.ic.llnwd.net/stream/bbcwssc_mp1_ws-araba')">📰 BBC Arabic</div>
+    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/f8m0r7f7rhvv')">📻 إذاعة السودان</div>
+    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/hz7m0r7f7rhvv')">🕋 مكة المكرمة</div>
+    <div class="radioItem" onclick="playRadio('https://icecast1.play.cz/cro1-128.mp3')">🎼 Classical Radio</div>
+    <div class="radioItem" onclick="playRadio('https://us2.internet-radio.com/proxy/partyviberadio?mp=/stream')">🎉 Party Vibe Radio</div>
+  </div>
+
+  <audio id="radioPlayer" controls></audio>
+</div>
+
+<script>
+function openRadio() {
+  document.getElementById("radioModal").style.display = "block";
+}
+function closeRadio() {
+  document.getElementById("radioModal").style.display = "none";
+  document.getElementById("radioPlayer").pause();
+}
+function playRadio(url) {
+  const player = document.getElementById("radioPlayer");
+  player.src = url;
+  player.load();
+  player.play().catch(() => {
+    alert("🔇 يرجى النقر مرة أخرى لتشغيل الإذاعة (منع المتصفح التشغيل التلقائي)");
+  });
+}
+
+/* تغيير اللغة */
+function setLanguage(lang) {
+  const title = document.getElementById("radioTitle");
+  if (lang === "en") {
+    title.textContent = "📻 Choose Your Station";
+  } else {
+    title.textContent = "📻 اختر إذاعتك";
+  }
+}
+</script>
+
+</body>
+</html>
+
+<!-- ⚖️ توقيع الحقوق -->
+<footer style="
+  position:fixed;bottom:10px;left:50%;
+  transform:translateX(-50%);
+  text-align:center;color:#aaa;
+  font-size:14px;z-index:9000;">
+  جميع الحقوق محفوظة لصفحة <span style="color:#00ffff;">أبو القمر زمرد</span> © 2025
+</footer>
+
+</body>
+</html>
+<!-- 🚀 كود تحسين سرعة الصفحة -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 🌙 تأجيل تحميل iframes (مثل YouTube)
+  const iframes = document.querySelectorAll("iframe");
+  iframes.forEach(iframe => {
+    const src = iframe.getAttribute("src");
+    if (src) {
+      iframe.setAttribute("data-src", src);
+      iframe.removeAttribute("src");
+    }
+  });
+
+  // عندما ينتهي تحميل الصفحة بالكامل نعيد تحميلها بشكل متأخر
+  window.addEventListener("load", function() {
+    iframes.forEach(iframe => {
+      const dataSrc = iframe.getAttribute("data-src");
+      if (dataSrc) iframe.setAttribute("src", dataSrc);
+    });
+  });
+
+  // 📦 تحسين الصور الكبيرة بإضافة lazy-loading تلقائيًا
+  const imgs = document.querySelectorAll("img");
+  imgs.forEach(img => {
+    if (!img.hasAttribute("loading"))
+      img.setAttribute("loading", "lazy");
+  });
+});
+</script>
+<!-- 🚀 كود تسريع الصفحة مع شاشة تحميل بإسم "أبو القمر زمرد" -->
+<style>
+/* 🌙 شاشة التحميل */
+#pageLoader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #000 60%, #050505);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+  color: silver;
+  font-family: "Tajawal", sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-align: center;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+#loaderSpinner {
+  width: 80px; height: 80px;
+  border: 5px solid #333;
+  border-top: 5px solid silver;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(255,255,255,0.3);
+}
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+#pageLoader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+#loaderText {
+  font-size: 22px;
+  color: #c0ffc0;
+  text-shadow: 0 0 10px #00ff99;
+}
+</style>
+
+<!-- 🎬 شاشة التحميل -->
+<div id="pageLoader">
+  <div id="loaderSpinner"></div>
+  <div id="loaderText">إنتاج أبو القمر زمرد<br>جارٍ تحميل الصفحة...</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  // 💤 1. تأجيل تحميل الفيديوهات الخلفية
+  const bgVideos = document.querySelectorAll("video, iframe.bg-video");
+  bgVideos.forEach(v => {
+    const src = v.getAttribute("src");
+    if (src) {
+      v.setAttribute("data-src", src);
+      v.removeAttribute("src");
+    }
+  });
+
+  // 📺 2. تأجيل تحميل القنوات المباشرة (iframes)
+  const iframes = document.querySelectorAll("iframe");
+  iframes.forEach(iframe => {
+    const src = iframe.getAttribute("src");
+    if (src) {
+      iframe.setAttribute("data-src", src);
+      iframe.removeAttribute("src");
+    }
+  });
+
+  // 🖼️ 3. تفعيل التحميل البطيء للصور والأيقونات
+  const imgs = document.querySelectorAll("img");
+  imgs.forEach(img => {
+    if (!img.hasAttribute("loading"))
+      img.setAttribute("loading", "lazy");
+  });
+
+  // ✅ 4. بعد تحميل الصفحة بالكامل
+  window.addEventListener("load", function() {
+
+    // تحميل الفيديوهات المؤجلة
+    bgVideos.forEach(v => {
+      const dataSrc = v.getAttribute("data-src");
+      if (dataSrc) v.setAttribute("src", dataSrc);
+      if (v.tagName.toLowerCase() === "video") {
+        v.play().catch(()=>{});
+      }
+    });
+
+    // تحميل القنوات المؤجلة
+    iframes.forEach(iframe => {
+      const dataSrc = iframe.getAttribute("data-src");
+      if (dataSrc) iframe.setAttribute("src", dataSrc);
+    });
+
+    // 🔮 إخفاء شاشة التحميل بسلاسة
+    const loader = document.getElementById("pageLoader");
+    setTimeout(() => {
+      loader.classList.add("hidden");
+    }, 800);
+  });
+
+  // 🌟 5. سلاسة التمرير
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => {
+      document.body.style.scrollBehavior = "smooth";
+    });
+  }
+
+});
+</script>
+
+<!DOCTYPE html>
+
+<script>
+const quotes = [
+  // حكم
+  let index = 0;
+const textAr = document.getElementById('textAr');
+const textEn = document.getElementById('textEn');
+const flip = document.getElementById('flip');
+
+function changeQuote() {
+  index = (index + 1) % quotes.length;
+  textAr.textContent = quotes[index].ar;
+  textEn.textContent = quotes[index].en;
+}
+setInterval(changeQuote, 6000);
+</script>
+
+</body>
+</html><!-- 🌈 أيقونة فتح/إغلاق قائمة الاتصال -->
+<div id="support-toggle-btn" style="
+  position: fixed;
+  top: 55%;
+  right:100px;
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(45deg, #007bff, #ff69b4);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0,0,255,0.8);
+  z-index: 1001;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+📞
+</div>
+
+<!-- 🌟 قسم قائمة التواصل -->
+<div id="support-section" style="
+  position: fixed;
+  top: 43%;
+  right: 370px;
+  background: rgba(0, 0, 30, 0.85);
+  padding: 18px;
+  border-radius: 14px;
+  color: #fff;
+  font-family: 'Tajawal', sans-serif;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateX(20px);
+  z-index: 1000;
+  max-width: 270px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+">
+
+  <h3 style="margin:0; text-align:center; color:#00ffff;">💖 قائمة التواصل</h3>
+  <hr style="border: 1px solid #00ffff; margin:8px 0 10px 0;">
+
+  <!-- 💰 PayPal -->
+  <p style="margin:5px 0; color:#FFD700;">💰 
+    <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; text-decoration:none;">
+      ادعمنا عبر PayPal
+    </a>
+  </p>
+
+  <!-- 📧 البريد -->
+  <p style="margin:5px 0;">📧 
+    <a href="mailto:sakakera@gmail.com" style="color:#00ffcc; text-decoration:none;">
+      sakakera@gmail.com
+    </a>
+  </p>
+
+  <!-- 🌐 فيسبوك -->
+  <p style="margin:5px 0;">⭐ 
+    <a href="https://www.facebook.com/AbwAlqmrZmrd" target="_blank" style="color:#FFD700; text-decoration:none; font-weight:bold;">
+      أبوالقمر زمرد
+    </a>
+  </p>
+
+  <!-- 🟩 واتساب -->
+  <p style="margin:5px 0;">🟩 
+    <a href="https://wa.me/message/BJUPAGNVGZ2KI1" target="_blank" style="color:#00ff99; text-decoration:none;">
+      واتساب مباشر
+    </a>
+  </p>
+
+  <!-- 🐦 تويتر -->
+  <p style="margin:5px 0;">🐦 
+    <a href="https://twitter.com/intent/tweet?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#1DA1F2; text-decoration:none;">
+      شارك عبر تويتر
+    </a>
+  </p>
+</div>
+
+<script>
+// 🔹 حركة الألوان المتغيرة للأيقونة
+setInterval(() => {
+  const btn = document.getElementById('support-toggle-btn');
+  const colors = [
+    'linear-gradient(45deg, #007bff, #00ffff)',
+    'linear-gradient(45deg, #ff1493, #ff69b4)',
+    'linear-gradient(45deg, #00ffcc, #0066ff)',
+    'linear-gradient(45deg, #ff9900, #ff66cc)',
+  ];
+  btn.style.background = colors[Math.floor(Math.random() * colors.length)];
+  btn.style.boxShadow = `0 0 20px ${btn.style.background.split(',')[1] || 'rgba(255,255,255,0.6)'}`;
+}, 1000);
+
+// 🔹 فتح/إغلاق القائمة مع تأثير لطيف
+const supportBtn = document.getElementById('support-toggle-btn');
+const supportSection = document.getElementById('support-section');
+
+supportBtn.addEventListener('click', () => {
+  if (supportSection.style.display === 'none' || supportSection.style.display === '') {
+    supportSection.style.display = 'block';
+    setTimeout(() => {
+      supportSection.style.opacity = 1;
+      supportSection.style.transform = 'translateX(0)';
+    }, 10);
+  } else {
+    supportSection.style.opacity = 0;
+    supportSection.style.transform = 'translateX(20px)';
+    setTimeout(() => { supportSection.style.display = 'none'; }, 400);
+  }
+});
+</script>
+
+<!-- 🌙 حاوية الفيديو المخفية -->
+<div id="jokeVideoContainer" style="display:none; position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:10000;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE_VIDEO?autoplay=1" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+</div>
+
+<script>
+const jokeIcon = document.getElementById('jokeVideoIcon');
+const jokeContainer = document.getElementById('jokeVideoContainer');
+
+jokeIcon.addEventListener('click', () => {
+    if(jokeContainer.style.display === 'none') {
+        jokeContainer.style.display = 'block';
+    } else {
+        jokeContainer.style.display = 'none';
+        // لإيقاف الفيديو عند الإغلاق، نعيد src لإعادة التحميل
+        const iframe = jokeContainer.querySelector('iframe');
+        iframe.src = iframe.src;
+    }
+});
+</script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القصص الصينية</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* ✅ الأيقونة */
+  .story-btn {
+    position: fixed;
+    bottom: 350px;
+    left:15%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 99999;
+    font-weight: bold;
+    transition: all 0.3s;
+  }
+  .story-btn:hover {
+    background: rgba(255, 215, 0, 0.4);
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  /* ✅ الصندوق المنبثق */
+  .story-popup {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background: rgba(0,0,0,0.88);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 600px;
+    display: none;
+    z-index: 99998;
+    animation: fadeIn 0.5s ease;
+    box-shadow: 0 0 12px rgba(255,255,255,0.2);
+  }
+
+  .ar { color: #FFD700; font-size: 17px; direction: rtl; margin-bottom: 10px; line-height: 1.5; }
+  .en { color: #87CEFA; font-size: 14px; direction: ltr; line-height: 1.4; }
+
+  @keyframes fadeIn { from {opacity:0; transform:translate(-50%,60%);} to {opacity:1; transform:translate(-50%,50%);} }
+  @keyframes fadeOut { from {opacity:1; transform:translate(-50%,50%);} to {opacity:0; transform:translate(-50%,60%);} }
+</style>
+</head>
+<body>
+
+<!-- ✅ أيقونة القصص -->
+<div id="storyBtn" class="story-btn">📜</div>
+
+<!-- ✅ صندوق القصص -->
+<div id="storyPopup" class="story-popup">
+  <div class="ar"></div>
+  <div class="en"></div>
+</div>
+
+<script>
+(() => {
+  const btn = document.getElementById('storyBtn');
+  const popup = document.getElementById('storyPopup');
+  const ar = popup.querySelector('.ar');
+  const en = popup.querySelector('.en');
+
+  const stories = [
+    {ar:`الإصبع - فنغ منغ لونغ<br>رجل فقير طلب إصبع صديقه الذي يحول الأشياء ذهباً.` ,en:`The Finger - Feng Meng Long<br>A poor man asked for his friend's finger that could turn things into gold.`},
+    {ar:`الحكمة - وو تشنغ<br>الإمبراطور حلم بتنين فقتله الوزير في المنام.` ,en:`Wisdom - Wu Cheng<br>The emperor dreamed of a dragon his minister killed in the dream.`},
+    {ar:`قصة الثعالب - نيو تشياو<br>ثعلبان يضحكان تحت شجرة.` ,en:`The Foxes - Niu Xiao<br>Two foxes laughed under a tree.`},
+    {ar:`القرد والبحيرة<br>قرد يساعد الحيوانات على عبور البحيرة.` ,en:`The Monkey and the Lake<br>A monkey helped animals cross the lake.`},
+    {ar:`التنين والأرض<br>تنين يحمي القرية في الليالي الممطرة.` ,en:`The Dragon and the Earth<br>A dragon protects the village on rainy nights.`},
+    {ar:`السمكة الذهبية<br>من يطمع يخسر الأمنيات.` ,en:`The Golden Fish<br>Those who are greedy lose their wishes.`},
+    {ar:`النجوم والحكيم<br>كل نجم يحمل حكمة.` ,en:`The Stars and the Sage<br>Each star carries wisdom.`}
+  ];
+
+  let i = 0;
+  function showStory(){
+    ar.innerHTML = stories[i].ar;
+    en.innerHTML = stories[i].en;
+    i = (i + 1) % stories.length;
+  }
+
+  btn.onclick = () => {
+    if (popup.style.display === 'block') {
+      popup.style.animation = 'fadeOut 0.5s ease';
+      setTimeout(() => popup.style.display = 'none', 400);
+    } else {
+      popup.style.display = 'block';
+      showStory();
+    }
+  };
+
+  setInterval(() => {
+    if (popup.style.display === 'block') showStory();
+  }, 20000);
+})();
+</script>
+
+</body>
+</html>
+
+</style>
+</head>
+<body>
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأقسامsakaker wep</title>
+<style> {
+  font-family:'Tajawal', sans-serif;
+  margin:0;
+  padding:0;
+  background:transparent;
+  color: silver;
+  text-align:center;
+}
+
+/* ===== أيقونة التشغيل ===== */
+#scrollbox-icon {
+  position: fixed;
+  bottom: 290px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #00ffaa;
+  color: #00ffaa;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,255,170,0.4);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  z-index: 99999;
+}
+#scrollbox-icon:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 0 30px #00f2fe;
+}
+
+/* ===== الخلفية ===== */
+#scrollbox-overlay {
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);
+  z-index:99998;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+#scrollbox-overlay.active {
+  display:block;
+  opacity:1;
+}
+
+/* ===== النافذة ===== */
+#scrollbox-popup {
+  display:none;
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.9);
+  width:90%;
+  max-width:900px;
+  height:85%;
+  background:rgba(255,255,255,0.97);
+  color:#111;
+  border-radius:14px;
+  box-shadow:0 0 25px rgba(255,255,255,0.2);
+  z-index:100000;
+  opacity:0;
+  transition:all 0.3s ease;
+  overflow:hidden;
+  text-align:right;
+}
+#scrollbox-popup.active {
+  display:block;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+
+/* ===== التبويبات ===== */
+.scrollbox-tabs {
+  display:flex;
+  justify-content:space-around;
+  background:rgba(0,0,0,0.05);
+  border-bottom:1px solid rgba(0,0,0,0.1);
+}
+.scrollbox-tab {
+  flex:1;
+  text-align:center;
+  padding:10px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:background 0.3s;
+}
+.scrollbox-tab:hover { background:rgba(0,0,0,0.1); }
+.scrollbox-tab.active { background:rgba(0,0,0,0.2); }
+
+/* ===== المحتوى ===== */
+.scrollbox-content {
+  display:none;
+  height:calc(100% - 60px);
+  padding:20px;
+  overflow:hidden;
+  position:relative;
+}
+.scrollbox-content.active { display:block; }
+
+/* ===== النص المتحرك ===== */
+.scrollbox-text {
+  position:absolute;
+  bottom:-100%;
+  width:100%;
+  animation:scrollbox-up 220s linear infinite; /* سرعة بطيئة جدًا */
+  line-height:1.9;
+}
+@keyframes scrollbox-up {
+  from { bottom:-100%; }
+  to { bottom:100%; }
+}
+.scrollbox-text:hover {
+  animation-play-state: paused;
+}
+
+/* زر الإغلاق */
+#scrollbox-close {
+  position:absolute;
+  top:10px;left:10px;
+  background:rgba(0,0,0,0.1);
+  border:none;
+  color:#333;
+  padding:5px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+#scrollbox-close:hover { background:rgba(0,0,0,0.2); }
+</style>
+</head>
+<body>
+
+<!-- أيقونة التشغيل -->
+<div id="scrollbox-icon">📜</div>
+
+<!-- الخلفية -->
+<div id="scrollbox-overlay"></div>
+
+<!-- النافذة -->
+<div id="scrollbox-popup">
+  <button id="scrollbox-close">❌</button>
+
+  <div class="scrollbox-tabs">
+    <div class="scrollbox-tab active" data-target="scrollbox-culture">🌍 ثقافة</div>
+    <div class="scrollbox-tab" data-target="scrollbox-islamic">🕌 إسلامي</div>
+    <div class="scrollbox-tab" data-target="scrollbox-thoughts">💭 خواطر</div>
+  </div>
+
+  <!-- ===== القسم الأول: ثقافة عامة ===== -->
+ <div id="scrollbox-culture" class="scrollbox-content active">
+  <div class="scrollbox-text">
+    <h2>🌍 ثقافة عامة</h2>
+
+    <p>الثقافة العامة هي المرآة التي تعكس وعي الإنسان ونظرته للحياة،  
+    وهي الجسر الذي يصل بين الفكر والعلم والإبداع.  
+    من خلالها يستطيع الإنسان أن يفهم ذاته، ويتواصل مع مجتمعه،  
+    ويستوعب الحضارات من حوله دون أن يفقد هويته.</p>
+
+    <p>الثقافة ليست مجرد كمٍّ من المعلومات، بل هي طريقة تفكير،  
+    وسلوك حضاري ينبع من الإدراك العميق لقيمة العلم والإنسان.  
+    فالمثقف لا يكرر ما يسمع، بل يُعيد بناءه على أسس المنطق والمعرفة.</p>
+
+    <p>من أبرز ما قدّمته الحضارات للثقافة الإنسانية:  
+    <ul>
+      <li><strong>الحضارة الإسلامية:</strong> التي أبدعت في الطب والفلك والرياضيات والفلسفة، وقدّمت للعالم أسماء خالدة كابن سينا والرازي والخوارزمي.</li>
+      <li><strong>الحضارة المصرية القديمة:</strong> التي أنارت العالم بعلوم التحنيط والهندسة والعمارة، وشهدت ولادة الكتابة والطب المبكر.</li>
+      <li><strong>الحضارة اليونانية:</strong> التي أرست قواعد الفلسفة والمنطق، وقدّمت للعالم سقراط وأفلاطون وأرسطو.</li>
+      <li><strong>الحضارة الصينية:</strong> التي برعت في الورق والحرير والبارود، وأسست مفاهيم الانسجام بين الإنسان والطبيعة.</li>
+    </ul>
+    </p>
+
+    <p>الثقافة الحقيقية تنبع من التوازن بين الأصالة والمعاصرة،  
+    أي أن نحافظ على جذورنا وهويتنا، وفي الوقت نفسه ننفتح على كل جديد مفيد.  
+    فالمجتمع الذي لا يقرأ يتوقف، والذي يقرأ بلا وعي يتشتت،  
+    أما الذي يقرأ بعقل ناقد ويُبدع فهو الذي يصنع التاريخ.</p>
+
+    <p>الثقافة أيضًا هي أخلاق، لأنها تصنع فينا حسّ المسؤولية،  
+    وتمنحنا القدرة على فهم الآخر واحترام اختلافه،  
+    وتزرع فينا قيم التسامح والمحبة والفضيلة.</p>
+
+    <p><em>اقرأ، تفكر، ناقش، واكتب... فالثقافة ليست نهاية طريق، بل بداية حياة.</em></p>
+  </div>
+</div>
+
+
+  <!-- ===== القسم الثاني: التاريخ الإسلامي ===== -->
+  <div id="scrollbox-islamic" class="scrollbox-content">
+    <div class="scrollbox-text">
+      <h2>🕌 التاريخ الإسلامي</h2>
+      <h3>📜 النبي محمد ﷺ</h3>
+      <p>محمد بن عبد الله، خاتم الأنبياء والمرسلين، ولد في مكة عام 571م في عام الفيل.  
+      نزل عليه الوحي في سن الأربعين، فدعا إلى عبادة الله وحده ونبذ الشرك.  
+      استمرت دعوته 23 عامًا، عانى فيها وأصحابه من الاضطهاد حتى هاجر إلى المدينة المنورة، حيث أسس أول دولة إسلامية.  
+      توفي ﷺ سنة 632م، تاركًا أمة موحدة وكتاب الله بين أيدي المسلمين.</p>
+      <hr>
+      <h3>🕌 الخلفاء الراشدون</h3>
+      <p><strong>أبو بكر الصديق</strong> (632–634م): أول الخلفاء، وأقرب الصحابة إلى النبي ﷺ. ثبت المسلمين بعد وفاته ﷺ، وجمع القرآن الكريم في مصحف واحد.</p>
+      <p><strong>عمر بن الخطاب</strong> (634–644م): ثاني الخلفاء، اشتهر بالعدل والحزم، ووسع الدولة الإسلامية لتشمل بلاد فارس والشام ومصر.</p>
+      <p><strong>عثمان بن عفان</strong> (644–656م): ثالث الخلفاء، جمع الناس على مصحف واحد بلغة قريش، وفتح أرمينية وخراسان.</p>
+      <p><strong>علي بن أبي طالب</strong> (656–661م): رابع الخلفاء، وابن عم النبي ﷺ، عُرف بالشجاعة والعلم، وواجه الفتن الكبرى في الأمة.</p>
+      <hr>
+      <h3>⚔️ معاوية بن أبي سفيان</h3>
+      <p>معاوية بن أبي سفيان، صحابي وكاتب وحي للنبي ﷺ، ووالي الشام في عهد عمر وعثمان.  
+      أسس الدولة الأموية سنة 661م بعد تنازل الحسن بن علي له، وجعل دمشق عاصمة للدولة، واشتهر بالحكمة والسياسة والقدرة على إدارة الدولة.</p>
+      <hr>
+      <h3>⚖️ عمر بن عبدالعزيز</h3>
+      <p>عمر بن عبدالعزيز بن مروان، الخليفة الأموي الثامن، يُلقب بخامس الخلفاء الراشدين لزهده وعدله.  
+      وُلد سنة 682م وتولى الخلافة سنة 717م، فعمل على نشر العدل والمساواة، ورد المظالم، وإلغاء كثير من الضرائب الظالمة.  
+      توفي سنة 720م تاركًا سيرةً ناصعة في الحكم الصالح.</p>
+    </div>
+  </div>
+
+  <!-- ===== القسم الثالث: خواطر ===== -->
+  <div id="scrollbox-thoughts" class="scrollbox-content">
+    <div class="scrollbox-text">
+      <h2>💭 خواطر</h2>
+      <h3>قصتي مع التيتنك</h3>
+      <p>في صباح هادئ، شددت أشرعتي متجهًا نحو المجهول، عازمًا على استكشاف أسرار البحار التي لا يعرفها أحد.  
+      كانت الأمواج تعانق قاربي، والريح تدفعني نحو مغامرة لا تُنسى.</p>
+      <p>قادتني التيارات إلى مشهد أسطوري… هناك، في عمقٍ سحيق، ظهرت أمامي سفينة التايتنك، شامخة رغم جراح الزمن، صامتة وكأنها تحكي قصتها الحزينة.  
+      اقتربت منها، ولم أقاوم رغبتي في ترك أثر، فكتبت اسمي على إحدى بقاياها المعدنية المكسوة بالصدأ والمرجان.</p>
+      <p>وبينما أستكشف المكان، لمح بصري ظلاً ضخماً… كان حوتًا عظيمًا غارقًا في سبات عميق بجوار السفينة، وكأنهما رفيقا عزلة.  
+      فاتخذت الحوت فندقًا عائمًا لمدة يومين؛ أستريح فوق ظهره، أراقب النجوم ليلًا، وأتجول بين بقايا السفينة نهارًا.</p>
+
+      <hr>
+      <h3>قصة التنين الفضي</h3>
+      <p>بينما كان أبو القمر زمرد يجلس على صخرة تطل على البحر في ليلة هادئة، لاحظ ضوءًا غريبًا يلمع وسط الضباب.  
+      اقترب أكثر، فإذا به يكتشف كائنًا أسطوريًا ذو حراشف لامعة كالفضة، إنه التنين الفضي.</p>
+      <p>اقترب التنين ببطء وصوته العميق يروي حكايات عن الجبال البعيدة والبحار المجهولة.  
+      دعاه لرحلة بين الغيوم، حيث حلقا فوق الغابات والأنهار، وشاهدا معًا روائع لم ترها عين بشر من قبل.</p>
+      <p>عاد أبو القمر زمرد من تلك المغامرة وهو يدرك أن المغامرة الحقيقية ليست فقط في استكشاف الأماكن، بل في الجرأة على خوض المجهول بقلب مفتوح.</p>
+
+      <hr>
+      <h3>القمر والزمرد 🌙💎</h3>
+      <p>قصَّ أبو القمر حكاية يوم استطاع أن يمزج أنوار القمر بأحجار الزمرد الكريمة التي حصل عليها من شعب المرجان.  
+      كان ينظر إلى بريق الزمرد في أعماق البحر، حتى سطع نور القمر وانعكس على تلك الأحجار الساحرة.</p>
+      <p>ومنذ ذلك الحين، صار هذا الطريق بوابة لتحقيق الأحلام وتحويلها إلى حقيقة بإذن الله.</p>
+
+      <hr>
+      <h3>أبو القمر زمرد حارس الأندلس القديم</h3>
+      <p>في زمن بعيد، حين كانت الأندلس جنة على الأرض، عاش رجل يُدعى أبو القمر زمرد، حارس أسوار قرطبة وراعي مفاتيح بواباتها.  
+      كان معروفًا بشجاعته وذكائه، حتى أن الملوك كانوا يستشيرونه في أمور الحرب والسلم.</p>
+      <p>وفي إحدى الليالي، رأى نورًا غريبًا يلمع فوق قصر الحمراء، فاتجه نحوه بسرعة، وهناك وجد مخطوطة قديمة تحمل أسرار الدفاع عن الأندلس.  
+      أدرك أن مهمته الحقيقية ليست فقط حماية الأسوار، بل حماية سرّ الأندلس من أن يضيع إلى الأبد.</p>
+
+      <hr>
+      <h3>رحلة أبو القمر إلى ما وراء المجرات</h3>
+      <p>بعد أن أنهى أبو القمر تصميم موقعه على الويب وتفعيله، شعر بإرهاق شديد، وقرر أن يأخذ إجازة لمدة شهر بعيدًا عن التفكير والروتين.  
+      وفي ليلة هادئة، نظر إلى القمر، فرأى انعكاسًا براقًا للزمرد يلمع في ضوئه، فركب شعاع الضوء وانطلق بسرعة تفوق الضوء،  
+      حتى وصل إلى مجرة بعيدة مغطاة بحدائق من ثمار لا تُحصى وكائنات ودودة.</p>
+      <p>تزوج هناك ورُزق بأبناء، لكن الحنين إلى الأرض أشعل قلبه فعاد عبر بوابة ضوء نادرة،  
+      إلا أن المسار انحرف ليصل إلى مدينة الكريستال الأزرق، حيث بدأت مغامرة جديدة غيّرت مصيره إلى الأبد.</p>
+
+      <hr>
+      <h3>العودة بعد الانبطاح</h3>
+      <p>وبعد طول انتظار في مدينة النوم والانبطاح، نهض البطل ببطء،  
+      وكأن الأرض التي احتضنته طوال تلك الفترة لم ترغب في إفلاته.  
+      تنفّس عميقًا ومسح عن كتفيه غبار الاستسلام، ثم خطا أولى خطوات العودة؛  
+      فهو يعلم أن الانبطاح أحيانًا هدنة، ولكن العودة هي المعركة الحقيقية.  
+      <strong>إلى الأرض... إلى الحياة... إلى النور.</strong></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const icon = document.getElementById('scrollbox-icon');
+  const popup = document.getElementById('scrollbox-popup');
+  const overlay = document.getElementById('scrollbox-overlay');
+  const close = document.getElementById('scrollbox-close');
+  const tabs = document.querySelectorAll('.scrollbox-tab');
+  const sections = document.querySelectorAll('.scrollbox-content');
+
+  icon.addEventListener('click', ()=>{
+    popup.classList.add('active');
+    overlay.classList.add('active');
+  });
+  close.addEventListener('click', closeAll);
+  overlay.addEventListener('click', closeAll);
+
+  function closeAll(){
+    popup.classList.remove('active');
+    overlay.classList.remove('active');
+  }
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      sections.forEach(s=>s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أابوالقمرزمرد فنان شامل</title>
+<style> {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* الأيقونة */
+  #customVideoIcon {
+    position: fixed;
+    top: 60px;
+    right: 150px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 500;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+  }
+
+  #customVideoIcon::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
+    animation: glow 2s linear infinite alternate;
+    z-index: -1;
+  }
+
+  @keyframes glow {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+  }
+
+  #customVideoIcon iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* الإطار المنبثق */
+  #customVideoPopup {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  /* الفيديو */
+  #customVideoContent {
+    width: 60%;
+    max-width: 600px;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    overflow: hidden;
+    background: black;
+    position: relative;
+    transform: scale(0);
+    animation: popupScale 0.4s forwards;
+    box-shadow: 0 0 25px 5px #fff;
+  }
+
+  #customVideoContent::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(15px);
+    animation: rainbowGlow 5s linear infinite;
+  }
+
+  @keyframes rainbowGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes popupScale {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  #customVideoContent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+  }
+
+  /* زر الإغلاق داخل المنبثق */
+  #customCloseBtn {
+    position: absolute;
+    top: 10%;
+    right: 20%;
+    background: red;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  #customCloseBtn:hover {
+    background: #ff4444;
+    transform: scale(1.1);
+  }
+
+  /* زر إخفاء الأيقونة */
+  #hideIconBtn {
+    position: fixed;
+    top: 135px;
+    right: 250px;
+    background: linear-gradient(45deg, #f00, #0ff, #ff0);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+
+  /* زر إظهار الأيقونة */
+  #showIconBtn {
+    display: none;
+    position: fixed;
+    top: 135px;
+    right: 370px;
+    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- أيقونة الفيديو -->
+<div id="customVideoIcon">
+  <iframe 
+    src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- زر إخفاء الأيقونة -->
+<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
+
+<!-- زر إظهار الأيقونة -->
+<button id="showIconBtn">🔄 إظهار الأيقونة</button>
+
+<!-- الإطار المنبثق -->
+<div id="customVideoPopup">
+  <button id="customCloseBtn">&times;</button>
+  <div id="customVideoContent">
+    <iframe 
+     src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<script>
+const icon = document.getElementById('customVideoIcon');
+const popup = document.getElementById('customVideoPopup');
+const content = document.getElementById('customVideoContent');
+const close = document.getElementById('customCloseBtn');
+const hideBtn = document.getElementById('hideIconBtn');
+const showBtn = document.getElementById('showIconBtn');
+
+// فتح الفيديو المنبثق
+icon.addEventListener('click', () => {
+  popup.style.display = 'flex';
+  content.style.animation = 'popupScale 0.4s forwards';
+});
+
+// إغلاق الفيديو المنبثق
+close.addEventListener('click', (e) => {
+  e.stopPropagation();
+  popup.style.display = 'none';
+  content.style.transform = 'scale(0)';
+});
+
+// الضغط خارج الإطار يغلق المنبثق
+popup.addEventListener('click', (e) => {
+  if(e.target === popup){
+    popup.style.display = 'none';
+    content.style.transform = 'scale(0)';
+  }
+});
+
+// إخفاء الأيقونة
+hideBtn.addEventListener('click', () => {
+  icon.style.display = 'none';
+  hideBtn.style.display = 'none';
+  showBtn.style.display = 'block';
+});
+
+// إظهار الأيقونة
+showBtn.addEventListener('click', () => {
+  icon.style.display = 'flex';
+  hideBtn.style.display = 'block';
+  showBtn.style.display = 'none';
+});
+</script>
+
+<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
+  position: fixed;
+  top: 80px; /* مرفوعة حوالي خمس أسطر */
+  right: 12px;
+  width: 75px;
+  height: 75px;
+  background: radial-gradient(circle at 30% 30%, #00ffcc, #006666);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
+  z-index: 1001;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+  🐦
+</div>
+
+<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
+<audio id="bird-sound" loop playsinline>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<script>
+const birdBtn = document.getElementById('bird-sound-btn');
+const birdAudio = document.getElementById('bird-sound');
+
+// حالة أولية
+birdBtn.textContent = "🐦";
+
+// عند النقر على الأيقونة
+birdBtn.addEventListener('click', async () => {
+  try {
+    if (birdAudio.paused) {
+      await birdAudio.play();
+      birdBtn.textContent = "🔊";
+      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
+      birdBtn.style.transform = "scale(1.1)";
+    } else {
+      birdAudio.pause();
+      birdBtn.textContent = "🐦";
+      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
+      birdBtn.style.transform = "scale(1)";
+    }
+  } catch (err) {
+    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
+    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
+  }
+});
+</script>
+<style>
+/* حاوية رئيسية لكل محتوى الصفحة */
+#page-wrapper {
+  width: 100%;
+  transform-origin: top right; /* أو top left حسب اتجاه الصفحة */
+  transition: transform 0.3s ease;
+}
+
+/* تصغير تلقائي حسب حجم الشاشة */
+@media (max-width: 1024px) { #page-wrapper { transform: scale(0.9); } }
+@media (max-width: 768px)  { #page-wrapper { transform: scale(0.8); } }
+@media (max-width: 480px)  { #page-wrapper { transform: scale(0.7); } }
+@media (max-width: 360px)  { #page-wrapper { transform: scale(0.6); } }
+
+/* منع ظهور شريط تمرير أفقي */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+</style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مستودع أيقونات مضيء</title>
+<style>
+/* ===== إعدادات الصفحة الأساسية ===== */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+
+/* ===== أيقونة المستودع المضيئة ===== */
+#icon-toggle {
+  position: fixed;
+  bottom: 180px;
+  right: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  background: radial-gradient(circle, #ff5f6d, #ffc371);
+  color:#fff;
+  padding:15px 20px;
+  border-radius:50%;
+  font-weight:bold;
+  font-size:16px;
+  text-align:center;
+  box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  animation: glowIcon 1.5s infinite alternate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes glowIcon {
+  0% { box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d; }
+  50% { box-shadow: 0 0 25px #ff5f6d, 0 0 35px #ffc371, 0 0 45px #ff5f6d; }
+  100% { box-shadow: 0 0 15px #ff5f6d, 0 0 25px #ffc371, 0 0 35px #ff5f6d; }
+}
+
+/* ===== المستودع ===== */
+#icon-repo {
+  position: fixed;
+  bottom: 90px; /* فوق الأيقونة مباشرة */
+  right: 20px;
+  background: rgba(0,0,0,0.85);
+  padding: 15px;
+  border-radius: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 999;
+  max-width: 90vw;
+  box-shadow: 0 0 15px #000;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+#icon-repo.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== أيقونات داخل المستودع ===== */
+#icon-repo .icon {
+  width: 60px;
+  height: 60px;
+  background: #666;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#icon-repo .icon:hover {
+  transform: scale(1.2);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px){
+  #icon-repo .icon { width: 50px; height: 50px; font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- أيقونة المستودع المضيئة -->
+<div id="icon-toggle">تفضل / Here</div>
+
+<!-- المستودع مع أيقونات داخلها -->
+<div id="icon-repo">
+  <div class="icon">🏠</div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ألعاب أبو القمر زمرد 🎮</title>
+<style> {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    font-family: sans-serif;
+    overflow: hidden;
+  }
+
+  /* 🎬 خلفية الفيديو */
+  #backgroundVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  /* 🎮 أيقونات الألعاب */
+  .gameIcon {
+    position: fixed;
+    top: 180px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 25px 10px rgba(255,255,255,0.8);
+    animation: glow 2s infinite alternate;
+    z-index: 5000;
+  }
+
+  /* 🎱 بلياردو */
+  #billiardsIcon {
+    left: 160px;
+    background: radial-gradient(circle, #ff0000, #ff9900, #00ff00, #0000ff, #ff00ff);
+  }
+
+  /* ♟️ شطرنج */
+  #chessIcon {
+    left: 260px;
+    background: radial-gradient(circle, #00ffff, #0000ff, #ff00ff, #ffff00, #00ff00);
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 10px 5px #fff; }
+    to   { box-shadow: 0 0 25px 15px #00ffff; }
+  }
+
+  /* 🧩 الإطارات المنبثقة (مشتركة) */
+  .gameContainer {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 65%;
+    background: rgba(0,0,0,0.95);
+    border: 3px solid #0ff;
+    border-radius: 20px;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 0 30px rgba(0,255,255,0.8);
+    cursor: move;
+  }
+
+  /* بلياردو في منتصف الصفحة كما قبل */
+  #billiardsContainer {
+    top: 58%;
+  }
+
+  /* شطرنج — نزلناه بمقدار ~100px (حوالي 10 أسطر) */
+  #chessContainer {
+    top: calc(50% + 70px) !important;
+  }
+
+  .gameContainer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 15px;
+  }
+
+  /* زر الإغلاق */
+  .closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    background: red;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 3px 8px;
+  }
+
+  /* تحسين استجابة على شاشات أصغر */
+  @media (max-width: 800px) {
+    .gameContainer { width: 90%; height: 60%; }
+    .gameIcon { width: 60px; height: 60px; font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 🎬 خلفية الفيديو -->
+<video id="backgroundVideo" autoplay muted loop>
+  <source src="https://cdn.pixabay.com/video/2024/06/21/178568-955862780_large.mp4" type="video/mp4">
+</video>
+
+<!-- 🎱 أيقونة بلياردو -->
+<div id="billiardsIcon" class="gameIcon" title="بلياردو">🎱</div>
+
+<!-- ♟️ أيقونة الشطرنج -->
+<div id="chessIcon" class="gameIcon" title="شطرنج">♟️</div>
+
+<!-- 🎱 نافذة بلياردو -->
+<div id="billiardsContainer" class="gameContainer" aria-hidden="true">
+  <button class="closeBtn" id="closeBilliards">X</button>
+  <iframe src="https://www.crazygames.com/embed/8-ball-billiards-classic" title="لعبة بلياردو"></iframe>
+</div>
+
+<!-- ♟️ نافذة الشطرنج (منزلة 10 أسطر تقريباً) -->
+<div id="chessContainer" class="gameContainer" aria-hidden="true">
+  <button class="closeBtn" id="closeChess">X</button>
+  <iframe src="https://www.crazygames.com/embed/master-chess" title="لعبة شطرنج"></iframe>
+</div>
+
+<script>
+/* العناصر */
+const billiardsIcon = document.getElementById('billiardsIcon');
+const chessIcon = document.getElementById('chessIcon');
+const billiardsContainer = document.getElementById('billiardsContainer');
+const chessContainer = document.getElementById('chessContainer');
+const closeBilliards = document.getElementById('closeBilliards');
+const closeChess = document.getElementById('closeChess');
+
+/* فتح وإغلاق */
+billiardsIcon.addEventListener('click', () => {
+  billiardsContainer.style.display = 'block';
+  chessContainer.style.display = 'none';
+  billiardsContainer.setAttribute('aria-hidden', 'false');
+  chessContainer.setAttribute('aria-hidden', 'true');
+});
+
+chessIcon.addEventListener('click', () => {
+  chessContainer.style.display = 'block';
+  billiardsContainer.style.display = 'none';
+  chessContainer.setAttribute('aria-hidden', 'false');
+  billiardsContainer.setAttribute('aria-hidden', 'true');
+});
+
+closeBilliards.addEventListener('click', () => {
+  billiardsContainer.style.display = 'none';
+  billiardsContainer.setAttribute('aria-hidden', 'true');
+});
+closeChess.addEventListener('click', () => {
+  chessContainer.style.display = 'none';
+  chessContainer.setAttribute('aria-hidden', 'true');
+});
+
+/* ======= draggable (سحب) مشترك ======= */
+function makeDraggable(el) {
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  el.addEventListener('mousedown', (e) => {
+    // فقط عند الضغط على العنصر نفسه (ليس على iframe داخله أو أزراره)
+    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
+    dragging = true;
+    const rect = el.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    el.style.transform = 'none'; // نلغي translate أثناء السحب
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    el.style.left = `${e.clientX - offsetX}px`;
+    el.style.top = `${e.clientY - offsetY}px`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    dragging = false;
+    document.body.style.userSelect = '';
+  });
+
+  // دعم لمس الشاشة (mobile)
+  el.addEventListener('touchstart', (e) => {
+    if (e.target.tagName === 'IFRAME' || e.target.classList.contains('closeBtn')) return;
+    dragging = true;
+    const touch = e.touches[0];
+    const rect = el.getBoundingClientRect();
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+  }, {passive: true});
+
+  document.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    const touch = e.touches[0];
+    el.style.left = `${touch.clientX - offsetX}px`;
+    el.style.top = `${touch.clientY - offsetY}px`;
+  }, {passive: true});
+
+  document.addEventListener('touchend', () => { dragging = false; });
+}
+
+/* تفعيل السحب لكل الإطارات */
+makeDraggable(billiardsContainer);
+makeDraggable(chessContainer);
+
+/* تأكد أن وضع top للـ chessContainer يعمل حتى لو كانت خصائص سابقة */
+window.addEventListener('load', () => {
+  chessContainer.style.top = chessContainer.style.top || getComputedStyle(chessContainer).top;
+});
+</script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌿 مكتبة الطب الشعبي والنبوي</title>
 <style>
@@ -2351,1371 +4330,8 @@ items.forEach(item => {
 </html>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<title>شريط نكت بترجمة بطيئة</title>
-<style>
-body {
-  margin: 0;
-  background: #000;
-  font-family: "Tajawal", sans-serif;
-  overflow: hidden;
-}
-
-/* حاوية الشريط */
-.joke-bar {
-  position: fixed;
-  left: 10px;
-  top: 53%;
-  transform: translateY(-50%);
-  width: 200px;
-  height: 60px;
-  color: #fff;
-  font-size: 17px;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid #0ff;
-  border-radius: 20px;
-  box-shadow: 0 0 15px #0ff;
-  text-align: center;
-  overflow: hidden;
-  padding: 5px;
-  animation: glow 2s infinite alternate;
-}
-
-/* توهج الإطار */
-@keyframes glow {
-  from { box-shadow: 0 0 10px #0ff; border-color: #0ff; }
-  to   { box-shadow: 0 0 25px #0ff; border-color: #0ff; }
-}
-
-/* النص العربي */
-.joke-ar {
-  direction: ltr; /* من اليسار إلى اليمين */
-  white-space: nowrap;
-  display: inline-block;
-  font-size: 25px;
-  animation: moveAR 100s linear infinite;
-}
-
-/* النص الإنجليزي */
-.joke-en {
-  direction: rtl; /* من اليمين إلى اليسار */
-  white-space: nowrap;
-  display: inline-block;
-  font-size: 25px;
-  color: #0ff;
-  animation: moveEN 100s linear infinite;
-}
-
-/* حركة النصوص */
-@keyframes moveAR {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-@keyframes moveEN {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-</style>
-</head>
-<body>
-
-<div class="joke-bar">
-  <div class="joke-ar" id="jokeAr">😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات</div>
-  <div class="joke-en" id="jokeEn">(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)</div>
-</div>
-
-<script>
-// النكت (عربي + إنجليزي) – نكتة واحدة فقط
-const jokes = [
-  ["😂 قال ابوالقمر زمرد للتنين نكته فضحك التنين الفضي حتى خرج النار من لسانه فحترق ابوالقمرزمرد فمات", 
-   "(Abu Al-Qamar Zamrud told the dragon a joke. The Silver Dragon laughed so hard that fire came out of its mouth, burning Abu Al-Qamar Zamrud to death.)"]
-];
-
-let index = 0;
-
-function changeJoke() {
-  index = (index + 1) % jokes.length;
-  const jokeAr = document.getElementById("jokeAr");
-  const jokeEn = document.getElementById("jokeEn");
-  
-  // تغيير النص
-  jokeAr.textContent = jokes[index][0];
-  jokeEn.textContent = jokes[index][1];
-  
-  // إعادة تشغيل الأنيميشن لضمان ظهور الحركة الجديدة
-  jokeAr.style.animation = "none";
-  jokeEn.style.animation = "none";
-  void jokeAr.offsetWidth; // إعادة ضبط الأنيميشن
-  jokeAr.style.animation = "moveAR 30s linear infinite";
-  jokeEn.style.animation = "moveEN 30s linear infinite";
-}
-
-setInterval(changeJoke, 32000); // بعد كل 32 ثانية
-</script>
-<!-- 🎂 كيك متوهج بألوان متغيرة -->
-<div id="cakeWrapper">
-  <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
-    <div class="cakeContent">
-      🎂<br>
-      <span class="label">يسعدني إعجابك 💖</span>
-      <span class="en">It makes me happy you liked it 💖</span>
-      <span class="usd">(coffee 1$)</span>
-    </div>
-  </div>
-</div>
-
-<style>
-/* 📦 الغلاف العام */
-#cakeWrapper {
-  position: fixed;
-  bottom: 70px;
-  left:30%;
-  transform: translateX(50%);
-  z-index: 1000;
-}
-
-/* 🎂 الكيكة */
-#cakeButton {
-  position: relative;
-  width: 120px;
-  height: 70px;
-  background: radial-gradient(circle at 30% 30%, #ff0, #00f, #f00, #0f0);
-  border-radius: 50% 50% 10% 10%;
-  border: 2px solid #fff;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6),
-              0 0 30px 10px rgba(255, 255, 0, 0.3);
-  transition: all 0.2s ease;
-  animation: glowShift 0.8s infinite linear;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 🎉 محتوى الكيكة مرفوع قليلًا */
-.cakeContent {
-  margin-top: -6px; /* 🔼 رفع المحتوى */
-}
-
-/* ✨ وميض متغيّر للألوان */
-@keyframes glowShift {
-  0%   { background: radial-gradient(circle at 20% 20%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 15px 3px #ff0; }
-  25%  { background: radial-gradient(circle at 70% 20%, #0f0, #f00, #00f, #ff0); box-shadow: 0 0 20px 5px #0f0; }
-  50%  { background: radial-gradient(circle at 30% 70%, #00f, #ff0, #0f0, #f00); box-shadow: 0 0 25px 7px #00f; }
-  75%  { background: radial-gradient(circle at 70% 70%, #f00, #0f0, #ff0, #00f); box-shadow: 0 0 25px 7px #f00; }
-  100% { background: radial-gradient(circle at 50% 50%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 20px 5px #ff0; }
-}
-
-/* 💛 النصوص */
-#cakeButton .label {
-  display: block;
-  font-size: 11px;
-}
-
-#cakeButton .en {
-  display: block;
-  color: #ffff99;
-  font-size: 9px;
-  margin-top: 3px;
-}
-
-#cakeButton .usd {
-  display: block;
-  color: #fff;
-  font-size: 10px;
-  margin-top: 3px;
-  text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
-}
-</style>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شريط أسعار متحرك</title>
-<style>
-  /* الشريط المتحرك */
- #ticker-container {
-  position: fixed;
-  bottom: 40px; /* رفع الشريط بمقدار سطرين عن أسفل الصفحة */
-  left: 0;
-  width: 100%;
-  background: 
-  overflow: hidden;
-  white-space: nowrap;
-  z-index: 9999;
-  padding: 8px 0;
-  font-family: Tahoma, sans-serif;
-  color: #c0c0c0; /* خط فضي */
-  font-size: 16px;
-}
-
-  #ticker {
-    display: inline-block;
-    padding-left: 100%;
-    animation: ticker-scroll 30s linear infinite;
-  }
-
-  @keyframes ticker-scroll {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-100%); }
-  }
-
-  .ticker-item {
-    margin: 0 30px;
-    display: inline-block;
-  }
-
-  @media (max-width: 600px) {
-    #ticker-container { font-size: 14px; }
-    .ticker-item { margin: 0 20px; }
-  }
-</style>
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطقس والأسعار - أبو القمر زمرد</title>
-<style>
-#ticker-container {
-  position: fixed;
-  bottom: 10px; /* مرفوع سطر واحد عن الأسفل */
-  left: 0;
-  width: 100%;
-  background: 
-  color: #c0c0c0;
-  overflow: hidden;
-  white-space: nowrap;
-  font-family: "Tahoma", sans-serif;
-  font-size: 16px;
-  z-index: 9999;
-  padding: 8px 0;
-  border-top: 2px solid #444;
-  direction: rtl;
-}
-
-#ticker-content {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scroll 500s linear infinite;
-}
-
-#ticker-content span {
-  display: inline-block;
-  margin-right: 60px;
-}
-
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-</style>
-</head>
-<body>
-
-<div id="ticker-container">
-  <div id="ticker-content">جاري تحميل البيانات...</div>
-</div>
-
-<script>
-// جلب الطقس بناءً على الموقع
-async function fetchWeather() {
-  try {
-    const position = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-    );
-
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-
-    const weatherResponse = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode`
-    );
-    const weatherData = await weatherResponse.json();
-    const temp = weatherData.current.temperature_2m;
-    const weatherCode = weatherData.current.weathercode;
-    // تحويل الكود إلى وصف
-    const weatherText = {
-      0: "☀️ مشمس",
-      1: "🌤️ صافي",
-      2: "🌥️ غائم جزئياً",
-      3: "☁️ غائم",
-      45: "🌫️ ضباب",
-      48: "🌫️ ضباب كثيف",
-      51: "🌦️ رذاذ خفيف",
-      61: "🌧️ مطر",
-      71: "🌨️ ثلوج",
-      95: "⛈️ عواصف"
-    }[weatherCode] || "🌡️ حالة جوية غير معروفة";
-
-    return `${weatherText} ${temp}°C`;
-  } catch (error) {
-    return "🌍 لم يتم تحديد الموقع أو حالة الطقس.";
-  }
-}
-
-// جلب الأسعار
-async function fetchPrices() {
-  try {
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold,oil,usd,eur,gbp&vs_currencies=usd,sar");
-    const data = await response.json();
-
-    const btc = data.bitcoin?.usd ? `${data.bitcoin.usd} دولار` : "غير متاح";
-    const eth = data.ethereum?.usd ? `${data.ethereum.usd} دولار` : "غير متاح";
-    const usd = data.usd?.sar ? `${data.usd.sar} ريال` : "3.75 ريال";
-    const eur = data.eur?.sar ? `${data.eur.sar} ريال` : "4.10 ريال";
-    const gbp = data.gbp?.sar ? `${data.gbp.sar} ريال` : "4.80 ريال";
-    const gold = data.gold?.usd ? `${data.gold.usd} دولار` : "2350 دولار";
-    const oil = data.oil?.usd ? `${data.oil.usd} دولار` : "89 دولار";
-    const silver = "28.5 دولار";
-
-    const weather = await fetchWeather();
-
-    const ticker = document.getElementById("ticker-content");
-    ticker.innerHTML = `
-      <span>${weather}</span>
-      <span>💰 الدولار الأمريكي: ${usd}</span>
-      <span>💶 اليورو: ${eur}</span>
-      <span>💷 الجنيه الإسترليني: ${gbp}</span>
-      <span>💎 الذهب: ${gold}</span>
-      <span>🥈 الفضة: ${silver}</span>
-      <span>🛢️ النفط: ${oil}</span>
-      <span>📈 بيتكوين: ${btc}</span>
-      <span>💹 إيثيريوم: ${eth}</span>
-    `;
-    ticker.innerHTML += ticker.innerHTML; // تكرار للتمرير المستمر
-  } catch (error) {
-    document.getElementById("ticker-content").innerText = "⚠️ تعذر جلب الأسعار أو الطقس.";
-  }
-}
-
-// تحميل عند البداية وتحديث كل دقيقة
-fetchPrices();
-setInterval(fetchPrices, 60000);
-</script>
-
 </body>
 </html>
-<script>
-// تشغيل كل الوظائف بعد تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-  /* 🎯 1. إصلاح أيقونة المعلّقات */
-  const mainIcon = document.getElementById("mainIcon");
-  const namesList = document.getElementById("namesList");
-
-  if (mainIcon && namesList) {
-    mainIcon.addEventListener("click", () => {
-      namesList.style.display = namesList.style.display === "block" ? "none" : "block";
-    });
-  }
-
-  document.querySelectorAll("#namesList span[data-target]").forEach(span => {
-    span.addEventListener("click", () => {
-      const targetId = span.getAttribute("data-target");
-      const poemDiv = document.getElementById(targetId);
-      if (poemDiv) {
-        poemDiv.style.display = "block";
-        namesList.style.display = "none";
-      }
-    });
-  });
-
-  window.closePoem = function(id) {
-    const poemDiv = document.getElementById(id);
-    if (poemDiv) poemDiv.style.display = "none";
-  };
-
-  /* 🩺 2. إصلاح قسم الطب الشعبي والنبوي */
-  const medicineBtn = document.getElementById('medicineBtn');
-  const medicineBox = document.getElementById('medicineBox');
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  if (medicineBtn && medicineBox) {
-    medicineBtn.addEventListener('click', () => {
-      medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
-    });
-  }
-
-  window.closeBox = function() {
-    if (medicineBox) medicineBox.style.display = 'none';
-  }
-
-  if (tabs.length > 0) {
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        tabContents.forEach(c => c.classList.remove('active'));
-        const currentTab = document.getElementById(tab.dataset.tab);
-        if (currentTab) currentTab.classList.add('active');
-      });
-    });
-  }
-
-  /* 📰 3. إصلاح شريط الأخبار المتحرك */
-  const newsBar = document.getElementById('newsBar');
-  if (newsBar) {
-    let scroll = 0;
-    setInterval(() => {
-      scroll += 1;
-      newsBar.scrollLeft = scroll;
-      if (scroll >= newsBar.scrollWidth - newsBar.clientWidth) scroll = 0;
-    }, 40);
-  }
-
-  /* ❌ 4. إصلاح أزرار الإغلاق العامة */
-  const closeBtn = document.getElementById("closeBtn");
-  const gameContainer = document.getElementById("gameContainer");
-  if (closeBtn && gameContainer) {
-    closeBtn.addEventListener("click", () => {
-      gameContainer.style.display = "none";
-    });
-  }
-});
-</script>
-
-<script>
-// إصلاح زر الطب الشعبي إذا لم يعمل بعد الدمج
-document.addEventListener("DOMContentLoaded", () => {
-  const medicineBtn = document.querySelector("#medicineBtn");
-  const medicineBox = document.querySelector("#medicineBox");
-
-  if (medicineBtn && medicineBox) {
-    console.log("✅ تم التعرف على زر الطب والنافذة.");
-    medicineBtn.onclick = () => {
-      const isVisible = medicineBox.style.display === "block";
-      medicineBox.style.display = isVisible ? "none" : "block";
-      console.log(isVisible ? "🔒 تم الإغلاق" : "📖 تم الفتح");
-    };
-  } else {
-    console.warn("⚠️ لم يتم العثور على عناصر الطب في الصفحة.");
-  }
-});
-</script>
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>التعريف بالموقع</title>
-<style>
-  body {
-    margin: 0;
-    font-family: "Cairo", sans-serif;
-    background: #000;
-    color: #fff;
-    overflow-x: hidden;
-  }
-
-  /* 🔹 أزرار اللغة */
-  #langSwitcher {
-    position: fixed;
-    top: 590px;
-    left: 1000px;
-    z-index: 999;
-  }
-
-  #langSwitcher button {
-    background: #111;
-    color: #fff;
-    border: 1px solid #555;
-    border-radius: 6px;
-    padding: 3px 7px;
-    cursor: pointer;
-    margin: 2px;
-    font-size: 13px;
-  }
-
-  #langSwitcher button:hover {
-    background: #333;
-  }
-
-  /* 🔹 الأيقونة المضيئة الصغيرة */
-  #cvIcon {
-    position: fixed;
-    bottom: 60px;
-    right: 200px;
-    background:
-    background-size: 400% 400%;
-    animation: glow 4s linear infinite;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 13px;
-    box-shadow: 0 0 15px rgba(255,255,255,0.7);
-    z-index: 998;
-    text-align: center;
-    transition: transform 0.3s;
-  }
-
-  @keyframes glow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  #cvIcon:hover {
-    transform: scale(1.05);
-  }
-
-  /* 🔹 الإطار المنبثق المصغر */
-  #cvPage {
-    display: none;
-    position: fixed;
-    top: 30;
-    left: 50;
-    width: 100%;
-    height: 100%;
-    background: 
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .cv-content {
-    background: 
-    border-radius: 25px;
-    padding: 20px;
-    width: 80%;
-    max-width: 350px;
-    box-shadow: 0 0 20px rgba(0,255,255,0.6);
-    text-align: right;
-    animation: popup 0.4s ease;
-  }
-
-  @keyframes popup {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  .cv-content h1 {
-    color: #00ffff;
-    margin-bottom: 10px;
-    font-size: 18px;
-    text-align: center;
-  }
-
-  .cv-content p {
-    font-size: 13px;
-    line-height: 1.7;
-    margin-bottom: 15px;
-    text-align: right;
-  }
-
-  .closeCV {
-    background:
-    border: none;
-    padding: 6px 14px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #fff;
-    display: block;
-    margin: auto;
-    font-size: 13px;
-  }
-
-  .closeCV:hover {
-    background:
-  }
-</style>
-</head>
-<body>
-
-<!-- 🔹 الأيقونة المضيئة -->
-<div id="cvIcon" onclick="document.getElementById('cvPage').style.display='flex'" data-i18n="cvButton">
-  SV أبوالقمر زمرد
-</div>
-
-<!-- 🔹 الإطار المنبثق -->
-<div id="cvPage">
-  <div class="cv-content" id="cvContent">
-    <h1 data-i18n="cvTitle">التعريف بالموقع</h1>
-    <p data-i18n="cvText">
-      الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)
-    </p>
-    <button class="closeCV" onclick="document.getElementById('cvPage').style.display='none'" data-i18n="cvClose">خروج</button>
-  </div>
-</div>
-
-<script>
-  const translations = {
-    ar: {
-      cvButton: "SV أبوالقمر زمرد",
-      cvTitle: "التعريف بالموقع",
-      cvText: "الاسم الذي اخترته لكتاباتي وأشعاري ومشاركتي خاصه في فيس بوك هو ( أبوالقمر زمرد ) وهو متواجد معي منذ 25 عام والآن أكمل بعض أعمالي بتصميم الموقع مع مساعده الذكاء الاصطناعي، ليكون هادف وبناء بعيد عن الطرح المعتاد ويحتوي فوائد ومتعه وتسليه مختارة من الطروحات المحملة على النت أو من إضافتي، والشكر لكل من ساهم في بناء هذا الموقع حتى لو بمجرد الدعاء (11/9/2025 أبوالقمر زمرد)",
-      cvClose: "خروج"
-    },
-  };
-
-  function setLanguage(lang) {
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-      const key = el.getAttribute("data-i18n");
-      el.innerText = translations[lang][key];
-    });
-    const cvContent = document.getElementById('cvContent');
-    cvContent.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    cvContent.style.textAlign = (lang === 'ar') ? 'right' : 'left';
-  }
-
-  setLanguage('ar');
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎧 راديو | Radio</title>
-<style> {
-  margin: 0;
-  height: 100vh;
-  background: #000;
-  overflow: hidden;
-  font-family: "Tahoma", sans-serif;
-}
-
-/* أيقونة الراديو */
-#radioIcon {
-  position: fixed;
-  bottom: 100px;
-  right: 400px;
-  width: 80px;
-  height: 80px;
-  background: 
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 15px;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 0 25px #fff;
-  animation: glow 2s infinite alternate;
-  z-index: 1000;
-}
-@keyframes glow {
-  0% { box-shadow: 0 0 10px #ff0, 0 0 20px #f00, 0 0 30px #0f0; }
-  50% { box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff, 0 0 60px #00ff00; }
-  100% { box-shadow: 0 0 30px #00f, 0 0 50px #ff0, 0 0 80px #f00; }
-}
-
-/* الإطار المنبثق */
-#radioModal {
-  display: none;
-  position: fixed;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.95);
-  border-radius: 20px;
-  padding: 20px;
-  width: 340px;
-  max-height: 80vh;
-  overflow-y: auto;
-  text-align: center;
-  box-shadow: 0 0 40px #fff;
-  z-index: 2000;
-  color: white;
-}
-
-/* زر الإغلاق */
-.closeBtn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 26px;
-  color: #fff;
-  cursor: pointer;
-  background: rgba(255, 0, 0, 0.6);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  line-height: 28px;
-  text-align: center;
-  transition: 0.3s;
-}
-.closeBtn:hover {
-  background: rgba(255, 50, 50, 0.9);
-}
-
-/* أزرار اللغة */
-#langButtons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-.langBtn {
-  background: linear-gradient(90deg, #00ffff, #ff00ff);
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 12px;
-  box-shadow: 0 0 8px #fff;
-  transition: 0.3s;
-}
-.langBtn:hover {
-  transform: scale(1.1);
-}
-
-/* قائمة الإذاعات */
-.radioItem {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.1);
-  cursor: pointer;
-  transition: 0.3s;
-}
-.radioItem:hover {
-  background: rgba(0,255,200,0.3);
-}
-
-/* مشغل الصوت */
-audio {
-  width: 100%;
-  margin-top: 10px;
-}
-</style>
-</head>
-<body>
-
-<!-- أيقونة الراديو -->
-<div id="radioIcon" onclick="openRadio()">🎧<br>راديو<br>Radio</div>
-
-<!-- الإطار المنبثق -->
-<div id="radioModal">
-  <span class="closeBtn" onclick="closeRadio()">×</span>
-
-  <!-- 🔹 أزرار تغيير اللغة -->
-  <div id="langButtons">
-    <button class="langBtn" onclick="setLanguage('ar')">🇸🇦 عربي</button>
-    <button class="langBtn" onclick="setLanguage('en')">🇬🇧 English</button>
-  </div>
-
-  <h2 id="radioTitle">📻 اختر إذاعتك</h2>
-
-  <div id="radioList">
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/8s5u5tpdtwzuv')">📿 إذاعة القرآن الكريم - السعودية</div>
-    <div class="radioItem" onclick="playRadio('https://quraan.usama.app/stream')">📖 إذاعة القرآن - مصر</div>
-    <div class="radioItem" onclick="playRadio('https://n0a.radiojar.com/8vqz2pdtwzuv')">🎶 Rotana FM</div>
-    <div class="radioItem" onclick="playRadio('https://stream.radiojar.com/0z4p9pdtwzuv')">🎵 مونت كارلو الدولية</div>
-    <div class="radioItem" onclick="playRadio('https://stream-uk1.radioparadise.com/mp3-192')">🎧 Radio Paradise</div>
-    <div class="radioItem" onclick="playRadio('https://bbcwssc.ic.llnwd.net/stream/bbcwssc_mp1_ws-araba')">📰 BBC Arabic</div>
-    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/f8m0r7f7rhvv')">📻 إذاعة السودان</div>
-    <div class="radioItem" onclick="playRadio('https://stream.zeno.fm/hz7m0r7f7rhvv')">🕋 مكة المكرمة</div>
-    <div class="radioItem" onclick="playRadio('https://icecast1.play.cz/cro1-128.mp3')">🎼 Classical Radio</div>
-    <div class="radioItem" onclick="playRadio('https://us2.internet-radio.com/proxy/partyviberadio?mp=/stream')">🎉 Party Vibe Radio</div>
-  </div>
-
-  <audio id="radioPlayer" controls></audio>
-</div>
-
-<script>
-function openRadio() {
-  document.getElementById("radioModal").style.display = "block";
-}
-function closeRadio() {
-  document.getElementById("radioModal").style.display = "none";
-  document.getElementById("radioPlayer").pause();
-}
-function playRadio(url) {
-  const player = document.getElementById("radioPlayer");
-  player.src = url;
-  player.load();
-  player.play().catch(() => {
-    alert("🔇 يرجى النقر مرة أخرى لتشغيل الإذاعة (منع المتصفح التشغيل التلقائي)");
-  });
-}
-
-/* تغيير اللغة */
-function setLanguage(lang) {
-  const title = document.getElementById("radioTitle");
-  if (lang === "en") {
-    title.textContent = "📻 Choose Your Station";
-  } else {
-    title.textContent = "📻 اختر إذاعتك";
-  }
-}
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎬 فيديو + 🗺️ خريطة</title>
-</head>
-<body style="margin:0; background:#111; height:100vh;">
-
-<script>
-class SakakerPopup extends HTMLElement {
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open" });
-    shadow.innerHTML = `
-      <style>
-        /* شكل الأيقونة (نجمة مشعة متعددة الألوان) */
-        .launcher {
-          position: fixed;
-          right: 70%;
-          bottom: 15%;
-          width: 85px;
-          height: 85px;
-          background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
-          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                            79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                            2% 35%, 39% 35%);
-          border-radius: 50%;
-          box-shadow: 0 0 25px #fff, 0 0 50px #0ff;
-          animation: rotateColors 3s linear infinite, pulse 2s ease-in-out infinite;
-          cursor: pointer;
-          z-index: 999999;
-        }
-        @keyframes rotateColors {
-          0% { filter: hue-rotate(0deg); }
-          100% { filter: hue-rotate(360deg); }
-        }
-        @keyframes pulse {
-          0%,100% { transform: scale(1); }
-          50% { transform: scale(1.15); }
-        }
-
-        /* الإطار المنبثق */
-        .overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0,0,0,0.85);
-          display: none;
-          justify-content: center;
-          align-items: center;
-          z-index: 999998;
-        }
-        .box {
-          background: #000;
-          border-radius: 20px;
-          box-shadow: 0 0 30px #0ff;
-          padding: 15px;
-          text-align: center;
-          position: relative;
-          width: 90%;
-          max-width: 680px;
-        }
-
-        iframe {
-          width: 100%;
-          border: none;
-          border-radius: 12px;
-          margin-top: 8px;
-        }
-
-        iframe.video {
-          height: 315px;
-        }
-
-        iframe.map {
-          height: 250px;
-        }
-
-        .close {
-          color: white;
-          background: red;
-          border: none;
-          border-radius: 50%;
-          width: 32px;
-          height: 32px;
-          position: absolute;
-          top: -15px;
-          right: -15px;
-          cursor: pointer;
-          font-size: 18px;
-          box-shadow: 0 0 10px white;
-        }
-      </style>
-
-      <div class="launcher" title="فتح الفيديو والخريطة"></div>
-      <div class="overlay">
-        <div class="box">
-          <button class="close">×</button>
-          <iframe class="video"
-            src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-          <iframe class="map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"
-            loading="lazy">
-          </iframe>
-        </div>
-      </div>
-    `;
-
-    const launcher = shadow.querySelector('.launcher');
-    const overlay = shadow.querySelector('.overlay');
-    const closeBtn = shadow.querySelector('.close');
-
-    launcher.onclick = () => overlay.style.display = "flex";
-    closeBtn.onclick = () => overlay.style.display = "none";
-  }
-}
-
-customElements.define('sakaker-popup', SakakerPopup);
-document.body.appendChild(document.createElement('sakaker-popup'));
-</script>
-
-</body>
-</html>
-
-<!-- ⚖️ توقيع الحقوق -->
-<footer style="
-  position:fixed;bottom:10px;left:50%;
-  transform:translateX(-50%);
-  text-align:center;color:#aaa;
-  font-size:14px;z-index:9000;">
-  جميع الحقوق محفوظة لصفحة <span style="color:#00ffff;">أبو القمر زمرد</span> © 2025
-</footer>
-
-</body>
-</html>
-<!-- 🚀 كود تحسين سرعة الصفحة -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  // 🌙 تأجيل تحميل iframes (مثل YouTube)
-  const iframes = document.querySelectorAll("iframe");
-  iframes.forEach(iframe => {
-    const src = iframe.getAttribute("src");
-    if (src) {
-      iframe.setAttribute("data-src", src);
-      iframe.removeAttribute("src");
-    }
-  });
-
-  // عندما ينتهي تحميل الصفحة بالكامل نعيد تحميلها بشكل متأخر
-  window.addEventListener("load", function() {
-    iframes.forEach(iframe => {
-      const dataSrc = iframe.getAttribute("data-src");
-      if (dataSrc) iframe.setAttribute("src", dataSrc);
-    });
-  });
-
-  // 📦 تحسين الصور الكبيرة بإضافة lazy-loading تلقائيًا
-  const imgs = document.querySelectorAll("img");
-  imgs.forEach(img => {
-    if (!img.hasAttribute("loading"))
-      img.setAttribute("loading", "lazy");
-  });
-});
-</script>
-<!-- 🚀 كود تسريع الصفحة مع شاشة تحميل بإسم "أبو القمر زمرد" -->
-<style>
-/* 🌙 شاشة التحميل */
-#pageLoader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(circle at center, #000 60%, #050505);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 9999;
-  color: silver;
-  font-family: "Tajawal", sans-serif;
-  font-size: 20px;
-  letter-spacing: 1px;
-  text-align: center;
-  transition: opacity 1s ease, visibility 1s ease;
-}
-#loaderSpinner {
-  width: 80px; height: 80px;
-  border: 5px solid #333;
-  border-top: 5px solid silver;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-  box-shadow: 0 0 25px rgba(255,255,255,0.3);
-}
-@keyframes spin {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(360deg);}
-}
-#pageLoader.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-#loaderText {
-  font-size: 22px;
-  color: #c0ffc0;
-  text-shadow: 0 0 10px #00ff99;
-}
-</style>
-
-<!-- 🎬 شاشة التحميل -->
-<div id="pageLoader">
-  <div id="loaderSpinner"></div>
-  <div id="loaderText">إنتاج أبو القمر زمرد<br>جارٍ تحميل الصفحة...</div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  // 💤 1. تأجيل تحميل الفيديوهات الخلفية
-  const bgVideos = document.querySelectorAll("video, iframe.bg-video");
-  bgVideos.forEach(v => {
-    const src = v.getAttribute("src");
-    if (src) {
-      v.setAttribute("data-src", src);
-      v.removeAttribute("src");
-    }
-  });
-
-  // 📺 2. تأجيل تحميل القنوات المباشرة (iframes)
-  const iframes = document.querySelectorAll("iframe");
-  iframes.forEach(iframe => {
-    const src = iframe.getAttribute("src");
-    if (src) {
-      iframe.setAttribute("data-src", src);
-      iframe.removeAttribute("src");
-    }
-  });
-
-  // 🖼️ 3. تفعيل التحميل البطيء للصور والأيقونات
-  const imgs = document.querySelectorAll("img");
-  imgs.forEach(img => {
-    if (!img.hasAttribute("loading"))
-      img.setAttribute("loading", "lazy");
-  });
-
-  // ✅ 4. بعد تحميل الصفحة بالكامل
-  window.addEventListener("load", function() {
-
-    // تحميل الفيديوهات المؤجلة
-    bgVideos.forEach(v => {
-      const dataSrc = v.getAttribute("data-src");
-      if (dataSrc) v.setAttribute("src", dataSrc);
-      if (v.tagName.toLowerCase() === "video") {
-        v.play().catch(()=>{});
-      }
-    });
-
-    // تحميل القنوات المؤجلة
-    iframes.forEach(iframe => {
-      const dataSrc = iframe.getAttribute("data-src");
-      if (dataSrc) iframe.setAttribute("src", dataSrc);
-    });
-
-    // 🔮 إخفاء شاشة التحميل بسلاسة
-    const loader = document.getElementById("pageLoader");
-    setTimeout(() => {
-      loader.classList.add("hidden");
-    }, 800);
-  });
-
-  // 🌟 5. سلاسة التمرير
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(() => {
-      document.body.style.scrollBehavior = "smooth";
-    });
-  }
-
-});
-</script>
-
-<!DOCTYPE html>
-
-<script>
-const quotes = [
-  // حكم
-  let index = 0;
-const textAr = document.getElementById('textAr');
-const textEn = document.getElementById('textEn');
-const flip = document.getElementById('flip');
-
-function changeQuote() {
-  index = (index + 1) % quotes.length;
-  textAr.textContent = quotes[index].ar;
-  textEn.textContent = quotes[index].en;
-}
-setInterval(changeQuote, 6000);
-</script>
-
-</body>
-</html><!-- 🌈 أيقونة فتح/إغلاق قائمة الاتصال -->
-<div id="support-toggle-btn" style="
-  position: fixed;
-  top: 55%;
-  right:100px;
-  width: 65px;
-  height: 65px;
-  background: linear-gradient(45deg, #007bff, #ff69b4);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(0,0,255,0.8);
-  z-index: 1001;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-">
-📞
-</div>
-
-<!-- 🌟 قسم قائمة التواصل -->
-<div id="support-section" style="
-  position: fixed;
-  top: 43%;
-  right: 370px;
-  background: rgba(0, 0, 30, 0.85);
-  padding: 18px;
-  border-radius: 14px;
-  color: #fff;
-  font-family: 'Tajawal', sans-serif;
-  display: none;
-  opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  transform: translateX(20px);
-  z-index: 1000;
-  max-width: 270px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-">
-
-  <h3 style="margin:0; text-align:center; color:#00ffff;">💖 قائمة التواصل</h3>
-  <hr style="border: 1px solid #00ffff; margin:8px 0 10px 0;">
-
-  <!-- 💰 PayPal -->
-  <p style="margin:5px 0; color:#FFD700;">💰 
-    <a href="https://paypal.me/abwalqmrzmrd" target="_blank" style="color:#FFD700; text-decoration:none;">
-      ادعمنا عبر PayPal
-    </a>
-  </p>
-
-  <!-- 📧 البريد -->
-  <p style="margin:5px 0;">📧 
-    <a href="mailto:sakakera@gmail.com" style="color:#00ffcc; text-decoration:none;">
-      sakakera@gmail.com
-    </a>
-  </p>
-
-  <!-- 🌐 فيسبوك -->
-  <p style="margin:5px 0;">⭐ 
-    <a href="https://www.facebook.com/AbwAlqmrZmrd" target="_blank" style="color:#FFD700; text-decoration:none; font-weight:bold;">
-      أبوالقمر زمرد
-    </a>
-  </p>
-
-  <!-- 🟩 واتساب -->
-  <p style="margin:5px 0;">🟩 
-    <a href="https://wa.me/message/BJUPAGNVGZ2KI1" target="_blank" style="color:#00ff99; text-decoration:none;">
-      واتساب مباشر
-    </a>
-  </p>
-
-  <!-- 🐦 تويتر -->
-  <p style="margin:5px 0;">🐦 
-    <a href="https://twitter.com/intent/tweet?text=🌙%20زر%20موقع%20أبوالقمر%20زمرد%20https://sakakera-a11y.github.io/sakaker/" target="_blank" style="color:#1DA1F2; text-decoration:none;">
-      شارك عبر تويتر
-    </a>
-  </p>
-</div>
-
-<script>
-// 🔹 حركة الألوان المتغيرة للأيقونة
-setInterval(() => {
-  const btn = document.getElementById('support-toggle-btn');
-  const colors = [
-    'linear-gradient(45deg, #007bff, #00ffff)',
-    'linear-gradient(45deg, #ff1493, #ff69b4)',
-    'linear-gradient(45deg, #00ffcc, #0066ff)',
-    'linear-gradient(45deg, #ff9900, #ff66cc)',
-  ];
-  btn.style.background = colors[Math.floor(Math.random() * colors.length)];
-  btn.style.boxShadow = `0 0 20px ${btn.style.background.split(',')[1] || 'rgba(255,255,255,0.6)'}`;
-}, 1000);
-
-// 🔹 فتح/إغلاق القائمة مع تأثير لطيف
-const supportBtn = document.getElementById('support-toggle-btn');
-const supportSection = document.getElementById('support-section');
-
-supportBtn.addEventListener('click', () => {
-  if (supportSection.style.display === 'none' || supportSection.style.display === '') {
-    supportSection.style.display = 'block';
-    setTimeout(() => {
-      supportSection.style.opacity = 1;
-      supportSection.style.transform = 'translateX(0)';
-    }, 10);
-  } else {
-    supportSection.style.opacity = 0;
-    supportSection.style.transform = 'translateX(20px)';
-    setTimeout(() => { supportSection.style.display = 'none'; }, 400);
-  }
-});
-</script>
-
-<!-- 🌙 حاوية الفيديو المخفية -->
-<div id="jokeVideoContainer" style="display:none; position:fixed; top:60px; left:50%; transform:translateX(-50%); z-index:10000;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/EXAMPLE_VIDEO?autoplay=1" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-</div>
-
-<script>
-const jokeIcon = document.getElementById('jokeVideoIcon');
-const jokeContainer = document.getElementById('jokeVideoContainer');
-
-jokeIcon.addEventListener('click', () => {
-    if(jokeContainer.style.display === 'none') {
-        jokeContainer.style.display = 'block';
-    } else {
-        jokeContainer.style.display = 'none';
-        // لإيقاف الفيديو عند الإغلاق، نعيد src لإعادة التحميل
-        const iframe = jokeContainer.querySelector('iframe');
-        iframe.src = iframe.src;
-    }
-});
-</script>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>القصص الصينية</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  /* ✅ الأيقونة */
-  .story-btn {
-    position: fixed;
-    bottom: 350px;
-    left:15%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(6px);
-    color: #fff;
-    padding: 12px 18px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 99999;
-    font-weight: bold;
-    transition: all 0.3s;
-  }
-  .story-btn:hover {
-    background: rgba(255, 215, 0, 0.4);
-    transform: translateX(-50%) scale(1.1);
-  }
-
-  /* ✅ الصندوق المنبثق */
-  .story-popup {
-    position: fixed;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-    background: rgba(0,0,0,0.88);
-    color: #fff;
-    padding: 18px 24px;
-    border-radius: 12px;
-    width: 85%;
-    max-width: 600px;
-    display: none;
-    z-index: 99998;
-    animation: fadeIn 0.5s ease;
-    box-shadow: 0 0 12px rgba(255,255,255,0.2);
-  }
-
-  .ar { color: #FFD700; font-size: 17px; direction: rtl; margin-bottom: 10px; line-height: 1.5; }
-  .en { color: #87CEFA; font-size: 14px; direction: ltr; line-height: 1.4; }
-
-  @keyframes fadeIn { from {opacity:0; transform:translate(-50%,60%);} to {opacity:1; transform:translate(-50%,50%);} }
-  @keyframes fadeOut { from {opacity:1; transform:translate(-50%,50%);} to {opacity:0; transform:translate(-50%,60%);} }
-</style>
-</head>
-<body>
-
-<!-- ✅ أيقونة القصص -->
-<div id="storyBtn" class="story-btn">📜</div>
-
-<!-- ✅ صندوق القصص -->
-<div id="storyPopup" class="story-popup">
-  <div class="ar"></div>
-  <div class="en"></div>
-</div>
-
-<script>
-(() => {
-  const btn = document.getElementById('storyBtn');
-  const popup = document.getElementById('storyPopup');
-  const ar = popup.querySelector('.ar');
-  const en = popup.querySelector('.en');
-
-  const stories = [
-    {ar:`الإصبع - فنغ منغ لونغ<br>رجل فقير طلب إصبع صديقه الذي يحول الأشياء ذهباً.` ,en:`The Finger - Feng Meng Long<br>A poor man asked for his friend's finger that could turn things into gold.`},
-    {ar:`الحكمة - وو تشنغ<br>الإمبراطور حلم بتنين فقتله الوزير في المنام.` ,en:`Wisdom - Wu Cheng<br>The emperor dreamed of a dragon his minister killed in the dream.`},
-    {ar:`قصة الثعالب - نيو تشياو<br>ثعلبان يضحكان تحت شجرة.` ,en:`The Foxes - Niu Xiao<br>Two foxes laughed under a tree.`},
-    {ar:`القرد والبحيرة<br>قرد يساعد الحيوانات على عبور البحيرة.` ,en:`The Monkey and the Lake<br>A monkey helped animals cross the lake.`},
-    {ar:`التنين والأرض<br>تنين يحمي القرية في الليالي الممطرة.` ,en:`The Dragon and the Earth<br>A dragon protects the village on rainy nights.`},
-    {ar:`السمكة الذهبية<br>من يطمع يخسر الأمنيات.` ,en:`The Golden Fish<br>Those who are greedy lose their wishes.`},
-    {ar:`النجوم والحكيم<br>كل نجم يحمل حكمة.` ,en:`The Stars and the Sage<br>Each star carries wisdom.`}
-  ];
-
-  let i = 0;
-  function showStory(){
-    ar.innerHTML = stories[i].ar;
-    en.innerHTML = stories[i].en;
-    i = (i + 1) % stories.length;
-  }
-
-  btn.onclick = () => {
-    if (popup.style.display === 'block') {
-      popup.style.animation = 'fadeOut 0.5s ease';
-      setTimeout(() => popup.style.display = 'none', 400);
-    } else {
-      popup.style.display = 'block';
-      showStory();
-    }
-  };
-
-  setInterval(() => {
-    if (popup.style.display === 'block') showStory();
-  }, 20000);
-})();
-</script>
-
-</body>
-</html>
-
-</style>
-</head>
-<body>
 
 <!-- 🔹 زر فتح اللعبة مع ألوان متغيرة -->
 <button id="pongGame-btn" style="
@@ -3904,612 +4520,142 @@ pongBtn.addEventListener('mouseleave', () => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الأقسامsakaker wep</title>
-<style> {
-  font-family:'Tajawal', sans-serif;
-  margin:0;
-  padding:0;
-  background:transparent;
-  color: silver;
-  text-align:center;
-}
-
-/* ===== أيقونة التشغيل ===== */
-#scrollbox-icon {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid #00ffaa;
-  color: #00ffaa;
-  background: rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 34px;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,255,170,0.4);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(6px);
-  z-index: 99999;
-}
-#scrollbox-icon:hover {
-  transform: translateX(-50%) scale(1.1);
-  box-shadow: 0 0 30px #00f2fe;
-}
-
-/* ===== الخلفية ===== */
-#scrollbox-overlay {
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(4px);
-  z-index:99998;
-  opacity:0;
-  transition:opacity 0.3s ease;
-}
-#scrollbox-overlay.active {
-  display:block;
-  opacity:1;
-}
-
-/* ===== النافذة ===== */
-#scrollbox-popup {
-  display:none;
-  position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%) scale(0.9);
-  width:90%;
-  max-width:900px;
-  height:85%;
-  background:rgba(255,255,255,0.97);
-  color:#111;
-  border-radius:14px;
-  box-shadow:0 0 25px rgba(255,255,255,0.2);
-  z-index:100000;
-  opacity:0;
-  transition:all 0.3s ease;
-  overflow:hidden;
-  text-align:right;
-}
-#scrollbox-popup.active {
-  display:block;
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1);
-}
-
-/* ===== التبويبات ===== */
-.scrollbox-tabs {
-  display:flex;
-  justify-content:space-around;
-  background:rgba(0,0,0,0.05);
-  border-bottom:1px solid rgba(0,0,0,0.1);
-}
-.scrollbox-tab {
-  flex:1;
-  text-align:center;
-  padding:10px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:background 0.3s;
-}
-.scrollbox-tab:hover { background:rgba(0,0,0,0.1); }
-.scrollbox-tab.active { background:rgba(0,0,0,0.2); }
-
-/* ===== المحتوى ===== */
-.scrollbox-content {
-  display:none;
-  height:calc(100% - 60px);
-  padding:20px;
-  overflow:hidden;
-  position:relative;
-}
-.scrollbox-content.active { display:block; }
-
-/* ===== النص المتحرك ===== */
-.scrollbox-text {
-  position:absolute;
-  bottom:-100%;
-  width:100%;
-  animation:scrollbox-up 220s linear infinite; /* سرعة بطيئة جدًا */
-  line-height:1.9;
-}
-@keyframes scrollbox-up {
-  from { bottom:-100%; }
-  to { bottom:100%; }
-}
-.scrollbox-text:hover {
-  animation-play-state: paused;
-}
-
-/* زر الإغلاق */
-#scrollbox-close {
-  position:absolute;
-  top:10px;left:10px;
-  background:rgba(0,0,0,0.1);
-  border:none;
-  color:#333;
-  padding:5px 10px;
-  border-radius:8px;
-  cursor:pointer;
-}
-#scrollbox-close:hover { background:rgba(0,0,0,0.2); }
-</style>
+<title>🎬 فيديو + 🗺️ خريطة</title>
 </head>
-<body>
-
-<!-- أيقونة التشغيل -->
-<div id="scrollbox-icon">📜</div>
-
-<!-- الخلفية -->
-<div id="scrollbox-overlay"></div>
-
-<!-- النافذة -->
-<div id="scrollbox-popup">
-  <button id="scrollbox-close">❌</button>
-
-  <div class="scrollbox-tabs">
-    <div class="scrollbox-tab active" data-target="scrollbox-culture">🌍 ثقافة</div>
-    <div class="scrollbox-tab" data-target="scrollbox-islamic">🕌 إسلامي</div>
-    <div class="scrollbox-tab" data-target="scrollbox-thoughts">💭 خواطر</div>
-  </div>
-
-  <!-- ===== القسم الأول: ثقافة عامة ===== -->
- <div id="scrollbox-culture" class="scrollbox-content active">
-  <div class="scrollbox-text">
-    <h2>🌍 ثقافة عامة</h2>
-
-    <p>الثقافة العامة هي المرآة التي تعكس وعي الإنسان ونظرته للحياة،  
-    وهي الجسر الذي يصل بين الفكر والعلم والإبداع.  
-    من خلالها يستطيع الإنسان أن يفهم ذاته، ويتواصل مع مجتمعه،  
-    ويستوعب الحضارات من حوله دون أن يفقد هويته.</p>
-
-    <p>الثقافة ليست مجرد كمٍّ من المعلومات، بل هي طريقة تفكير،  
-    وسلوك حضاري ينبع من الإدراك العميق لقيمة العلم والإنسان.  
-    فالمثقف لا يكرر ما يسمع، بل يُعيد بناءه على أسس المنطق والمعرفة.</p>
-
-    <p>من أبرز ما قدّمته الحضارات للثقافة الإنسانية:  
-    <ul>
-      <li><strong>الحضارة الإسلامية:</strong> التي أبدعت في الطب والفلك والرياضيات والفلسفة، وقدّمت للعالم أسماء خالدة كابن سينا والرازي والخوارزمي.</li>
-      <li><strong>الحضارة المصرية القديمة:</strong> التي أنارت العالم بعلوم التحنيط والهندسة والعمارة، وشهدت ولادة الكتابة والطب المبكر.</li>
-      <li><strong>الحضارة اليونانية:</strong> التي أرست قواعد الفلسفة والمنطق، وقدّمت للعالم سقراط وأفلاطون وأرسطو.</li>
-      <li><strong>الحضارة الصينية:</strong> التي برعت في الورق والحرير والبارود، وأسست مفاهيم الانسجام بين الإنسان والطبيعة.</li>
-    </ul>
-    </p>
-
-    <p>الثقافة الحقيقية تنبع من التوازن بين الأصالة والمعاصرة،  
-    أي أن نحافظ على جذورنا وهويتنا، وفي الوقت نفسه ننفتح على كل جديد مفيد.  
-    فالمجتمع الذي لا يقرأ يتوقف، والذي يقرأ بلا وعي يتشتت،  
-    أما الذي يقرأ بعقل ناقد ويُبدع فهو الذي يصنع التاريخ.</p>
-
-    <p>الثقافة أيضًا هي أخلاق، لأنها تصنع فينا حسّ المسؤولية،  
-    وتمنحنا القدرة على فهم الآخر واحترام اختلافه،  
-    وتزرع فينا قيم التسامح والمحبة والفضيلة.</p>
-
-    <p><em>اقرأ، تفكر، ناقش، واكتب... فالثقافة ليست نهاية طريق، بل بداية حياة.</em></p>
-  </div>
-</div>
-
-
-  <!-- ===== القسم الثاني: التاريخ الإسلامي ===== -->
-  <div id="scrollbox-islamic" class="scrollbox-content">
-    <div class="scrollbox-text">
-      <h2>🕌 التاريخ الإسلامي</h2>
-      <h3>📜 النبي محمد ﷺ</h3>
-      <p>محمد بن عبد الله، خاتم الأنبياء والمرسلين، ولد في مكة عام 571م في عام الفيل.  
-      نزل عليه الوحي في سن الأربعين، فدعا إلى عبادة الله وحده ونبذ الشرك.  
-      استمرت دعوته 23 عامًا، عانى فيها وأصحابه من الاضطهاد حتى هاجر إلى المدينة المنورة، حيث أسس أول دولة إسلامية.  
-      توفي ﷺ سنة 632م، تاركًا أمة موحدة وكتاب الله بين أيدي المسلمين.</p>
-      <hr>
-      <h3>🕌 الخلفاء الراشدون</h3>
-      <p><strong>أبو بكر الصديق</strong> (632–634م): أول الخلفاء، وأقرب الصحابة إلى النبي ﷺ. ثبت المسلمين بعد وفاته ﷺ، وجمع القرآن الكريم في مصحف واحد.</p>
-      <p><strong>عمر بن الخطاب</strong> (634–644م): ثاني الخلفاء، اشتهر بالعدل والحزم، ووسع الدولة الإسلامية لتشمل بلاد فارس والشام ومصر.</p>
-      <p><strong>عثمان بن عفان</strong> (644–656م): ثالث الخلفاء، جمع الناس على مصحف واحد بلغة قريش، وفتح أرمينية وخراسان.</p>
-      <p><strong>علي بن أبي طالب</strong> (656–661م): رابع الخلفاء، وابن عم النبي ﷺ، عُرف بالشجاعة والعلم، وواجه الفتن الكبرى في الأمة.</p>
-      <hr>
-      <h3>⚔️ معاوية بن أبي سفيان</h3>
-      <p>معاوية بن أبي سفيان، صحابي وكاتب وحي للنبي ﷺ، ووالي الشام في عهد عمر وعثمان.  
-      أسس الدولة الأموية سنة 661م بعد تنازل الحسن بن علي له، وجعل دمشق عاصمة للدولة، واشتهر بالحكمة والسياسة والقدرة على إدارة الدولة.</p>
-      <hr>
-      <h3>⚖️ عمر بن عبدالعزيز</h3>
-      <p>عمر بن عبدالعزيز بن مروان، الخليفة الأموي الثامن، يُلقب بخامس الخلفاء الراشدين لزهده وعدله.  
-      وُلد سنة 682م وتولى الخلافة سنة 717م، فعمل على نشر العدل والمساواة، ورد المظالم، وإلغاء كثير من الضرائب الظالمة.  
-      توفي سنة 720م تاركًا سيرةً ناصعة في الحكم الصالح.</p>
-    </div>
-  </div>
-
-  <!-- ===== القسم الثالث: خواطر ===== -->
-  <div id="scrollbox-thoughts" class="scrollbox-content">
-    <div class="scrollbox-text">
-      <h2>💭 خواطر</h2>
-      <h3>قصتي مع التيتنك</h3>
-      <p>في صباح هادئ، شددت أشرعتي متجهًا نحو المجهول، عازمًا على استكشاف أسرار البحار التي لا يعرفها أحد.  
-      كانت الأمواج تعانق قاربي، والريح تدفعني نحو مغامرة لا تُنسى.</p>
-      <p>قادتني التيارات إلى مشهد أسطوري… هناك، في عمقٍ سحيق، ظهرت أمامي سفينة التايتنك، شامخة رغم جراح الزمن، صامتة وكأنها تحكي قصتها الحزينة.  
-      اقتربت منها، ولم أقاوم رغبتي في ترك أثر، فكتبت اسمي على إحدى بقاياها المعدنية المكسوة بالصدأ والمرجان.</p>
-      <p>وبينما أستكشف المكان، لمح بصري ظلاً ضخماً… كان حوتًا عظيمًا غارقًا في سبات عميق بجوار السفينة، وكأنهما رفيقا عزلة.  
-      فاتخذت الحوت فندقًا عائمًا لمدة يومين؛ أستريح فوق ظهره، أراقب النجوم ليلًا، وأتجول بين بقايا السفينة نهارًا.</p>
-
-      <hr>
-      <h3>قصة التنين الفضي</h3>
-      <p>بينما كان أبو القمر زمرد يجلس على صخرة تطل على البحر في ليلة هادئة، لاحظ ضوءًا غريبًا يلمع وسط الضباب.  
-      اقترب أكثر، فإذا به يكتشف كائنًا أسطوريًا ذو حراشف لامعة كالفضة، إنه التنين الفضي.</p>
-      <p>اقترب التنين ببطء وصوته العميق يروي حكايات عن الجبال البعيدة والبحار المجهولة.  
-      دعاه لرحلة بين الغيوم، حيث حلقا فوق الغابات والأنهار، وشاهدا معًا روائع لم ترها عين بشر من قبل.</p>
-      <p>عاد أبو القمر زمرد من تلك المغامرة وهو يدرك أن المغامرة الحقيقية ليست فقط في استكشاف الأماكن، بل في الجرأة على خوض المجهول بقلب مفتوح.</p>
-
-      <hr>
-      <h3>القمر والزمرد 🌙💎</h3>
-      <p>قصَّ أبو القمر حكاية يوم استطاع أن يمزج أنوار القمر بأحجار الزمرد الكريمة التي حصل عليها من شعب المرجان.  
-      كان ينظر إلى بريق الزمرد في أعماق البحر، حتى سطع نور القمر وانعكس على تلك الأحجار الساحرة.</p>
-      <p>ومنذ ذلك الحين، صار هذا الطريق بوابة لتحقيق الأحلام وتحويلها إلى حقيقة بإذن الله.</p>
-
-      <hr>
-      <h3>أبو القمر زمرد حارس الأندلس القديم</h3>
-      <p>في زمن بعيد، حين كانت الأندلس جنة على الأرض، عاش رجل يُدعى أبو القمر زمرد، حارس أسوار قرطبة وراعي مفاتيح بواباتها.  
-      كان معروفًا بشجاعته وذكائه، حتى أن الملوك كانوا يستشيرونه في أمور الحرب والسلم.</p>
-      <p>وفي إحدى الليالي، رأى نورًا غريبًا يلمع فوق قصر الحمراء، فاتجه نحوه بسرعة، وهناك وجد مخطوطة قديمة تحمل أسرار الدفاع عن الأندلس.  
-      أدرك أن مهمته الحقيقية ليست فقط حماية الأسوار، بل حماية سرّ الأندلس من أن يضيع إلى الأبد.</p>
-
-      <hr>
-      <h3>رحلة أبو القمر إلى ما وراء المجرات</h3>
-      <p>بعد أن أنهى أبو القمر تصميم موقعه على الويب وتفعيله، شعر بإرهاق شديد، وقرر أن يأخذ إجازة لمدة شهر بعيدًا عن التفكير والروتين.  
-      وفي ليلة هادئة، نظر إلى القمر، فرأى انعكاسًا براقًا للزمرد يلمع في ضوئه، فركب شعاع الضوء وانطلق بسرعة تفوق الضوء،  
-      حتى وصل إلى مجرة بعيدة مغطاة بحدائق من ثمار لا تُحصى وكائنات ودودة.</p>
-      <p>تزوج هناك ورُزق بأبناء، لكن الحنين إلى الأرض أشعل قلبه فعاد عبر بوابة ضوء نادرة،  
-      إلا أن المسار انحرف ليصل إلى مدينة الكريستال الأزرق، حيث بدأت مغامرة جديدة غيّرت مصيره إلى الأبد.</p>
-
-      <hr>
-      <h3>العودة بعد الانبطاح</h3>
-      <p>وبعد طول انتظار في مدينة النوم والانبطاح، نهض البطل ببطء،  
-      وكأن الأرض التي احتضنته طوال تلك الفترة لم ترغب في إفلاته.  
-      تنفّس عميقًا ومسح عن كتفيه غبار الاستسلام، ثم خطا أولى خطوات العودة؛  
-      فهو يعلم أن الانبطاح أحيانًا هدنة، ولكن العودة هي المعركة الحقيقية.  
-      <strong>إلى الأرض... إلى الحياة... إلى النور.</strong></p>
-    </div>
-  </div>
-</div>
+<body style="margin:0; background:#111; height:100vh;">
 
 <script>
-(function(){
-  const icon = document.getElementById('scrollbox-icon');
-  const popup = document.getElementById('scrollbox-popup');
-  const overlay = document.getElementById('scrollbox-overlay');
-  const close = document.getElementById('scrollbox-close');
-  const tabs = document.querySelectorAll('.scrollbox-tab');
-  const sections = document.querySelectorAll('.scrollbox-content');
+class SakakerPopup extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.innerHTML = `
+      <style>
+        /* شكل الأيقونة (نجمة مشعة متعددة الألوان) */
+        .launcher {
+          position: fixed;
+          right: 70%;
+          bottom: 15%;
+          width: 85px;
+          height: 85px;
+          background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+                            79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+                            2% 35%, 39% 35%);
+          border-radius: 50%;
+          box-shadow: 0 0 25px #fff, 0 0 50px #0ff;
+          animation: rotateColors 3s linear infinite, pulse 2s ease-in-out infinite;
+          cursor: pointer;
+          z-index: 999999;
+        }
+        @keyframes rotateColors {
+          0% { filter: hue-rotate(0deg); }
+          100% { filter: hue-rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%,100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
 
-  icon.addEventListener('click', ()=>{
-    popup.classList.add('active');
-    overlay.classList.add('active');
-  });
-  close.addEventListener('click', closeAll);
-  overlay.addEventListener('click', closeAll);
+        /* الإطار المنبثق */
+        .overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.85);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 999998;
+        }
+        .box {
+          background: #000;
+          border-radius: 20px;
+          box-shadow: 0 0 30px #0ff;
+          padding: 15px;
+          text-align: center;
+          position: relative;
+          width: 90%;
+          max-width: 680px;
+        }
 
-  function closeAll(){
-    popup.classList.remove('active');
-    overlay.classList.remove('active');
+        iframe {
+          width: 100%;
+          border: none;
+          border-radius: 12px;
+          margin-top: 8px;
+        }
+
+        iframe.video {
+          height: 315px;
+        }
+
+        iframe.map {
+          height: 250px;
+        }
+
+        .close {
+          color: white;
+          background: red;
+          border: none;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          position: absolute;
+          top: -15px;
+          right: -15px;
+          cursor: pointer;
+          font-size: 18px;
+          box-shadow: 0 0 10px white;
+        }
+      </style>
+
+      <div class="launcher" title="فتح الفيديو والخريطة"></div>
+      <div class="overlay">
+        <div class="box">
+          <button class="close">×</button>
+          <iframe class="video"
+            src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <iframe class="map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    `;
+
+    const launcher = shadow.querySelector('.launcher');
+    const overlay = shadow.querySelector('.overlay');
+    const closeBtn = shadow.querySelector('.close');
+
+    launcher.onclick = () => overlay.style.display = "flex";
+    closeBtn.onclick = () => overlay.style.display = "none";
   }
+}
 
-  tabs.forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      tabs.forEach(t=>t.classList.remove('active'));
-      sections.forEach(s=>s.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById(tab.getAttribute('data-target')).classList.add('active');
-    });
-  });
-})();
+customElements.define('sakaker-popup', SakakerPopup);
+document.body.appendChild(document.createElement('sakaker-popup'));
 </script>
 
 </body>
 </html>
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أابوالقمرزمرد فنان شامل</title>
-<style> {
-    margin: 0;
-    font-family: sans-serif;
-    background: #111;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* الأيقونة */
-  #customVideoIcon {
-    position: fixed;
-    top: 40px;
-    right: 250px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    z-index: 500;
-    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.5);
-  }
-
-  #customVideoIcon::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    border-radius: 50%;
-    top: -10%;
-    left: -10%;
-    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
-    animation: glow 2s linear infinite alternate;
-    z-index: -1;
-  }
-
-  @keyframes glow {
-    0% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.7; }
-  }
-
-  #customVideoIcon iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  /* الإطار المنبثق */
-  #customVideoPopup {
-    display: none;
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-  }
-
-  /* الفيديو */
-  #customVideoContent {
-    width: 60%;
-    max-width: 600px;
-    aspect-ratio: 1/1;
-    border-radius: 20px;
-    overflow: hidden;
-    background: black;
-    position: relative;
-    transform: scale(0);
-    animation: popupScale 0.4s forwards;
-    box-shadow: 0 0 25px 5px #fff;
-  }
-
-  #customVideoContent::before {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    border-radius: 25px;
-    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(15px);
-    animation: rainbowGlow 5s linear infinite;
-  }
-
-  @keyframes rainbowGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  @keyframes popupScale {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  #customVideoContent iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 20px;
-  }
-
-  /* زر الإغلاق داخل المنبثق */
-  #customCloseBtn {
-    position: absolute;
-    top: 10%;
-    right: 20%;
-    background: red;
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    z-index: 10001;
-    box-shadow: 0 0 10px rgba(255,255,255,0.7);
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  #customCloseBtn:hover {
-    background: #ff4444;
-    transform: scale(1.1);
-  }
-
-  /* زر إخفاء الأيقونة */
-  #hideIconBtn {
-    position: fixed;
-    top: 135px;
-    right: 250px;
-    background: linear-gradient(45deg, #f00, #0ff, #ff0);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #fff;
-    font-size: 12px;
-    z-index: 600;
-  }
-
-  /* زر إظهار الأيقونة */
-  #showIconBtn {
-    display: none;
-    position: fixed;
-    top: 135px;
-    right: 370px;
-    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #fff;
-    font-size: 12px;
-    z-index: 600;
-  }
-</style>
-</head>
-<body>
-
-<!-- أيقونة الفيديو -->
-<div id="customVideoIcon">
-  <iframe 
-    src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<!-- زر إخفاء الأيقونة -->
-<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
-
-<!-- زر إظهار الأيقونة -->
-<button id="showIconBtn">🔄 إظهار الأيقونة</button>
-
-<!-- الإطار المنبثق -->
-<div id="customVideoPopup">
-  <button id="customCloseBtn">&times;</button>
-  <div id="customVideoContent">
-    <iframe 
-     src="https://www.youtube.com/embed/n7eQejkXbnM?autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <div class="icon">📺</div>
+  <div class="icon">🎵</div>
+  <div class="icon">💬</div>
+  <div class="icon">⚙️</div>
 </div>
 
 <script>
-const icon = document.getElementById('customVideoIcon');
-const popup = document.getElementById('customVideoPopup');
-const content = document.getElementById('customVideoContent');
-const close = document.getElementById('customCloseBtn');
-const hideBtn = document.getElementById('hideIconBtn');
-const showBtn = document.getElementById('showIconBtn');
+// فتح/إغلاق المستودع عند الضغط على الأيقونة
+const toggleBtn = document.getElementById('icon-toggle');
+const repo = document.getElementById('icon-repo');
 
-// فتح الفيديو المنبثق
-icon.addEventListener('click', () => {
-  popup.style.display = 'flex';
-  content.style.animation = 'popupScale 0.4s forwards';
-});
-
-// إغلاق الفيديو المنبثق
-close.addEventListener('click', (e) => {
-  e.stopPropagation();
-  popup.style.display = 'none';
-  content.style.transform = 'scale(0)';
-});
-
-// الضغط خارج الإطار يغلق المنبثق
-popup.addEventListener('click', (e) => {
-  if(e.target === popup){
-    popup.style.display = 'none';
-    content.style.transform = 'scale(0)';
-  }
-});
-
-// إخفاء الأيقونة
-hideBtn.addEventListener('click', () => {
-  icon.style.display = 'none';
-  hideBtn.style.display = 'none';
-  showBtn.style.display = 'block';
-});
-
-// إظهار الأيقونة
-showBtn.addEventListener('click', () => {
-  icon.style.display = 'flex';
-  hideBtn.style.display = 'block';
-  showBtn.style.display = 'none';
+toggleBtn.addEventListener('click', () => {
+  repo.classList.toggle('show');
 });
 </script>
 
-<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
-<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
-  position: fixed;
-  top: 80px; /* مرفوعة حوالي خمس أسطر */
-  right: 1225px;
-  width: 75px;
-  height: 75px;
-  background: radial-gradient(circle at 30% 30%, #00ffcc, #006666);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 34px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
-  z-index: 1001;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-">
-  🐦
-</div>
-
-<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
-<audio id="bird-sound" loop playsinline>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
-  متصفحك لا يدعم تشغيل الصوت.
-</audio>
-
-<script>
-const birdBtn = document.getElementById('bird-sound-btn');
-const birdAudio = document.getElementById('bird-sound');
-
-// حالة أولية
-birdBtn.textContent = "🐦";
-
-// عند النقر على الأيقونة
-birdBtn.addEventListener('click', async () => {
-  try {
-    if (birdAudio.paused) {
-      await birdAudio.play();
-      birdBtn.textContent = "🔊";
-      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
-      birdBtn.style.transform = "scale(1.1)";
-    } else {
-      birdAudio.pause();
-      birdBtn.textContent = "🐦";
-      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
-      birdBtn.style.transform = "scale(1)";
-    }
-  } catch (err) {
-    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
-    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
-  }
-});
-</script>
+</body>
+</html>
