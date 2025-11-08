@@ -3,72 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خلفية كاملة مع زر تغيير</title>
+<title>خلفية فيديو متغيرة</title>
 <style>
-  html, body {
+  body {
     margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
     overflow: hidden;
-    font-family: "Tajawal", sans-serif;
+    font-family: 'Tahoma', sans-serif;
   }
 
-  #bgImage {
+  /* الخلفية الأساسية (الفيديو) */
+  #videoBackground {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain; /* تظهر الصورة كاملة بدون قص */
-    z-index: -1;
+    object-fit: cover;
+    z-index: -2;
   }
 
-  .change-btn {
+  /* الخلفية البديلة (الصور) */
+  #imageBackground {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 6px;
-    border: none;
-    background: rgba(255,255,255,0.8);
-    font-weight: bold;
-    transition: 0.3s;
-    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
 
-  .change-btn:hover {
-    background: rgba(0,255,255,0.8);
+  /* زر التبديل */
+  #changeButton {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(255,255,255,0.3);
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.3s;
+  }
+
+  #changeButton:hover {
+    background-color: rgba(255,255,255,0.6);
+    color: #000;
   }
 </style>
 </head>
 <body>
 
-<img id="bgImage" src="https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg" alt="خلفية">
-<button class="change-btn" onclick="changeBackground()">🌟 تغيير الخلفية</button>
+<!-- الخلفية الأساسية: فيديو مباشر -->
+<video id="videoBackground" autoplay muted loop playsinline>
+  <source src="https://assets.mixkit.co/videos/51445/51445-720.mp4" type="video/mp4">
+</video>
+
+<!-- الخلفية المتبدلة: الصور -->
+<img id="imageBackground" src="" alt="background">
+
+<!-- زر التبديل -->
+<button id="changeButton">تغيير الخلفية</button>
 
 <script>
+  // قائمة الخلفيات (صور من Pixabay)
   const backgrounds = [
-    'https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg',
-    'https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg',
-    'https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg',
-    'https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg',
-    'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg'
+    "https://cdn.pixabay.com/photo/2017/03/25/17/55/sunset-2177051_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/29/09/32/beach-1867285_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/08/30/07/52/sea-2690132_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/02/01/22/02/mountains-2031539_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/09/18/19/03/forest-945094_1280.jpg",
+    "https://cdn.pixabay.com/photo/2017/01/06/19/15/sunset-1953056_1280.jpg"
   ];
 
-  let currentIndex = 0;
-  const bgImage = document.getElementById('bgImage');
+  let index = 0;
+  const imageBackground = document.getElementById("imageBackground");
+  const button = document.getElementById("changeButton");
+  const videoBackground = document.getElementById("videoBackground");
 
-  function changeBackground() {
-    currentIndex = (currentIndex + 1) % backgrounds.length;
-    bgImage.src = backgrounds[currentIndex];
-  }
+  button.addEventListener("click", () => {
+    // أول مرة يتم الضغط، نوقف الفيديو ونفعل الصور
+    if (index === 0 && imageBackground.style.opacity == 0) {
+      videoBackground.style.display = "none";
+    }
+    index = (index + 1) % backgrounds.length;
+    imageBackground.style.opacity = 0;
+    setTimeout(() => {
+      imageBackground.src = backgrounds[index];
+      imageBackground.style.opacity = 1;
+    }, 600);
+  });
 </script>
 
 </body>
 </html>
+
 <!-- 💡 أيقونة حكم -->
 <button id="wisdom-btn" 
 style="position:fixed;top:30%;left:20px;transform:translateY(-50%);
@@ -4195,7 +4230,7 @@ showBtn.addEventListener('click', () => {
 <div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
   top: 80px; /* مرفوعة حوالي خمس أسطر */
-  right: 1005px;
+  right: 25px;
   width: 75px;
   height: 75px;
   background: radial-gradient(circle at 30% 30%, #00ffcc, #006666);
