@@ -1726,7 +1726,7 @@ body {
 #radioIcon {
   position: fixed;
   left: 30px;
-  bottom: 5%;
+  bottom: 9%;
   width: 100px;
   height: 100px;
   background: radial-gradient(circle, #0ff, #007);
@@ -2275,7 +2275,7 @@ jokeIcon.addEventListener('click', () => {
 #scrollbox-icon {
   position: fixed;
   bottom: 220px;
-  left: 20%;
+  left: 10%;
   transform: translateX(-50%);
   width: 80px;
   height: 80px;
@@ -2899,9 +2899,9 @@ body {
 <button id="pongGame-btn" style="
   z-index: 9999;
   position: fixed;
-  bottom:290px;
+  bottom:298px;
   right: 50px;
-  padding: 12px 22px;
+  padding: 2px 2px;
   border: none;
   border-radius: 14px;
   background: linear-gradient(45deg, #007bff, #00ffff);
@@ -3077,133 +3077,146 @@ pongBtn.addEventListener('mouseleave', () => {
 </body>
 </html>
 
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 فيديو + 🗺️ خريطة</title>
-</head>
-<body style="margin:0; background:#111; height:100vh;">
-
-<script>
-class SakakerPopup extends HTMLElement {
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: "open" });
-    shadow.innerHTML = `
-      <style>
-        /* شكل الأيقونة (نجمة مشعة متعددة الألوان) */
-        .launcher {
-          position: fixed;
-          right: 70%;
-          bottom: 15%;
-          width: 85px;
-          height: 85px;
-          background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
-          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
-                            79% 91%, 50% 70%, 21% 91%, 32% 57%, 
-                            2% 35%, 39% 35%);
-          border-radius: 50%;
-          box-shadow: 0 0 25px #fff, 0 0 50px #0ff;
-          animation: rotateColors 3s linear infinite, pulse 2s ease-in-out infinite;
-          cursor: pointer;
-          z-index: 999999;
-        }
-        @keyframes rotateColors {
-          0% { filter: hue-rotate(0deg); }
-          100% { filter: hue-rotate(360deg); }
-        }
-        @keyframes pulse {
-          0%,100% { transform: scale(1); }
-          50% { transform: scale(1.15); }
-        }
-
-        /* الإطار المنبثق */
-        .overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0,0,0,0.85);
-          display: none;
-          justify-content: center;
-          align-items: center;
-          z-index: 999998;
-        }
-        .box {
-          background: #000;
-          border-radius: 20px;
-          box-shadow: 0 0 30px #0ff;
-          padding: 15px;
-          text-align: center;
-          position: relative;
-          width: 90%;
-          max-width: 680px;
-        }
-
-        iframe {
-          width: 100%;
-          border: none;
-          border-radius: 12px;
-          margin-top: 8px;
-        }
-
-        iframe.video {
-          height: 315px;
-        }
-
-        iframe.map {
-          height: 250px;
-        }
-
-        .close {
-          color: white;
-          background: red;
-          border: none;
-          border-radius: 50%;
-          width: 32px;
-          height: 32px;
-          position: absolute;
-          top: -15px;
-          right: -15px;
-          cursor: pointer;
-          font-size: 18px;
-          box-shadow: 0 0 10px white;
-        }
-      </style>
-
-      <div class="launcher" title="فتح الفيديو والخريطة"></div>
-      <div class="overlay">
-        <div class="box">
-          <button class="close">×</button>
-          <iframe class="video"
-            src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-          <iframe class="map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.110743152165!2d46.67529567422052!3d24.71355167798285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f0388b36b4cf5%3A0x7d9183f0b6bb2ea6!2z2YXYr9mK2YUg2KfZhNmG2YrZhCDYp9mE2KfZhNin2YrYp9iq!5e0!3m2!1sar!2ssa!4v1730766150000!5m2!1sar!2ssa"
-            loading="lazy">
-          </iframe>
-        </div>
-      </div>
-    `;
-
-    const launcher = shadow.querySelector('.launcher');
-    const overlay = shadow.querySelector('.overlay');
-    const closeBtn = shadow.querySelector('.close');
-
-    launcher.onclick = () => overlay.style.display = "flex";
-    closeBtn.onclick = () => overlay.style.display = "none";
-  }
+<style>
+/* 🔹 أيقونة النجمة */
+.launcher {
+  position: fixed;
+  bottom: 175px;
+  right: 25px;
+  width: 90px;
+  height: 90px;
+  background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+                     79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+                     2% 35%, 39% 35%);
+  border-radius: 50%;
+  box-shadow: 0 0 25px #fff, 0 0 50px #0ff;
+  animation: rotateColors 3s linear infinite, pulse 2s ease-in-out infinite;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
-customElements.define('sakaker-popup', SakakerPopup);
-document.body.appendChild(document.createElement('sakaker-popup'));
+.launcher span {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 8px black;
+  font-size: 14px;
+}
+
+@keyframes rotateColors {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* 🔹 الإطار المنبثق */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+.box {
+  background: #000;
+  border-radius: 16px;
+  box-shadow: 0 0 25px #0ff;
+  padding: 12px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+iframe {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+iframe.video { height: 200px; }
+iframe.map { height: 200px; }
+
+.close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: red;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px white;
+}
+</style>
+</head>
+<body>
+
+<div class="launcher" title="عرض الفيديو والخريطة">
+  <span>خرائط<br>Map</span>
+</div>
+
+<div class="overlay">
+  <div class="box">
+    <button class="close">×</button>
+    <iframe class="video"
+      src="https://www.youtube.com/embed/SKIhQsszmP8?autoplay=1&mute=1"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <iframe class="map" id="mapFrame" loading="lazy"></iframe>
+  </div>
+</div>
+
+<script>
+const launcher = document.querySelector('.launcher');
+const overlay = document.querySelector('.overlay');
+const closeBtn = document.querySelector('.close');
+const mapFrame = document.getElementById('mapFrame');
+
+launcher.addEventListener('click', () => {
+  overlay.style.display = 'flex';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      mapFrame.src = `https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+    }, () => {
+      mapFrame.src = "https://www.google.com/maps";
+    });
+  } else {
+    mapFrame.src = "https://www.google.com/maps";
+  }
+});
+
+closeBtn.addEventListener('click', () => {
+  overlay.style.display = 'none';
+});
 </script>
 
 </body>
 </html>
+
 
 <html lang="ar" dir="rtl">
 <head>
@@ -3214,17 +3227,17 @@ document.body.appendChild(document.createElement('sakaker-popup'));
 body { font-family: Tahoma, sans-serif; margin:0; padding:0; background:#121212; color:#fff; }
 #prophetsBtn {
     position: fixed;
-    top: 40%;
-    left: 70px;
+    top: 70%;
+    left: 50px;
     transform: translateY(-50%);
     z-index: 9999;
     background: rgba(255,165,0,0.2);
     color: #fff;
-    padding: 4px 12px;
+    padding: 4px 2px;
     border: 2px solid orange;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 6px;
     text-align:center;
     transition: transform 0.3s, background 0.3s;
 }
