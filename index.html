@@ -1,59 +1,61 @@
 
-
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ابوصالح</title>
 <style>
-   {
+  html, body {
     margin: 0;
-    height: 100vh;
+    padding: 0;
+    height: 100%;
     overflow: hidden;
     font-family: 'Tahoma', sans-serif;
+    background: #000;
   }
 
-  /* الخلفية الأساسية (الفيديو) */
-  #videoBackground {
+  /* الفيديو الخلفي */
+  video#videoBackground {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2;
+    z-index: 0;
   }
 
-  /* الخلفية البديلة (الصور) */
-  #imageBackground {
+  /* الصورة الخلفية */
+  img#imageBackground {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
     opacity: 0;
-    transition: opacity 1s ease;
+    z-index: 1;
+    transition: opacity 1s ease-in-out;
   }
 
-  /* زر التبديل */
-  #changeButton {
+  /* الزر */
+  button#changeButton {
     position: fixed;
     top: 15px;
     left: 15px;
-    background-color: rgba(255,255,255,0.3);
-    border: 2px solid #fff;
+    background-color: rgba(255, 255, 255, 0.25);
     color: #fff;
-    font-size: 16px;
+    border: 2px solid #fff;
+    border-radius: 10px;
     padding: 10px 20px;
-    border-radius: 12px;
+    font-size: 16px;
     cursor: pointer;
-    z-index: 10;
-    transition: background 0.3s;
+    z-index: 2;
+    transition: all 0.3s ease;
   }
 
-  #changeButton:hover {
+  button#changeButton:hover {
     background-color: rgba(255,255,255,0.6);
     color: #000;
   }
@@ -61,41 +63,76 @@
 </head>
 <body>
 
-<!-- الخلفية الأساسية: فيديو مباشر -->
+<!-- 🎥 فيديو الخلفية -->
 <video id="videoBackground" autoplay muted loop playsinline>
   <source src="https://assets.mixkit.co/videos/51445/51445-720.mp4" type="video/mp4">
+  متصفحك لا يدعم تشغيل الفيديو.
 </video>
 
-<!-- الخلفية المتبدلة: الصور -->
-<img id="imageBackground" src="" alt="background">
+<!-- 🖼️ الصورة الخلفية -->
+<img id="imageBackground" src="" alt="">
 
-<!-- زر التبديل -->
+<!-- 🔘 زر التبديل -->
 <button id="changeButton">تغيير الخلفية</button>
 
 <script>
-  // قائمة الخلفيات (صور من Pixabay)
-  const backgrounds = [
-   
-     "https://cdn.pixabay.com/photo/2017/02/01/22/02/mountains-2031539_1280.jpg",
-  ];
-
-  let index = 0;
+document.addEventListener("DOMContentLoaded", function() {
+  const videoBackground = document.getElementById("videoBackground");
   const imageBackground = document.getElementById("imageBackground");
   const button = document.getElementById("changeButton");
-  const videoBackground = document.getElementById("videoBackground");
 
-  button.addEventListener("click", () => {
-    // أول مرة يتم الضغط، نوقف الفيديو ونفعل الصور
-    if (index === 0 && imageBackground.style.opacity == 0) {
-      videoBackground.style.display = "none";
-    }
-    index = (index + 1) % backgrounds.length;
-    imageBackground.style.opacity = 0;
-    setTimeout(() => {
+  // 🏞️ خلفيات جميلة متعددة
+  const backgrounds = [
+    "https://cdn.pixabay.com/photo/2017/02/01/22/02/mountains-2031539_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/29/03/53/beach-1867285_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/10/18/21/22/sunrise-1756274_1280.jpg",
+    "https://cdn.pixabay.com/photo/2018/03/01/14/54/nature-3194001_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/11/23/00/37/forest-1854220_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/09/18/20/20/sunset-945434_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/07/09/05/01/lake-1503877_1280.jpg",
+    "https://cdn.pixabay.com/photo/2016/02/13/12/26/aurora-1197753_1280.jpg"
+  ];
+
+  let index = -1;
+  let usingVideo = true;
+
+  button.addEventListener("click", function() {
+    if (usingVideo) {
+      // 🔹 أول مرة: أوقف الفيديو وابدأ بالصور
+      usingVideo = false;
+      videoBackground.pause();
+      videoBackground.style.opacity = "0";
+      index = 0;
       imageBackground.src = backgrounds[index];
-      imageBackground.style.opacity = 1;
-    }, 600);
+      imageBackground.onload = () => {
+        imageBackground.style.opacity = "1";
+      };
+    } else {
+      // 🔹 التبديل بين الصور
+      index++;
+      if (index >= backgrounds.length) {
+        // 🔹 بعد آخر صورة، نرجع الفيديو
+        usingVideo = true;
+        index = -1;
+        imageBackground.style.opacity = "0";
+        setTimeout(() => {
+          videoBackground.play();
+          videoBackground.style.opacity = "1";
+        }, 1000);
+      } else {
+        imageBackground.style.opacity = "0";
+        setTimeout(() => {
+          imageBackground.src = backgrounds[index];
+        }, 600);
+        imageBackground.onload = () => {
+          imageBackground.style.opacity = "1";
+        };
+      }
+    }
   });
+});
 </script>
 
 </body>
