@@ -254,1454 +254,527 @@ function closeWisdom() {
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شريط الأخبار المتحرك مع أخبار مباشرة - أبو القمر زمرد</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🌙 أبوالقمر زمرد</title>
 <style>
-  body {
-    margin: 0;
-    font-family: "Tahoma", sans-serif;
-    background: #000;
-    color: #fff;
-    overflow-x: hidden;
-  }
+:root { --accent: linear-gradient(45deg,#00ffcc,#0066ff); }
 
-  /* ✅ شريط الأخبار الرئيسي */
-  #newsBarContainer {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background:
-    border-bottom: 2px solid #00ff99;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
+{
+  margin:0; padding:0; height:100%;
+  font-family:"Tajawal",sans-serif;
+  background:#000; color:#fff;
+  overflow:hidden;
+}
 
-  #newsBar {
-    overflow: hidden;
-    white-space: nowrap;
-    flex: 1;
-  }
+/* صفحات */
+.page { display:none; width:100%; height:100%; }
+.page.active { display:block; }
 
-  #newsBar span {
-    display: inline-block;
-    padding: 0 50px;
-    font-size: 18px;
-    color: #fff;
-    line-height: 50px;
-    animation: scrollNews 60s linear infinite;
-  }
+/* فيديو الخلفية */
+#background video {
+  position:fixed; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  z-index:0;
+}
 
-  @keyframes scrollNews {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
+/* زر الانتقال */
+.btn {
+  background:var(--accent);
+  border:none;
+  color:#fff;
+  padding:12px 24px;
+  border-radius:14px;
+  font-size:18px;
+  cursor:pointer;
+  position:fixed;
+  bottom:80px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+  box-shadow:0 0 15px rgba(0,255,255,0.3);
+  transition:0.3s;
+}
+.btn:hover { transform:translateX(-50%) scale(1.05); }
 
-  /* زر إغلاق */
-  #closeNews {
-    margin-left: 50px;
-    background: #ff0000;
-    border: none;
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  /* ✅ الساعة والتاريخ أسفل الشريط */
-  #clock {
-    position: fixed;
-    top: 12px;
-    left: 70%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.6);
-    padding: 6px 18px;
-    border-radius: 20px;
-    font-size: 16px;
-    color: #00ff99;
-    text-align: center;
-    backdrop-filter: blur(6px);
-    z-index: 9998;
-  }
-
-  /* ✅ إشعار المصدر الحالي */
-  #sourceLabel {
-    position: fixed;
-    top: 130px;
-    right: 10px;
-    background:
-    border: 1px solid #00ff99;
-    border-radius: 15px;
-    padding: 6px 12px;
-    font-size: 15px;
-    color: #ffcc00;
-    z-index: 10000;
-    backdrop-filter: blur(5px);
-    animation: fadeLabel 1.5s ease-in-out;
-  }
-
-  @keyframes fadeLabel {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* شريط الأخبار النصية المباشرة */
-  #newsTicker {
-    position: fixed;
-    top: 100px;
-    width: 100%;
-    background:
-    color: #00ff99;
-    font-size: 16px;
-    padding: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    z-index: 9997;
-  }
-
-  /* استجابة شاشات صغيرة */
-  @media (max-width: 720px) {
-    #newsBar span { font-size: 14px; padding: 0 30px; }
-    #clock { font-size: 14px; padding: 4px 12px; }
-    #sourceLabel { font-size: 12px; padding: 4px 8px; }
-    #newsTicker { font-size: 14px; }
-  }
+/* الصفحة الثانية */
+#page2 {
+  background:url('https://cdn.pixabay.com/photo/2017/02/01/22/02/mountains-2031539_1280.jpg') center/cover no-repeat;
+  text-align:center;
+  position:relative;
+}
+#page2 .btnBack {
+  position:fixed;
+  top:20px; left:20px;
+  padding:10px 20px;
+  border-radius:12px;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  cursor:pointer;
+  z-index:100;
+}
 </style>
 </head>
 <body>
 
-<!-- ✅ شريط الأخبار مع زر إغلاق -->
-<div id="newsBarContainer">
-  <div id="newsBar"></div>
-  <button id="closeNews">✖</button>
-</div>
-
-<!-- ✅ الساعة والتاريخ -->
-<div id="clock"></div>
-
-<!-- ✅ إشعار المصدر الحالي -->
-<div id="sourceLabel">📺 المصدر الآن: العربية</div>
-
-<!-- شريط الأخبار النصية المتحركة -->
-<div id="newsTicker">تحميل الأخبار...</div>
-
-<script>
-  // ⏰ تحديث الساعة
-  function updateClock() {
-    const now = new Date();
-    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-    const day = days[now.getDay()];
-    const date = now.getDate();
-    const month = months[now.getMonth()];
-    const year = now.getFullYear();
-    const hours = String(now.getHours()).padStart(2,'0');
-    const minutes = String(now.getMinutes()).padStart(2,'0');
-    const seconds = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById('clock').textContent =
-      `${day} - ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // 🌐 المصادر
-  const sources = [
-    { url: "https://www.alarabiya.net/ar/rss.xml", name: "العربية" },
-    { url: "https://www.aljazeera.net/aljazeera/ar/arabic/rss", name: "الجزيرة" },
-    { url: "https://www.skynewsarabia.com/web/rss/home", name: "سكاي نيوز عربية" },
-    { url: "https://www.bbc.com/arabic/index.xml", name: "BBC عربي" },
-    { url: "https://arabic.rt.com/rss", name: "RT العربية" },
-    { url: "https://www.france24.com/ar/rss", name: "فرانس 24 عربي" },
-    { url: "https://www.middleeasteye.net/ar/rss", name: "Middle East Eye عربي" },
-    { url: "https://www.aa.com.tr/ar/rss", name: "الأناضول" },
-    { url: "https://www.dw.com/ar/rss", name: "DW عربية" }
-  ];
-
-  // 🔄 إنشاء الشريط الرئيسي
-  const newsBar = document.getElementById('newsBar');
-  let newsItems = '';
-  sources.forEach(src => {
-    newsItems += `🔹 <a href="${src.url}" target="_blank" style="color:#fff; text-decoration:none;">${src.name}</a> `;
-  });
-  newsBar.innerHTML = `<span>${newsItems}</span><span>${newsItems}</span>`;
-
-  // 🔄 تبديل المصدر الحالي كل 15 دقيقة
-  let currentSource = 0;
-  const label = document.getElementById('sourceLabel');
-  function switchNewsSource() {
-    currentSource = (currentSource + 1) % sources.length;
-    label.textContent = "📺 المصدر الآن: " + sources[currentSource].name;
-    label.style.animation = "none";
-    setTimeout(() => label.style.animation = "fadeLabel 1.5s ease-in-out", 10);
-    fetchTickerNews();
-  }
-  setInterval(switchNewsSource, 15 * 60 * 1000);
-
-  // ❌ زر إغلاق الشريط
-  document.getElementById('closeNews').addEventListener('click', () => {
-    document.getElementById('newsBarContainer').style.display = 'none';
-    document.getElementById('clock').style.display = 'none';
-    document.getElementById('sourceLabel').style.display = 'none';
-    document.getElementById('newsTicker').style.display = 'none';
-  });
-
-  // 📰 شريط الأخبار النصية المتحركة
-  const ticker = document.getElementById('newsTicker');
-  let headlines = [];
-  let tickerIndex = 0;
-  async function fetchTickerNews() {
-    const src = sources[currentSource];
-    try {
-      const apiURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(src.url)}`;
-      const res = await fetch(apiURL);
-      const data = await res.json();
-      headlines = data.items.map(item => item.title);
-      tickerIndex = 0;
-      updateTicker();
-    } catch(e) {
-      console.error("خطأ في جلب الأخبار:", e);
-      ticker.textContent = "لا توجد أخبار حالياً";
-    }
-  }
-
-  function updateTicker() {
-    if (!headlines.length) { ticker.textContent = "لا توجد أخبار حالياً"; return; }
-    ticker.textContent = headlines[tickerIndex];
-    tickerIndex = (tickerIndex + 1) % headlines.length;
-    setTimeout(updateTicker, 5000);
-  }
-
-  // أول تحميل
-  fetchTickerNews();
-</script>
-</body>
-</html>
-<!-- 🌟 أيقونة فليشر القنوات المباشرة -->
-<div id="liveFlasher" onclick="toggleLivePopup()">
-  <span>قنوات مباشرة<br>Live Channels</span>
-</div>
-
-<!-- 🎬 النافذة المنبثقة للفيديوهات -->
-<div id="livePopup">
-  <button id="closePopup" onclick="toggleLivePopup()">❌</button>
-  <div id="liveVideosContainer">
-
-    <!-- القنوات الأصلية -->
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/LuKwFajn37U')">
-      <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/zi9knajcejY')">
-      <iframe src="https://www.youtube.com/embed/zi9knajcejY?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/daqB3i9WYIY')">
-      <iframe src="https://www.youtube.com/embed/daqB3i9WYIY?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/FFkOEautPBs')">
-      <iframe src="https://www.youtube.com/embed/FFkOEautPBs?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/n7eQejkXbnM')">
-      <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe>
-    </div>
-
-    <!-- القنوات الجديدة -->
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/iTtkHlvMRzw')">
-      <iframe src="https://www.youtube.com/embed/iTtkHlvMRzw?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/BEgQdyuWhDQ')">
-      <iframe src="https://www.youtube.com/embed/BEgQdyuWhDQ?mute=1" allowfullscreen></iframe>
-    </div>
-    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/77mDQNA84uI')">
-      <iframe src="https://www.youtube.com/embed/77mDQNA84uI?mute=1" allowfullscreen></iframe>
-    </div>
-
-  </div>
-</div>
-
-<!-- 🎥 الإطار المنبثق الكبير للفيديو -->
-<div id="videoOverlay">
-  <div id="videoBox">
-    <button id="closeVideo" onclick="closeVideo()">❌</button>
-    <iframe id="mainVideo" src="" allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-/* ⚪ أيقونة فليشر */
-#liveFlasher {
-  position: fixed;
-  top: 40%;
-  right: 20px;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background:
-  color: #000;
-  font-weight: bold;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px rgba(255,255,255,0.7);
-  cursor: pointer;
-  z-index: 10000;
-  transition: transform 0.3s ease;
-  font-family: "Cairo", sans-serif;
-  animation: flashGlow 2s infinite ease-in-out;
-}
-
-@keyframes flashGlow {
-  0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.7), 0 0 80px rgba(255,255,255,0.5); }
-  50% { box-shadow: 0 0 70px rgba(255,255,255,1), 0 0 120px rgba(255,255,255,0.9); }
-}
-
-#liveFlasher:hover {
-  transform: translateY(-50%) scale(1.1);
-}
-
-/* 🎬 نافذة الفيديوهات */
-#livePopup {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  width: 80vw;
-  max-width: 420px;
-  background: 
-  border-radius: 30px;
-  box-shadow: 0 0 40px rgba(255,255,255,0.9);
-  padding: 15px 10px 25px;
-  z-index: 10001;
-  text-align: center;
-  animation: fadeIn 0.4s ease;
-  backdrop-filter: blur(10px);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translate(-50%, -40%); }
-  to { opacity: 1; transform: translate(-50%, -30%); }
-}
-
-/* زر الإغلاق */
-#closePopup {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  background: crimson;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: 0.3s;
-}
-#closePopup:hover {
-  background: #ff5555;
-}
-
-/* الفيديوهات المصغّرة */
-#liveVideosContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 35px;
-}
-
-.live-video {
-  width: 130px;
-  height: 80px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(255,255,255,0.6);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer;
-}
-.live-video:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255,255,255,0.9);
-}
-.live-video iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  pointer-events: none;
-}
-
-/* 🎥 الإطار المنبثق الكبير */
-#videoOverlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(4px);
-  z-index: 10002;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
-}
-#videoBox {
-  position: relative;
-  width: 80%;
-  max-width: 600px;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(255,255,255,0.8);
-}
-#videoBox iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-#closeVideo {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: crimson;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
-  cursor: pointer;
-}
-#closeVideo:hover {
-  background: #ff5555;
-}
-
-/* 📱 للجوال */
-@media (max-width: 768px) {
-  #liveFlasher {
-    width: 110px;
-    height: 110px;
-    right: 15px;
-    font-size: 13px;
-  }
-  #livePopup {
-    width: 90vw;
-    max-width: 340px;
-    top: 25%;
-    transform: translate(-50%, -25%);
-  }
-  .live-video {
-    width: 110px;
-    height: 65px;
-  }
-}
-</style>
-
-<script>
-function toggleLivePopup() {
-  const popup = document.getElementById("livePopup");
-  popup.style.display = (popup.style.display === "flex" || popup.style.display === "block") ? "none" : "block";
-}
-
-// فتح الفيديو في الإطار المنبثق الكبير
-function openVideo(url) {
-  const overlay = document.getElementById("videoOverlay");
-  const iframe = document.getElementById("mainVideo");
-  iframe.src = url + "?autoplay=1";
-  overlay.style.display = "flex";
-}
-
-// إغلاق الفيديو المنبثق
-function closeVideo() {
-  const overlay = document.getElementById("videoOverlay");
-  const iframe = document.getElementById("mainVideo");
-  iframe.src = "";
-  overlay.style.display = "none";
-}
-</script>
-
-<script>
-const beethovenIcon = document.getElementById('beethovenIcon');
-const beethovenPlayer = document.getElementById('beethovenPlayer');
-let playing = false;
-
-beethovenIcon.addEventListener('click', () => {
-  if (!playing) {
-    // تشغيل الفيديو الوهمي
-    beethovenPlayer.src = "https://www.youtube.com/embed/PBLboog8_CI?autoplay=1";
-    beethovenPlayer.style.display = "block";
-    beethovenIcon.style.boxShadow = "0 0 25px #fff";
-    beethovenIcon.style.transform = "scale(1.1)";
-    beethovenIcon.style.background = "linear-gradient(135deg,#8e24aa,#ce93d8)";
-    playing = true;
-  } else {
-    // إيقاف الفيديو
-    beethovenPlayer.src = "";
-    beethovenPlayer.style.display = "none";
-    beethovenIcon.style.boxShadow = "0 0 15px rgba(142,36,170,0.8)";
-    beethovenIcon.style.transform = "scale(1)";
-    beethovenIcon.style.background = "linear-gradient(135deg,#4a148c,#8e24aa)";
-    playing = false;
-  }
-});
-
-</script>
-
-<style>
-/* خلفية الفيديو */
-#video-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -10;
-}
-
-/* إطار الفيديو */
-#video-background iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120%;
-  height: 120%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  border: none;
-}
-
-/* تأثير التوهج الزمردي حول الحواف */
-.emerald-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(80, 200, 120, 0.15) 0%, rgba(0, 0, 0, 0.85) 90%);
-  box-shadow: inset 0 0 100px 40px rgba(80, 200, 120, 0.2);
-  z-index: -9;
-  animation: glowPulse 5s ease-in-out infinite;
-}
-/* حركة خفيفة للتوهج */
-@keyframes glowPulse {
-  0% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
-  50% { box-shadow: inset 0 0 120px 50px rgba(80, 200, 120, 0.35); }
-  100% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
-}
-</style><!-- زر فتح مكتبة الفيديو الزمردية -->
-<div id="emeraldLibraryButton" 
-     style="position:fixed; right:270; top:85%; z-index:9500; cursor:pointer;
-            padding:10px 15px; background: 
-            font-weight:bold; border-radius:12px; text-align:center;">
-  🎥 مكتبة الفيديو الزمردية<br>Emerald Video Library
-</div>
-
-<!-- محتوى المكتبة (مغلقة افتراضياً) -->
-<div id="emeraldLibraryContent" 
-     style="display:none; position:fixed; right:60px; top:20%; max-height:70%; 
-            overflow-y:auto; background:
-            border-radius:12px; z-index:9500; flex-direction:column; gap:10px;">
-
-  <!-- 🎵 موسيقى -->
-  <div>
-    <div onclick="toggleSection('musicSection')" 
-         style="padding:8px 12px;border-radius:10px;background:rgba(255,105,180,0.85);color:#000;cursor:pointer;font-weight:bold;">
-      🎵 musicموسيقى
-    </div>
-    <div id="musicSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/2U0RjjiBorY')">فهد السعيد</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/FDyB8dcSptk')">عيسى الأحسائي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/l8CGuJzyiR8')">بشير</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/r-m2wwJy2cQ')">طلال</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kEIWBDqovoI')">محمد عبده</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kLXlntMZ-lc?si=qscrkusqTPWkdnVc')">حجاب</div>
-
-    </div>
+<!-- الصفحة الأولى -->
+<section id="page1" class="page active">
+  <div id="background">
+    <video autoplay muted loop playsinline>
+      <source src="https://assets.mixkit.co/videos/51445/51445-720.mp4" type="video/mp4">
+    </video>
   </div>
 
-  <!-- 📼 الوثائقية -->
-  <div>
-    <div onclick="toggleSection('docSection')" 
-         style="padding:6px 10px; border-radius:8px; background:#FFD700; color:#000; cursor:pointer; font-weight:bold; font-size:14px;">
-      📼  documentaryوثائقية
-    </div>
-    <div id="docSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R62QVvz1Aso')">نيرون صبيا</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/23jGQdwSRJs')">الحرب العالمية الثانية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/DNE6YbGO6-M')">زواج كاترين دي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/zh2HwG8fYFo')">الحضارات الإنسانية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hvJSvGslOl8')">صدام حسين</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/RO0xx5oeTA8')">كوريا الشمالية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/4F-47lqOHDU')">جريمة في المنازل</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/EB6-ZDBF0hM')">سرقة القرن في البرازيل</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/uvjMiLxNLnk')">تاريخ اليهود</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/3HmOr-as-TA')">منغوليا</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/7nCjajfhY5o?si=jnu6LwdhTVUPhY5I')">فيلم 1</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/LDi6-iC1j8A?si=ZdyC0y5eG_Nl7brf')">فيلم 2</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/7lo81AX8siE?si=lqWG8WfGe4HRKJwZ')">فيلم 3</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fjed1u7A9wM?si=3OPczpybVbdBQWFW')">فيلم 4</div>
-
-    </div>
-  </div>
-
-  <!-- 🎨 كرتون -->
-  <div>
-    <div onclick="toggleSection('cartoonSection')" 
-         style="padding:6px 10px; border-radius:8px; background:#000; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
-      cartoon🎨 كرتون
-    </div>
-    <div id="cartoonSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/U5sBC9Fr0fA')">كرتون</div>
-    </div>
-  </div>
-
-  <!-- 🎬 أفلام -->
-  <div>
-    <div onclick="toggleSection('moviesSection')" 
-         style="padding:6px 10px; border-radius:8px; background:#333; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
-    films  🎬 أفلام
-    </div>
-    <div id="moviesSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fqOALQ3pehE')">Sisters with Secrets</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kJqW_xsMuh8')">جاكي شان</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/0go3k0frmjc')">فلم هندي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/D3oO_9S6TVM')">Filme Faster</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/rnJ6k-hjsqM?si=KXJu7um4Ru3Kq7p2')">فيلم 1</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/r0qVH647sI4?si=hg7u6f3H-pqMxwvw')">فيلم 2</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/cwSoWCJGe9Y?si=06FFz92rA8AtLk2E')">فيلم 3</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/VmUE1nSUwcU?si=FmkLKUWELKlCJ5eQ')">فيلم 4</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/TXimDjSatvk?si=HPcV4Di6svQ0YmYv')">فيلم 5</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/pFLinegONA4?si=jWVb_7MeXUeOhKNz')">فيلم 6</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ThFxdmLCh6A?si=2K3mEf0KxV-shOuf')">فيلم 7</div>
-
-    </div>
-  </div>
-
-  <!-- ⚽ رياضة -->
-  <div>
-    <div onclick="toggleSection('sportsSection')" 
-         style="padding:6px 10px;border-radius:8px;background:rgba(165,42,42,0.85);color:#fff;cursor:pointer;font-weight:bold;font-size:14px;">
-      sports⚽ رياضة
-    </div>
-    <div id="sportsSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/NYTo6KB7IqQ')">كرة القدم النسائية</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/yMb_7VEhyNQ')">كرة القدم رجال</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s3qWsdWfK24')">نادي تشلسي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/6J4JEFwm63o')">التعاون 5 الرائد 1</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/bbmoXwaSpGY?si=-02ni4PZ9DpKFzUF')">كرة الطائرة النسائية</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/WYtC7nuChPA?si=Jw4hFD5kWubGKJm3')">تشلسي</div>
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/x8xdEOnv0Dk?si=yzn4J5NkCCtqc1q9')">تشلسي رجال</div>
-
-    </div>
-  </div>
-
-  <!-- 📘 تعليمية -->
-  <div>
-    <div onclick="toggleSection('educationSection')" 
-         style="padding:8px 12px;border-radius:10px;background:rgba(0,0,255,0.25);color:#fff;cursor:pointer;font-weight:bold;">
-    Educational  📘 تعليمية
-    </div>
-    <div id="educationSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/_KXmZKW_cag?si=YAmKW4EOx-IREgGP&mute=1')">تعلم الإنجليزية</div>
-
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/v5zol69e02o?si=SE4tX2T8BL38trob&mute=1')">تعلم العود</div>
-
-<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/uEWJkk6X8fg?si=PW2Dh_O9fE9bzCxF&mute=1')">SATC</div>
-
-    </div>
-  </div>
-
-  <!-- 📿 دينية -->
-  <div>
-    <div onclick="toggleSection('religiousSection')" 
-         style="padding:8px 12px;border-radius:10px;background:rgba(0,128,0,0.85);color:#fff;cursor:pointer;font-weight:bold;">
-      Islamic religion📿 دينية
-    </div>
-    <div id="religiousSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/q_V_Xbq4S64?si=ZueNfoqOkNrSxrRm')">الشيخ كشك</div>
-
-
-    </div>
-  </div>
-
-  <!-- 🎮 ألعاب -->
-  <div>
-    <div onclick="toggleSection('gamesSection')" 
-         style="padding:8px 12px;border-radius:10px;background:rgba(255,165,0,0.85);color:#000;cursor:pointer;font-weight:bold;">
-     My game 🎮 ألعاب
-    </div>
-    <div id="gamesSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/XhjICiHQD_g')">أنا</div>
-      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ZITpohaq6Ak')">أنا 2</div>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  // فتح/إغلاق المكتبة
-  document.getElementById('emeraldLibraryButton').addEventListener('click', function() {
-    const content = document.getElementById('emeraldLibraryContent');
-    if(!content) return;
-    content.style.display = content.style.display === 'block' ? 'none' : 'block';
-    
-    // عند الفتح، أغلق جميع الأقسام
-    if(content.style.display === 'block') {
-      closeAllSections();
-    }
-  });
-
-  // دالة لغلق جميع الأقسام
-  function closeAllSections() {
-    const sections = document.querySelectorAll('#emeraldLibraryContent div[id$="Section"]');
-    sections.forEach(section => section.style.display = 'none');
-  }
-
-  // دالة فتح/إغلاق أي قسم عند الضغط عليه
-  function toggleSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if(!section) return;
-    section.style.display = section.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // دالة فتح الفيديوهات (يمكن تعديل حسب حاجتك)
-  function openEmeraldVideo(url) {
-    window.open(url, '_blank');
-  }
-</script>
-
-<script>
-function toggleEmeraldLibrary() {
-  const lib = document.getElementById('emeraldLibraryContent');
-  lib.style.display = lib.style.display === 'flex' ? 'none' : 'flex';
-}
-
-function toggleSection(sectionId) {
-  const sec = document.getElementById(sectionId);
-  sec.style.display = sec.style.display === 'flex' ? 'none' : 'flex';
-}
-
-function openEmeraldVideo(url) {
-  window.open(url, '_blank');
-}
-
-// أغلق كل الأقسام عند تحميل الصفحة
-window.onload = () => {
-  const sections = ['musicSection','docSection','cartoonSection','moviesSection','sportsSection','educationSection','religiousSection','gamesSection'];
-  sections.forEach(id => document.getElementById(id).style.display = 'none');
-};
-</script>
-
-<style>
-.emeraldVideoCircle {
-  display:inline-block;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  overflow:hidden;
-  border:3px solid #00ffff;
-  box-shadow:0 0 50px #00ffff;
-  margin:5px;
-  cursor:pointer;
-  text-align:center;
-  line-height:120px;
-  font-weight:bold;
-  color:#fff;
-  background:#000;
-  transition:0.3s;
-}
-.emeraldVideoCircle:hover {
-  transform:scale(1.1);
-  box-shadow:0 0 70px #00ffff;
-}
-</style>
-
-
-    </div>
-
-  </div>
-
-</div>
-
-<style>
-.emeraldVideoCircle {
-  display:inline-block;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  overflow:hidden;
-  border:3px solid #00ffff;
-  box-shadow:0 0 50px #00ffff;
-  margin:5px;
-  cursor:pointer;
-  text-align:center;
-  line-height:120px;
-  font-weight:bold;
-  color:#fff;
-  background:#000;
-  transition:0.3s;
-}
-.emeraldVideoCircle:hover {
-  transform:scale(1.1);
-  box-shadow:0 0 70px #00ffff;
-}
-</style>
-
-<script>
-function toggleEmeraldLibrary(){
-  const lib = document.getElementById('emeraldLibraryContent');
-  if(lib) lib.style.display = lib.style.display==='none'?'flex':'none';
-}
-
-function toggleEmeraldSection(id){
-  const section = document.getElementById(id);
-  if(section) section.style.display = section.style.display==='none'?'flex':'none';
-}
-
-function openEmeraldVideo(url){
-  const existing = document.getElementById('emeraldModal');
-  if(existing) existing.remove();
-
-  const modal = document.createElement('div');
-  modal.id='emeraldModal';
-  modal.style.position='fixed';
-  modal.style.top='0';
-  modal.style.left='0';
-  modal.style.width='100%';
-  modal.style.height='100%';
-  modal.style.background='rgba(0,0,0,0.9)';
-  modal.style.display='flex';
-  modal.style.justifyContent='center';
-  modal.style.alignItems='center';
-  modal.style.zIndex='9999';
-  
-  const iframe = document.createElement('iframe');
-  iframe.src = url+"?autoplay=1";
-  iframe.frameBorder="0";
-  iframe.allowFullscreen=true;
-  iframe.style.width='70%';
-  iframe.style.height='70%';
-  iframe.style.borderRadius='12px';
-  iframe.style.boxShadow='0 0 70px #00ffff';
-
-  const closeBtn = document.createElement('button');
-  closeBtn.innerText='إغلاق ✖';
-  closeBtn.style.position='fixed';
-  closeBtn.style.top='10px';
-  closeBtn.style.right='10px';
-  closeBtn.style.zIndex='10000';
-  closeBtn.style.padding='8px 12px';
-  closeBtn.style.background='rgba(0,255,255,0.3)';
-  closeBtn.style.border='1px solid #00ffff';
-  closeBtn.style.color='#fff';
-  closeBtn.style.cursor='pointer';
-  closeBtn.onclick=()=>modal.remove();
-
-  modal.appendChild(iframe);
-  modal.appendChild(closeBtn);
-  document.body.appendChild(modal);
-}
-
-function closeMainVideo(id){
-  const vid = document.getElementById(id);
-  if(vid) vid.style.display='none';
-}
-
-function fullscreenVideo(id){
-  const vid = document.getElementById(id);
-  if(vid) {
-    if (vid.requestFullscreen) {
-      vid.requestFullscreen();
-    } else if (vid.mozRequestFullScreen) { /* Firefox */
-      vid.mozRequestFullScreen();
-    } else if (vid.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-      vid.webkitRequestFullscreen();
-    } else if (vid.msRequestFullscreen) { /* IE/Edge */
-      vid.msRequestFullscreen();
-    }
-  }
-}
-</script>
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const _key = ["AIzaSy","DDPcEIVAn-","xv6dKcPrTzDeOIxSA8M58v8"];
-const firebaseConfig = {
-  apiKey: _key.join(""),
-  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
-  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
-  projectId: "abwalqmrzmrd-47557",
-  storageBucket: "abwalqmrzmrd-47557.appspot.com",
-  messagingSenderId: "957400167542",
-  appId: "1:957400167542:web:a3b341fad9b1142aaedb57"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const playerCountEl = document.getElementById("playerCount");
-const connectionStatus = document.getElementById("connectionStatus");
-
-// تسجيل لاعب متصل
-const playersRef = ref(db, "pongPlayers");
-const myRef = push(playersRef);
-set(myRef, { online: true });
-onDisconnect(myRef).remove();
-
-// تحديث عداد اللاعبين
-onValue(playersRef, snap => {
-  const val = snap.val() || {};
-  playerCountEl.textContent = "👥 " + Object.keys(val).length;
-});
-
-// تحديث حالة الانترنت والخادم
-function updateStatus() {
-  if(navigator.onLine) {
-    connectionStatus.textContent = "🌐 Online";
-    connectionStatus.style.color = "#00ff80";
-  } else {
-    connectionStatus.textContent = "🌐 Offline";
-    connectionStatus.style.color = "red";
-  }
-}
-window.addEventListener("online", updateStatus);
-window.addEventListener("offline", updateStatus);
-updateStatus();
-</script>
-
-<script>
-const pongContainer = document.getElementById("pongContainer");
-const canvas = document.getElementById("pong");
-const ctx = canvas.getContext("2d");
-const menu = document.getElementById("menu");
-const difficultyDiv = document.getElementById("difficulty");
-const pongButton = document.getElementById("pongButton");
-const closePong = document.getElementById("closePong");
-const endGameBtn = document.getElementById("endGame");
-
-let animFrame, mode, level;
-let player1, player2, ball;
-let ballSpeed = 4, paddleSpeed = 6;
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth * 0.9;
-  canvas.height = window.innerHeight * 0.6;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-function initGame() {
-  const paddleHeight = canvas.height / 5;
-  const paddleWidth = 10;
-  player1 = { x: 10, y: canvas.height / 2 - paddleHeight / 2, color: "yellow" };
-  player2 = { x: canvas.width - 20, y: canvas.height / 2 - paddleHeight / 2, color: "yellow" };
-  ball = { x: canvas.width / 2, y: canvas.height / 2, r: 8, dx: ballSpeed, dy: ballSpeed };
-}
-
-function draw() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = player1.color;
-  ctx.fillRect(player1.x, player1.y, 10, canvas.height/5);
-  ctx.fillStyle = player2.color;
-  ctx.fillRect(player2.x, player2.y, 10, canvas.height/5);
-  ctx.fillStyle = "white";
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, ball.r,0,Math.PI*2);
-  ctx.fill();
-}
-
-function update() {
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-
-  if(ball.y-ball.r<0 || ball.y+ball.r>canvas.height) ball.dy*=-1;
-  if(ball.x-player1.x-10<ball.r && ball.y>player1.y && ball.y<player1.y+canvas.height/5) ball.dx*=-1;
-  if(ball.x-ball.r>player2.x && ball.y>player2.y && ball.y<player2.y+canvas.height/5) ball.dx*=-1;
-
-  if(mode==="computer"){
-    if(player2.y + canvas.height/10 < ball.y) player2.y += paddleSpeed;
-    else player2.y -= paddleSpeed;
-  }
-
-  if(ball.x<0 || ball.x>canvas.width) initGame();
-}
-
-function gameLoop() {
-  update();
-  draw();
-  if(level==="hard") ballSpeed += 0.0003;
-  animFrame = requestAnimationFrame(gameLoop);
-}
-
-document.getElementById("vsComputer").onclick = () => { mode="computer"; difficultyDiv.style.display="flex"; };
-document.getElementById("vsPlayer").onclick = () => { mode="player"; difficultyDiv.style.display="flex"; };
-
-difficultyDiv.querySelectorAll("button").forEach(btn => {
-  btn.onclick = () => {
-    level = btn.dataset.level;
-    if(level==="easy"){ballSpeed=3;paddleSpeed=4;} else if(level==="medium"){ballSpeed=5;paddleSpeed=6;} else if(level==="hard"){ballSpeed=8;paddleSpeed=9;} else if(level==="harder"){ballSpeed=12;paddleSpeed=12;} else if(level==="impossible"){ballSpeed=18;paddleSpeed=16;}
-    difficultyDiv.style.display="none";
-    menu.style.display="none";
-    initGame();
-    gameLoop();
-    endGameBtn.style.display="block";
-  };
-});
-
-canvas.addEventListener("mousemove", e => {
-  const rect = canvas.getBoundingClientRect();
-  player1.y = e.clientY - rect.top - canvas.height/10;
-});
-canvas.addEventListener("touchmove", e => {
-  e.preventDefault();
-  const rect = canvas.getBoundingClientRect();
-  player1.y = e.touches[0].clientY - rect.top - canvas.height/10;
-}, { passive:false });
-
-pongButton.onclick = () => { pongContainer.style.display="flex"; menu.style.display="flex"; };
-closePong.onclick = () => { cancelAnimationFrame(animFrame); pongContainer.style.display="none"; endGameBtn.style.display="none"; };
-endGameBtn.onclick = () => { cancelAnimationFrame(animFrame); initGame(); menu.style.display="flex"; endGameBtn.style.display="none"; };
-</script>
-
-
-</html>
-
-<!-- 🌐 شريط النصوص المتحرك السفلي -->
-<div id="dynamic-text-bar">
-  <span id="scrollingText"></span>
-</div>
-
-<style>
-#dynamic-text-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 255, 200, 0.15);
-  border-top: 1px solid rgba(0,255,200,0.4);
-  color: #00ffcc;
-  font-family: "Tajawal", sans-serif;
-  font-size: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  z-index: 10000;
-  box-shadow: 0 -2px 10px rgba(0,255,255,0.3);
-  text-shadow: 0 0 8px #00ffff;
-}
-#dynamic-text-bar span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scrollText 25s linear infinite;
-}
-@keyframes scrollText {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-</style>
-
-<script>
-// 🌙 نصوص عربية وإنجليزية بالتناوب
-const messages = [
-  "🌙 مرحبًا بكم في موقع أبوالقمر زمرد — الإبداع في ضوء القمر والزمرد 💎",
-  "✨ استمتع بمكتبة الفيديو والقصص والفكاهة، بروح زمردية ملهمة 🌿",
-  "💬 تفاعل معنا عبر الدردشة واستكشف عالم أبوالقمر المتنوع 🌌",
-  "🌍 Welcome to Abwalqmr Zumurrud — where Moonlight meets Emerald Creativity 💫",
-  "🎬 Explore videos, stories, and humor with elegance and inspiration 🌱",
-  "💎 Connect and enjoy the Emerald world of imagination 🌕"
-];
-
-let textIndex = 0;
-const scrollingText = document.getElementById("scrollingText");
-
-function updateText() {
-  scrollingText.textContent = messages[textIndex];
-  textIndex = (textIndex + 1) % messages.length;
-}
-
-updateText();
-setInterval(updateText, 25000);
-</script>
-
-
-<!-- 🎂 كيك متوهج بألوان متغيرة -->
-<div id="cakeWrapper">
-  <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
-    <div class="cakeContent">
-      🎂<br>
-      <span class="label">يسعدني إعجابك 💖</span>
-      <span class="en">It makes me happy you liked it 💖</span>
-      <span class="usd">(coffee 1$)</span>
-    </div>
-  </div>
-</div>
-
-<style>
-/* 📦 الغلاف العام */
-#cakeWrapper {
-  position: fixed;
-  bottom: 100px;
-  left:30%;
-  transform: translateX(50%);
-  z-index: 1000;
-}
-
-/* 🎂 الكيكة */
-#cakeButton {
-  position: relative;
-  width: 120px;
-  height: 70px;
-  background: radial-gradient(circle at 30% 30%, #ff0, #00f, #f00, #0f0);
-  border-radius: 50% 50% 10% 10%;
-  border: 2px solid #fff;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6),
-              0 0 30px 10px rgba(255, 255, 0, 0.3);
-  transition: all 0.2s ease;
-  animation: glowShift 0.8s infinite linear;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* 🎉 محتوى الكيكة مرفوع قليلًا */
-.cakeContent {
-  margin-top: -6px; /* 🔼 رفع المحتوى */
-}
-
-/* ✨ وميض متغيّر للألوان */
-@keyframes glowShift {
-  0%   { background: radial-gradient(circle at 20% 20%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 15px 3px #ff0; }
-  25%  { background: radial-gradient(circle at 70% 20%, #0f0, #f00, #00f, #ff0); box-shadow: 0 0 20px 5px #0f0; }
-  50%  { background: radial-gradient(circle at 30% 70%, #00f, #ff0, #0f0, #f00); box-shadow: 0 0 25px 7px #00f; }
-  75%  { background: radial-gradient(circle at 70% 70%, #f00, #0f0, #ff0, #00f); box-shadow: 0 0 25px 7px #f00; }
-  100% { background: radial-gradient(circle at 50% 50%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 20px 5px #ff0; }
-}
-
-/* 💛 النصوص */
-#cakeButton .label {
-  display: block;
-  font-size: 11px;
-}
-
-#cakeButton .en {
-  display: block;
-  color: #ffff99;
-  font-size: 9px;
-  margin-top: 3px;
-}
-
-#cakeButton .usd {
-  display: block;
-  color: #fff;
-  font-size: 10px;
-  margin-top: 3px;
-  text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
-}
-</style>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شريط أسعار متحرك</title>
-<style>
-  /* الشريط المتحرك */
- #ticker-container {
-  position: fixed;
-  bottom: 40px; /* رفع الشريط بمقدار سطرين عن أسفل الصفحة */
-  left: 0;
-  width: 100%;
-  background: 
-  overflow: hidden;
-  white-space: nowrap;
-  z-index: 9999;
-  padding: 8px 0;
-  font-family: Tahoma, sans-serif;
-  color: #c0c0c0; /* خط فضي */
-  font-size: 16px;
-}
-
-  #ticker {
-    display: inline-block;
-    padding-left: 100%;
-    animation: ticker-scroll 30s linear infinite;
-  }
-
-  @keyframes ticker-scroll {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-100%); }
-  }
-
-  .ticker-item {
-    margin: 0 30px;
-    display: inline-block;
-  }
-
-  @media (max-width: 600px) {
-    #ticker-container { font-size: 14px; }
-    .ticker-item { margin: 0 20px; }
-  }
-</style>
-</head>
-<body>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الطقس والأسعار - أبو القمر زمرد</title>
+<title>أابوالقمرزمرد فنان شامل</title>
 <style>
-#ticker-container {
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* الأيقونة */
+  #customVideoIcon {
+    position: fixed;
+    top: 210px;
+    right: 140px;
+    width: 180px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 500;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+  }
+
+  #customVideoIcon::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
+    animation: glow 2s linear infinite alternate;
+    z-index: -1;
+  }
+
+  @keyframes glow {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+  }
+
+  #customVideoIcon iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* الإطار المنبثق */
+  #customVideoPopup {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  /* الفيديو */
+  #customVideoContent {
+    width: 60%;
+    max-width: 600px;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    overflow: hidden;
+    background: black;
+    position: relative;
+    transform: scale(0);
+    animation: popupScale 0.4s forwards;
+    box-shadow: 0 0 25px 5px #fff;
+  }
+
+  #customVideoContent::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(15px);
+    animation: rainbowGlow 5s linear infinite;
+  }
+
+  @keyframes rainbowGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes popupScale {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  #customVideoContent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+  }
+
+  /* زر الإغلاق داخل المنبثق */
+  #customCloseBtn {
+    position: absolute;
+    top: 10%;
+    right: 20%;
+    background: red;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  #customCloseBtn:hover {
+    background: #ff4444;
+    transform: scale(1.1);
+  }
+
+  /* زر إخفاء الأيقونة */
+  #hideIconBtn {
+    position: fixed;
+    top: 165px;
+    right: 250px;
+    background: linear-gradient(45deg, #f00, #0ff, #ff0);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+
+  /* زر إظهار الأيقونة */
+  #showIconBtn {
+    display: none;
+    position: fixed;
+    top: 135px;
+    right: 370px;
+    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
   position: fixed;
-  bottom: 10px; /* مرفوع سطر واحد عن الأسفل */
+  top: 30px; /* مرفوعة حوالي خمس أسطر */
+  right: 12px;
+  width: 75px;
+  height: 75px;
+  background:
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
+  z-index: 1001;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+  🐦
+</div>
+
+<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
+<audio id="bird-sound" loop playsinline>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<script>
+const birdBtn = document.getElementById('bird-sound-btn');
+const birdAudio = document.getElementById('bird-sound');
+
+// حالة أولية
+birdBtn.textContent = "🐦";
+
+// عند النقر على الأيقونة
+birdBtn.addEventListener('click', async () => {
+  try {
+    if (birdAudio.paused) {
+      await birdAudio.play();
+      birdBtn.textContent = "🔊";
+      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
+      birdBtn.style.transform = "scale(1.1)";
+    } else {
+      birdAudio.pause();
+      birdBtn.textContent = "🐦";
+      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
+      birdBtn.style.transform = "scale(1)";
+    }
+  } catch (err) {
+    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
+    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
+  }
+});
+</script>
+<!-- أيقونة الفيديو -->
+<div id="customVideoIcon">
+  <iframe 
+    src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- زر إخفاء الأيقونة -->
+<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
+
+<!-- زر إظهار الأيقونة -->
+<button id="showIconBtn">🔄 إظهار الأيقونة</button>
+
+<!-- الإطار المنبثق -->
+<div id="customVideoPopup">
+  <button id="customCloseBtn">&times;</button>
+  <div id="customVideoContent">
+    <iframe 
+     src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&loop=1&playlist=n7eQejkXbnM&controls=1&modestbranding=1&playsinline=1"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<script>
+const icon = document.getElementById('customVideoIcon');
+const popup = document.getElementById('customVideoPopup');
+const content = document.getElementById('customVideoContent');
+const close = document.getElementById('customCloseBtn');
+const hideBtn = document.getElementById('hideIconBtn');
+const showBtn = document.getElementById('showIconBtn');
+
+// فتح الفيديو المنبثق
+icon.addEventListener('click', () => {
+  popup.style.display = 'flex';
+  content.style.animation = 'popupScale 0.4s forwards';
+});
+
+// إغلاق الفيديو المنبثق
+close.addEventListener('click', (e) => {
+  e.stopPropagation();
+  popup.style.display = 'none';
+  content.style.transform = 'scale(0)';
+});
+
+// الضغط خارج الإطار يغلق المنبثق
+popup.addEventListener('click', (e) => {
+  if(e.target === popup){
+    popup.style.display = 'none';
+    content.style.transform = 'scale(0)';
+  }
+});
+
+// إخفاء الأيقونة
+hideBtn.addEventListener('click', () => {
+  icon.style.display = 'none';
+  hideBtn.style.display = 'none';
+  showBtn.style.display = 'block';
+});
+
+// إظهار الأيقونة
+showBtn.addEventListener('click', () => {
+  icon.style.display = 'flex';
+  hideBtn.style.display = 'block';
+  showBtn.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎧 راديو | Radio</title>
+<style>
+ {
+  background: #000;
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* 🎧 أيقونة الراديو */
+#radioIcon {
+  position: fixed;
+  left: 30px;
+  bottom: 19%;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #0ff, #007);
+  border-radius: 50%;
+  box-shadow: 0 0 20px #0ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+#radioIcon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #0ff;
+}
+#radioIcon span {
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ⚡ قائمة الإذاعات داخل الأيقونة */
+#radioList {
+  display: none;
+  position: absolute;
+  bottom: 90px;
   left: 0;
+  width: 260px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #0ff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #0ff;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+/* عناصر الإذاعات */
+.radio-item {
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.radio-item:hover {
+  background: rgba(0,255,255,0.3);
+}
+
+audio {
   width: 100%;
-  background: 
-  color: #c0c0c0;
-  overflow: hidden;
-  white-space: nowrap;
-  font-family: "Tahoma", sans-serif;
-  font-size: 16px;
-  z-index: 9999;
-  padding: 8px 0;
-  border-top: 2px solid #444;
-  direction: rtl;
-}
-
-#ticker-content {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scroll 500s linear infinite;
-}
-
-#ticker-content span {
-  display: inline-block;
-  margin-right: 60px;
-}
-
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  margin-top: 5px;
 }
 </style>
 </head>
 <body>
 
-<div id="ticker-container">
-  <div id="ticker-content">جاري تحميل البيانات...</div>
+<!-- 🎧 أيقونة الراديو -->
+<div id="radioIcon" onclick="toggleRadioList()">
+  <span>🎧</span>
+  <span>راديو</span>
+  <span>Radio</span>
+
+  <!-- قائمة الإذاعات داخل الأيقونة -->
+  <div id="radioList">
+    <h3 style="color:#0ff;">📻 محطات الراديو</h3>
+    <div class="radio-item"><b>📿 القرآن الكريم - السعودية</b><audio controls src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio></div>
+    <div class="radio-item"><b>📖 القرآن الكريم - مصر</b><audio controls src="https://quraan.stream.laut.fm/quraan"></audio></div>
+    <div class="radio-item"><b>🕋 مكة المكرمة</b><audio controls src="https://stream.zeno.fm/hz7m0r7f7rhvv"></audio></div>
+    <div class="radio-item"><b>🕌 المدينة المنورة</b><audio controls src="https://n0b.radiojar.com/6b38f9uvp4duv"></audio></div>
+    <div class="radio-item"><b>🎶 روتانا FM</b><audio controls src="https://rotana.net/stream/rotanafm"></audio></div>
+    <div class="radio-item"><b>🎧 Panorama FM</b><audio controls src="https://mbc5.streamakaci.com/panorama"></audio></div>
+    <div class="radio-item"><b>🎵 MBC FM</b><audio controls src="https://mbc5.streamakaci.com/mbcfm"></audio></div>
+    <div class="radio-item"><b>🎼 Mix FM</b><audio controls src="https://stm1.srvif.com:7006/;"></audio></div>
+    <div class="radio-item"><b>🌴 إذاعة جدة</b><audio controls src="https://s2.voscast.com:10645/;"></audio></div>
+    <div class="radio-item"><b>🎤 نغم FM</b><audio controls src="https://ice31.securenetsystems.net/NAGHAM"></audio></div>
+    <div class="radio-item"><b>📰 BBC Arabic</b><audio controls src="https://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio"></audio></div>
+    <div class="radio-item"><b>🎙 Monte Carlo Doualiya</b><audio controls src="https://montecarlodoualiya128k.ice.infomaniak.ch/mcd.mp3"></audio></div>
+    <div class="radio-item"><b>🪩 Party Vibe Radio</b><audio controls src="https://us2.internet-radio.com/proxy/partyviberadio?mp=/stream"></audio></div>
+    <div class="radio-item"><b>🎧 Radio Paradise</b><audio controls src="https://stream-uk1.radioparadise.com/mp3-192"></audio></div>
+    <div class="radio-item"><b>🎼 Classical Radio</b><audio controls src="https://icecast1.play.cz/cro1-128.mp3"></audio></div>
+    <div class="radio-item"><b>💤 Relax FM</b><audio controls src="https://stream.relaxfm.ru/relaxfm"></audio></div>
+    <div class="radio-item"><b>🌙 Chillout Lounge</b><audio controls src="https://stream-uk1.radioparadise.com/aac-320"></audio></div>
+    <div class="radio-item"><b>📡 Sky News Arabia</b><audio controls src="https://radio.skynewsarabia.com/stream/radio/skynewsarabia"></audio></div>
+    <div class="radio-item"><b>🗞 CNN Radio</b><audio controls src="https://tunein.streamguys1.com/cnnnewsaac"></audio></div>
+    <div class="radio-item"><b>🎵 إذاعة عربية منوعة</b><audio controls src="https://stream.zeno.fm/mz1s1r9uc5zuv"></audio></div>
+  </div>
 </div>
 
 <script>
-// جلب الطقس بناءً على الموقع
-async function fetchWeather() {
-  try {
-    const position = await new Promise((resolve, reject) =>
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-    );
-
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-
-    const weatherResponse = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode`
-    );
-    const weatherData = await weatherResponse.json();
-    const temp = weatherData.current.temperature_2m;
-    const weatherCode = weatherData.current.weathercode;
-    // تحويل الكود إلى وصف
-    const weatherText = {
-      0: "☀️ مشمس",
-      1: "🌤️ صافي",
-      2: "🌥️ غائم جزئياً",
-      3: "☁️ غائم",
-      45: "🌫️ ضباب",
-      48: "🌫️ ضباب كثيف",
-      51: "🌦️ رذاذ خفيف",
-      61: "🌧️ مطر",
-      71: "🌨️ ثلوج",
-      95: "⛈️ عواصف"
-    }[weatherCode] || "🌡️ حالة جوية غير معروفة";
-
-    return `${weatherText} ${temp}°C`;
-  } catch (error) {
-    return "🌍 لم يتم تحديد الموقع أو حالة الطقس.";
-  }
+function toggleRadioList() {
+  const list = document.getElementById("radioList");
+  list.style.display = (list.style.display === "block") ? "none" : "block";
 }
-
-// جلب الأسعار
-async function fetchPrices() {
-  try {
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold,oil,usd,eur,gbp&vs_currencies=usd,sar");
-    const data = await response.json();
-
-    const btc = data.bitcoin?.usd ? `${data.bitcoin.usd} دولار` : "غير متاح";
-    const eth = data.ethereum?.usd ? `${data.ethereum.usd} دولار` : "غير متاح";
-    const usd = data.usd?.sar ? `${data.usd.sar} ريال` : "3.75 ريال";
-    const eur = data.eur?.sar ? `${data.eur.sar} ريال` : "4.10 ريال";
-    const gbp = data.gbp?.sar ? `${data.gbp.sar} ريال` : "4.80 ريال";
-    const gold = data.gold?.usd ? `${data.gold.usd} دولار` : "2350 دولار";
-    const oil = data.oil?.usd ? `${data.oil.usd} دولار` : "89 دولار";
-    const silver = "28.5 دولار";
-
-    const weather = await fetchWeather();
-
-    const ticker = document.getElementById("ticker-content");
-    ticker.innerHTML = `
-      <span>${weather}</span>
-      <span>💰 الدولار الأمريكي: ${usd}</span>
-      <span>💶 اليورو: ${eur}</span>
-      <span>💷 الجنيه الإسترليني: ${gbp}</span>
-      <span>💎 الذهب: ${gold}</span>
-      <span>🥈 الفضة: ${silver}</span>
-      <span>🛢️ النفط: ${oil}</span>
-      <span>📈 بيتكوين: ${btc}</span>
-      <span>💹 إيثيريوم: ${eth}</span>
-    `;
-    ticker.innerHTML += ticker.innerHTML; // تكرار للتمرير المستمر
-  } catch (error) {
-    document.getElementById("ticker-content").innerText = "⚠️ تعذر جلب الأسعار أو الطقس.";
-  }
-}
-
-// تحميل عند البداية وتحديث كل دقيقة
-fetchPrices();
-setInterval(fetchPrices, 60000);
 </script>
 
 </body>
 </html>
-<script>
-// تشغيل كل الوظائف بعد تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-  /* 🎯 1. إصلاح أيقونة المعلّقات */
-  const mainIcon = document.getElementById("mainIcon");
-  const namesList = document.getElementById("namesList");
 
-  if (mainIcon && namesList) {
-    mainIcon.addEventListener("click", () => {
-      namesList.style.display = namesList.style.display === "block" ? "none" : "block";
-    });
-  }
 
-  document.querySelectorAll("#namesList span[data-target]").forEach(span => {
-    span.addEventListener("click", () => {
-      const targetId = span.getAttribute("data-target");
-      const poemDiv = document.getElementById(targetId);
-      if (poemDiv) {
-        poemDiv.style.display = "block";
-        namesList.style.display = "none";
-      }
-    });
-  });
 
-  window.closePoem = function(id) {
-    const poemDiv = document.getElementById(id);
-    if (poemDiv) poemDiv.style.display = "none";
-  };
+  <!-- زر -->
+  <button class="btn" onclick="goToPage2()">➡️ الانتقال إلى الصفحة الثانية</button>
 
-  /* 🩺 2. إصلاح قسم الطب الشعبي والنبوي */
-  const medicineBtn = document.getElementById('medicineBtn');
-  const medicineBox = document.getElementById('medicineBox');
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
+  <!-- العملات والطقس -->
+  <div id="infoBar">
+    <span>🌡️ الطقس: 27°C</span>
+    <span>💵 الدولار: 3.75 ريال</span>
+    <span>💶 اليورو: 4.10 ريال</span>
+    <span>🥇 الذهب: 255 ريال/غ</span>
+  </div>
+</section>
 
-  if (medicineBtn && medicineBox) {
-    medicineBtn.addEventListener('click', () => {
-      medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
-    });
-  }
-
-  window.closeBox = function() {
-    if (medicineBox) medicineBox.style.display = 'none';
-  }
-
-  if (tabs.length > 0) {
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        tabContents.forEach(c => c.classList.remove('active'));
-        const currentTab = document.getElementById(tab.dataset.tab);
-        if (currentTab) currentTab.classList.add('active');
-      });
-    });
-  }
-
-  /* 📰 3. إصلاح شريط الأخبار المتحرك */
-  const newsBar = document.getElementById('newsBar');
-  if (newsBar) {
-    let scroll = 0;
-    setInterval(() => {
-      scroll += 1;
-      newsBar.scrollLeft = scroll;
-      if (scroll >= newsBar.scrollWidth - newsBar.clientWidth) scroll = 0;
-    }, 40);
-  }
-
-  /* ❌ 4. إصلاح أزرار الإغلاق العامة */
-  const closeBtn = document.getElementById("closeBtn");
-  const gameContainer = document.getElementById("gameContainer");
-  if (closeBtn && gameContainer) {
-    closeBtn.addEventListener("click", () => {
-      gameContainer.style.display = "none";
-    });
-  }
-});
-</script>
-
-<script>
-// إصلاح زر الطب الشعبي إذا لم يعمل بعد الدمج
-document.addEventListener("DOMContentLoaded", () => {
-  const medicineBtn = document.querySelector("#medicineBtn");
-  const medicineBox = document.querySelector("#medicineBox");
-
-  if (medicineBtn && medicineBox) {
-    console.log("✅ تم التعرف على زر الطب والنافذة.");
-    medicineBtn.onclick = () => {
-      const isVisible = medicineBox.style.display === "block";
-      medicineBox.style.display = isVisible ? "none" : "block";
-      console.log(isVisible ? "🔒 تم الإغلاق" : "📖 تم الفتح");
-    };
-  } else {
-    console.warn("⚠️ لم يتم العثور على عناصر الطب في الصفحة.");
-  }
-});
-</script>
-
+<!-- الصفحة الثانية -->
+<section id="page2" class="page">
+  <button class="btnBack" onclick="goToPage1()">⬅️ الصفحة الرئيسية</button>
+  <h1 style="margin-top:20px;text-shadow:0 0 10px #00ffff;">📚 الصفحة الثانية</h1>
+  <p style="color:#ddd;">
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1853,141 +926,6 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
   setLanguage('ar');
 </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎧 راديو | Radio</title>
-<style>
-body {
-  background: #000;
-  margin: 0;
-  font-family: 'Tajawal', sans-serif;
-  color: #fff;
-  overflow-x: hidden;
-}
-
-/* 🎧 أيقونة الراديو */
-#radioIcon {
-  position: fixed;
-  left: 30px;
-  bottom: 19%;
-  width: 30px;
-  height: 30px;
-  background: radial-gradient(circle, #0ff, #007);
-  border-radius: 50%;
-  box-shadow: 0 0 20px #0ff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-#radioIcon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px #0ff;
-}
-#radioIcon span {
-  font-size: 15px;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-}
-
-/* ⚡ قائمة الإذاعات داخل الأيقونة */
-#radioList {
-  display: none;
-  position: absolute;
-  bottom: 90px;
-  left: 0;
-  width: 260px;
-  background: rgba(0, 0, 0, 0.9);
-  border: 2px solid #0ff;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #0ff;
-  padding: 10px;
-  overflow-y: auto;
-  max-height: 350px;
-}
-
-/* عناصر الإذاعات */
-.radio-item {
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.1);
-  transition: background 0.3s;
-  cursor: pointer;
-}
-.radio-item:hover {
-  background: rgba(0,255,255,0.3);
-}
-
-audio {
-  width: 100%;
-  margin-top: 5px;
-}
-</style>
-</head>
-<body>
-
-<!-- 🎧 أيقونة الراديو -->
-<div id="radioIcon" onclick="toggleRadioList()">
-  <span>🎧</span>
-  <span>راديو</span>
-  <span>Radio</span>
-
-  <!-- قائمة الإذاعات داخل الأيقونة -->
-  <div id="radioList">
-    <h3 style="color:#0ff;">📻 محطات الراديو</h3>
-    <div class="radio-item"><b>📿 القرآن الكريم - السعودية</b><audio controls src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio></div>
-    <div class="radio-item"><b>📖 القرآن الكريم - مصر</b><audio controls src="https://quraan.stream.laut.fm/quraan"></audio></div>
-    <div class="radio-item"><b>🕋 مكة المكرمة</b><audio controls src="https://stream.zeno.fm/hz7m0r7f7rhvv"></audio></div>
-    <div class="radio-item"><b>🕌 المدينة المنورة</b><audio controls src="https://n0b.radiojar.com/6b38f9uvp4duv"></audio></div>
-    <div class="radio-item"><b>🎶 روتانا FM</b><audio controls src="https://rotana.net/stream/rotanafm"></audio></div>
-    <div class="radio-item"><b>🎧 Panorama FM</b><audio controls src="https://mbc5.streamakaci.com/panorama"></audio></div>
-    <div class="radio-item"><b>🎵 MBC FM</b><audio controls src="https://mbc5.streamakaci.com/mbcfm"></audio></div>
-    <div class="radio-item"><b>🎼 Mix FM</b><audio controls src="https://stm1.srvif.com:7006/;"></audio></div>
-    <div class="radio-item"><b>🌴 إذاعة جدة</b><audio controls src="https://s2.voscast.com:10645/;"></audio></div>
-    <div class="radio-item"><b>🎤 نغم FM</b><audio controls src="https://ice31.securenetsystems.net/NAGHAM"></audio></div>
-    <div class="radio-item"><b>📰 BBC Arabic</b><audio controls src="https://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio"></audio></div>
-    <div class="radio-item"><b>🎙 Monte Carlo Doualiya</b><audio controls src="https://montecarlodoualiya128k.ice.infomaniak.ch/mcd.mp3"></audio></div>
-    <div class="radio-item"><b>🪩 Party Vibe Radio</b><audio controls src="https://us2.internet-radio.com/proxy/partyviberadio?mp=/stream"></audio></div>
-    <div class="radio-item"><b>🎧 Radio Paradise</b><audio controls src="https://stream-uk1.radioparadise.com/mp3-192"></audio></div>
-    <div class="radio-item"><b>🎼 Classical Radio</b><audio controls src="https://icecast1.play.cz/cro1-128.mp3"></audio></div>
-    <div class="radio-item"><b>💤 Relax FM</b><audio controls src="https://stream.relaxfm.ru/relaxfm"></audio></div>
-    <div class="radio-item"><b>🌙 Chillout Lounge</b><audio controls src="https://stream-uk1.radioparadise.com/aac-320"></audio></div>
-    <div class="radio-item"><b>📡 Sky News Arabia</b><audio controls src="https://radio.skynewsarabia.com/stream/radio/skynewsarabia"></audio></div>
-    <div class="radio-item"><b>🗞 CNN Radio</b><audio controls src="https://tunein.streamguys1.com/cnnnewsaac"></audio></div>
-    <div class="radio-item"><b>🎵 إذاعة عربية منوعة</b><audio controls src="https://stream.zeno.fm/mz1s1r9uc5zuv"></audio></div>
-  </div>
-</div>
-
-<script>
-function toggleRadioList() {
-  const list = document.getElementById("radioList");
-  list.style.display = (list.style.display === "block") ? "none" : "block";
-}
-</script>
-
-</body>
-</html>
-
-
-<!-- ⚖️ توقيع الحقوق -->
-<footer style="
-  position:fixed;bottom:10px;left:50%;
-  transform:translateX(-50%);
-  text-align:center;color:#aaa;
-  font-size:14px;z-index:9000;">
-  جميع الحقوق محفوظة لصفحة <span style="color:#00ffff;">أبو القمر زمرد</span> © 2025
-</footer>
 
 </body>
 </html>
@@ -2672,18 +1610,8 @@ jokeIcon.addEventListener('click', () => {
       إلا أن المسار انحرف ليصل إلى مدينة الكريستال الأزرق، حيث بدأت مغامرة جديدة غيّرت مصيره إلى الأبد.</p>
 
       <hr>
-    <h3>رحلة أبو القمر زمرد إلى وادي الأنوار</h3>
-<p>في ليلةٍ يغمرها ضوء القمر ونسيم البحر، جلس أبو القمر زمرد على صخرةٍ من الزمرد النقي يتأمل انعكاس النجوم على سطح الماء،  
-فشعر بنداءٍ خافت يأتي من عمق البحر يدعوه لاكتشاف سرٍّ لم يُروَ بعد. فمدّ يده نحو الضوء،  
-فانفتحت أمامه بوابة مائية بلون الفيروز، جذبته إلى عالمٍ تحت الأمواج.</p>
-
-<p>هناك، وجد مدنًا مضيئة من اللؤلؤ، وسكانًا من المرجان يتحدثون بلغة النور.  
-رحبوا به قائلين: "يا من جمع بين ضوء القمر وصفاء الزمرد، لقد كُتب لك أن تُعيد التوازن بين البرّ والبحر".  
-فبدأ رحلته في وادي الأنوار، حيث كل شعاع يفتح بابًا إلى عالم جديد.</p>
-
-<p>وفي نهاية الرحلة، اكتشف مرآة بلورية تُظهر المستقبل،  
-فرأى فيها الأرض وقد أضاءت بسلامٍ وأملٍ جديد.  
-ابتسم أبو القمر زمرد، وعاد إلى سطح البحر حاملاً وعدًا بأن ينشر النور في كل قلبٍ يبحث عن الجمال والحكمة.</p>
+      
+</p>
 <h3>أبوالقمر زمرد والحياة عذاب</h3>
 <p>بعد أن عاد أبوالقمر زمرد من وادي الأنوار، جلس على شاطئٍ هادئ يراقب غروب الشمس،  
 لكن قلبه كان مثقلاً بذكرياتٍ لا تُنسى. تذكّر الوجوه التي قابلها، والعهود التي قطعها،  
@@ -2698,6 +1626,7 @@ jokeIcon.addEventListener('click', () => {
 علّمني كيف أضيء رغم الجراح، وكيف أبتسم رغم الغياب."  
 وفي تلك اللحظة، انعكس ضوء القمر على وجهه فبدا كأنه وُلد من جديد،  
 يحمل بين ضلوعه إيمانًا بأن حتى العذاب، يمكن أن يكون طريقًا إلى النور.</p>
+
 
     </div>
   </div>
@@ -2737,313 +1666,6 @@ jokeIcon.addEventListener('click', () => {
 
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أابوالقمرزمرد فنان شامل</title>
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #111;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* الأيقونة */
-  #customVideoIcon {
-    position: fixed;
-    top: 60px;
-    right: 180px;
-    width: 180px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    z-index: 500;
-    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.5);
-  }
-
-  #customVideoIcon::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    border-radius: 50%;
-    top: -10%;
-    left: -10%;
-    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
-    animation: glow 2s linear infinite alternate;
-    z-index: -1;
-  }
-
-  @keyframes glow {
-    0% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.7; }
-  }
-
-  #customVideoIcon iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  /* الإطار المنبثق */
-  #customVideoPopup {
-    display: none;
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-  }
-
-  /* الفيديو */
-  #customVideoContent {
-    width: 60%;
-    max-width: 600px;
-    aspect-ratio: 1/1;
-    border-radius: 20px;
-    overflow: hidden;
-    background: black;
-    position: relative;
-    transform: scale(0);
-    animation: popupScale 0.4s forwards;
-    box-shadow: 0 0 25px 5px #fff;
-  }
-
-  #customVideoContent::before {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    border-radius: 25px;
-    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(15px);
-    animation: rainbowGlow 5s linear infinite;
-  }
-
-  @keyframes rainbowGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  @keyframes popupScale {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  #customVideoContent iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 20px;
-  }
-
-  /* زر الإغلاق داخل المنبثق */
-  #customCloseBtn {
-    position: absolute;
-    top: 10%;
-    right: 20%;
-    background: red;
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    z-index: 10001;
-    box-shadow: 0 0 10px rgba(255,255,255,0.7);
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  #customCloseBtn:hover {
-    background: #ff4444;
-    transform: scale(1.1);
-  }
-
-  /* زر إخفاء الأيقونة */
-  #hideIconBtn {
-    position: fixed;
-    top: 165px;
-    right: 250px;
-    background: linear-gradient(45deg, #f00, #0ff, #ff0);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #fff;
-    font-size: 12px;
-    z-index: 600;
-  }
-
-  /* زر إظهار الأيقونة */
-  #showIconBtn {
-    display: none;
-    position: fixed;
-    top: 135px;
-    right: 370px;
-    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 6px 10px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #fff;
-    font-size: 12px;
-    z-index: 600;
-  }
-</style>
-</head>
-<body>
-
-<!-- أيقونة الفيديو -->
-<div id="customVideoIcon">
-  <iframe 
-    src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<!-- زر إخفاء الأيقونة -->
-<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
-
-<!-- زر إظهار الأيقونة -->
-<button id="showIconBtn">🔄 إظهار الأيقونة</button>
-
-<!-- الإطار المنبثق -->
-<div id="customVideoPopup">
-  <button id="customCloseBtn">&times;</button>
-  <div id="customVideoContent">
-    <iframe 
-     src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&loop=1&playlist=n7eQejkXbnM&controls=1&modestbranding=1&playsinline=1"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
-</div>
-
-<script>
-const icon = document.getElementById('customVideoIcon');
-const popup = document.getElementById('customVideoPopup');
-const content = document.getElementById('customVideoContent');
-const close = document.getElementById('customCloseBtn');
-const hideBtn = document.getElementById('hideIconBtn');
-const showBtn = document.getElementById('showIconBtn');
-
-// فتح الفيديو المنبثق
-icon.addEventListener('click', () => {
-  popup.style.display = 'flex';
-  content.style.animation = 'popupScale 0.4s forwards';
-});
-
-// إغلاق الفيديو المنبثق
-close.addEventListener('click', (e) => {
-  e.stopPropagation();
-  popup.style.display = 'none';
-  content.style.transform = 'scale(0)';
-});
-
-// الضغط خارج الإطار يغلق المنبثق
-popup.addEventListener('click', (e) => {
-  if(e.target === popup){
-    popup.style.display = 'none';
-    content.style.transform = 'scale(0)';
-  }
-});
-
-// إخفاء الأيقونة
-hideBtn.addEventListener('click', () => {
-  icon.style.display = 'none';
-  hideBtn.style.display = 'none';
-  showBtn.style.display = 'block';
-});
-
-// إظهار الأيقونة
-showBtn.addEventListener('click', () => {
-  icon.style.display = 'flex';
-  hideBtn.style.display = 'block';
-  showBtn.style.display = 'none';
-});
-</script>
-
-</body>
-</html>
-
-<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
-<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
-  position: fixed;
-  top: 30px; /* مرفوعة حوالي خمس أسطر */
-  right: 12px;
-  width: 75px;
-  height: 75px;
-  background:
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 34px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
-  z-index: 1001;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-">
-  🐦
-</div>
-
-<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
-<audio id="bird-sound" loop playsinline>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
-  متصفحك لا يدعم تشغيل الصوت.
-</audio>
-
-<script>
-const birdBtn = document.getElementById('bird-sound-btn');
-const birdAudio = document.getElementById('bird-sound');
-
-// حالة أولية
-birdBtn.textContent = "🐦";
-
-// عند النقر على الأيقونة
-birdBtn.addEventListener('click', async () => {
-  try {
-    if (birdAudio.paused) {
-      await birdAudio.play();
-      birdBtn.textContent = "🔊";
-      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
-      birdBtn.style.transform = "scale(1.1)";
-    } else {
-      birdAudio.pause();
-      birdBtn.textContent = "🐦";
-      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
-      birdBtn.style.transform = "scale(1)";
-    }
-  } catch (err) {
-    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
-    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
-  }
-});
-</script>
 <style>
 /* حاوية رئيسية لكل محتوى الصفحة */
 #page-wrapper {
@@ -4772,3 +3394,1532 @@ async function initChatConnection(){
   }
 })();
 </script>
+ إضافي.</p>
+</section>
+
+<script>
+// تحديث الساعة
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,"0");
+  const m=String(now.getMinutes()).padStart(2,"0");
+  const s=String(now.getSeconds()).padStart(2,"0");
+  const d=String(now.getDate()).padStart(2,"0");
+  const mo=String(now.getMonth()+1).padStart(2,"0");
+  const y=now.getFullYear();
+  document.getElementById("clock").textContent=`${h}:${m}:${s} | ${d}/${mo}/${y}`;
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// الانتقال بين الصفحات
+function goToPage2(){
+  document.getElementById("page1").classList.remove("active");
+  document.getElementById("page2").classList.add("active");
+}
+function goToPage1(){
+  document.getElementById("page2").classList.remove("active");
+  document.getElementById("page1").classList.add("active");
+}
+</script>
+
+</body>
+</html>
+
+<!-- 🌟 أيقونة فليشر القنوات المباشرة -->
+<div id="liveFlasher" onclick="toggleLivePopup()">
+  <span>قنوات مباشرة<br>Live Channels</span>
+</div>
+
+<!-- 🎬 النافذة المنبثقة للفيديوهات -->
+<div id="livePopup">
+  <button id="closePopup" onclick="toggleLivePopup()">❌</button>
+  <div id="liveVideosContainer">
+
+    <!-- القنوات الأصلية -->
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/LuKwFajn37U')">
+      <iframe src="https://www.youtube.com/embed/LuKwFajn37U?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/zi9knajcejY')">
+      <iframe src="https://www.youtube.com/embed/zi9knajcejY?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/daqB3i9WYIY')">
+      <iframe src="https://www.youtube.com/embed/daqB3i9WYIY?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/FFkOEautPBs')">
+      <iframe src="https://www.youtube.com/embed/FFkOEautPBs?mute=1" allowfullscreen></iframe>
+    </div>
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/n7eQejkXbnM')">
+      <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1" allowfullscreen></iframe>
+    </div>
+
+    <div class="live-video" onclick="openVideo('https://www.youtube.com/embed/BEgQdyuWhDQ')">
+      <iframe src="https://www.youtube.com/embed/BEgQdyuWhDQ?mute=1" allowfullscreen></iframe>
+    </div>
+
+  </div>
+</div>
+
+<!-- 🎥 الإطار المنبثق الكبير للفيديو -->
+<div id="videoOverlay">
+  <div id="videoBox">
+    <button id="closeVideo" onclick="closeVideo()">❌</button>
+    <iframe id="mainVideo" src="" allowfullscreen></iframe>
+  </div>
+</div>
+
+<style>
+/* ⚪ أيقونة فليشر */
+#liveFlasher {
+  position: fixed;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background:
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px rgba(255,255,255,0.7);
+  cursor: pointer;
+  z-index: 10000;
+  transition: transform 0.3s ease;
+  font-family: "Cairo", sans-serif;
+  animation: flashGlow 2s infinite ease-in-out;
+}
+
+@keyframes flashGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,255,255,0.7), 0 0 80px rgba(255,255,255,0.5); }
+  50% { box-shadow: 0 0 70px rgba(255,255,255,1), 0 0 120px rgba(255,255,255,0.9); }
+}
+
+#liveFlasher:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* 🎬 نافذة الفيديوهات */
+#livePopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: 80vw;
+  max-width: 420px;
+  background: 
+  border-radius: 30px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.9);
+  padding: 15px 10px 25px;
+  z-index: 10001;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -40%); }
+  to { opacity: 1; transform: translate(-50%, -30%); }
+}
+
+/* زر الإغلاق */
+#closePopup {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+#closePopup:hover {
+  background: #ff5555;
+}
+
+/* الفيديوهات المصغّرة */
+#liveVideosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+.live-video {
+  width: 130px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+.live-video:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.9);
+}
+.live-video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+}
+
+/* 🎥 الإطار المنبثق الكبير */
+#videoOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 10002;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 60px;
+}
+#videoBox {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255,255,255,0.8);
+}
+#videoBox iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+#closeVideo {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: crimson;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#closeVideo:hover {
+  background: #ff5555;
+}
+
+/* 📱 للجوال */
+@media (max-width: 768px) {
+  #liveFlasher {
+    width: 110px;
+    height: 110px;
+    right: 15px;
+    font-size: 13px;
+  }
+  #livePopup {
+    width: 90vw;
+    max-width: 340px;
+    top: 25%;
+    transform: translate(-50%, -25%);
+  }
+  .live-video {
+    width: 110px;
+    height: 65px;
+  }
+}
+</style>
+
+<script>
+function toggleLivePopup() {
+  const popup = document.getElementById("livePopup");
+  popup.style.display = (popup.style.display === "flex" || popup.style.display === "block") ? "none" : "block";
+}
+
+// فتح الفيديو في الإطار المنبثق الكبير
+function openVideo(url) {
+  const overlay = document.getElementById("videoOverlay");
+  const iframe = document.getElementById("mainVideo");
+  iframe.src = url + "?autoplay=1";
+  overlay.style.display = "flex";
+}
+
+// إغلاق الفيديو المنبثق
+function closeVideo() {
+  const overlay = document.getElementById("videoOverlay");
+  const iframe = document.getElementById("mainVideo");
+  iframe.src = "";
+  overlay.style.display = "none";
+}
+</script>
+
+<script>
+const beethovenIcon = document.getElementById('beethovenIcon');
+const beethovenPlayer = document.getElementById('beethovenPlayer');
+let playing = false;
+
+beethovenIcon.addEventListener('click', () => {
+  if (!playing) {
+    // تشغيل الفيديو الوهمي
+    beethovenPlayer.src = "https://www.youtube.com/embed/PBLboog8_CI?autoplay=1";
+    beethovenPlayer.style.display = "block";
+    beethovenIcon.style.boxShadow = "0 0 25px #fff";
+    beethovenIcon.style.transform = "scale(1.1)";
+    beethovenIcon.style.background = "linear-gradient(135deg,#8e24aa,#ce93d8)";
+    playing = true;
+  } else {
+    // إيقاف الفيديو
+    beethovenPlayer.src = "";
+    beethovenPlayer.style.display = "none";
+    beethovenIcon.style.boxShadow = "0 0 15px rgba(142,36,170,0.8)";
+    beethovenIcon.style.transform = "scale(1)";
+    beethovenIcon.style.background = "linear-gradient(135deg,#4a148c,#8e24aa)";
+    playing = false;
+  }
+});
+
+</script>
+
+<style>
+/* خلفية الفيديو */
+#video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -10;
+}
+
+/* إطار الفيديو */
+#video-background iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: none;
+}
+
+/* تأثير التوهج الزمردي حول الحواف */
+.emerald-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(80, 200, 120, 0.15) 0%, rgba(0, 0, 0, 0.85) 90%);
+  box-shadow: inset 0 0 100px 40px rgba(80, 200, 120, 0.2);
+  z-index: -9;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+/* حركة خفيفة للتوهج */
+@keyframes glowPulse {
+  0% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
+  50% { box-shadow: inset 0 0 120px 50px rgba(80, 200, 120, 0.35); }
+  100% { box-shadow: inset 0 0 80px 30px rgba(80, 200, 120, 0.25); }
+}
+</style><!-- زر فتح مكتبة الفيديو الزمردية -->
+<div id="emeraldLibraryButton" 
+     style="position:fixed; right:270; top:85%; z-index:9500; cursor:pointer;
+            padding:10px 15px; background: 
+            font-weight:bold; border-radius:12px; text-align:center;">
+  🎥 مكتبة الفيديو الزمردية<br>Emerald Video Library
+</div>
+
+<!-- محتوى المكتبة (مغلقة افتراضياً) -->
+<div id="emeraldLibraryContent" 
+     style="display:none; position:fixed; right:60px; top:20%; max-height:70%; 
+            overflow-y:auto; background:
+            border-radius:12px; z-index:9500; flex-direction:column; gap:10px;">
+
+  <!-- 🎵 موسيقى -->
+  <div>
+    <div onclick="toggleSection('musicSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(255,105,180,0.85);color:#000;cursor:pointer;font-weight:bold;">
+      🎵 musicموسيقى
+    </div>
+    <div id="musicSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/KKGQrOL6e7Y')">عربي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/vPg67r76hAA')">أجنبي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/o3PqK4ANeLU')">شرقية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Rp1gppNGmRo')">غربية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/2U0RjjiBorY')">فهد السعيد</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/FDyB8dcSptk')">عيسى الأحسائي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/l8CGuJzyiR8')">بشير</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/r-m2wwJy2cQ')">طلال</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kEIWBDqovoI')">محمد عبده</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kLXlntMZ-lc?si=qscrkusqTPWkdnVc')">حجاب</div>
+
+    </div>
+  </div>
+
+  <!-- 📼 الوثائقية -->
+  <div>
+    <div onclick="toggleSection('docSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#FFD700; color:#000; cursor:pointer; font-weight:bold; font-size:14px;">
+      📼  documentaryوثائقية
+    </div>
+    <div id="docSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R62QVvz1Aso')">نيرون صبيا</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/23jGQdwSRJs')">الحرب العالمية الثانية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/DNE6YbGO6-M')">زواج كاترين دي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/zh2HwG8fYFo')">الحضارات الإنسانية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hvJSvGslOl8')">صدام حسين</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/RO0xx5oeTA8')">كوريا الشمالية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/4F-47lqOHDU')">جريمة في المنازل</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/EB6-ZDBF0hM')">سرقة القرن في البرازيل</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/uvjMiLxNLnk')">تاريخ اليهود</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/3HmOr-as-TA')">منغوليا</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/7nCjajfhY5o?si=jnu6LwdhTVUPhY5I')">فيلم 1</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/LDi6-iC1j8A?si=ZdyC0y5eG_Nl7brf')">فيلم 2</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/7lo81AX8siE?si=lqWG8WfGe4HRKJwZ')">فيلم 3</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fjed1u7A9wM?si=3OPczpybVbdBQWFW')">فيلم 4</div>
+
+    </div>
+  </div>
+
+  <!-- 🎨 كرتون -->
+  <div>
+    <div onclick="toggleSection('cartoonSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#000; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
+      cartoon🎨 كرتون
+    </div>
+    <div id="cartoonSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/U5sBC9Fr0fA')">كرتون</div>
+    </div>
+  </div>
+
+  <!-- 🎬 أفلام -->
+  <div>
+    <div onclick="toggleSection('moviesSection')" 
+         style="padding:6px 10px; border-radius:8px; background:#333; color:#fff; cursor:pointer; font-weight:bold; font-size:14px;">
+    films  🎬 أفلام
+    </div>
+    <div id="moviesSection" style="display:none; margin-top:5px; gap:5px; flex-wrap:wrap; display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/R4TZ6r_af8A')">أجنبي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/qxAXFYcbOpU')">عربي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/LqHLkqqIukQ')">شاهد ما شفش حاجة</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/2p55ymDVH5Y')">فلم الحدود</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/anMBqlPFCwU')">الرجل السكير</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/aznfIFN7cyo')">كينج فو</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fqOALQ3pehE')">Sisters with Secrets</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kJqW_xsMuh8')">جاكي شان</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/0go3k0frmjc')">فلم هندي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/D3oO_9S6TVM')">Filme Faster</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/Hf0-8kV-6E4')">Comedy Filme</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/rnJ6k-hjsqM?si=KXJu7um4Ru3Kq7p2')">فيلم 1</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/r0qVH647sI4?si=hg7u6f3H-pqMxwvw')">فيلم 2</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/cwSoWCJGe9Y?si=06FFz92rA8AtLk2E')">فيلم 3</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/VmUE1nSUwcU?si=FmkLKUWELKlCJ5eQ')">فيلم 4</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/TXimDjSatvk?si=HPcV4Di6svQ0YmYv')">فيلم 5</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/pFLinegONA4?si=jWVb_7MeXUeOhKNz')">فيلم 6</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ThFxdmLCh6A?si=2K3mEf0KxV-shOuf')">فيلم 7</div>
+
+    </div>
+  </div>
+
+  <!-- ⚽ رياضة -->
+  <div>
+    <div onclick="toggleSection('sportsSection')" 
+         style="padding:6px 10px;border-radius:8px;background:rgba(165,42,42,0.85);color:#fff;cursor:pointer;font-weight:bold;font-size:14px;">
+      sports⚽ رياضة
+    </div>
+    <div id="sportsSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/X7ByhZIGEjI')">رياضة</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/NYTo6KB7IqQ')">كرة القدم النسائية</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/yMb_7VEhyNQ')">كرة القدم رجال</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s3qWsdWfK24')">نادي تشلسي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/6J4JEFwm63o')">التعاون 5 الرائد 1</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/bbmoXwaSpGY?si=-02ni4PZ9DpKFzUF')">كرة الطائرة النسائية</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/WYtC7nuChPA?si=Jw4hFD5kWubGKJm3')">تشلسي</div>
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/x8xdEOnv0Dk?si=yzn4J5NkCCtqc1q9')">تشلسي رجال</div>
+
+    </div>
+  </div>
+
+  <!-- 📘 تعليمية -->
+  <div>
+    <div onclick="toggleSection('educationSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(0,0,255,0.25);color:#fff;cursor:pointer;font-weight:bold;">
+    Educational  📘 تعليمية
+    </div>
+    <div id="educationSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/hOH7ZLE-ZN8')">إبراهيم الفقي</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/sJ5ib2Gbfy8')">مصطفى محمود</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/fMlF99erfHw')">سقراط</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/_KXmZKW_cag?si=YAmKW4EOx-IREgGP&mute=1')">تعلم الإنجليزية</div>
+
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/v5zol69e02o?si=SE4tX2T8BL38trob&mute=1')">تعلم العود</div>
+
+<div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/uEWJkk6X8fg?si=PW2Dh_O9fE9bzCxF&mute=1')">SATC</div>
+
+    </div>
+  </div>
+
+  <!-- 📿 دينية -->
+  <div>
+    <div onclick="toggleSection('religiousSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(0,128,0,0.85);color:#fff;cursor:pointer;font-weight:bold;">
+      Islamic religion📿 دينية
+    </div>
+    <div id="religiousSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/myYiNE3HpKc')">قصص الأنبياء</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/kIj0E3Pl1kY')">تفسير القرآن</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/UR6vcevAi5o')">قرآن</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/s-KsCr4VjMo')">تلبيس إبليس</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/q_V_Xbq4S64?si=ZueNfoqOkNrSxrRm')">الشيخ كشك</div>
+
+
+    </div>
+  </div>
+
+  <!-- 🎮 ألعاب -->
+  <div>
+    <div onclick="toggleSection('gamesSection')" 
+         style="padding:8px 12px;border-radius:10px;background:rgba(255,165,0,0.85);color:#000;cursor:pointer;font-weight:bold;">
+     My game 🎮 ألعاب
+    </div>
+    <div id="gamesSection" style="display:none;margin-top:5px;gap:5px;flex-wrap:wrap;display:flex;">
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/XhjICiHQD_g')">أنا</div>
+      <div class="emeraldVideoCircle" onclick="openEmeraldVideo('https://www.youtube.com/embed/ZITpohaq6Ak')">أنا 2</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // فتح/إغلاق المكتبة
+  document.getElementById('emeraldLibraryButton').addEventListener('click', function() {
+    const content = document.getElementById('emeraldLibraryContent');
+    if(!content) return;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    
+    // عند الفتح، أغلق جميع الأقسام
+    if(content.style.display === 'block') {
+      closeAllSections();
+    }
+  });
+
+  // دالة لغلق جميع الأقسام
+  function closeAllSections() {
+    const sections = document.querySelectorAll('#emeraldLibraryContent div[id$="Section"]');
+    sections.forEach(section => section.style.display = 'none');
+  }
+
+  // دالة فتح/إغلاق أي قسم عند الضغط عليه
+  function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if(!section) return;
+    section.style.display = section.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // دالة فتح الفيديوهات (يمكن تعديل حسب حاجتك)
+  function openEmeraldVideo(url) {
+    window.open(url, '_blank');
+  }
+</script>
+
+<script>
+function toggleEmeraldLibrary() {
+  const lib = document.getElementById('emeraldLibraryContent');
+  lib.style.display = lib.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function toggleSection(sectionId) {
+  const sec = document.getElementById(sectionId);
+  sec.style.display = sec.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function openEmeraldVideo(url) {
+  window.open(url, '_blank');
+}
+
+// أغلق كل الأقسام عند تحميل الصفحة
+window.onload = () => {
+  const sections = ['musicSection','docSection','cartoonSection','moviesSection','sportsSection','educationSection','religiousSection','gamesSection'];
+  sections.forEach(id => document.getElementById(id).style.display = 'none');
+};
+</script>
+
+<style>
+.emeraldVideoCircle {
+  display:inline-block;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid #00ffff;
+  box-shadow:0 0 50px #00ffff;
+  margin:5px;
+  cursor:pointer;
+  text-align:center;
+  line-height:120px;
+  font-weight:bold;
+  color:#fff;
+  background:#000;
+  transition:0.3s;
+}
+.emeraldVideoCircle:hover {
+  transform:scale(1.1);
+  box-shadow:0 0 70px #00ffff;
+}
+</style>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+.emeraldVideoCircle {
+  display:inline-block;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid #00ffff;
+  box-shadow:0 0 50px #00ffff;
+  margin:5px;
+  cursor:pointer;
+  text-align:center;
+  line-height:120px;
+  font-weight:bold;
+  color:#fff;
+  background:#000;
+  transition:0.3s;
+}
+.emeraldVideoCircle:hover {
+  transform:scale(1.1);
+  box-shadow:0 0 70px #00ffff;
+}
+</style>
+
+<script>
+function toggleEmeraldLibrary(){
+  const lib = document.getElementById('emeraldLibraryContent');
+  if(lib) lib.style.display = lib.style.display==='none'?'flex':'none';
+}
+
+function toggleEmeraldSection(id){
+  const section = document.getElementById(id);
+  if(section) section.style.display = section.style.display==='none'?'flex':'none';
+}
+
+function openEmeraldVideo(url){
+  const existing = document.getElementById('emeraldModal');
+  if(existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id='emeraldModal';
+  modal.style.position='fixed';
+  modal.style.top='0';
+  modal.style.left='0';
+  modal.style.width='100%';
+  modal.style.height='100%';
+  modal.style.background='rgba(0,0,0,0.9)';
+  modal.style.display='flex';
+  modal.style.justifyContent='center';
+  modal.style.alignItems='center';
+  modal.style.zIndex='9999';
+  
+  const iframe = document.createElement('iframe');
+  iframe.src = url+"?autoplay=1";
+  iframe.frameBorder="0";
+  iframe.allowFullscreen=true;
+  iframe.style.width='70%';
+  iframe.style.height='70%';
+  iframe.style.borderRadius='12px';
+  iframe.style.boxShadow='0 0 70px #00ffff';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.innerText='إغلاق ✖';
+  closeBtn.style.position='fixed';
+  closeBtn.style.top='10px';
+  closeBtn.style.right='10px';
+  closeBtn.style.zIndex='10000';
+  closeBtn.style.padding='8px 12px';
+  closeBtn.style.background='rgba(0,255,255,0.3)';
+  closeBtn.style.border='1px solid #00ffff';
+  closeBtn.style.color='#fff';
+  closeBtn.style.cursor='pointer';
+  closeBtn.onclick=()=>modal.remove();
+
+  modal.appendChild(iframe);
+  modal.appendChild(closeBtn);
+  document.body.appendChild(modal);
+}
+
+function closeMainVideo(id){
+  const vid = document.getElementById(id);
+  if(vid) vid.style.display='none';
+}
+
+function fullscreenVideo(id){
+  const vid = document.getElementById(id);
+  if(vid) {
+    if (vid.requestFullscreen) {
+      vid.requestFullscreen();
+    } else if (vid.mozRequestFullScreen) { /* Firefox */
+      vid.mozRequestFullScreen();
+    } else if (vid.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+      vid.webkitRequestFullscreen();
+    } else if (vid.msRequestFullscreen) { /* IE/Edge */
+      vid.msRequestFullscreen();
+    }
+  }
+}
+</script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شريط الأخبار المتحرك مع أخبار مباشرة - أبو القمر زمرد</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Tahoma", sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* ✅ شريط الأخبار الرئيسي */
+  #newsBarContainer {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background:
+    border-bottom: 2px solid #00ff99;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  #newsBar {
+    overflow: hidden;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  #newsBar span {
+    display: inline-block;
+    padding: 0 50px;
+    font-size: 18px;
+    color: #fff;
+    line-height: 50px;
+    animation: scrollNews 60s linear infinite;
+  }
+
+  @keyframes scrollNews {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* زر إغلاق */
+  #closeNews {
+    margin-left: 50px;
+    background: #ff0000;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  /* ✅ الساعة والتاريخ أسفل الشريط */
+  #clock {
+    position: fixed;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #00ff99;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    z-index: 9998;
+  }
+
+  /* ✅ إشعار المصدر الحالي */
+  #sourceLabel {
+    position: fixed;
+    top: 130px;
+    right: 10px;
+    background:
+    border: 1px solid #00ff99;
+    border-radius: 15px;
+    padding: 6px 12px;
+    font-size: 15px;
+    color: #ffcc00;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    animation: fadeLabel 1.5s ease-in-out;
+  }
+
+  @keyframes fadeLabel {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* شريط الأخبار النصية المباشرة */
+  #newsTicker {
+    position: fixed;
+    top: 100px;
+    width: 100%;
+    background:
+    color: #00ff99;
+    font-size: 16px;
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 9997;
+  }
+
+  /* استجابة شاشات صغيرة */
+  @media (max-width: 720px) {
+    #newsBar span { font-size: 14px; padding: 0 30px; }
+    #clock { font-size: 14px; padding: 4px 12px; }
+    #sourceLabel { font-size: 12px; padding: 4px 8px; }
+    #newsTicker { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ✅ شريط الأخبار مع زر إغلاق -->
+<div id="newsBarContainer">
+  <div id="newsBar"></div>
+  <button id="closeNews">✖</button>
+</div>
+
+<!-- ✅ الساعة والتاريخ -->
+<div id="clock"></div>
+
+<!-- ✅ إشعار المصدر الحالي -->
+<div id="sourceLabel">📺 المصدر الآن: العربية</div>
+
+<!-- شريط الأخبار النصية المتحركة -->
+<div id="newsTicker">تحميل الأخبار...</div>
+
+<script>
+  // ⏰ تحديث الساعة
+  function updateClock() {
+    const now = new Date();
+    const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const day = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2,'0');
+    const minutes = String(now.getMinutes()).padStart(2,'0');
+    const seconds = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('clock').textContent =
+      `${day} - ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // 🌐 المصادر
+  const sources = [
+    { url: "https://www.alarabiya.net/ar/rss.xml", name: "العربية" },
+    { url: "https://www.aljazeera.net/aljazeera/ar/arabic/rss", name: "الجزيرة" },
+    { url: "https://www.skynewsarabia.com/web/rss/home", name: "سكاي نيوز عربية" },
+    { url: "https://www.bbc.com/arabic/index.xml", name: "BBC عربي" },
+    { url: "https://arabic.rt.com/rss", name: "RT العربية" },
+    { url: "https://www.france24.com/ar/rss", name: "فرانس 24 عربي" },
+    { url: "https://www.middleeasteye.net/ar/rss", name: "Middle East Eye عربي" },
+    { url: "https://www.aa.com.tr/ar/rss", name: "الأناضول" },
+    { url: "https://www.dw.com/ar/rss", name: "DW عربية" }
+  ];
+
+  // 🔄 إنشاء الشريط الرئيسي
+  const newsBar = document.getElementById('newsBar');
+  let newsItems = '';
+  sources.forEach(src => {
+    newsItems += `🔹 <a href="${src.url}" target="_blank" style="color:#fff; text-decoration:none;">${src.name}</a> `;
+  });
+  newsBar.innerHTML = `<span>${newsItems}</span><span>${newsItems}</span>`;
+
+  // 🔄 تبديل المصدر الحالي كل 15 دقيقة
+  let currentSource = 0;
+  const label = document.getElementById('sourceLabel');
+  function switchNewsSource() {
+    currentSource = (currentSource + 1) % sources.length;
+    label.textContent = "📺 المصدر الآن: " + sources[currentSource].name;
+    label.style.animation = "none";
+    setTimeout(() => label.style.animation = "fadeLabel 1.5s ease-in-out", 10);
+    fetchTickerNews();
+  }
+  setInterval(switchNewsSource, 15 * 60 * 1000);
+
+  // ❌ زر إغلاق الشريط
+  document.getElementById('closeNews').addEventListener('click', () => {
+    document.getElementById('newsBarContainer').style.display = 'none';
+    document.getElementById('clock').style.display = 'none';
+    document.getElementById('sourceLabel').style.display = 'none';
+    document.getElementById('newsTicker').style.display = 'none';
+  });
+
+  // 📰 شريط الأخبار النصية المتحركة
+  const ticker = document.getElementById('newsTicker');
+  let headlines = [];
+  let tickerIndex = 0;
+  async function fetchTickerNews() {
+    const src = sources[currentSource];
+    try {
+      const apiURL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(src.url)}`;
+      const res = await fetch(apiURL);
+      const data = await res.json();
+      headlines = data.items.map(item => item.title);
+      tickerIndex = 0;
+      updateTicker();
+    } catch(e) {
+      console.error("خطأ في جلب الأخبار:", e);
+      ticker.textContent = "لا توجد أخبار حالياً";
+    }
+  }
+
+  function updateTicker() {
+    if (!headlines.length) { ticker.textContent = "لا توجد أخبار حالياً"; return; }
+    ticker.textContent = headlines[tickerIndex];
+    tickerIndex = (tickerIndex + 1) % headlines.length;
+    setTimeout(updateTicker, 5000);
+  }
+
+  // أول تحميل
+  fetchTickerNews();
+</script>
+</body>
+</html>
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, set, onValue, onDisconnect } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const _key = ["AIzaSy","DDPcEIVAn-","xv6dKcPrTzDeOIxSA8M58v8"];
+const firebaseConfig = {
+  apiKey: _key.join(""),
+  authDomain: "abwalqmrzmrd-47557.firebaseapp.com",
+  databaseURL: "https://abwalqmrzmrd-47557-default-rtdb.firebaseio.com/",
+  projectId: "abwalqmrzmrd-47557",
+  storageBucket: "abwalqmrzmrd-47557.appspot.com",
+  messagingSenderId: "957400167542",
+  appId: "1:957400167542:web:a3b341fad9b1142aaedb57"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const playerCountEl = document.getElementById("playerCount");
+const connectionStatus = document.getElementById("connectionStatus");
+
+// تسجيل لاعب متصل
+const playersRef = ref(db, "pongPlayers");
+const myRef = push(playersRef);
+set(myRef, { online: true });
+onDisconnect(myRef).remove();
+
+// تحديث عداد اللاعبين
+onValue(playersRef, snap => {
+  const val = snap.val() || {};
+  playerCountEl.textContent = "👥 " + Object.keys(val).length;
+});
+
+// تحديث حالة الانترنت والخادم
+function updateStatus() {
+  if(navigator.onLine) {
+    connectionStatus.textContent = "🌐 Online";
+    connectionStatus.style.color = "#00ff80";
+  } else {
+    connectionStatus.textContent = "🌐 Offline";
+    connectionStatus.style.color = "red";
+  }
+}
+window.addEventListener("online", updateStatus);
+window.addEventListener("offline", updateStatus);
+updateStatus();
+</script>
+
+<script>
+const pongContainer = document.getElementById("pongContainer");
+const canvas = document.getElementById("pong");
+const ctx = canvas.getContext("2d");
+const menu = document.getElementById("menu");
+const difficultyDiv = document.getElementById("difficulty");
+const pongButton = document.getElementById("pongButton");
+const closePong = document.getElementById("closePong");
+const endGameBtn = document.getElementById("endGame");
+
+let animFrame, mode, level;
+let player1, player2, ball;
+let ballSpeed = 4, paddleSpeed = 6;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth * 0.9;
+  canvas.height = window.innerHeight * 0.6;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function initGame() {
+  const paddleHeight = canvas.height / 5;
+  const paddleWidth = 10;
+  player1 = { x: 10, y: canvas.height / 2 - paddleHeight / 2, color: "yellow" };
+  player2 = { x: canvas.width - 20, y: canvas.height / 2 - paddleHeight / 2, color: "yellow" };
+  ball = { x: canvas.width / 2, y: canvas.height / 2, r: 8, dx: ballSpeed, dy: ballSpeed };
+}
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = player1.color;
+  ctx.fillRect(player1.x, player1.y, 10, canvas.height/5);
+  ctx.fillStyle = player2.color;
+  ctx.fillRect(player2.x, player2.y, 10, canvas.height/5);
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.r,0,Math.PI*2);
+  ctx.fill();
+}
+
+function update() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if(ball.y-ball.r<0 || ball.y+ball.r>canvas.height) ball.dy*=-1;
+  if(ball.x-player1.x-10<ball.r && ball.y>player1.y && ball.y<player1.y+canvas.height/5) ball.dx*=-1;
+  if(ball.x-ball.r>player2.x && ball.y>player2.y && ball.y<player2.y+canvas.height/5) ball.dx*=-1;
+
+  if(mode==="computer"){
+    if(player2.y + canvas.height/10 < ball.y) player2.y += paddleSpeed;
+    else player2.y -= paddleSpeed;
+  }
+
+  if(ball.x<0 || ball.x>canvas.width) initGame();
+}
+
+function gameLoop() {
+  update();
+  draw();
+  if(level==="hard") ballSpeed += 0.0003;
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+document.getElementById("vsComputer").onclick = () => { mode="computer"; difficultyDiv.style.display="flex"; };
+document.getElementById("vsPlayer").onclick = () => { mode="player"; difficultyDiv.style.display="flex"; };
+
+difficultyDiv.querySelectorAll("button").forEach(btn => {
+  btn.onclick = () => {
+    level = btn.dataset.level;
+    if(level==="easy"){ballSpeed=3;paddleSpeed=4;} else if(level==="medium"){ballSpeed=5;paddleSpeed=6;} else if(level==="hard"){ballSpeed=8;paddleSpeed=9;} else if(level==="harder"){ballSpeed=12;paddleSpeed=12;} else if(level==="impossible"){ballSpeed=18;paddleSpeed=16;}
+    difficultyDiv.style.display="none";
+    menu.style.display="none";
+    initGame();
+    gameLoop();
+    endGameBtn.style.display="block";
+  };
+});
+
+canvas.addEventListener("mousemove", e => {
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.clientY - rect.top - canvas.height/10;
+});
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  player1.y = e.touches[0].clientY - rect.top - canvas.height/10;
+}, { passive:false });
+
+pongButton.onclick = () => { pongContainer.style.display="flex"; menu.style.display="flex"; };
+closePong.onclick = () => { cancelAnimationFrame(animFrame); pongContainer.style.display="none"; endGameBtn.style.display="none"; };
+endGameBtn.onclick = () => { cancelAnimationFrame(animFrame); initGame(); menu.style.display="flex"; endGameBtn.style.display="none"; };
+</script>
+
+
+</html>
+
+<!-- 🌐 شريط النصوص المتحرك السفلي -->
+<div id="dynamic-text-bar">
+  <span id="scrollingText"></span>
+</div>
+
+<style>
+#dynamic-text-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 255, 200, 0.15);
+  border-top: 1px solid rgba(0,255,200,0.4);
+  color: #00ffcc;
+  font-family: "Tajawal", sans-serif;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 10000;
+  box-shadow: 0 -2px 10px rgba(0,255,255,0.3);
+  text-shadow: 0 0 8px #00ffff;
+}
+#dynamic-text-bar span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 25s linear infinite;
+}
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+</style>
+
+<script>
+// 🌙 نصوص عربية وإنجليزية بالتناوب
+const messages = [
+  "🌙 مرحبًا بكم في موقع أبوالقمر زمرد — الإبداع في ضوء القمر والزمرد 💎",
+  "✨ استمتع بمكتبة الفيديو والقصص والفكاهة، بروح زمردية ملهمة 🌿",
+  "💬 تفاعل معنا عبر الدردشة واستكشف عالم أبوالقمر المتنوع 🌌",
+  "🌍 Welcome to Abwalqmr Zumurrud — where Moonlight meets Emerald Creativity 💫",
+  "🎬 Explore videos, stories, and humor with elegance and inspiration 🌱",
+  "💎 Connect and enjoy the Emerald world of imagination 🌕"
+];
+
+let textIndex = 0;
+const scrollingText = document.getElementById("scrollingText");
+
+function updateText() {
+  scrollingText.textContent = messages[textIndex];
+  textIndex = (textIndex + 1) % messages.length;
+}
+
+updateText();
+setInterval(updateText, 25000);
+</script>
+
+
+<!-- 🎂 كيك متوهج بألوان متغيرة -->
+<div id="cakeWrapper">
+  <div id="cakeButton" onclick="window.open('https://paypal.me/abwalqmrzmrd/1', '_blank')">
+    <div class="cakeContent">
+      🎂<br>
+      <span class="label">يسعدني إعجابك 💖</span>
+      <span class="en">It makes me happy you liked it 💖</span>
+      <span class="usd">(coffee 1$)</span>
+    </div>
+  </div>
+</div>
+
+<style>
+/* 📦 الغلاف العام */
+#cakeWrapper {
+  position: fixed;
+  bottom: 240px;
+  left:30%;
+  transform: translateX(50%);
+  z-index: 1000;
+}
+
+/* 🎂 الكيكة */
+#cakeButton {
+  position: relative;
+  width: 120px;
+  height: 70px;
+  background: radial-gradient(circle at 30% 30%, #ff0, #00f, #f00, #0f0);
+  border-radius: 50% 50% 10% 10%;
+  border: 2px solid #fff;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6),
+              0 0 30px 10px rgba(255, 255, 0, 0.3);
+  transition: all 0.2s ease;
+  animation: glowShift 0.8s infinite linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎉 محتوى الكيكة مرفوع قليلًا */
+.cakeContent {
+  margin-top: -6px; /* 🔼 رفع المحتوى */
+}
+
+/* ✨ وميض متغيّر للألوان */
+@keyframes glowShift {
+  0%   { background: radial-gradient(circle at 20% 20%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 15px 3px #ff0; }
+  25%  { background: radial-gradient(circle at 70% 20%, #0f0, #f00, #00f, #ff0); box-shadow: 0 0 20px 5px #0f0; }
+  50%  { background: radial-gradient(circle at 30% 70%, #00f, #ff0, #0f0, #f00); box-shadow: 0 0 25px 7px #00f; }
+  75%  { background: radial-gradient(circle at 70% 70%, #f00, #0f0, #ff0, #00f); box-shadow: 0 0 25px 7px #f00; }
+  100% { background: radial-gradient(circle at 50% 50%, #ff0, #00f, #f00, #0f0); box-shadow: 0 0 20px 5px #ff0; }
+}
+
+/* 💛 النصوص */
+#cakeButton .label {
+  display: block;
+  font-size: 11px;
+}
+
+#cakeButton .en {
+  display: block;
+  color: #ffff99;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
+#cakeButton .usd {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+  margin-top: 3px;
+  text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
+}
+</style>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شريط أسعار متحرك</title>
+<style>
+  /* الشريط المتحرك */
+ #ticker-container {
+  position: fixed;
+  bottom: 40px; /* رفع الشريط بمقدار سطرين عن أسفل الصفحة */
+  left: 0;
+  width: 100%;
+  background: 
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 9999;
+  padding: 8px 0;
+  font-family: Tahoma, sans-serif;
+  color: #c0c0c0; /* خط فضي */
+  font-size: 16px;
+}
+
+  #ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker-scroll 30s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .ticker-item {
+    margin: 0 30px;
+    display: inline-block;
+  }
+
+  @media (max-width: 600px) {
+    #ticker-container { font-size: 14px; }
+    .ticker-item { margin: 0 20px; }
+  }
+</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطقس والأسعار - أبو القمر زمرد</title>
+<style>
+#ticker-container {
+  position: fixed;
+  bottom: 10px; /* مرفوع سطر واحد عن الأسفل */
+  left: 0;
+  width: 100%;
+  background: 
+  color: #c0c0c0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Tahoma", sans-serif;
+  font-size: 16px;
+  z-index: 9999;
+  padding: 8px 0;
+  border-top: 2px solid #444;
+  direction: rtl;
+}
+
+#ticker-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 500s linear infinite;
+}
+
+#ticker-content span {
+  display: inline-block;
+  margin-right: 60px;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+</head>
+<body>
+
+<div id="ticker-container">
+  <div id="ticker-content">جاري تحميل البيانات...</div>
+</div>
+
+<script>
+// جلب الطقس بناءً على الموقع
+async function fetchWeather() {
+  try {
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    );
+
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const weatherResponse = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode`
+    );
+    const weatherData = await weatherResponse.json();
+    const temp = weatherData.current.temperature_2m;
+    const weatherCode = weatherData.current.weathercode;
+    // تحويل الكود إلى وصف
+    const weatherText = {
+      0: "☀️ مشمس",
+      1: "🌤️ صافي",
+      2: "🌥️ غائم جزئياً",
+      3: "☁️ غائم",
+      45: "🌫️ ضباب",
+      48: "🌫️ ضباب كثيف",
+      51: "🌦️ رذاذ خفيف",
+      61: "🌧️ مطر",
+      71: "🌨️ ثلوج",
+      95: "⛈️ عواصف"
+    }[weatherCode] || "🌡️ حالة جوية غير معروفة";
+
+    return `${weatherText} ${temp}°C`;
+  } catch (error) {
+    return "🌍 لم يتم تحديد الموقع أو حالة الطقس.";
+  }
+}
+
+// جلب الأسعار
+async function fetchPrices() {
+  try {
+    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,gold,oil,usd,eur,gbp&vs_currencies=usd,sar");
+    const data = await response.json();
+
+    const btc = data.bitcoin?.usd ? `${data.bitcoin.usd} دولار` : "غير متاح";
+    const eth = data.ethereum?.usd ? `${data.ethereum.usd} دولار` : "غير متاح";
+    const usd = data.usd?.sar ? `${data.usd.sar} ريال` : "3.75 ريال";
+    const eur = data.eur?.sar ? `${data.eur.sar} ريال` : "4.10 ريال";
+    const gbp = data.gbp?.sar ? `${data.gbp.sar} ريال` : "4.80 ريال";
+    const gold = data.gold?.usd ? `${data.gold.usd} دولار` : "2350 دولار";
+    const oil = data.oil?.usd ? `${data.oil.usd} دولار` : "89 دولار";
+    const silver = "28.5 دولار";
+
+    const weather = await fetchWeather();
+
+    const ticker = document.getElementById("ticker-content");
+    ticker.innerHTML = `
+      <span>${weather}</span>
+      <span>💰 الدولار الأمريكي: ${usd}</span>
+      <span>💶 اليورو: ${eur}</span>
+      <span>💷 الجنيه الإسترليني: ${gbp}</span>
+      <span>💎 الذهب: ${gold}</span>
+      <span>🥈 الفضة: ${silver}</span>
+      <span>🛢️ النفط: ${oil}</span>
+      <span>📈 بيتكوين: ${btc}</span>
+      <span>💹 إيثيريوم: ${eth}</span>
+    `;
+    ticker.innerHTML += ticker.innerHTML; // تكرار للتمرير المستمر
+  } catch (error) {
+    document.getElementById("ticker-content").innerText = "⚠️ تعذر جلب الأسعار أو الطقس.";
+  }
+}
+
+// تحميل عند البداية وتحديث كل دقيقة
+fetchPrices();
+setInterval(fetchPrices, 60000);
+</script>
+
+</body>
+</html>
+<script>
+// تشغيل كل الوظائف بعد تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+  /* 🎯 1. إصلاح أيقونة المعلّقات */
+  const mainIcon = document.getElementById("mainIcon");
+  const namesList = document.getElementById("namesList");
+
+  if (mainIcon && namesList) {
+    mainIcon.addEventListener("click", () => {
+      namesList.style.display = namesList.style.display === "block" ? "none" : "block";
+    });
+  }
+
+  document.querySelectorAll("#namesList span[data-target]").forEach(span => {
+    span.addEventListener("click", () => {
+      const targetId = span.getAttribute("data-target");
+      const poemDiv = document.getElementById(targetId);
+      if (poemDiv) {
+        poemDiv.style.display = "block";
+        namesList.style.display = "none";
+      }
+    });
+  });
+
+  window.closePoem = function(id) {
+    const poemDiv = document.getElementById(id);
+    if (poemDiv) poemDiv.style.display = "none";
+  };
+
+  /* 🩺 2. إصلاح قسم الطب الشعبي والنبوي */
+  const medicineBtn = document.getElementById('medicineBtn');
+  const medicineBox = document.getElementById('medicineBox');
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  if (medicineBtn && medicineBox) {
+    medicineBtn.addEventListener('click', () => {
+      medicineBox.style.display = (medicineBox.style.display === 'block') ? 'none' : 'block';
+    });
+  }
+
+  window.closeBox = function() {
+    if (medicineBox) medicineBox.style.display = 'none';
+  }
+
+  if (tabs.length > 0) {
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        tabContents.forEach(c => c.classList.remove('active'));
+        const currentTab = document.getElementById(tab.dataset.tab);
+        if (currentTab) currentTab.classList.add('active');
+      });
+    });
+  }
+
+  /* 📰 3. إصلاح شريط الأخبار المتحرك */
+  const newsBar = document.getElementById('newsBar');
+  if (newsBar) {
+    let scroll = 0;
+    setInterval(() => {
+      scroll += 1;
+      newsBar.scrollLeft = scroll;
+      if (scroll >= newsBar.scrollWidth - newsBar.clientWidth) scroll = 0;
+    }, 40);
+  }
+
+  /* ❌ 4. إصلاح أزرار الإغلاق العامة */
+  const closeBtn = document.getElementById("closeBtn");
+  const gameContainer = document.getElementById("gameContainer");
+  if (closeBtn && gameContainer) {
+    closeBtn.addEventListener("click", () => {
+      gameContainer.style.display = "none";
+    });
+  }
+});
+</script>
+
+<script>
+// إصلاح زر الطب الشعبي إذا لم يعمل بعد الدمج
+document.addEventListener("DOMContentLoaded", () => {
+  const medicineBtn = document.querySelector("#medicineBtn");
+  const medicineBox = document.querySelector("#medicineBox");
+
+  if (medicineBtn && medicineBox) {
+    console.log("✅ تم التعرف على زر الطب والنافذة.");
+    medicineBtn.onclick = () => {
+      const isVisible = medicineBox.style.display === "block";
+      medicineBox.style.display = isVisible ? "none" : "block";
+      console.log(isVisible ? "🔒 تم الإغلاق" : "📖 تم الفتح");
+    };
+  } else {
+    console.warn("⚠️ لم يتم العثور على عناصر الطب في الصفحة.");
+  }
+});
+</script>
+
+/* الساعة والمصدر */
+#clockBar {
+  position:fixed;
+  top:40px; right:10px; left:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 14px;
+  background:rgba(0,0,0,0.5);
+  border-radius:12px;
+  border:1px solid rgba(0,255,255,0.2);
+  z-index:10;
+  font-size:15px;
+}
+#clockBar span { color:#00ffff; }
+
+/* شريط الأخبار */
+#ticker {
+  position:fixed;
+  top:50px; left:0; right:0;
+  background:rgba(0,0,0,0.7);
+  padding:8px 0;
+  overflow:hidden;
+  border-top:1px solid rgba(0,255,255,0.1);
+  border-bottom:1px solid rgba(0,255,255,0.1);
+  z-index:9;
+}
+#ticker .inner {
+  display:inline-block;
+  padding-left:100%;
+  animation:scroll 30s linear infinite;
+  white-space:nowrap;
+  color:#ccc;
+  font-size:15px;
+}
+@keyframes scroll {
+  0% {transform:translateX(0);}
+  100% {transform:translateX(-100%);}
+}
+
+<!-- ⚖️ توقيع الحقوق -->
+<footer style="
+  position:fixed;bottom:50px;left:20%;
+  transform:translateX(-50%);
+  text-align:center;color:#aaa;
+  font-size:14px;z-index:9000;">
+  جميع الحقوق محفوظة لصفحة <span style="color:#00ffff;">أبو القمر زمرد</span> © 2025
+</footer>
+
+</body>
+</html>
