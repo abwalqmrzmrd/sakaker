@@ -748,6 +748,199 @@ closeBtn.addEventListener('click', () => {
 
 </body>
 </html>
+<!-- ⚓ أيقونة سفينة أبوالقمر زمرد -->
+<style>
+#shipIcon {
+  position: fixed;
+  bottom: 70px;
+  right: 30px;
+  width: 120px;
+  height: 120px;
+  background: url('https://i.top4top.io/p_3602p1v3s1.png') center/cover no-repeat;
+  cursor: pointer;
+  z-index: 1200;
+  border-radius: 50%;
+  box-shadow: 0 0 25px #00ffff, 0 0 50px rgba(0,255,255,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#shipIcon:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 35px #00ffff, 0 0 60px rgba(0,255,255,0.6);
+}
+
+/* نافذة المحتوى */
+#shipPopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  background: rgba(0,0,0,0.93);
+  color: #fff;
+  border: 2px solid #00ffff;
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 0 25px #0ff;
+  text-align: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -45%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* زر الإغلاق */
+#closeShip {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: red;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#closeShip:hover { background: #ff4444; transform: scale(1.1); }
+
+#shipPopup h2 {
+  color: #00ffff;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #00ffff;
+}
+#shipPopup p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #ccc;
+}
+
+/* المحتوى المحمّل */
+#weeklyContent {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #eee;
+  border-top: 1px solid #00ffff;
+  padding-top: 15px;
+}
+
+/* المقال */
+.fish-article {
+  margin-top: 25px;
+  padding: 15px;
+  border: 1px solid #00ffcc;
+  border-radius: 15px;
+  background: rgba(0,255,255,0.08);
+  box-shadow: 0 0 15px rgba(0,255,255,0.2);
+}
+.fish-article h3 {
+  color: #00ffff;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px #00ffff;
+}
+.fish-article ul {
+  padding-right: 20px;
+  list-style-type: "🐟 ";
+  text-align: right;
+  color: #ddd;
+}
+.fish-article p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* التاريخ */
+#updateDate {
+  margin-top: 15px;
+  color: #00ff99;
+  font-size: 14px;
+  text-align: left;
+  opacity: 0.8;
+}
+</style>
+
+<!-- 🛳️ الأيقونة -->
+<div id="shipIcon" title="أبوالقمر زمرد"></div>
+
+<!-- 📜 النافذة -->
+<div id="shipPopup">
+  <button id="closeShip">✖</button>
+  <h2>⚓ أبوالقمر زمرد في أسبوع ⚓</h2>
+  <p>
+    العالم مليء بالأحداث في جميع الجوانب الكونية والبشرية والبيئية وما وراء ذلك،  
+    فأردت أن أمزج هذه الألوان بلون زمردي قمري لأرى ما هو اللون المناسب لطرح ما جاد لنا.
+  </p>
+
+  <div id="weeklyContent">جاري تحميل المحتوى...</div>
+
+  <!-- 🐠 مقال أنواع السمك -->
+  <div class="fish-article">
+    <h3>🐠 أنواع السمك في هذا الوقت وأشهر طرق الصيد</h3>
+    <p>
+      في هذا الموسم من العام، تزداد حركة الأسماك في البحار الدافئة والخليج العربي خاصة،  
+      حيث يبدأ موسم **الكنعد** و**البياض** و**الشعري** و**القرش الصغير** بالظهور.
+    </p>
+    <ul>
+      <li><strong>الكنعد:</strong> من أكثر الأسماك طلبًا، ويُصاد غالبًا بالطعم الحي أو الجر السريع.</li>
+      <li><strong>الشعري:</strong> يُفضل المناطق الصخرية ويُصاد بالخيط الطويل أو الغوص الحر.</li>
+      <li><strong>البياض:</strong> يعيش في المناطق الرملية القريبة من السواحل.</li>
+      <li><strong>القرش الصغير:</strong> يكثر ليلًا بالقرب من الشعاب المرجانية.</li>
+    </ul>
+    <p>
+      أما أشهر طرق الصيد حاليًا فهي **الجر السطحي (Trolling)** و**الصيد الليلي بالضوء الأزرق**،  
+      حيث تجذب الإضاءة الأسماك المفترسة إلى السطح، مما يجعلها فترة مثالية لهواة الصيد البحري.
+    </p>
+  </div>
+
+  <div id="updateDate"></div>
+</div>
+
+<script>
+// ⚙️ التحكم في النافذة
+const shipIcon = document.getElementById('shipIcon');
+const shipPopup = document.getElementById('shipPopup');
+const closeShip = document.getElementById('closeShip');
+const weeklyContent = document.getElementById('weeklyContent');
+const updateDate = document.getElementById('updateDate');
+
+shipIcon.addEventListener('click', () => {
+  shipPopup.style.display = 'block';
+  // تحميل محتوى الصفحة الفرعية
+  fetch('weekly.html')
+    .then(res => res.text())
+    .then(data => {
+      weeklyContent.innerHTML = data;
+      // تحديث التاريخ تلقائيًا
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString('ar-SA', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+      updateDate.textContent = `🕓 آخر تحديث: ${formattedDate}`;
+    })
+    .catch(() => {
+      weeklyContent.innerHTML = ` 
+      <h3>🌙 رواية الأسبوع: الطريق إلى الحلم 🌙</h3>
+      <p>
+      في هذا الأسبوع نبدأ أول فصول الحكاية، حيث تمتزج أنوار القمر بلون  الزمرد،  
+      ويبدأ الخيال رحلته من بين أمواج البحر إلى سماء الأحلام.
+      </p>`;
+    });
+});
+
+closeShip.addEventListener('click', () => {
+  shipPopup.style.display = 'none';
+});
+</script>
 
 <!-- ⚖️ توقيع الحقوق -->
 <footer style="
