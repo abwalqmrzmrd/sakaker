@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ابوصالح</title>
-<style>
-  html, body {
+<style>{
     margin: 0;
     padding: 0;
     height: 100%;
@@ -748,13 +747,12 @@ closeBtn.addEventListener('click', () => {
 
 </body>
 </html>
-
 <!-- ⚓ أيقونة سفينة أبوالقمر زمرد -->
 <style>
 #shipIcon {
   position: fixed;
-  bottom: 40px;
-  right: 40px;
+  bottom: 70px;
+  right: 30px;
   width: 120px;
   height: 120px;
   background: url('https://i.top4top.io/p_3602p1v3s1.png') center/cover no-repeat;
@@ -776,16 +774,16 @@ closeBtn.addEventListener('click', () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 85%;
-  max-width: 600px;
-  background: rgba(0,0,0,0.92);
+  width: 90%;
+  max-width: 400px;
+  background: rgba(0,0,0,0.93);
   color: #fff;
   border: 2px solid #00ffff;
   border-radius: 25px;
   padding: 25px;
   box-shadow: 0 0 25px #0ff;
   text-align: center;
-  z-index: 1300;
+  z-index: 1000;
   animation: fadeIn 0.5s ease;
   overflow-y: auto;
   max-height: 90vh;
@@ -823,27 +821,50 @@ closeBtn.addEventListener('click', () => {
   color: #ccc;
 }
 
-/* فقرة معلومة اليوم */
-#dailyInfo {
+/* المحتوى المحمّل */
+#weeklyContent {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #eee;
+  border-top: 1px solid #00ffff;
+  padding-top: 15px;
+}
+
+/* المقال */
+.fish-article {
   margin-top: 25px;
   padding: 15px;
-  border-top: 1px solid #00ffff;
-  background: rgba(255,255,255,0.05);
+  border: 1px solid #00ffcc;
   border-radius: 15px;
-  text-align: right;
-  animation: fadeIn 1s ease;
+  background: rgba(0,255,255,0.08);
+  box-shadow: 0 0 15px rgba(0,255,255,0.2);
 }
-#dailyInfo h3 {
+.fish-article h3 {
   color: #00ffff;
-  margin-bottom: 10px;
   text-align: center;
-  text-shadow: 0 0 10px #00ffff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px #00ffff;
 }
-#dailyInfo p {
-  color: #eee;
-  font-size: 15px;
-  line-height: 1.9;
-  text-align: justify;
+.fish-article ul {
+  padding-right: 20px;
+  list-style-type: "🐟 ";
+  text-align: right;
+  color: #ddd;
+}
+.fish-article p {
+  color: #ccc;
+  margin-top: 10px;
+}
+
+/* التاريخ */
+#updateDate {
+  margin-top: 15px;
+  color: #00ff99;
+  font-size: 14px;
+  text-align: left;
+  opacity: 0.8;
 }
 </style>
 
@@ -859,34 +880,28 @@ closeBtn.addEventListener('click', () => {
     فأردت أن أمزج هذه الألوان بلون زمردي قمري لأرى ما هو اللون المناسب لطرح ما جاد لنا.
   </p>
 
-  <p>تابعونا أسبوعيًا لاكتشاف جديد الفكر والإلهام.</p>
+  <div id="weeklyContent">جاري تحميل المحتوى...</div>
 
-  <!-- 🌍 معلومة اليوم -->
-  <div id="dailyInfo">
-    <h3>📘 معلومة اليوم: الهجرة بين الواقع والحلم</h3>
+  <!-- 🐠 مقال أنواع السمك -->
+  <div class="fish-article">
+    <h3>🐠 أنواع السمك في هذا الوقت وأشهر طرق الصيد</h3>
     <p>
-      الهجرة ليست مجرد انتقال من مكان إلى آخر، بل هي رحلة بين <strong>الأمل والمجهول</strong>.  
-      يسعى الملايين كل عام إلى عبور الحدود بحثًا عن حياة أكثر أمانًا أو مستقبلٍ أفضل لأسرهم.  
-      ومع ذلك، تختلف الطرق والنتائج بحسب نوع الهجرة ووجهتها.
-      <br><br>
-      <strong>الهجرة الشرعية</strong> هي الطريق القانوني المعتمد الذي تتيحه الدول من خلال التأشيرات،  
-      كبرامج العمل أو الدراسة أو اللجوء الإنساني. ومن أبرز الدول التي تنظم هذه المسارات  
-      <span style="color:#00ffcc;">كندا، أستراليا، ألمانيا، السويد، والولايات المتحدة</span>،  
-      حيث تتيح برامج استقبال سنوية تعتمد على المهارات أو حالات اللجوء الموثقة.
-      <br><br>
-      أما <strong>الهجرة غير الشرعية</strong> فهي الوجه المظلم للرغبة في النجاة،  
-      وتتم غالبًا عبر طرق خطرة في البحر المتوسط أو الغابات الأوروبية أو الصحارى الإفريقية.  
-      كثير من المهاجرين يقعون ضحية المهربين أو السياسات الصارمة التي قد تنهي أحلامهم قبل أن تبدأ.  
-      وتشير تقارير الأمم المتحدة إلى أن الآلاف يفقدون حياتهم سنويًا أثناء هذه الرحلات.
-      <br><br>
-      من الناحية القانونية، تشجع المنظمات الدولية على اتباع الطرق الرسمية التي تضمن  
-      <strong>الإقامة الآمنة، والرعاية الصحية، والتعليم، وحماية الحقوق الإنسانية</strong>.  
-      فالهجرة الشرعية ليست فقط قانونية، بل أيضًا إنسانية تحترم كرامة الإنسان وتفتح له أبواب الأمل المشروع.
-      <br><br>
-      وفي النهاية تبقى الهجرة مرآةً لتفاوت الفرص في هذا العالم،  
-      ورسالة بأن العدالة الحقيقية تبدأ حين يصبح الإنسان قادرًا على البقاء في وطنه دون أن يضطر إلى الرحيل.
+      في هذا الموسم من العام، تزداد حركة الأسماك في البحار الدافئة والخليج العربي خاصة،  
+      حيث يبدأ موسم **الكنعد** و**البياض** و**الشعري** و**القرش الصغير** بالظهور.
+    </p>
+    <ul>
+      <li><strong>الكنعد:</strong> من أكثر الأسماك طلبًا، ويُصاد غالبًا بالطعم الحي أو الجر السريع.</li>
+      <li><strong>الشعري:</strong> يُفضل المناطق الصخرية ويُصاد بالخيط الطويل أو الغوص الحر.</li>
+      <li><strong>البياض:</strong> يعيش في المناطق الرملية القريبة من السواحل.</li>
+      <li><strong>القرش الصغير:</strong> يكثر ليلًا بالقرب من الشعاب المرجانية.</li>
+    </ul>
+    <p>
+      أما أشهر طرق الصيد حاليًا فهي **الجر السطحي (Trolling)** و**الصيد الليلي بالضوء الأزرق**،  
+      حيث تجذب الإضاءة الأسماك المفترسة إلى السطح، مما يجعلها فترة مثالية لهواة الصيد البحري.
     </p>
   </div>
+
+  <div id="updateDate"></div>
 </div>
 
 <script>
@@ -894,17 +909,35 @@ closeBtn.addEventListener('click', () => {
 const shipIcon = document.getElementById('shipIcon');
 const shipPopup = document.getElementById('shipPopup');
 const closeShip = document.getElementById('closeShip');
+const weeklyContent = document.getElementById('weeklyContent');
+const updateDate = document.getElementById('updateDate');
 
 shipIcon.addEventListener('click', () => {
   shipPopup.style.display = 'block';
+  // تحميل محتوى الصفحة الفرعية
+  fetch('weekly.html')
+    .then(res => res.text())
+    .then(data => {
+      weeklyContent.innerHTML = data;
+      // تحديث التاريخ تلقائيًا
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString('ar-SA', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+      updateDate.textContent = `🕓 آخر تحديث: ${formattedDate}`;
+    })
+    .catch(() => {
+      weeklyContent.innerHTML = ` 
+      <h3>🌙 رواية الأسبوع: الطريق إلى الحلم 🌙</h3>
+      <p>
+      في هذا الأسبوع نبدأ أول فصول الحكاية، حيث تمتزج أنوار القمر بلون  الزمرد،  
+      ويبدأ الخيال رحلته من بين أمواج البحر إلى سماء الأحلام.
+      </p>`;
+    });
 });
 
 closeShip.addEventListener('click', () => {
   shipPopup.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-  if (e.target === shipPopup) shipPopup.style.display = 'none';
 });
 </script>
 
@@ -1448,6 +1481,161 @@ function toggleRadioList() {
 </body>
 </html>
 
+<!-- ============= أيقونة صفحة الأعمال ============= -->
+
+<div id="worksIconContainer" style="
+    width:100%;
+    text-align:center;
+    margin:30px 0;
+    z-index:9999;
+    position:relative;
+">
+  
+  <img id="worksIcon"
+       src="https://a.top4top.io/p_3607x4is91.jpg"
+       onclick="openPopup(fullWorksContent)"
+       style="
+         width:140px;
+         height:140px;
+         border-radius:50%;
+         cursor:pointer;
+         border:3px solid #00ffff;
+         box-shadow:0 0 20px #00ffff;
+         transition:0.3s;
+         background:#000;
+         object-fit:cover;
+         display:block;
+         margin:auto;
+       "
+       onmouseover="this.style.transform='scale(1.1)'"
+       onmouseout="this.style.transform='scale(1)'"
+  >
+
+  <div style="color:#00ffff; margin-top:10px; font-size:20px;">
+    📚 صفحة الأعمال
+  </div>
+
+</div>
+
+
+<!-- ============= popup ============= -->
+
+<div id="popup" style="
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.85);
+  z-index:999999;
+  padding:20px;
+  overflow-y:auto;
+">
+  <div id="popupBox" style="
+    max-width:800px;
+    margin:50px auto;
+    background:#001010;
+    padding:20px;
+    border-radius:20px;
+    color:#fff;
+    box-shadow:0 0 20px #00ffff;
+  ">
+    <button onclick="closePopup()" style="
+      background:#ff0040;
+      color:#fff;
+      border:none;
+      padding:10px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:18px;
+      float:left;
+    ">✖ إغلاق</button>
+
+    <div id="popupContent" style="margin-top:60px;"></div>
+  </div>
+</div>
+
+
+<!-- ============= محتوى الأعمال + دوال popup ============= -->
+
+<script>
+const fullWorksContent = `
+  <div style='text-align:center;'>
+
+    <iframe width='100%' height='200'
+      src='https://www.youtube.com/embed/tFZnpj1JPbc?autoplay=1&mute=1&controls=0&loop=1&playlist=tFZnpj1JPbc'
+      style='border-radius:15px; box-shadow:0 0 12px #00ffff;'>
+    </iframe>
+
+    <h1 style="color:#00ffff; margin-top:20px;">
+      جميع أعمال أبوالقمر زمرد
+    </h1>
+
+    <div style='background:#002525;padding:15px;border-radius:12px;margin:10px 0;color:#0ff;'>
+      بمشيئة الله، سيقوم <strong style="color:#00ffff;">أبوالقمر زمرد</strong>
+      بنقل جزء من أعماله مع إضافة إبداعات جديدة.
+    </div>
+
+    <div style='
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+      margin-top:20px;
+    '>
+
+      <div onclick="openPopup(\`
+        <h2>📜 الأشعار</h2>
+        قصيدة: همسات القمر<br>
+        في ليلٍ هادئٍ ينسابُ فيهِ النسيم...
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>📜 الأشعار</div>
+
+      <div onclick="openPopup(\`
+        <h2>🎨 الرسومات</h2>
+        - لوحة طيف زمردي<br>
+        - لوحة عازف الضوء...
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎨 الرسومات</div>
+
+      <div onclick="openPopup(\`
+        <h2>🎵 المعزوفات</h2>
+        - نبض المساء<br>
+        - طريق الحلم<br>
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎵 المعزوفات</div>
+
+      <div onclick="openPopup(\`
+        <h2>🎬 الفيديوهات</h2>
+        • تصميم لوحة<br>
+        • تسجيل معزوفة...
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎬 الفيديوهات</div>
+
+      <div onclick="openPopup(\`
+        <h2>📚 المقالات</h2>
+        • كيف تبدأ الإبداع؟<br>
+        • تأثير اللون...
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>📚 المقالات</div>
+
+      <div onclick="openPopup(\`
+        <h2>🎤 الصوتيات</h2>
+        • أمواج البحر<br>
+        • مقطع تأمل...
+      \`)" 
+      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎤 الصوتيات</div>
+
+    </div>
+  </div>
+`;
+
+function openPopup(content){
+  document.getElementById("popupContent").innerHTML = content;
+  document.getElementById("popup").style.display = "block";
+}
+function closePopup(){
+  document.getElementById("popup").style.display = "none";
+}
+</script>
 
 
   <!-- زر -->
@@ -1467,6 +1655,7 @@ function toggleRadioList() {
   <button class="btnBack" onclick="goToPage1()">⬅️ الصفحة الرئيسية</button>
   <h1 style="margin-top:20px;text-shadow:0 0 10px #00ffff;">📚 الصفحة الثانية</h1>
   <p style="color:#ddd;">
+      
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1474,7 +1663,7 @@ function toggleRadioList() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>التعريف بالموقع</title>
 <style>
-  body {
+  {
     margin: 0;
     font-family: "Cairo", sans-serif;
     background: #000;
@@ -1772,8 +1961,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>دردشة الزوار</title>
 
-<style>
-body {
+<style> {
   margin: 0;
   font-family: "Tajawal", sans-serif;
   background: radial-gradient(circle at center, #000 60%, #001f3f);
@@ -3509,6 +3697,7 @@ window.addEventListener('load', () => {
   text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
 }
 </style>
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -4686,7 +4875,7 @@ function goToPage1(){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>شريط الأخبار المتحرك مع أخبار مباشرة - أبو القمر زمرد</title>
 <style>
-   {
+  body {
     margin: 0;
     font-family: "Tahoma", sans-serif;
     background: #000;
@@ -4743,8 +4932,8 @@ function goToPage1(){
   /* ✅ الساعة والتاريخ أسفل الشريط */
   #clock {
     position: fixed;
-    top: 52px;
-    left: 50%;
+    top: 72px;
+    left: 20%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.6);
     padding: 6px 18px;
