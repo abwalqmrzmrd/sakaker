@@ -324,167 +324,169 @@ function closeWisdom() {
       <source src="https://assets.mixkit.co/videos/51445/51445-720.mp4" type="video/mp4">
     </video>
   </div>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة بث فيديو مع صورة معاينة</title>
+<!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
+<div class="video-top-container">
+  <!-- الفيديو الأيمن -->
+  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
+    <iframe
+      src="https://www.youtube.com/embed/n7eQejkXbnM?mute=1&autoplay=1&loop=1&playlist=n7eQejkXbnM"
+      title="فيديو أيمن" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+
+  <!-- الفيديو الأيسر -->
+  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
+    <iframe
+      src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY"
+      title="فيديو أيسر" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- ====== المودال ====== -->
+<div id="videoModal" class="video-modal">
+  <div class="video-content">
+    <span class="close-btn" onclick="closeVideoModal()">×</span>
+    <iframe id="modalVideo" src="" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
+</div>
+
 <style>
-  body { margin:0; background:#111; font-family:sans-serif; color:#fff; }
+/* الحاوية العليا */
+.video-top-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
 
-  /* أيقونة الفيديو */
-  #videoIconContainer {
-    position: fixed;
-    top: 200px;
-    right: 140px;
-    z-index: 99999;
-    text-align:center;
-    cursor: grab;
-  }
-  #videoIcon {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
-    background:#000;
-    transition: transform .2s;
-    background-size: cover;
-    background-position: center;
-  }
-  #videoIcon:hover { transform: scale(1.06); }
+/* الفيديو الدائري */
+.video-circle {
+  position: absolute;
+  top: 170px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 4px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.video-circle:hover {
+  transform: scale(1.08);
+  border-color: #00e6ff;
+  box-shadow: 0 0 25px rgba(0, 230, 255, 0.8), inset 0 0 10px rgba(0, 230, 255, 0.4);
+}
 
-  #iconControls { margin-top:10px; font-size:20px; color:#0ff; }
-  #iconCloseBtn, #iconShowBtn {
-    width:34px; height:34px; border-radius:50%; border:none; cursor:pointer;
-    color:#fff; font-size:18px; margin:5px;
-  }
-  #iconCloseBtn { background:#e74c3c; }
-  #iconShowBtn { background:#27ae60; display:none; position: fixed; top: 20px; right: 20px; z-index:999999; }
+/* جهة اليمين واليسار */
+.video-circle.right { right: 40px; }
+.video-circle.left { left: 40px; }
 
-  /* Overlay Popup */
-  #videoPopup {
-    display:none;
-    position: fixed;
-    inset:0;
-    background: rgba(0,0,0,0.85);
-    z-index:100000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.video-circle iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* المودال */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* محتوى الفيديو */
+.video-content {
+  position: relative;
+  width: 85%;
+  max-width: 900px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+  animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+  from {transform: scale(0.8);}
+  to {transform: scale(1);}
+}
+
+.video-content iframe {
+  width: 100%;
+  height: 500px;
+  display: block;
+  border: none;
+}
+
+/* زر الإغلاق */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+.close-btn:hover {
+  color: #ff5555;
+}
+
+/* للجوال */
+@media (max-width: 768px) {
+  .video-top-container {
+    height: 160px;
   }
-  #popupBox {
-    width: min(90%,900px);
-    aspect-ratio:16/9;
-    background:#000;
-    border-radius:12px;
-    overflow:hidden;
-    position:relative;
-    box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  .video-circle {
+    width: 100px;
+    height: 100px;
   }
-  #popupBox iframe { width:100%; height:100%; border:0; display:block; }
-  #popupCloseBtn {
-    position:absolute;
-    top:8px;
-    right:8px;
-    width:36px;
-    height:36px;
-    border-radius:50%;
-    border:none;
-    background:#e74c3c;
-    color:#fff;
-    cursor:pointer;
-    font-size:18px;
-    z-index:2;
+  .video-circle.right { right: 20px; }
+  .video-circle.left { left: 20px; }
+  .video-content iframe {
+    height: 55vw;
   }
+}
 </style>
-</head>
-<body>
-
-<div id="videoIconContainer">
-  <!-- صورة معاينة للفيديو -->
-  <div id="videoIcon" style="background-image:url('https://img.youtube.com/vi/n7eQejkXbnM/hqdefault.jpg');">
-  </div>
-  <div id="iconControls">
-    🎬 بث الفيديو
-    <button id="iconCloseBtn" title="إخفاء الأيقونة">✖</button>
-  </div>
-</div>
-
-<!-- زر إعادة الأيقونة يظهر بعد الإخفاء -->
-<button id="iconShowBtn" title="إعادة الأيقونة">↺</button>
-
-<div id="videoPopup">
-  <div id="popupBox">
-    <button id="popupCloseBtn" title="إغلاق">✖</button>
-    <iframe id="popupFrame" src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-  </div>
-</div>
 
 <script>
-const videoIcon = document.getElementById('videoIconContainer');
-const iconDiv = document.getElementById('videoIcon');
-const popup = document.getElementById('videoPopup');
-const popupFrame = document.getElementById('popupFrame');
-const iconCloseBtn = document.getElementById('iconCloseBtn');
-const iconShowBtn = document.getElementById('iconShowBtn');
-const popupCloseBtn = document.getElementById('popupCloseBtn');
+function openVideoModal(videoId) {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  modal.style.display = 'flex';
+}
 
-// فتح popup عند الضغط على الأيقونة
-iconDiv.addEventListener('click', () => {
-  popup.style.display = 'flex';
-  document.documentElement.style.overflow = 'hidden';
-});
-
-// إغلاق popup
-popupCloseBtn.addEventListener('click', () => {
-  popup.style.display = 'none';
-  document.documentElement.style.overflow = '';
-});
-popup.addEventListener('click', e => { if(e.target===popup){ popup.style.display='none'; document.documentElement.style.overflow=''; } });
-
-// إخفاء الأيقونة
-iconCloseBtn.addEventListener('click', () => {
-  videoIcon.style.display='none';
-  iconCloseBtn.style.display='none';
-  iconShowBtn.style.display='inline-block';
-});
-
-// إعادة الأيقونة
-iconShowBtn.addEventListener('click', () => {
-  videoIcon.style.display='flex';
-  iconCloseBtn.style.display='inline-block';
-  iconShowBtn.style.display='none';
-});
-
-// جعل الأيقونة draggable
-let isDragging = false, offsetX = 0, offsetY = 0;
-videoIcon.addEventListener('mousedown', e => {
-  if(e.target.id!=='iconCloseBtn' && e.target.id!=='iconShowBtn'){
-    isDragging = true;
-    offsetX = e.clientX - videoIcon.offsetLeft;
-    offsetY = e.clientY - videoIcon.offsetTop;
-    videoIcon.style.cursor='grabbing';
-  }
-});
-document.addEventListener('mousemove', e => {
-  if(isDragging){
-    videoIcon.style.left = (e.clientX - offsetX) + 'px';
-    videoIcon.style.top = (e.clientY - offsetY) + 'px';
-  }
-});
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-  videoIcon.style.cursor='grab';
-});
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('modalVideo');
+  iframe.src = '';
+  modal.style.display = 'none';
+}
 </script>
-
-</body>
-</html>
 
 
 <!-- أيقونة التشغيل -->
