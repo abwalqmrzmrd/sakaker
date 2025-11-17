@@ -325,7 +325,7 @@ function closeWisdom() {
     </video>
   </div>
 <!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
-<div class="video-top-container">
+<div class="video-top-container-fixed">
   <!-- الفيديو الأيمن -->
   <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
     <iframe
@@ -335,11 +335,11 @@ function closeWisdom() {
       allowfullscreen></iframe>
   </div>
 
-  <!-- الفيديو الأيسر -->
-  <div class="video-circle left" onclick="openVideoModal('zq6ohxTDNZY')">
+  <!-- الفيديو الأيسر (بالرابط الجديد) -->
+  <div class="video-circle left" onclick="openVideoModal('zi9knajcejY')">
     <iframe
-      src="https://www.youtube.com/embed/zq6ohxTDNZY?mute=1&autoplay=1&loop=1&playlist=zq6ohxTDNZY"
-      title="فيديو أيسر" frameborder="0"
+      src="https://www.youtube.com/embed/zi9knajcejY?mute=1&autoplay=1&loop=1&playlist=zi9knajcejY"
+      title="فيديو أيسر جديد" frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen></iframe>
   </div>
@@ -356,17 +356,18 @@ function closeWisdom() {
 </div>
 
 <style>
-/* الحاوية العليا */
-.video-top-container {
+/* ====== ثابت أعلى الصفحة ====== */
+.video-top-container-fixed {
   position: relative;
   width: 100%;
   height: 200px;
+  z-index: 9999999 !important; /* حتى لا تختفي تحت الخلفيات */
 }
 
 /* الفيديو الدائري */
 .video-circle {
   position: absolute;
-  top: 170px;
+  top: 200px;
   width: 130px;
   height: 130px;
   border-radius: 50%;
@@ -375,7 +376,10 @@ function closeWisdom() {
   border: 4px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 15px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  background: #000;
+  z-index: 9999999;
 }
+
 .video-circle:hover {
   transform: scale(1.08);
   border-color: #00e6ff;
@@ -391,14 +395,14 @@ function closeWisdom() {
   height: 100%;
   border: none;
   border-radius: 50%;
-  pointer-events: none;
+  pointer-events: none; /* يمنع فتح الفيديو داخل الدائرة */
 }
 
-/* المودال */
+/* ====== المودال ====== */
 .video-modal {
   display: none;
   position: fixed;
-  z-index: 2000;
+  z-index: 999999999 !important; /* أعلى شيء */
   top: 0;
   left: 0;
   width: 100%;
@@ -451,13 +455,14 @@ function closeWisdom() {
   z-index: 10;
   transition: 0.3s;
 }
+
 .close-btn:hover {
   color: #ff5555;
 }
 
 /* للجوال */
 @media (max-width: 768px) {
-  .video-top-container {
+  .video-top-container-fixed {
     height: 160px;
   }
   .video-circle {
