@@ -327,171 +327,138 @@ function closeWisdom() {
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>مكوّن أيقونة الفيديو (مستقل)</title>
-  <meta name="description" content="مكوّن أيقونة فيديو معزول يعرض بث Al Arabiya كخلفية وصندوق popup بالبث الصوتي" />
-  <style>
-    /* بعض ستايلات الصفحة الأساسية فقط للمعاينة */
-    body{ margin:0; background:#111; color:#ddd; font-family: Arial, "Helvetica Neue", sans-serif; min-height:100vh; }
-    main{ padding:40px; text-align:center; }
-    h1{ color:#0ff; margin-bottom:12px; }
-    p{ color:#9fd; max-width:760px; margin:0 auto 18px; line-height:1.6; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أيقونة فيديو مستقلة</title>
+<style>
+  body { margin:0; background:#111; font-family:sans-serif; color:#fff; }
+
+  /* الأيقونة */
+  #videoIconContainer {
+    position: fixed;
+    top: 200px;
+    right: 140px;
+    z-index: 99999;
+    text-align:center;
+  }
+  #videoIcon {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition: transform .2s;
+  }
+  #videoIcon:hover { transform: scale(1.06); }
+  #videoIcon iframe { width:100%; height:100%; border:0; pointer-events:none; border-radius:50%; }
+
+  #iconControls { margin-top:10px; font-size:20px; color:#0ff; }
+  #iconCloseBtn, #iconShowBtn {
+    width:34px; height:34px; border-radius:50%; border:none; cursor:pointer;
+    color:#fff; font-size:18px; margin:5px;
+  }
+  #iconCloseBtn { background:#e74c3c; }
+  #iconShowBtn { background:#27ae60; display:none; }
+
+  /* Overlay Popup */
+  #videoPopup {
+    display:none;
+    position: fixed;
+    inset:0;
+    background: rgba(0,0,0,0.85);
+    z-index:100000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #popupBox {
+    width: min(90%,900px);
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  }
+  #popupBox iframe { width:100%; height:100%; border:0; display:block; }
+  #popupCloseBtn {
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:none;
+    background:#e74c3c;
+    color:#fff;
+    cursor:pointer;
+    font-size:18px;
+    z-index:2;
+  }
+</style>
 </head>
 <body>
-  <main>
-    <h1>اختبار مكوّن أيقونة الفيديو المعزول</h1>
-    <p>هذا الملف يحتوي على Web Component معزول (Shadow DOM). الأيقونة تظهر على الشاشة، تعرض بث القناة كخلفية صامتة، وعند الضغط تفتح نافذة منبثقة مستقلة وتشغّل البث بالصوت. يمكنك نقل هذا الملف لمكان آخر أو دمجه بدون تعارض.</p>
-  </main>
 
-  <!-- هنا نستدعي المكوّن بعد تعريفه -->
-  <!-- ضع أكثر من مكوّن إذا أردت بإعطاء channel مختلفة -->
-  <abq-video-icon channel="UCvSXG8xQ2yjmrj2-zb5VqKw"></abq-video-icon>
+<div id="videoIconContainer">
+  <div id="videoIcon">
+    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq&autoplay=1&mute=1&controls=0&playsinline=1"></iframe>
+  </div>
+  <div id="iconControls">
+    🎬 بث الفيديو
+    <button id="iconCloseBtn" title="إخفاء الأيقونة">✖</button>
+    <button id="iconShowBtn" title="إظهار الأيقونة">↺</button>
+  </div>
+</div>
 
-  <!-- ================= Web Component (كود كامل) ================= -->
-  <script>
-  class AbqVideoIcon extends HTMLElement {
-    constructor() {
-      super();
-      this.attachShadow({ mode: 'open' });
+<div id="videoPopup">
+  <div id="popupBox">
+    <button id="popupCloseBtn" title="إغلاق">✖</button>
+    <iframe id="popupFrame" src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq&autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
 
-      // خصائص افتراضية
-      const channel = this.getAttribute('channel') || 'UCvSXG8xQ2yjmrj2-zb5VqKw';
-      const bgMute = this.getAttribute('mute') !== 'false';
-      const popupAspect = this.getAttribute('aspect') || '16/9';
+<script>
+  const videoIcon = document.getElementById('videoIcon');
+  const popup = document.getElementById('videoPopup');
+  const popupFrame = document.getElementById('popupFrame');
+  const iconCloseBtn = document.getElementById('iconCloseBtn');
+  const iconShowBtn = document.getElementById('iconShowBtn');
+  const popupCloseBtn = document.getElementById('popupCloseBtn');
 
-      this.shadowRoot.innerHTML = `
-        <style>
-          :host { all: initial; }
-          .wrap { position: fixed; right: 140px; top: 200px; z-index: 2147483000; font-family: Arial, sans-serif; }
-          .icon { width: 200px; height: 200px; border-radius: 50%; overflow: hidden; cursor: pointer;
-                 display:flex;align-items:center;justify-content:center;
-                 box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f; background:#000;
-                 transition: transform .18s ease; position: relative; }
-          .icon:hover{ transform: scale(1.06); }
-          .icon iframe { width:100%; height:100%; border:0; border-radius:50%; pointer-events:none; display:block; }
-          .controls { position: absolute; right: calc(50% + 90px); top: calc(50% - 95px); display:flex; gap:8px; }
-          button.icon-close, button.icon-show {
-            width:34px;height:34px;border-radius:50%;border:none;color:#fff;cursor:pointer;box-shadow:0 0 8px rgba(255,255,255,.12);
-            display:inline-flex;align-items:center;justify-content:center;font-size:16px;
-          }
-          button.icon-close { background:#e74c3c; }
-          button.icon-show { background:#27ae60; display:none; }
+  videoIcon.addEventListener('click', () => {
+    popup.style.display = 'flex';
+    document.documentElement.style.overflow = 'hidden';
+  });
 
-          /* Overlay popup */
-          .overlay { display:none; position: fixed; inset: 0; z-index: 2147484000;
-                    background: rgba(0,0,0,.85); align-items:center; justify-content:center; }
-          .playerBox { width: min(90%, 900px); aspect-ratio: ${popupAspect}; border-radius:12px; overflow:hidden; background:#000; position:relative; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
-          .playerBox iframe { width:100%; height:100%; border:0; display:block; }
-          .playerClose { position:absolute; top:8px; right:8px; width:36px; height:36px; border-radius:50%; border:none; background:#e74c3c; color:#fff; cursor:pointer; font-size:18px; z-index:2; }
+  popupCloseBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+    document.documentElement.style.overflow = '';
+  });
 
-          @media (max-width:520px){
-            .icon{ width:140px;height:140px; }
-            .controls{ right: calc(50% + 70px); top: calc(50% - 70px); }
-          }
-        </style>
-
-        <div class="wrap" part="wrap">
-          <div class="controls" aria-hidden="true">
-            <button class="icon-close" title="إخفاء الأيقونة">✖</button>
-            <button class="icon-show" title="إعادة الأيقونة" style="display:none">↺</button>
-          </div>
-
-          <div class="icon" part="icon" role="button" tabindex="0" aria-label="فتح البث">
-            <iframe class="bgFrame"
-              src="https://www.youtube.com/embed/live_stream?channel=${channel}&autoplay=1&mute=${bgMute ? 1 : 0}&controls=0&playsinline=1"
-              allow="autoplay"
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-            ></iframe>
-          </div>
-
-          <div class="overlay" part="overlay" aria-hidden="true">
-            <div class="playerBox" part="player" role="dialog" aria-modal="true">
-              <button class="playerClose" title="إغلاق">✖</button>
-              <iframe class="playerFrame" src="" allow="autoplay; encrypted-media" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // عناصر داخل الـ shadow
-      this._icon = this.shadowRoot.querySelector('.icon');
-      this._overlay = this.shadowRoot.querySelector('.overlay');
-      this._playerFrame = this.shadowRoot.querySelector('.playerFrame');
-      this._bgFrame = this.shadowRoot.querySelector('.bgFrame');
-      this._closeBtn = this.shadowRoot.querySelector('.icon-close');
-      this._showBtn = this.shadowRoot.querySelector('.icon-show');
-      this._playerClose = this.shadowRoot.querySelector('.playerClose');
-
-      // ربط الدوال
-      this._onIconClick = this._onIconClick.bind(this);
-      this._onKey = this._onKey.bind(this);
-      this._onCloseIcon = this._onCloseIcon.bind(this);
-      this._onShowIcon = this._onShowIcon.bind(this);
-      this._onPlayerClose = this._onPlayerClose.bind(this);
+  popup.addEventListener('click', (e) => {
+    if(e.target===popup) {
+      popup.style.display='none';
+      document.documentElement.style.overflow='';
     }
+  });
 
-    connectedCallback() {
-      this._icon.addEventListener('click', this._onIconClick);
-      this._icon.addEventListener('keydown', this._onKey);
-      this._closeBtn.addEventListener('click', this._onCloseIcon);
-      this._showBtn.addEventListener('click', this._onShowIcon);
-      this._playerClose.addEventListener('click', this._onPlayerClose);
-      this._overlay.addEventListener('click', e => {
-        if (e.target === this._overlay) this._onPlayerClose();
-      });
-      // دعم إغلاق بالـ Escape للـ overlay
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && this._overlay.style.display === 'flex') this._onPlayerClose();
-      });
-    }
+  iconCloseBtn.addEventListener('click', () => {
+    videoIcon.style.display='none';
+    iconCloseBtn.style.display='none';
+    iconShowBtn.style.display='inline-block';
+  });
 
-    disconnectedCallback() {
-      this._icon.removeEventListener('click', this._onIconClick);
-      this._icon.removeEventListener('keydown', this._onKey);
-      this._closeBtn.removeEventListener('click', this._onCloseIcon);
-      this._showBtn.removeEventListener('click', this._onShowIcon);
-      this._playerClose.removeEventListener('click', this._onPlayerClose);
-    }
-
-    _onIconClick() {
-      const ch = this.getAttribute('channel') || 'UCvSXG8xQ2yjmrj2-zb5VqKw';
-      this._overlay.style.display = 'flex';
-      this._overlay.setAttribute('aria-hidden','false');
-      this._playerFrame.src = `https://www.youtube.com/embed/live_stream?channel=${ch}&autoplay=1&mute=0&controls=1&playsinline=1`;
-      // منع التمرير الأساسي للصفحة أثناء فتح popup
-      document.documentElement.style.overflow = 'hidden';
-    }
-
-    _onPlayerClose() {
-      this._overlay.style.display = 'none';
-      this._overlay.setAttribute('aria-hidden','true');
-      this._playerFrame.src = '';
-      document.documentElement.style.overflow = '';
-    }
-
-    _onCloseIcon(e) {
-      e.stopPropagation();
-      this.shadowRoot.querySelector('.icon').style.display = 'none';
-      this._closeBtn.style.display = 'none';
-      this._showBtn.style.display = 'inline-flex';
-    }
-
-    _onShowIcon(e) {
-      e.stopPropagation();
-      this.shadowRoot.querySelector('.icon').style.display = 'flex';
-      this._closeBtn.style.display = 'inline-flex';
-      this._showBtn.style.display = 'none';
-    }
-
-    _onKey(e) {
-      if (e.key === 'Enter' || e.key === ' ') this._onIconClick();
-    }
-  }
-
-  customElements.define('abq-video-icon', AbqVideoIcon);
-  </script>
+  iconShowBtn.addEventListener('click', () => {
+    videoIcon.style.display='flex';
+    iconCloseBtn.style.display='inline-block';
+    iconShowBtn.style.display='none';
+  });
+</script>
 
 </body>
 </html>
