@@ -329,7 +329,7 @@ function closeWisdom() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة بث العربية مباشر</title>
+<title>أيقونة بث فيديو موحد</title>
 <style>
   body { margin:0; background:#111; font-family:sans-serif; color:#fff; }
 
@@ -406,10 +406,10 @@ function closeWisdom() {
 
 <div id="videoIconContainer">
   <div id="videoIcon">
-    <iframe id="bgVideo" src="https://www.youtube.com/embed/live_stream?channel=UCx0ZYNj0Am6l3QsljKQ_h2g&autoplay=1&mute=1&controls=0&playsinline=1"></iframe>
+    <iframe id="bgVideo" src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq&autoplay=1&mute=1&controls=0&playsinline=1"></iframe>
   </div>
   <div id="iconControls">
-    🎬 بث العربية مباشر
+    🎬 بث الفيديو
     <button id="iconCloseBtn" title="إخفاء الأيقونة">✖</button>
     <button id="iconShowBtn" title="إظهار الأيقونة">↺</button>
   </div>
@@ -418,7 +418,7 @@ function closeWisdom() {
 <div id="videoPopup">
   <div id="popupBox">
     <button id="popupCloseBtn" title="إغلاق">✖</button>
-    <iframe id="popupFrame" src="https://www.youtube.com/embed/live_stream?channel=UCx0ZYNj0Am6l3QsljKQ_h2g" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe id="popupFrame" src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -481,7 +481,6 @@ document.addEventListener('mouseup', () => {
 
 </body>
 </html>
-
 
 <!-- أيقونة التشغيل -->
 <div id="scrollbox-icon">📜</div>
@@ -1461,6 +1460,8 @@ function toggleRadioList() {
 
 </body>
 </html>
+
+
 
   <!-- زر -->
   <button class="btn" onclick="goToPage2()">➡️ الانتقال إلى الصفحة الثانية</button>
@@ -3521,7 +3522,6 @@ window.addEventListener('load', () => {
   text-shadow: 0 0 10px #ffff00, 0 0 20px #ff0000;
 }
 </style>
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -4233,167 +4233,6 @@ function fullscreenVideo(id){
 }
 </script>
 
-<!-- ============= أيقونة صفحة الأعمال ============= -->
-
-<div id="worksIconContainer" style="
-    width:100%;
-    text-align:center;
-    margin:30px 0;
-    z-index:9999;
-    position:relative;
-">
-  
-  <img id="worksIcon"
-       src="https://a.top4top.io/p_3607x4is91.jpg"
-       onclick="openPopup(fullWorksContent)"
-       style="
-         width:140px;
-         height:140px;
-         border-radius:50%;
-         cursor:pointer;
-         border:3px solid #00ffff;
-         box-shadow:0 0 20px #00ffff;
-         transition:0.3s;
-         background:#000;
-         object-fit:cover;
-         display:block;
-         margin:auto;
-       "
-       onmouseover="this.style.transform='scale(1.1)'"
-       onmouseout="this.style.transform='scale(1)'"
-  >
-
-  <div style="color:#00ffff; margin-top:10px; font-size:20px;">
-    📚 صفحة الأعمال
-  </div>
-
-</div>
-
-
-<!-- ============= popup ============= -->
-
-<div id="popup" style="
-  display:none;
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:rgba(0,0,0,0.85);
-  z-index:999999;
-  padding:20px;
-  overflow-y:auto;
-">
-  <div id="popupBox" style="
-    max-width:800px;
-    margin:50px auto;
-    background:#001010;
-    padding:20px;
-    border-radius:20px;
-    color:#fff;
-    box-shadow:0 0 20px #00ffff;
-  ">
-    <button onclick="closePopup()" style="
-      background:#ff0040;
-      color:#fff;
-      border:none;
-      padding:10px 20px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:18px;
-      float:left;
-    ">✖ إغلاق</button>
-
-    <div id="popupContent" style="margin-top:60px;"></div>
-  </div>
-</div>
-
-
-<!-- ============= محتوى الأعمال + دوال popup ============= -->
-
-<script>
-const fullWorksContent = `
-  <div style='text-align:center;'>
-
-    <!-- الفيديو الجديد -->
-    <iframe width='560' height='315' 
-      src='https://www.youtube.com/embed/FzfIvHt4AaU?si=1zfhp9F9srqYWK1C' 
-      title='YouTube video player' frameborder='0' 
-      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' 
-      referrerpolicy='strict-origin-when-cross-origin' 
-      allowfullscreen
-      style='border-radius:15px; box-shadow:0 0 12px #00ffff; width:100%; max-width:560px; height:315px;'
-    ></iframe>
-
-    <h1 style="color:#00ffff; margin-top:20px;">
-      جميع أعمال أبوالقمر زمرد
-    </h1>
-
-    <div style='background:#002525;padding:15px;border-radius:12px;margin:10px 0;color:#0ff;'>
-      بمشيئة الله، سيقوم <strong style="color:#00ffff;">أبوالقمر زمرد</strong>
-      بنقل جزء من أعماله مع إضافة إبداعات جديدة.
-    </div>
-
-    <div style='
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:15px;
-      margin-top:20px;
-    '>
-
-      <div onclick="openPopup(\`
-        <h2>📜 الأشعار</h2>
-        قصيدة: همسات القمر<br>
-        في ليلٍ هادئٍ ينسابُ فيهِ النسيم...
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>📜 الأشعار</div>
-
-      <div onclick="openPopup(\`
-        <h2>🎨 الرسومات</h2>
-        - لوحة طيف زمردي<br>
-        - لوحة عازف الضوء...
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎨 الرسومات</div>
-
-      <div onclick="openPopup(\`
-        <h2>🎵 المعزوفات</h2>
-        - نبض المساء<br>
-        - طريق الحلم<br>
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎵 المعزوفات</div>
-
-      <div onclick="openPopup(\`
-        <h2>🎬 الفيديوهات</h2>
-        • تصميم لوحة<br>
-        • تسجيل معزوفة...
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎬 الفيديوهات</div>
-
-      <div onclick="openPopup(\`
-        <h2>📚 المقالات</h2>
-        • كيف تبدأ الإبداع؟<br>
-        • تأثير اللون...
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>📚 المقالات</div>
-
-      <div onclick="openPopup(\`
-        <h2>🎤 الصوتيات</h2>
-        • أمواج البحر<br>
-        • مقطع تأمل...
-      \`)" 
-      style='background:#003030;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 0 8px #00ffaa;'>🎤 الصوتيات</div>
-
-    </div>
-  </div>
-`;
-
-function openPopup(content){
-  document.getElementById("popupContent").innerHTML = content;
-  document.getElementById("popup").style.display = "block";
-}
-function closePopup(){
-  document.getElementById("popup").style.display = "none";
-}
-</script>
-
 <!-- 🌿 زر الطب الموحد -->
 <button id="medicineBtn">🌿 الطب الشعبي والنبوي<br><span style="font-size:13px;">Traditional & Prophetic Medicine</span></button>
 
@@ -4917,8 +4756,8 @@ function goToPage1(){
   /* ✅ الساعة والتاريخ أسفل الشريط */
   #clock {
     position: fixed;
-    top: 72px;
-    left: 20%;
+    top: 52px;
+    left: 50%;
     transform: translateX(-50%);
     background: rgba(0,0,0,0.6);
     padding: 6px 18px;
