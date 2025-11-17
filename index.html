@@ -329,33 +329,33 @@ function closeWisdom() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيقونة فيديو مستقلة</title>
+<title>أيقونة بث العربية مباشر</title>
 <style>
   body { margin:0; background:#111; font-family:sans-serif; color:#fff; }
 
-  /* الأيقونة */
+  /* أيقونة الفيديو */
   #videoIconContainer {
     position: fixed;
     top: 200px;
     right: 140px;
     z-index: 99999;
     text-align:center;
+    cursor: grab;
   }
   #videoIcon {
     width: 200px;
     height: 200px;
     border-radius: 50%;
     overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
-    background:#000;
     display:flex;
     justify-content:center;
     align-items:center;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    background:#000;
     transition: transform .2s;
   }
   #videoIcon:hover { transform: scale(1.06); }
-  #videoIcon iframe { width:100%; height:100%; border:0; pointer-events:none; border-radius:50%; }
+  #videoIcon iframe { width:100%; height:100%; border:0; border-radius:50%; pointer-events:none; }
 
   #iconControls { margin-top:10px; font-size:20px; color:#0ff; }
   #iconCloseBtn, #iconShowBtn {
@@ -406,10 +406,10 @@ function closeWisdom() {
 
 <div id="videoIconContainer">
   <div id="videoIcon">
-    <iframe src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq&autoplay=1&mute=1&controls=0&playsinline=1"></iframe>
+    <iframe id="bgVideo" src="https://www.youtube.com/embed/live_stream?channel=UCx0ZYNj0Am6l3QsljKQ_h2g&autoplay=1&mute=1&controls=0&playsinline=1"></iframe>
   </div>
   <div id="iconControls">
-    🎬 بث الفيديو
+    🎬 بث العربية مباشر
     <button id="iconCloseBtn" title="إخفاء الأيقونة">✖</button>
     <button id="iconShowBtn" title="إظهار الأيقونة">↺</button>
   </div>
@@ -418,46 +418,65 @@ function closeWisdom() {
 <div id="videoPopup">
   <div id="popupBox">
     <button id="popupCloseBtn" title="إغلاق">✖</button>
-    <iframe id="popupFrame" src="https://www.youtube.com/embed/n7eQejkXbnM?si=pWY0gtIYB9LbEGpq&autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe id="popupFrame" src="https://www.youtube.com/embed/live_stream?channel=UCx0ZYNj0Am6l3QsljKQ_h2g" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
 
 <script>
-  const videoIcon = document.getElementById('videoIcon');
-  const popup = document.getElementById('videoPopup');
-  const popupFrame = document.getElementById('popupFrame');
-  const iconCloseBtn = document.getElementById('iconCloseBtn');
-  const iconShowBtn = document.getElementById('iconShowBtn');
-  const popupCloseBtn = document.getElementById('popupCloseBtn');
+const videoIcon = document.getElementById('videoIconContainer');
+const popup = document.getElementById('videoPopup');
+const popupFrame = document.getElementById('popupFrame');
+const iconCloseBtn = document.getElementById('iconCloseBtn');
+const iconShowBtn = document.getElementById('iconShowBtn');
+const popupCloseBtn = document.getElementById('popupCloseBtn');
 
-  videoIcon.addEventListener('click', () => {
+// فتح popup عند الضغط على الأيقونة
+videoIcon.addEventListener('click', (e) => {
+  if(e.target.id!=='iconCloseBtn' && e.target.id!=='iconShowBtn'){
     popup.style.display = 'flex';
     document.documentElement.style.overflow = 'hidden';
-  });
+  }
+});
 
-  popupCloseBtn.addEventListener('click', () => {
-    popup.style.display = 'none';
-    document.documentElement.style.overflow = '';
-  });
+// إغلاق popup
+popupCloseBtn.addEventListener('click', () => {
+  popup.style.display = 'none';
+  document.documentElement.style.overflow = '';
+});
+popup.addEventListener('click', e => { if(e.target===popup){ popup.style.display='none'; document.documentElement.style.overflow=''; } });
 
-  popup.addEventListener('click', (e) => {
-    if(e.target===popup) {
-      popup.style.display='none';
-      document.documentElement.style.overflow='';
-    }
-  });
+// إخفاء / إعادة الأيقونة
+iconCloseBtn.addEventListener('click', () => {
+  videoIcon.style.display='none';
+  iconCloseBtn.style.display='none';
+  iconShowBtn.style.display='inline-block';
+});
+iconShowBtn.addEventListener('click', () => {
+  videoIcon.style.display='flex';
+  iconCloseBtn.style.display='inline-block';
+  iconShowBtn.style.display='none';
+});
 
-  iconCloseBtn.addEventListener('click', () => {
-    videoIcon.style.display='none';
-    iconCloseBtn.style.display='none';
-    iconShowBtn.style.display='inline-block';
-  });
-
-  iconShowBtn.addEventListener('click', () => {
-    videoIcon.style.display='flex';
-    iconCloseBtn.style.display='inline-block';
-    iconShowBtn.style.display='none';
-  });
+// جعل الأيقونة draggable
+let isDragging = false, offsetX = 0, offsetY = 0;
+videoIcon.addEventListener('mousedown', e => {
+  if(e.target.id!=='iconCloseBtn' && e.target.id!=='iconShowBtn'){
+    isDragging = true;
+    offsetX = e.clientX - videoIcon.offsetLeft;
+    offsetY = e.clientY - videoIcon.offsetTop;
+    videoIcon.style.cursor='grabbing';
+  }
+});
+document.addEventListener('mousemove', e => {
+  if(isDragging){
+    videoIcon.style.left = (e.clientX - offsetX) + 'px';
+    videoIcon.style.top = (e.clientY - offsetY) + 'px';
+  }
+});
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  videoIcon.style.cursor='grab';
+});
 </script>
 
 </body>
