@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => {
           imageBackground.src = backgrounds[index];
         }, 600);
-        imageBackground.onload = () => {\]
+        imageBackground.onload = () => {
           imageBackground.style.opacity = "1";
         };
       }
@@ -323,174 +323,184 @@ function closeWisdom() {
     <video autoplay muted loop playsinline>
       <source src="https://assets.mixkit.co/videos/51445/51445-720.mp4" type="video/mp4">
     </video>
-  </div><!-- ====== قسم الفيديوهات الدائرية أعلى الصفحة ====== -->
-<div class="video-top-container-fixed">
-  <!-- الفيديو الأيمن -->
-  <div class="video-circle right" onclick="openVideoModal('n7eQejkXbnM')">
-    <iframe
-     
-      title="فيديو أيمن" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
   </div>
 
-  <!-- الفيديو الأيسر (بالرابط الجديد) -->
-  <div class="video-circle left" onclick="openVideoModal('zi9knajcejY')">
-    <iframe
-   
-      title="فيديو أيسر جديد" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
-</div>
-
-<!-- ====== المودال ====== -->
-<div id="videoModal" class="video-modal">
-  <div class="video-content">
-    <span class="close-btn" onclick="closeVideoModal()">×</span>
-    <iframe id="modalVideo" src="" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
-</div>
-
-<style>
-/* ====== ثابت أعلى الصفحة ====== */
-.video-top-container-fixed {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  z-index: 9999999 !important; /* حتى لا تختفي تحت الخلفيات */
-}
-
-/* الفيديو الدائري */
-.video-circle {
-  position: absolute;
-  top: 160px;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  border: 4px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 0 15px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  background:
-}
-
-.video-circle:hover {
-  transform: scale(1.08);
-  border-color: #00e6ff;
-  box-shadow: 0 0 25px rgba(0, 230, 255, 0.8), inset 0 0 10px rgba(0, 230, 255, 0.4);
-}
-
-/* جهة اليمين واليسار */
-.video-circle.right { right: 40px; }
-.video-circle.left { left: 40px; }
-
-.video-circle iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 50%;
-  pointer-events: none; /* يمنع فتح الفيديو داخل الدائرة */
-}
-
-/* ====== المودال ====== */
-.video-modal {
-  display: none;
-  position: fixed;
-  z-index: 999999999 !important; /* أعلى شيء */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-/* محتوى الفيديو */
-.video-content {
-  position: relative;
-  width: 85%;
-  max-width: 900px;
-  background: rgba(0, 0, 0, 0.85);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-  animation: scaleIn 0.4s ease;
-}
-
-@keyframes scaleIn {
-  from {transform: scale(0.8);}
-  to {transform: scale(1);}
-}
-
-.video-content iframe {
-  width: 100%;
-  height: 500px;
-  display: block;
-  border: none;
-}
-
-/* زر الإغلاق */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-
-.close-btn:hover {
-  color: #ff5555;
-}
-
-/* للجوال */
-@media (max-width: 768px) {
-  .video-top-container-fixed {
-    height: 160px;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أابوالقمرزمرد فنان شامل</title>
+<style>{
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
   }
-  .video-circle {
-    width: 100px;
+
+  /* الأيقونة */
+  #customVideoIcon {
+    position: fixed;
+    top: 210px;
+    right: 140px;
+    width: 180px;
     height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 500;
+    box-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #f0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
   }
-  .video-circle.right { right: 20px; }
-  .video-circle.left { left: 20px; }
-  .video-content iframe {
-    height: 55vw;
+
+  #customVideoIcon::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #ff0,#0ff,#f0f,#0f0,#f00);
+    animation: glow 2s linear infinite alternate;
+    z-index: -1;
   }
-}
+
+  @keyframes glow {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+  }
+
+  #customVideoIcon iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* الإطار المنبثق */
+  #customVideoPopup {
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  /* الفيديو */
+  #customVideoContent {
+    width: 60%;
+    max-width: 600px;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    overflow: hidden;
+    background: black;
+    position: relative;
+    transform: scale(0);
+    animation: popupScale 0.4s forwards;
+    box-shadow: 0 0 25px 5px #fff;
+  }
+
+  #customVideoContent::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet, magenta, red);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(15px);
+    animation: rainbowGlow 5s linear infinite;
+  }
+
+  @keyframes rainbowGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes popupScale {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  #customVideoContent iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+  }
+
+  /* زر الإغلاق داخل المنبثق */
+  #customCloseBtn {
+    position: absolute;
+    top: 10%;
+    right: 20%;
+    background: red;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  #customCloseBtn:hover {
+    background: #ff4444;
+    transform: scale(1.1);
+  }
+
+  /* زر إخفاء الأيقونة */
+  #hideIconBtn {
+    position: fixed;
+    top: 165px;
+    right: 250px;
+    background: linear-gradient(45deg, #f00, #0ff, #ff0);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
+
+  /* زر إظهار الأيقونة */
+  #showIconBtn {
+    display: none;
+    position: fixed;
+    top: 135px;
+    right: 370px;
+    background: linear-gradient(45deg, #0f0, #0ff, #f0f);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #fff;
+    font-size: 12px;
+    z-index: 600;
+  }
 </style>
-
-<script>
-function openVideoModal(videoId) {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-  modal.style.display = 'flex';
-}
-
-function closeVideoModal() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('modalVideo');
-  iframe.src = '';
-  modal.style.display = 'none';
-}
-</script>
-
+</head>
+<body>
 
 <!-- أيقونة التشغيل -->
 <div id="scrollbox-icon">📜</div>
@@ -1123,55 +1133,6 @@ pongBtn.addEventListener('mouseleave', () => {
 
 </body>
 </html>
-<!-- ====== أيقونة صوت الطيور ====== -->
-<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
-  position: fixed;
-  top: 30px;
-  right: 12px;
-  width: 75px;
-  height: 75px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 34px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
-  z-index: 10000000; /* أعلى من كل شيء */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-">🐦</div>
-
-<audio id="bird-sound" loop playsinline>
-  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
-  متصفحك لا يدعم تشغيل الصوت.
-</audio>
-
-<script>
-const birdBtn = document.getElementById('bird-sound-btn');
-const birdAudio = document.getElementById('bird-sound');
-birdBtn.textContent = "🐦";
-
-birdBtn.addEventListener('click', async () => {
-  try {
-    if (birdAudio.paused) {
-      await birdAudio.play();
-      birdBtn.textContent = "🔊";
-      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
-      birdBtn.style.transform = "scale(1.1)";
-    } else {
-      birdAudio.pause();
-      birdBtn.textContent = "🐦";
-      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
-      birdBtn.style.transform = "scale(1)";
-    }
-  } catch (err) {
-    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
-    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
-  }
-});
-</script>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -1267,6 +1228,135 @@ iframe.map { height: 200px; }
 </style>
 </head>
 <body>
+
+<!-- 🐦 أيقونة صوت الطيور بتوهج زمردي -->
+<div id="bird-sound-btn" title="تشغيل/إيقاف صوت الطيور" style="
+  position: fixed;
+  top: 30px; /* مرفوعة حوالي خمس أسطر */
+  right: 12px;
+  width: 75px;
+  height: 75px;
+  background:
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4);
+  z-index: 1001;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+">
+  🐦
+</div>
+
+<!-- 🎵 صوت تغريد الطيور وخرير الماء -->
+<audio id="bird-sound" loop playsinline>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/04/Birds-chirping-and-water-flowing.mp3" type="audio/mp3">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<script>
+const birdBtn = document.getElementById('bird-sound-btn');
+const birdAudio = document.getElementById('bird-sound');
+
+// حالة أولية
+birdBtn.textContent = "🐦";
+
+// عند النقر على الأيقونة
+birdBtn.addEventListener('click', async () => {
+  try {
+    if (birdAudio.paused) {
+      await birdAudio.play();
+      birdBtn.textContent = "🔊";
+      birdBtn.style.boxShadow = "0 0 35px rgba(0,255,200,1), 0 0 70px rgba(0,255,200,0.6)";
+      birdBtn.style.transform = "scale(1.1)";
+    } else {
+      birdAudio.pause();
+      birdBtn.textContent = "🐦";
+      birdBtn.style.boxShadow = "0 0 25px rgba(0,255,200,0.9), 0 0 50px rgba(0,255,200,0.4)";
+      birdBtn.style.transform = "scale(1)";
+    }
+  } catch (err) {
+    console.error("حدث خطأ أثناء تشغيل الصوت:", err);
+    alert("قد يمنع المتصفح التشغيل التلقائي. حاول النقر مرة أخرى.");
+  }
+});
+</script>
+<!-- أيقونة الفيديو -->
+<div id="customVideoIcon">
+  <iframe 
+    src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&mute=1&loop=1&playlist=n7eQejkXbnM&controls=0&modestbranding=1&playsinline=1"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<!-- زر إخفاء الأيقونة -->
+<button id="hideIconBtn">❌ إخفاء الأيقونة</button>
+
+<!-- زر إظهار الأيقونة -->
+<button id="showIconBtn">🔄 إظهار الأيقونة</button>
+
+<!-- الإطار المنبثق -->
+<div id="customVideoPopup">
+  <button id="customCloseBtn">&times;</button>
+  <div id="customVideoContent">
+    <iframe 
+     src="https://www.youtube.com/embed/n7eQejkXbnM?si=EMR3u7HzahFWhil6&autoplay=1&loop=1&playlist=n7eQejkXbnM&controls=1&modestbranding=1&playsinline=1"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<script>
+const icon = document.getElementById('customVideoIcon');
+const popup = document.getElementById('customVideoPopup');
+const content = document.getElementById('customVideoContent');
+const close = document.getElementById('customCloseBtn');
+const hideBtn = document.getElementById('hideIconBtn');
+const showBtn = document.getElementById('showIconBtn');
+
+// فتح الفيديو المنبثق
+icon.addEventListener('click', () => {
+  popup.style.display = 'flex';
+  content.style.animation = 'popupScale 0.4s forwards';
+});
+
+// إغلاق الفيديو المنبثق
+close.addEventListener('click', (e) => {
+  e.stopPropagation();
+  popup.style.display = 'none';
+  content.style.transform = 'scale(0)';
+});
+
+// الضغط خارج الإطار يغلق المنبثق
+popup.addEventListener('click', (e) => {
+  if(e.target === popup){
+    popup.style.display = 'none';
+    content.style.transform = 'scale(0)';
+  }
+});
+
+// إخفاء الأيقونة
+hideBtn.addEventListener('click', () => {
+  icon.style.display = 'none';
+  hideBtn.style.display = 'none';
+  showBtn.style.display = 'block';
+});
+
+// إظهار الأيقونة
+showBtn.addEventListener('click', () => {
+  icon.style.display = 'flex';
+  hideBtn.style.display = 'block';
+  showBtn.style.display = 'none';
+});
+</script>
+
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -2159,7 +2249,7 @@ jokeIcon.addEventListener('click', () => {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>القصص الصينية</title>
 <style>
-   {
+  body {
     margin: 0;
     font-family: 'Tajawal', sans-serif;
   }
